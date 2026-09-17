@@ -1,0 +1,30 @@
+version: 2
+project_name: jev-turbo
+builds:
+  - id: jev-turbo
+    main: ./cmd/jev-turbo
+    binary: jev-turbo
+    env: [CGO_ENABLED=0]
+    goos: [darwin, linux, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+archives:
+  - id: default
+    formats: [tar.gz]
+    name_template: "jev-turbo_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files: [none*]
+checksum:
+  name_template: checksums.txt
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+release:
+  github:
+    owner: sightmap
+    name: jev-turbo
+  name_template: "v{{ .Version }}"
+  ids: [default]

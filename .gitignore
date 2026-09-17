@@ -1,0 +1,11 @@
+.DS_Store
+.env
+.env.*
+/jev-turbo
+/dist/
+/npm-staging/
+node_modules/
+.session
+**/.sightmap/.session
+**/.sightmap/snapshots/
+explore-*.json

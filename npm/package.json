@@ -1,0 +1,48 @@
+{
+  "name": "@sightmap/jev-turbo",
+  "version": "0.0.0",
+  "description": "Browser use where Jev picks every step over a sightmap: sub-second steps, no big-model call to act (native binary, no Go toolchain required)",
+  "license": "MIT",
+  "homepage": "https://github.com/sightmap/jev-turbo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sightmap/jev-turbo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sightmap/jev-turbo/issues"
+  },
+  "keywords": [
+    "sightmap",
+    "jev",
+    "typesafe",
+    "browser-use",
+    "agent",
+    "cdp",
+    "chrome",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "jev-turbo": "bin/jev-turbo.js"
+  },
+  "files": [
+    "bin/",
+    "README.md"
+  ],
+  "dependencies": {
+    "@sightmap/sightmap": "^0.32.0"
+  },
+  "optionalDependencies": {
+    "@sightmap/jev-turbo-darwin-arm64": "0.0.0",
+    "@sightmap/jev-turbo-darwin-x64": "0.0.0",
+    "@sightmap/jev-turbo-linux-arm64": "0.0.0",
+    "@sightmap/jev-turbo-linux-x64": "0.0.0",
+    "@sightmap/jev-turbo-win32-arm64": "0.0.0",
+    "@sightmap/jev-turbo-win32-x64": "0.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
