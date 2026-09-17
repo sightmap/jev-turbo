@@ -44,7 +44,9 @@ func NewJevPicker(model string) (*JevPicker, error) {
 	if model == "" {
 		model = "jev-latest"
 	}
-	return &JevPicker{APIKey: key, BaseURL: base, Model: model, Client: &http.Client{Timeout: 25 * time.Second}}, nil
+	// A slow answer is retried rather than waited out: the loop needs a pick in
+	// well under a second, and the API occasionally stalls for ten.
+	return &JevPicker{APIKey: key, BaseURL: base, Model: model, Client: &http.Client{Timeout: 8 * time.Second}}, nil
 }
 
 func (j *JevPicker) Name() string { return "jev:" + j.Model }

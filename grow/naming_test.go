@@ -12,7 +12,7 @@ func TestRoutePattern(t *testing.T) {
 		"https://books.toscrape.com/catalogue/page-2.html":                          "/catalogue/*",
 		"https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html": "/catalogue/*/index.html",
 		"https://books.toscrape.com/catalogue/category/books/travel_2/index.html":   "/catalogue/category/books/*/index.html",
-		"https://app.example.com/workspaces/12345/settings/billing":                     "/workspaces/*/settings/billing",
+		"https://app.example.com/workspaces/12345/settings/billing":                 "/workspaces/*/settings/billing",
 	}
 	for in, want := range cases {
 		if got := RoutePattern(in); got != want {

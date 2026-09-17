@@ -65,8 +65,8 @@ func usage() {
 	fmt.Fprint(os.Stderr, `jev-turbo — browser use where Jev picks every step over a sightmap
 
 Commands:
-  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow]
-  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow]
+  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--record DIR]
+  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--record DIR]
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
   version
@@ -219,6 +219,7 @@ func runExplore(args []string) error {
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring: name unmapped controls on every page visited")
 	maxStepsFlag := fs.Int("max-steps", 20, "Stop after this many steps")
 	jsonFlag := fs.Bool("json", false, "Print the run as JSON on stdout")
+	recordFlag := fs.String("record", "", "Capture the tab as JPEG frames into this directory while the goal runs (see scripts/render-demo.py)")
 	pos, err := parseInterspersed(fs, args)
 	if err != nil {
 		return err
@@ -261,10 +262,26 @@ func runExplore(args []string) error {
 	if err != nil {
 		return err
 	}
+	var rec *recorder
+	if *recordFlag != "" {
+		rec, err = startRecorder(ctx, conn, *recordFlag)
+		if err != nil {
+			return err
+		}
+	}
 	run, err := explore.Explore(ctx, drv, explore.Options{
 		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, Hook: hook,
-		OnStep: func(s explore.Step) { fmt.Fprintln(os.Stderr, explore.FormatStep(s)) },
+		OnStep: func(s explore.Step) {
+			line := explore.FormatStep(s)
+			fmt.Fprintln(os.Stderr, line)
+			if rec != nil {
+				rec.event(s)
+			}
+		},
 	})
+	if rec != nil {
+		rec.stop(run)
+	}
 	if run != nil && *jsonFlag {
 		enc := json.NewEncoder(os.Stdout)
 		enc.SetIndent("", " ")
@@ -396,6 +413,7 @@ func runBench(args []string) error {
 	onlyFlag := fs.String("only", "", "Only goals whose name contains this")
 	maxStepsFlag := fs.Int("max-steps", 0, "Override every goal's max_steps")
 	outFlag := fs.String("out", "", "Write the full result JSON here (default: explore-<suite>-<picker>-<time>.json)")
+	recordFlag := fs.String("record", "", "Capture the tab as JPEG frames into this directory while the suite runs (see scripts/render-demo.py)")
 	pos, err := parseInterspersed(fs, args)
 	if err != nil {
 		return err
@@ -441,10 +459,35 @@ func runBench(args []string) error {
 	if report != nil {
 		defer func() { fmt.Fprintln(os.Stderr, report()) }()
 	}
-	res, err := explore.RunSuite(ctx, drv, suite, explore.SuiteOptions{
+	var rec *recorder
+	sopts := explore.SuiteOptions{
 		NewPicker: func() (explore.Picker, error) { return makePicker(*pickerFlag) },
 		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, Hook: hook, Out: os.Stderr,
-	})
+	}
+	if *recordFlag != "" {
+		// Recording starts when the first goal starts, after its reset, so the video opens on the start page.
+		sopts.OnGoal = func(g explore.Goal) {
+			if rec == nil {
+				rec, err = startRecorder(ctx, conn, *recordFlag)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "record: %v\n", err)
+				}
+			}
+		}
+		sopts.OnStep = func(s explore.Step) {
+			if rec != nil {
+				rec.event(s)
+			}
+		}
+	}
+	res, err := explore.RunSuite(ctx, drv, suite, sopts)
+	if rec != nil {
+		var last *explore.Run
+		if len(res.Runs) > 0 {
+			last = res.Runs[len(res.Runs)-1].Run
+		}
+		rec.stop(last)
+	}
 	if err != nil {
 		return err
 	}

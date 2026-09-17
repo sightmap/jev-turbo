@@ -19,11 +19,24 @@ type Candidate struct {
 const (
 	MetaBack   = "back"
 	MetaScroll = "scroll"
+	MetaWait   = "wait"
+	MetaEnter  = "enter"
 )
 
 var metaDesc = map[string]string{
 	MetaBack:   "go back to the previous page",
 	MetaScroll: "scroll down to reveal more of the page",
+	MetaWait:   "wait a moment: the page is still loading or a result has not appeared yet",
+	MetaEnter:  "press Enter to confirm the value just typed",
+}
+
+// containerRoles group other controls; when one of these carries interactive
+// descendants it is not offered as a candidate itself.
+var containerRoles = map[string]bool{
+	"search": true, "form": true, "main": true, "navigation": true, "region": true, "group": true,
+	"list": true, "listbox": true, "menu": true, "menubar": true, "tablist": true, "generic": true, "none": true,
+	"dialog": true, "banner": true, "contentinfo": true, "complementary": true, "table": true, "grid": true,
+	"presentation": true, "toolbar": true, "radiogroup": true, "article": true, "section": true,
 }
 
 // CandidateOptions tunes candidate selection.
@@ -59,7 +72,18 @@ func Candidates(nodes []*Node, opts CandidateOptions) []*Candidate {
 		if !n.Interactive || !n.Visible || n.Role == "image" {
 			continue
 		}
-		if p := n.Parent; p != nil && p.Interactive && p.Name == n.Name && n.Comp == "" {
+		if n.Comp == "" && n.Name != "" && hasInteractiveAncestorNamed(n, n.Name) {
+			continue // an inner wrapper of a control already listed
+		}
+		// A container that holds real controls is not itself an action, and an
+		// unnamed, unmatched wrapper is almost always a backdrop or a click catcher.
+		if n.Comp == "" && n.InteractiveDesc > 0 && (containerRoles[n.Role] || n.Role == "") {
+			continue
+		}
+		if n.Comp == "" && (n.Role == "none" || n.Role == "presentation") {
+			continue // presentational nodes carry no meaning of their own
+		}
+		if n.Comp == "" && n.Name == "" && n.Text == "" && (n.Role == "generic" || n.Role == "") {
 			continue
 		}
 		if avoidRe != nil {
@@ -69,13 +93,22 @@ func Candidates(nodes []*Node, opts CandidateOptions) []*Candidate {
 			}
 		}
 		desc := Describe(n)
-		seenKey := actionVerb(n) + " " + desc
+		seenKey := actionVerb(n) + " " + stableDesc(n)
 		if opts.Seen[opts.URL+"|"+seenKey] >= maxRepeat {
 			continue
 		}
 		out = append(out, &Candidate{Key: "n" + n.ID, Node: n, Desc: desc, SeenKey: seenKey})
 	}
 	return out
+}
+
+func hasInteractiveAncestorNamed(n *Node, name string) bool {
+	for _, a := range n.Ancestors {
+		if a.Interactive && a.Name == name {
+			return true
+		}
+	}
+	return false
 }
 
 func propValues(n *Node) []string {
@@ -85,6 +118,15 @@ func propValues(n *Node) []string {
 	}
 	sort.Strings(vals)
 	return vals
+}
+
+// stableDesc identifies a control across snapshots without its current value,
+// so a field typed into twice is recognised as the same action.
+func stableDesc(n *Node) string {
+	if n.Comp != "" {
+		return "[" + n.Comp + "] " + n.Role + " " + n.Name
+	}
+	return n.Role + " " + n.Name
 }
 
 func actionVerb(n *Node) string {
@@ -110,6 +152,7 @@ type CriteriaOptions struct {
 	Goal          string
 	Seen          map[string]int
 	URL           string
+	AfterFill     bool // the previous action typed into a field: offer Enter
 }
 
 // Criteria is the option list for one pick, plus the groups behind "g:" keys.
@@ -269,8 +312,11 @@ func BuildCriteria(cands []*Candidate, opts CriteriaOptions) Criteria {
 			break
 		}
 	}
-	for _, k := range []string{MetaBack, MetaScroll} {
+	for _, k := range []string{MetaBack, MetaScroll, MetaWait, MetaEnter} {
 		if k == MetaScroll && !offViewport {
+			continue
+		}
+		if k == MetaEnter && !opts.AfterFill {
 			continue
 		}
 		if opts.Seen[opts.URL+"|"+k] >= 2 {

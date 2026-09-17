@@ -102,6 +102,8 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	usedValues := map[string]bool{}
 	seen := map[string]int{}
 	var history []string
+	suggestionsOpen := false
+	afterFill := false
 	run := &Run{Goal: opts.Goal, Spec: spec, Picker: opts.Picker.Name()}
 	t0 := time.Now()
 	defer func() {
@@ -145,6 +147,14 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 
 		cands := Candidates(page.Nodes, CandidateOptions{Seen: seen, URL: page.URL, Avoid: spec.Avoid})
+		if suggestionsOpen {
+			// The last action typed into a suggestion field and its list is showing:
+			// the typed value only counts once an option is chosen, so offer only those.
+			if opts := onlyOptions(cands); len(opts) > 0 {
+				cands = opts
+			}
+			suggestionsOpen = false
+		}
 		if len(cands) == 0 && len(Candidates(page.Nodes, CandidateOptions{Avoid: spec.Avoid})) > 0 {
 			// Every control here has already been tried twice; forget this page's history once and try again.
 			for k := range seen {
@@ -161,7 +171,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			emit(opts, step)
 			return run, nil
 		}
-		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL})
+		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL, AfterFill: afterFill})
 		state := buildState(opts.Goal, spec, page, history, cands)
 
 		tP := time.Now()
@@ -197,7 +207,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 
 		tA := time.Now()
-		act, err := perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page)
+		var doneFn func(*Page) bool
+		if spec.DoneWhen.Deterministic() {
+			doneFn = func(p *Page) bool { return spec.DoneWhen.Check(p, history) }
+		}
+		act, err := perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page, doneFn)
 		if err != nil && isStale(err) {
 			// The page re-rendered between snapshot and act: re-observe and retry the same element by description.
 			fresh, oErr := drv.Observe(ctx)
@@ -216,7 +230,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			}
 			if again != nil {
 				retry := []*Candidate{{Key: "n" + again.ID, Node: again, Desc: want.Desc, SeenKey: want.SeenKey}}
-				act, err = perform(ctx, drv, opts.Picker, retry[0].Key, retry, values, usedValues, state, fresh)
+				act, err = perform(ctx, drv, opts.Picker, retry[0].Key, retry, values, usedValues, state, fresh, doneFn)
 			}
 			if again == nil || (err != nil && isStale(err)) {
 				// Gone twice: record the miss as a step and let the next observation decide.
@@ -244,6 +258,8 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		run.Transitions = append(run.Transitions, Transition{From: pageLabel(page), Action: act.summary, Comp: act.comp, To: shortURL(act.urlAfter), Changed: step.Navigated})
 		history = append(history, fmt.Sprintf("%d. %s → %s", n, act.summary, shortURL(act.urlAfter)))
 		seen[page.URL+"|"+act.seenKey]++
+		suggestionsOpen = act.combobox // decided on the next observation: options in the tree, whatever their DOM shape
+		afterFill = act.filled
 		emit(opts, step)
 	}
 	run.Reason = fmt.Sprintf("no result within %d steps", opts.MaxSteps)
@@ -257,14 +273,29 @@ func emit(opts Options, s Step) {
 }
 
 type action struct {
-	summary  string
-	comp     string
-	seenKey  string
-	urlAfter string
-	settleMs int
+	summary      string
+	comp         string
+	seenKey      string
+	urlAfter     string
+	settleMs     int
+	combobox     bool   // typed into, or opened, a control with a list; wait for its options before observing
+	optionsShown bool   // the list was visible after the wait
+	filled       bool   // typed into a field; Enter is offered next
+	typed        string // the value typed, for matching the suggestions
 }
 
-func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands []*Candidate, values map[string]string, usedValues map[string]bool, state string, page *Page) (*action, error) {
+// onlyOptions keeps the suggestion entries (role option) of a candidate list.
+func onlyOptions(cands []*Candidate) []*Candidate {
+	var out []*Candidate
+	for _, c := range cands {
+		if c.Node.Role == "option" {
+			out = append(out, c)
+		}
+	}
+	return out
+}
+
+func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands []*Candidate, values map[string]string, usedValues map[string]bool, state string, page *Page, done func(*Page) bool) (*action, error) {
 	act := &action{seenKey: pick}
 	switch pick {
 	case MetaBack:
@@ -277,6 +308,25 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 			return nil, err
 		}
 		act.summary = "scrolled down"
+	case MetaWait:
+		if done != nil {
+			// Poll the finish check while waiting so a page that completes early ends the wait.
+			deadline := time.Now().Add(1200 * time.Millisecond)
+			for time.Now().Before(deadline) {
+				drv.Wait(ctx, 150*time.Millisecond)
+				if p, err := drv.Observe(ctx); err == nil && done(p) {
+					break
+				}
+			}
+		} else {
+			drv.Wait(ctx, 700*time.Millisecond)
+		}
+		act.summary = "waited"
+	case MetaEnter:
+		if err := drv.PressEnter(ctx); err != nil {
+			return nil, err
+		}
+		act.summary = "pressed Enter"
 	default:
 		c := findCandidate(cands, pick)
 		if c == nil {
@@ -300,6 +350,9 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 					return nil, err
 				}
 				usedValues[key] = true
+				act.combobox = IsCombobox(n)
+				act.typed = val
+				act.filled = true
 				act.summary = fmt.Sprintf("filled %s with %s", label, key)
 			} else {
 				if err := drv.Click(ctx, n); err != nil {
@@ -334,11 +387,17 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 				return nil, err
 			}
 			act.summary = "clicked " + label
+			act.combobox = OpensList(n)
 		}
 	}
 	info := drv.Settle(ctx, page.URL)
 	act.settleMs = info.Ms
 	act.urlAfter = info.URL
+	if act.combobox {
+		t := time.Now()
+		act.optionsShown = drv.WaitForOptions(ctx, 1500*time.Millisecond, act.typed)
+		act.settleMs += int(time.Since(t).Milliseconds())
+	}
 	if act.urlAfter == "" {
 		if u, err := drv.URL(ctx); err == nil {
 			act.urlAfter = u
@@ -492,6 +551,15 @@ func buildState(goal string, spec *Spec, page *Page, history []string, cands []*
 	if names := componentNames(page); len(names) > 0 {
 		fmt.Fprintf(&b, "COMPONENTS ON PAGE: %s\n", strings.Join(names, ", "))
 	}
+	if len(page.Notes) > 0 {
+		b.WriteString("SITE NOTES:\n")
+		for i, n := range page.Notes {
+			if i >= 12 {
+				break
+			}
+			fmt.Fprintf(&b, "  - %s\n", n)
+		}
+	}
 	b.WriteString("RECENT STEPS:\n")
 	if len(history) == 0 {
 		b.WriteString("  (none yet)\n")
@@ -502,6 +570,12 @@ func buildState(goal string, spec *Spec, page *Page, history []string, cands []*
 	}
 	for _, h := range history[start:] {
 		fmt.Fprintf(&b, "  %s\n", h)
+	}
+	for _, c := range cands {
+		if c.Node.Role == "option" {
+			b.WriteString("A SUGGESTION LIST IS OPEN: a value typed into a field only counts once one of its option entries is chosen.\n")
+			break
+		}
 	}
 	b.WriteString("ACTIONABLE ELEMENTS (key: description):\n")
 	for i, c := range cands {

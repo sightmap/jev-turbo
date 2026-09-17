@@ -1,0 +1,554 @@
+{
+ "suite": "flights",
+ "picker": "anthropic:claude-sonnet-5",
+ "when": "2026-09-17T15:19:32.037468-04:00",
+ "summary": {
+  "goals": 1,
+  "ok": 1,
+  "steps": 17,
+  "ms": 61596,
+  "ms_per_step": 3623.294117647059,
+  "model_calls": 24,
+  "model_ms": 42461,
+  "ms_per_call": 1769.2083333333333,
+  "input_tokens": 88933,
+  "output_tokens": 1682,
+  "usd": 0.292029
+ },
+ "runs": [
+  {
+   "name": "zurich-london",
+   "rep": 1,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "anthropic:claude-sonnet-5",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 135,
+      "t1": 10,
+      "t2": 2,
+      "t3": 123
+     },
+     "pick": "n447",
+     "group": "g:439",
+     "probs": "n447:1.00",
+     "done_prob": 0,
+     "why": "Set trip type to One way first",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 171,
+     "ms_pick": 2628,
+     "ms_act": 13,
+     "ms_settle": 83,
+     "ms": 2897
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 135,
+      "t1": 10,
+      "t2": 2,
+      "t3": 123
+     },
+     "pick": "n447",
+     "group": "g:439",
+     "probs": "n447:1.00",
+     "done_prob": 0,
+     "why": "Select One way trip type from dropdown",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 191,
+     "ms_pick": 3683,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 3963
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 135,
+      "t1": 10,
+      "t2": 2,
+      "t3": 123
+     },
+     "pick": "n742",
+     "group": "g:439",
+     "probs": "n742:1.00",
+     "done_prob": 0,
+     "why": "Set origin field to Zurich first",
+     "action": "filled [OriginField] with from",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 197,
+     "ms_pick": 6254,
+     "ms_act": 5177,
+     "ms_settle": 123,
+     "ms": 11752
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 21,
+      "t1": 7,
+      "t2": 13,
+      "t3": 1
+     },
+     "pick": "n885",
+     "probs": "n885:1.00",
+     "done_prob": 0,
+     "why": "Select Zurich Airport as origin from suggestions",
+     "action": "clicked [Option label=\"Zurich Airport (ZRH)\"]",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 181,
+     "ms_pick": 1170,
+     "ms_act": 21,
+     "ms_settle": 169,
+     "ms": 1542
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 136,
+      "t1": 9,
+      "t2": 2,
+      "t3": 125
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:1.00",
+     "done_prob": 0,
+     "why": "Set trip type to One way first",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 350,
+     "ms_pick": 2810,
+     "ms_act": 4,
+     "ms_settle": 81,
+     "ms": 3246
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 136,
+      "t1": 9,
+      "t2": 2,
+      "t3": 125
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:1.00",
+     "done_prob": 0,
+     "why": "Set trip type to One way before other fields",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 297,
+     "ms_pick": 5142,
+     "ms_act": 4,
+     "ms_settle": 85,
+     "ms": 5529
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 136,
+      "t1": 9,
+      "t2": 2,
+      "t3": 125
+     },
+     "pick": "n826",
+     "group": "g:440",
+     "probs": "n826:1.00",
+     "done_prob": 0,
+     "why": "Need to set destination to London next",
+     "action": "filled [DestinationField] with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 358,
+     "ms_pick": 2963,
+     "ms_act": 5171,
+     "ms_settle": 127,
+     "ms": 8620
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 31,
+      "t1": 14,
+      "t2": 16,
+      "t3": 1
+     },
+     "pick": "n886",
+     "probs": "n886:1.00",
+     "done_prob": 0,
+     "why": "Select London as destination from suggestions",
+     "action": "clicked [Option label=\"London, United Kingdom\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 363,
+     "ms_pick": 1198,
+     "ms_act": 23,
+     "ms_settle": 227,
+     "ms": 1812,
+     "navigated": true
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 140,
+      "t1": 9,
+      "t2": 5,
+      "t3": 126
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:1.00",
+     "done_prob": 0,
+     "why": "Set trip type to One way first",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 324,
+     "ms_pick": 4355,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 4766
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 141,
+      "t1": 9,
+      "t2": 5,
+      "t3": 127
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:1.00",
+     "done_prob": 0,
+     "why": "Need to select One way trip type first",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 329,
+     "ms_pick": 3308,
+     "ms_act": 15,
+     "ms_settle": 88,
+     "ms": 3742
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 15,
+      "t1": 7,
+      "t2": 2,
+      "t3": 6
+     },
+     "pick": "n484",
+     "probs": "n484:1.00",
+     "done_prob": 0,
+     "why": "Select One way trip type option",
+     "action": "clicked [Option label=\"One way\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 354,
+     "ms_pick": 1194,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 1638
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 10,
+      "t1": 3,
+      "t2": 2,
+      "t3": 5
+     },
+     "pick": "n911",
+     "probs": "n911:1.00",
+     "done_prob": 0,
+     "why": "Need to enter departure date before searching",
+     "action": "filled [DepartureField] with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 382,
+     "ms_pick": 2059,
+     "ms_act": 9,
+     "ms_settle": 82,
+     "ms": 2533
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 10,
+      "t1": 3,
+      "t2": 2,
+      "t3": 5
+     },
+     "pick": "n4355",
+     "probs": "n4355:1.00",
+     "done_prob": 0,
+     "why": "All fields set; click SearchButton to run search.",
+     "action": "clicked [SearchButton]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 300,
+     "ms_pick": 1405,
+     "ms_act": 36,
+     "ms_settle": 82,
+     "ms": 1824
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 999,
+      "t1": 3,
+      "t2": 1,
+      "t3": 995
+     },
+     "pick": "n4339",
+     "probs": "n4339:1.00",
+     "done_prob": 0,
+     "why": "Confirm date selection to close calendar and search",
+     "action": "clicked [CalendarDoneButton label=\"Done. Search for one-way flights, depar…\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 720,
+     "ms_pick": 1630,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 2439
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 14,
+      "t1": 3,
+      "t2": 2,
+      "t3": 9
+     },
+     "pick": "n4402",
+     "probs": "n4402:1.00",
+     "done_prob": 0,
+     "why": "Click SearchButton to run the flight search",
+     "action": "clicked [SearchButton]",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 522,
+     "ms_pick": 1285,
+     "ms_act": 66,
+     "ms_settle": 165,
+     "ms": 2039,
+     "navigated": true
+    },
+    {
+     "step": 16,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "view": "Results",
+     "coverage": {
+      "interactive": 32,
+      "t1": 3,
+      "t2": 2,
+      "t3": 27
+     },
+     "pick": "wait",
+     "probs": "wait:1.00",
+     "done_prob": 0,
+     "why": "Wait for flight results to load and appear",
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 125,
+     "ms_pick": 1383,
+     "ms_act": 876,
+     "ms_settle": 82,
+     "ms": 2467
+    },
+    {
+     "step": 17,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "view": "Results",
+     "coverage": {
+      "interactive": 478,
+      "t1": 27,
+      "t2": 16,
+      "t3": 435
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 776,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "comp": "HeaderSelect",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "comp": "HeaderSelect",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [OriginField] with from",
+     "comp": "OriginField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [Option label=\"Zurich Airport (ZRH)\"]",
+     "comp": "Option",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "comp": "HeaderSelect",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "comp": "HeaderSelect",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [DestinationField] with to",
+     "comp": "DestinationField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [Option label=\"London, United Kingdom\"]",
+     "comp": "Option",
+     "to": "Home",
+     "changed": true
+    },
+    {
+     "from": "Home",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "comp": "HeaderSelect",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "comp": "HeaderSelect",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [Option label=\"One way\"]",
+     "comp": "Option",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [DepartureField] with departure",
+     "comp": "DepartureField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchButton]",
+     "comp": "SearchButton",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [CalendarDoneButton label=\"Done. Search for one-way flights, depar…\"]",
+     "comp": "CalendarDoneButton",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchButton]",
+     "comp": "SearchButton",
+     "to": "Results",
+     "changed": true
+    },
+    {
+     "from": "Results",
+     "action": "waited",
+     "to": "Results",
+     "changed": false
+    }
+   ],
+   "ms": 61596,
+   "picker_stats": {
+    "calls": 24,
+    "ms": 42461,
+    "input_tokens": 88933,
+    "output_tokens": 1682,
+    "usd": 0.292029
+   }
+  }
+ ]
+}

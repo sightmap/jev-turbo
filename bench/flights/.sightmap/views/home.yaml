@@ -1,0 +1,25 @@
+version: 1
+views:
+  - name: Home
+    route: /travel/flights
+    url: https://www.google.com/travel/flights?hl=en&curr=USD
+    description: The search form. Origin and destination open a PlaceDialog; Departure and Return take typed dates.
+    memory:
+      - "A field that already shows the wanted place or date is set; do not type into it again. After typing a date, click SearchButton (or CalendarDoneButton if a calendar is open) rather than retyping."
+      - "Option entries that end with 'from your searches' are recent searches, not matches for what was typed; wait for the matching entries."
+    components:
+      - name: OriginField
+        selector: 'input[aria-label="Where from?"]'
+      - name: DestinationField
+        selector: 'input[aria-label^="Where to"]'
+      - name: DepartureField
+        selector: 'input[aria-label="Departure"]'
+      - name: ReturnField
+        selector: 'input[aria-label="Return"]'
+      - name: SwapButton
+        selector: 'button[aria-label^="Swap"]'
+      - name: ExploreButton
+        selector: 'button[aria-label="Explore destinations"], button[aria-label^="Explore"]'
+        properties:
+          - name: label
+            extract: attr=aria-label

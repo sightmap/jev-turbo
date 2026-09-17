@@ -26,6 +26,14 @@ type Driver interface {
 	Scroll(ctx context.Context) error
 	// Settle waits for the page to stop changing after an action.
 	Settle(ctx context.Context, urlBefore string) SettleInfo
+	// WaitForOptions waits up to max for a suggestion list. When typed is not
+	// empty it waits for an option whose text contains it (recent-search entries
+	// can show before the real matches load), else for any visible option.
+	WaitForOptions(ctx context.Context, max time.Duration, typed string) bool
+	// Wait pauses without acting (the "wait" meta action).
+	Wait(ctx context.Context, d time.Duration)
+	// PressEnter sends Enter to the focused element.
+	PressEnter(ctx context.Context) error
 	Navigate(ctx context.Context, url string) error
 	ClearStorage(ctx context.Context) error
 }
@@ -55,7 +63,11 @@ func (d *CDPDriver) Observe(ctx context.Context) (*Page, error) {
 	if u == "" {
 		u, _ = browser.GetURL(ctx, d.Conn)
 	}
-	return NewPage(res, u), nil
+	page := NewPage(res, u)
+	if d.Corpus != nil && len(d.Corpus.Memory) > 0 {
+		page.Notes = append(append([]string{}, d.Corpus.Memory...), page.Notes...)
+	}
+	return page, nil
 }
 
 func (d *CDPDriver) URL(ctx context.Context) (string, error) { return browser.GetURL(ctx, d.Conn) }
@@ -80,8 +92,29 @@ func (d *CDPDriver) Click(ctx context.Context, n *Node) error {
 
 // Fill sets the value through the native setter and dispatches input and
 // change events, which framework-controlled inputs honour, then verifies. If
-// the value does not stick it falls back to real key events.
+// the value does not stick it falls back to real key events. Comboboxes take
+// real key events first: their suggestion lists open on keystrokes, not on a
+// programmatic value.
 func (d *CDPDriver) Fill(ctx context.Context, n *Node, value string) error {
+	if IsCombobox(n) {
+		// Clicking a suggestion field can open a dialog whose own input takes
+		// focus; key events go to the focused element, so type and verify there.
+		target := n.Raw
+		if err := d.Click(ctx, n); err == nil {
+			sleepCtx(ctx, 80*time.Millisecond)
+			if res, err := browser.EvalJSON(ctx, d.Conn, `(function(){var a=document.activeElement;return a&&a.getAttribute?(a.getAttribute('data-sightmap-id')||''):'';})()`); err == nil {
+				var id string
+				if json.Unmarshal(res, &id) == nil && id != "" && id != n.ID {
+					if node, err := browser.ResolveBySightmapID(ctx, d.Conn, id); err == nil {
+						target = node
+					}
+				}
+			}
+		}
+		if err := browser.ClearAndFill(ctx, d.Conn, target, value); err == nil {
+			return nil
+		}
+	}
 	v, _ := json.Marshal(value)
 	res, err := browser.EvalJSON(ctx, d.Conn, jsByID(n.ID, `el.focus();var p=el.tagName==='TEXTAREA'?HTMLTextAreaElement.prototype:HTMLInputElement.prototype;var dsc=Object.getOwnPropertyDescriptor(p,'value');if(dsc&&dsc.set){dsc.set.call(el,`+string(v)+`);}else{el.value=`+string(v)+`;}el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));return el.value;`))
 	if err == nil {
@@ -121,6 +154,44 @@ func (d *CDPDriver) Select(ctx context.Context, n *Node, index int) error {
 		return fmt.Errorf("element %s not found in live DOM", n.ID)
 	}
 	return nil
+}
+
+// WaitForOptions waits up to max for a suggestion list to appear after typing
+// into a combobox or opening a select. With typed set, it looks for an option
+// that mentions the typed text; otherwise any visible option counts.
+func (d *CDPDriver) WaitForOptions(ctx context.Context, max time.Duration, typed string) bool {
+	deadline := time.Now().Add(max)
+	needle := strings.ToLower(strings.TrimSpace(typed))
+	if len(needle) > 6 {
+		needle = needle[:6]
+	}
+	nj, _ := json.Marshal(needle)
+	script := `(function(){var os=Array.from(document.querySelectorAll('[role="option"],[role="listbox"] li,ul[role="listbox"] > *')).filter(function(o){var r=o.getBoundingClientRect();return r.width>0&&r.height>0;});var n=` + string(nj) + `;var hit=os.some(function(o){return n&&((o.textContent||'')+' '+(o.getAttribute('aria-label')||'')).toLowerCase().indexOf(n)>=0;});return [os.length,hit];})()`
+	anyShown := false
+	for {
+		res, err := browser.EvalJSON(ctx, d.Conn, script)
+		if err == nil {
+			var out []interface{}
+			if json.Unmarshal(res, &out) == nil && len(out) == 2 {
+				count, _ := out[0].(float64)
+				hit, _ := out[1].(bool)
+				if hit || (needle == "" && count > 0) {
+					return true
+				}
+				anyShown = anyShown || count > 0
+			}
+		}
+		if time.Now().After(deadline) || ctx.Err() != nil {
+			return anyShown
+		}
+		sleepCtx(ctx, 40*time.Millisecond)
+	}
+}
+
+func (d *CDPDriver) Wait(ctx context.Context, dur time.Duration) { sleepCtx(ctx, dur) }
+
+func (d *CDPDriver) PressEnter(ctx context.Context) error {
+	return browser.KeyPress(ctx, d.Conn, "Enter")
 }
 
 func (d *CDPDriver) Back(ctx context.Context) error {

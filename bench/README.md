@@ -9,6 +9,7 @@ with a running session and the keys in the environment (`TYPESAFE_API_KEY`;
 |---|---|---|---|
 | `saucedemo.json` | saucedemo.com | `saucedemo/.sightmap` (39 components, from the sightkick example) | a mapped site: login, cart, a 12-step checkout, a select, a menu, an error state |
 | `books.json` | books.toscrape.com | `books/.sightmap` (empty) | an unmapped site with 114 raw links on the home page: categories, pagination, detail pages |
+| `flights.json` | Google Flights | `flights/.sightmap` (14 components, 6 memory lines) | the jev-ultrafast task: one-way Zürich to London on September 20, 2026; suggestion dialogs, a select, a typed date, a results page that renders late |
 
 ## Run
 
@@ -23,7 +24,15 @@ jev-turbo bench saucedemo.json --picker anthropic    # Claude in the same seat
 sightmap browser start --detach --url https://books.toscrape.com/ --sightmap-dir books/.sightmap \
   --profile ~/.sightmap/profiles/explore-books --port 7911 --cdp-port 7912
 jev-turbo bench books.json
+
+sightmap browser start --detach --url 'https://www.google.com/travel/flights?hl=en&curr=USD' --sightmap-dir flights/.sightmap \
+  --profile ~/.sightmap/profiles/explore-flights --port 7931 --cdp-port 7932
+jev-turbo bench flights.json --repeat 5
+jev-turbo bench flights.json --record ../out/rec && python3 ../scripts/render-demo.py ../out/rec ../out/demo   # the README video
 ```
+
+Use a fresh profile for Google Flights. After many automated searches from one
+profile the page pre-fills places from recent searches and the run drifts.
 
 Saucedemo's published password trips Chrome's breach warning, a native dialog
 the page cannot see. Launch the profile once, stop, set
@@ -45,8 +54,17 @@ as "a big model in the same seat", not as the best a big model can do.
 | saucedemo | claude-sonnet-5 | 10/10 | 59 | 1.16 s | 1,230 ms | $0.25 |
 | books (empty corpus) | jev-latest | 10/10 | 23 | 0.30 s | 184 ms | $0 |
 | books (empty corpus) | claude-sonnet-5 | 9/10 | 44 | 2.54 s | 1,802 ms | $0.81 |
+| flights, Zürich→London ×5 | jev-latest | 5/5, runs of 7.9 / 8.3 / 8.4 / 8.6 / 10.9 s | 53 | 0.83 s | 185 ms | $0 |
+| flights, Zürich→London | claude-sonnet-5 | 1/1, 61.6 s | 17 | 3.62 s | 1,769 ms | $0.29 |
 
-The full run files are in `results/`. The 12-step saucedemo checkout (login,
+The full run files are in `results/`. The flights runs are nine actions each
+(origin, suggestion, destination, suggestion, date, trip type, One way, Search,
+wait); jev-ultrafast reports a 7.1 s median over three runs of the same task.
+Where the seconds go on Google Flights: the snapshot of a 4,000-node tree costs
+250 to 350 ms a step, Jev 150 to 300 ms, and the results take about 1.5 s to
+render after Search. An Atlanta→Zürich variant was tried and is not reliable
+yet: with the origin pre-filled Google shows "Explore" instead of "Search" and
+opens a calendar on the date field. The 12-step saucedemo checkout (login,
 add to cart, cart, checkout, three fields, continue, finish) took 3.2 s with
 Jev. The one Claude miss was a books pagination goal that looped between the
 logo and category links until the step cap.

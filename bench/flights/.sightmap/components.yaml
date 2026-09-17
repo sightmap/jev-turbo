@@ -1,0 +1,48 @@
+version: 1
+memory:
+  - "Clicking or typing into the origin or destination field opens a PlaceDialog; the dialog's own input holds the text and the Option entries under it are the suggestions. A typed place only counts once one of its Option entries is clicked."
+  - "Departure accepts a typed date such as 'Sep 20, 2026'; clicking SearchButton applies it and runs the search."
+  - "Trip type: click the HeaderSelect that shows 'Round trip' and choose the 'One way' Option."
+  - "Results are ready when FlightDetailsButton entries are visible; if they have not appeared yet, wait."
+components:
+  - name: HeaderSelect
+    selector: 'div[role="combobox"][aria-haspopup="listbox"]'
+    description: Trip type (Round trip / One way / Multi-city) and seating class pickers above the search form.
+    properties:
+      - name: value
+        extract: text
+  - name: PassengersButton
+    selector: 'button[aria-label*="passenger"]'
+    properties:
+      - name: label
+        extract: attr=aria-label
+  - name: Option
+    selector: 'li[role="option"]'
+    description: "An entry in any open list: place suggestions inside a PlaceDialog, or trip-type and seating choices."
+    properties:
+      - name: label
+        extract: text
+  - name: PlaceDialog
+    selector: 'div[role="dialog"][aria-label^="Enter your"]'
+    description: Opens when the origin or destination field is used. Type into its input, then click an Option.
+    properties:
+      - name: title
+        extract: attr=aria-label
+    children:
+      - name: DialogInput
+        selector: 'input[role="combobox"]'
+        properties:
+          - name: label
+            extract: attr=aria-label
+  - name: SearchButton
+    selector: 'button[aria-label="Search"]'
+  - name: CalendarDoneButton
+    selector: 'button[aria-label^="Done"]'
+    properties:
+      - name: label
+        extract: attr=aria-label
+  - name: CalendarDay
+    selector: 'div[role="gridcell"][aria-label]'
+    properties:
+      - name: label
+        extract: attr=aria-label

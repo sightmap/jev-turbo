@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/sightmap/sightmap/go/sightmap"
 )
@@ -107,6 +108,14 @@ func (d *fakeDriver) Back(ctx context.Context) error   { d.clicks = append(d.cli
 func (d *fakeDriver) Scroll(ctx context.Context) error { d.scrolls++; return nil }
 func (d *fakeDriver) Settle(ctx context.Context, before string) SettleInfo {
 	return SettleInfo{URL: d.cur, Navigated: d.cur != before, Ms: 1}
+}
+func (d *fakeDriver) WaitForOptions(ctx context.Context, max time.Duration, typed string) bool {
+	return false
+}
+func (d *fakeDriver) Wait(ctx context.Context, dur time.Duration) {}
+func (d *fakeDriver) PressEnter(ctx context.Context) error {
+	d.clicks = append(d.clicks, "enter")
+	return nil
 }
 func (d *fakeDriver) Navigate(ctx context.Context, u string) error { d.cur = u; return nil }
 func (d *fakeDriver) ClearStorage(ctx context.Context) error       { return nil }

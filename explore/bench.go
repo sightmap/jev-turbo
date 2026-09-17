@@ -52,7 +52,9 @@ type SuiteOptions struct {
 	Only      string // substring filter on goal names
 	MaxSteps  int    // overrides per-goal max_steps when > 0
 	Hook      PageHook
-	Out       io.Writer // step-by-step progress; nil for silent
+	Out       io.Writer  // step-by-step progress; nil for silent
+	OnStep    func(Step) // called for every step of every goal, after it is printed
+	OnGoal    func(Goal) // called when a goal is about to start (after the reset)
 }
 
 // GoalResult is one goal's run inside a suite.
@@ -118,6 +120,9 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 				label = fmt.Sprintf("%s (rep %d)", g.Name, rep)
 			}
 			fmt.Fprintf(out, "\n=== %s\n", label)
+			if opts.OnGoal != nil {
+				opts.OnGoal(g)
+			}
 			spec := &Spec{}
 			if g.Spec != nil {
 				cp := *g.Spec
@@ -135,6 +140,9 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 				OnStep: func(s Step) {
 					partial = append(partial, s)
 					fmt.Fprintln(out, FormatStep(s))
+					if opts.OnStep != nil {
+						opts.OnStep(s)
+					}
 				},
 			})
 			gr := GoalResult{Name: g.Name, Rep: rep}

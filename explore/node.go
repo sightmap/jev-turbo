@@ -37,7 +37,10 @@ type Node struct {
 	Landmark    *Node   // nearest ancestor with a landmark role (nil when none)
 	Parent      *Node   // direct parent
 	Ancestors   []*Node // root-first
-	Raw         *sightmap.ComponentNode
+	// InteractiveDesc counts interactive nodes below this one; a container with
+	// interactive children is not itself offered as an action.
+	InteractiveDesc int
+	Raw             *sightmap.ComponentNode
 }
 
 // Page is one observation of the live page.
@@ -46,6 +49,7 @@ type Page struct {
 	View   string // matched sightmap view name, "" when none
 	Route  string
 	Nodes  []*Node
+	Notes  []string // corpus memory lines that apply here (site-wide, the view's, the matched components')
 	Result *observe.Result
 }
 
@@ -61,8 +65,8 @@ func Flatten(res *observe.Result) []*Node {
 		return nil
 	}
 	var out []*Node
-	var walk func(n *sightmap.ComponentNode, depth int, parent, parentComp, landmark *Node, anc []*Node)
-	walk = func(n *sightmap.ComponentNode, depth int, parent, parentComp, landmark *Node, anc []*Node) {
+	var walk func(n *sightmap.ComponentNode, depth int, parent, parentComp, landmark *Node, anc []*Node) int
+	walk = func(n *sightmap.ComponentNode, depth int, parent, parentComp, landmark *Node, anc []*Node) int {
 		node := &Node{
 			ID:          n.Id,
 			Role:        n.Role,
@@ -104,9 +108,15 @@ func Flatten(res *observe.Result) []*Node {
 			nextLandmark = node
 		}
 		childAnc := append(append([]*Node{}, anc...), node)
+		below := 0
 		for _, c := range n.Children {
-			walk(c, depth+1, node, nextComp, nextLandmark, childAnc)
+			below += walk(c, depth+1, node, nextComp, nextLandmark, childAnc)
 		}
+		node.InteractiveDesc = below
+		if node.Interactive && node.Visible {
+			below++
+		}
+		return below
 	}
 	walk(res.Root, 0, nil, nil, nil, nil)
 	return out
@@ -118,6 +128,21 @@ func NewPage(res *observe.Result, url string) *Page {
 	if res != nil && res.View != nil {
 		p.View = res.View.Name
 		p.Route = res.View.Route
+		p.Notes = append(p.Notes, res.View.Memory...)
+	}
+	if res != nil {
+		seen := map[string]bool{}
+		for _, m := range res.Matches {
+			if m == nil {
+				continue
+			}
+			for _, line := range m.Memory {
+				if !seen[line] {
+					seen[line] = true
+					p.Notes = append(p.Notes, line)
+				}
+			}
+		}
 	}
 	return p
 }
@@ -207,6 +232,20 @@ func IsTextInput(n *Node) bool {
 
 // IsSelect reports whether the node is a native <select>.
 func IsSelect(n *Node) bool { return n.Tag == "select" }
+
+// IsCombobox reports whether the node is a text field with a suggestion list.
+func IsCombobox(n *Node) bool {
+	return n.Tag != "select" && (n.Role == "combobox" || n.Attrs["aria-autocomplete"] != "")
+}
+
+// OpensList reports whether clicking the node shows a list to choose from
+// (a non-text combobox or any control with aria-haspopup).
+func OpensList(n *Node) bool {
+	if IsTextInput(n) || n.Tag == "select" {
+		return false
+	}
+	return n.Role == "combobox" || n.Attrs["aria-haspopup"] == "listbox" || n.Attrs["aria-haspopup"] == "menu" || n.Attrs["aria-haspopup"] == "true"
+}
 
 // IsCheckable reports whether the node is a checkbox or radio input.
 func IsCheckable(n *Node) bool {

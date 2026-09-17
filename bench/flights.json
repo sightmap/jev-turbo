@@ -1,0 +1,17 @@
+{
+  "name": "flights",
+  "sightmap_dir": "flights/.sightmap",
+  "start_url": "https://www.google.com/travel/flights?hl=en&curr=USD",
+  "reset": "clear-storage",
+  "goals": [
+    {
+      "name": "zurich-london",
+      "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+      "spec": {
+        "done_when": { "all": [ { "url_contains": "flights/search" }, { "text_contains": "Leaves Zurich Airport" }, { "text_contains": "September 20" }, { "text_contains": "One way" } ] },
+        "values": { "from": "Zurich", "to": "London", "departure": "Sep 20, 2026" }
+      },
+      "max_steps": 24
+    }
+  ]
+}

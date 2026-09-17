@@ -1,0 +1,31 @@
+version: 1
+views:
+  - name: Results
+    route: /travel/flights/search
+    url: https://www.google.com/travel/flights/search
+    description: Flight options for the chosen route and date. Each option has a FlightDetailsButton.
+    memory:
+      - "The search form stays editable at the top; the results list below shows one FlightDetailsButton per flight."
+    components:
+      - name: FlightDetailsButton
+        selector: 'button[aria-label^="Flight details"]'
+        properties:
+          - name: label
+            extract: attr=aria-label
+      - name: FlightLink
+        selector: 'a[aria-label^="From "]'
+        properties:
+          - name: label
+            extract: attr=aria-label
+      - name: TrackPricesSwitch
+        selector: '[role="switch"]'
+        properties:
+          - name: label
+            extract: attr=aria-label
+      - name: SortButton
+        selector: 'button[aria-label^="Sorted by"]'
+        properties:
+          - name: label
+            extract: attr=aria-label
+      - $ref: HeaderSelect
+      - $ref: SearchButton

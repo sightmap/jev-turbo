@@ -20,14 +20,27 @@ func TestCandidatesFiltering(t *testing.T) {
 	if len(got) != 1 || got[0].Key != "n1" {
 		t.Fatalf("candidates = %v", keys(got))
 	}
-	if got[0].SeenKey != `clicked button "View details"` {
+	if got[0].SeenKey != `clicked button View details` {
 		t.Fatalf("seenKey = %q", got[0].SeenKey)
+	}
+}
+
+func TestCandidatesSkipContainersAndBackdrops(t *testing.T) {
+	form := mk("f", "search", "Flight", "div", "", "", true)
+	field := mk("i", "combobox", "Where from?", "input", "", "", true)
+	under(form, field)
+	form.InteractiveDesc = 1
+	backdrop := mk("b", "generic", "", "div", "", "", true)
+	iconOnly := mk("k", "button", "", "button", "", "", true)
+	got := Candidates([]*Node{form, field, backdrop, iconOnly}, CandidateOptions{})
+	if strings.Join(keys(got), ",") != "ni,nk" {
+		t.Fatalf("candidates = %v", keys(got))
 	}
 }
 
 func TestCandidatesRepeatGuard(t *testing.T) {
 	n := mk("1", "button", "Add", "button", "", "", true)
-	seen := map[string]int{"https://s/|" + `clicked button "Add"`: 2}
+	seen := map[string]int{"https://s/|" + `clicked button Add`: 2}
 	if got := Candidates([]*Node{n}, CandidateOptions{Seen: seen, URL: "https://s/"}); len(got) != 0 {
 		t.Fatalf("expected the repeated action hidden, got %v", keys(got))
 	}
@@ -59,7 +72,7 @@ func TestBuildCriteriaSmallPage(t *testing.T) {
 	b := mk("2", "link", "B", "a", "", "", true)
 	b.InViewport = false
 	crit := BuildCriteria(Candidates([]*Node{a, b}, CandidateOptions{}), CriteriaOptions{Goal: "x"})
-	want := []string{"n1", "n2", "back", "scroll"}
+	want := []string{"n1", "n2", "back", "scroll", "wait"}
 	if strings.Join(crit.Keys(), ",") != strings.Join(want, ",") {
 		t.Fatalf("keys = %v", crit.Keys())
 	}
@@ -71,6 +84,12 @@ func TestBuildCriteriaSmallPage(t *testing.T) {
 	crit = BuildCriteria(Candidates([]*Node{a, b}, CandidateOptions{}), CriteriaOptions{Goal: "x"})
 	if crit.Has("scroll") {
 		t.Fatal("scroll offered with nothing off-screen")
+	}
+	if crit.Has("enter") {
+		t.Fatal("enter offered with no preceding fill")
+	}
+	if !BuildCriteria(Candidates([]*Node{a}, CandidateOptions{}), CriteriaOptions{Goal: "x", AfterFill: true}).Has("enter") {
+		t.Fatal("enter not offered after a fill")
 	}
 }
 

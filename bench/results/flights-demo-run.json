@@ -1,0 +1,339 @@
+{
+ "suite": "flights",
+ "picker": "jev:jev-latest",
+ "when": "2026-09-17T15:19:13.870757-04:00",
+ "summary": {
+  "goals": 1,
+  "ok": 1,
+  "steps": 10,
+  "ms": 8946,
+  "ms_per_step": 894.6,
+  "model_calls": 14,
+  "model_ms": 2558,
+  "ms_per_call": 182.71428571428572,
+  "input_tokens": 43586,
+  "output_tokens": 3400,
+  "usd": 0
+ },
+ "runs": [
+  {
+   "name": "zurich-london",
+   "rep": 1,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 135,
+      "t1": 10,
+      "t2": 2,
+      "t3": 123
+     },
+     "pick": "n742",
+     "group": "g:439",
+     "probs": "n742:0.75 n447:0.22 n888:0.03",
+     "done_prob": 0.01,
+     "action": "filled [OriginField] with from",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 188,
+     "ms_pick": 486,
+     "ms_act": 141,
+     "ms_settle": 136,
+     "ms": 953
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 21,
+      "t1": 7,
+      "t2": 13,
+      "t3": 1
+     },
+     "pick": "n886",
+     "probs": "n886:0.95 n865:0.05 back:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [Option label=\"Zurich Airport (ZRH)\"]",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 175,
+     "ms_pick": 139,
+     "ms_act": 20,
+     "ms_settle": 127,
+     "ms": 462
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 136,
+      "t1": 9,
+      "t2": 2,
+      "t3": 125
+     },
+     "pick": "n827",
+     "group": "g:441",
+     "probs": "n827:0.93 n449:0.04 n895:0.03",
+     "done_prob": 0.01,
+     "action": "filled [DestinationField] with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 289,
+     "ms_pick": 397,
+     "ms_act": 146,
+     "ms_settle": 122,
+     "ms": 956
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIGglyBwgBEgNaUkhAAUgBcAGCAQsI____________AZgBAQ\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 31,
+      "t1": 14,
+      "t2": 16,
+      "t3": 1
+     },
+     "pick": "n887",
+     "probs": "n887:0.96 n908:0.04 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [Option label=\"London, United Kingdom\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 301,
+     "ms_pick": 177,
+     "ms_act": 17,
+     "ms_settle": 218,
+     "ms": 714,
+     "navigated": true
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 141,
+      "t1": 9,
+      "t2": 5,
+      "t3": 127
+     },
+     "pick": "n911",
+     "group": "g:441",
+     "probs": "n911:0.85 n449:0.15 n4357:0.00",
+     "done_prob": 0.02,
+     "action": "filled [DepartureField] with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 294,
+     "ms_pick": 403,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 784
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 141,
+      "t1": 9,
+      "t2": 5,
+      "t3": 127
+     },
+     "pick": "n449",
+     "group": "g:441",
+     "probs": "n449:0.83 n4357:0.17 n508:0.00",
+     "done_prob": 0.03,
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 309,
+     "ms_pick": 309,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 707
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 5,
+      "t1": 3,
+      "t2": 0,
+      "t3": 2
+     },
+     "pick": "n484",
+     "probs": "n484:1.00 back:0.00 n474:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [Option label=\"One way\"]",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGwaF2oMCAMSCC9tLzA0anBscgcIARIDWlJIQAFIAXABggELCP___________wGYAQE\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 331,
+     "ms_pick": 153,
+     "ms_act": 19,
+     "ms_settle": 143,
+     "ms": 646
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "view": "Home",
+     "coverage": {
+      "interactive": 139,
+      "t1": 8,
+      "t2": 4,
+      "t3": 127
+     },
+     "pick": "n4357",
+     "group": "g:441",
+     "probs": "n4357:0.99 n911:0.01 n508:0.00",
+     "done_prob": 0.1,
+     "action": "clicked [SearchButton]",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 343,
+     "ms_pick": 348,
+     "ms_act": 51,
+     "ms_settle": 131,
+     "ms": 875,
+     "navigated": true
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "view": "Results",
+     "coverage": {
+      "interactive": 44,
+      "t1": 3,
+      "t2": 2,
+      "t3": 39
+     },
+     "pick": "wait",
+     "probs": "wait:0.90 scroll:0.06 n1370:0.01",
+     "done_prob": 0.3,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 126,
+     "ms_pick": 148,
+     "ms_act": 1709,
+     "ms_settle": 83,
+     "ms": 2066
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "view": "Results",
+     "coverage": {
+      "interactive": 490,
+      "t1": 27,
+      "t2": 16,
+      "t3": 447
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 777,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [OriginField] with from",
+     "comp": "OriginField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [Option label=\"Zurich Airport (ZRH)\"]",
+     "comp": "Option",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [DestinationField] with to",
+     "comp": "DestinationField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [Option label=\"London, United Kingdom\"]",
+     "comp": "Option",
+     "to": "Home",
+     "changed": true
+    },
+    {
+     "from": "Home",
+     "action": "filled [DepartureField] with departure",
+     "comp": "DepartureField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [HeaderSelect value=\"Change ticket type. Round trip\"]",
+     "comp": "HeaderSelect",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [Option label=\"One way\"]",
+     "comp": "Option",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchButton]",
+     "comp": "SearchButton",
+     "to": "Results",
+     "changed": true
+    },
+    {
+     "from": "Results",
+     "action": "waited",
+     "to": "Results",
+     "changed": false
+    }
+   ],
+   "ms": 8946,
+   "picker_stats": {
+    "calls": 14,
+    "ms": 2558,
+    "input_tokens": 43586,
+    "output_tokens": 3400,
+    "usd": 0
+   }
+  }
+ ]
+}
