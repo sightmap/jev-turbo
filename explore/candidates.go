@@ -153,6 +153,7 @@ type CriteriaOptions struct {
 	Seen          map[string]int
 	URL           string
 	AfterFill     bool // the previous action typed into a field: offer Enter
+	CanGoBack     bool // the run has navigated at least once: offer back (history.back() from the first page lands on the tab's blank page)
 }
 
 // Criteria is the option list for one pick, plus the groups behind "g:" keys.
@@ -317,6 +318,9 @@ func BuildCriteria(cands []*Candidate, opts CriteriaOptions) Criteria {
 			continue
 		}
 		if k == MetaEnter && !opts.AfterFill {
+			continue
+		}
+		if k == MetaBack && !opts.CanGoBack {
 			continue
 		}
 		if opts.Seen[opts.URL+"|"+k] >= 2 {

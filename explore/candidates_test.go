@@ -71,8 +71,13 @@ func TestBuildCriteriaSmallPage(t *testing.T) {
 	a := mk("1", "button", "A", "button", "", "", true)
 	b := mk("2", "link", "B", "a", "", "", true)
 	b.InViewport = false
-	crit := BuildCriteria(Candidates([]*Node{a, b}, CandidateOptions{}), CriteriaOptions{Goal: "x"})
+	crit := BuildCriteria(Candidates([]*Node{a, b}, CandidateOptions{}), CriteriaOptions{Goal: "x", CanGoBack: true})
 	want := []string{"n1", "n2", "back", "scroll", "wait"}
+	if strings.Join(crit.Keys(), ",") != strings.Join(want, ",") {
+		t.Fatalf("keys = %v", crit.Keys())
+	}
+	crit = BuildCriteria(Candidates([]*Node{a, b}, CandidateOptions{}), CriteriaOptions{Goal: "x"})
+	want = []string{"n1", "n2", "scroll", "wait"} // no navigation yet: back would leave the site
 	if strings.Join(crit.Keys(), ",") != strings.Join(want, ",") {
 		t.Fatalf("keys = %v", crit.Keys())
 	}
