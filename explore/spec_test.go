@@ -1,8 +1,10 @@
 package explore
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -71,6 +73,59 @@ func TestDoneWhenCheck(t *testing.T) {
 	}
 	if s := (&DoneWhen{View: "Cart", Prop: &PropCheck{Component: "A", Name: "b", Contains: "c"}}).String(); s != `the page is the "Cart" view and A.b contains "c"` {
 		t.Fatalf("String = %q", s)
+	}
+}
+
+func TestHistoryCount(t *testing.T) {
+	d, err := ParseDoneWhen([]string{"history_count=2:Finish"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	page := &Page{URL: "/"}
+	one := []string{"1. clicked [FinishButton] → /done"}
+	if d.Check(page, one) {
+		t.Fatal("one mention must not satisfy min 2")
+	}
+	if !d.Check(page, append(one, "2. clicked button \"Finish\" → /done")) {
+		t.Fatal("two mentions satisfy min 2")
+	}
+	if !strings.Contains(d.String(), "2") {
+		t.Fatalf("String() = %q", d.String())
+	}
+	for _, bad := range []string{"history_count=x:Foo", "history_count=0:Foo", "history_count=2:"} {
+		if _, err := ParseDoneWhen([]string{bad}); err == nil {
+			t.Fatalf("%q should not parse", bad)
+		}
+	}
+	var s Spec
+	if err := json.Unmarshal([]byte(`{"done_when":{"history_count":{"substr":"Finish","min":3}}}`), &s); err != nil || s.DoneWhen.HistoryCount == nil || s.DoneWhen.HistoryCount.Min != 3 {
+		t.Fatalf("json: %v %+v", err, s.DoneWhen)
+	}
+}
+
+func TestHistoryCountFromJSONNeedsMinAndSubstr(t *testing.T) {
+	var s Spec
+	if err := json.Unmarshal([]byte(`{"done_when":{"history_count":{}}}`), &s); err != nil {
+		t.Fatal(err)
+	}
+	// A zero count would otherwise match an empty history and pass the goal at step 1.
+	if s.DoneWhen.Check(&Page{URL: "/"}, nil) {
+		t.Fatal("history_count with no min and no substr must not be satisfied")
+	}
+	dir := t.TempDir()
+	suitePath := filepath.Join(dir, "suite.json")
+	os.WriteFile(suitePath, []byte(`{"name":"s","start_url":"https://s/","goals":[
+	  {"name":"fine","goal":"a","spec":{"done_when":{"view":"Cart"}}},
+	  {"name":"broken","goal":"b","spec":{"done_when":{"history_count":{}}}}
+	]}`), 0o644)
+	_, err := LoadSuite(suitePath)
+	if err == nil || !strings.Contains(err.Error(), "history_count") || !strings.Contains(err.Error(), "broken") {
+		t.Fatalf("LoadSuite error = %v, want one naming the goal and history_count", err)
+	}
+	specPath := filepath.Join(dir, "spec.json")
+	os.WriteFile(specPath, []byte(`{"done_when":{"all":[{"history_count":{"substr":"Finish"}}]}}`), 0o644)
+	if _, err := LoadSpec(specPath); err == nil || !strings.Contains(err.Error(), "history_count") {
+		t.Fatalf("LoadSpec error = %v, want one mentioning history_count", err)
 	}
 }
 

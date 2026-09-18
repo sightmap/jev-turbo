@@ -1,0 +1,4859 @@
+{
+ "suite": "flights",
+ "picker": "jev:jev-latest",
+ "condition": "no-map",
+ "when": "2026-09-18T16:37:36.39481-04:00",
+ "summary": {
+  "goals": 10,
+  "ok": 10,
+  "steps": 148,
+  "ms": 143158,
+  "ms_per_step": 967.2837837837837,
+  "model_calls": 195,
+  "model_ms": 43997,
+  "ms_per_call": 225.62564102564102,
+  "input_tokens": 667279,
+  "output_tokens": 47985,
+  "usd": 0,
+  "wasted": 12,
+  "fallback": 0,
+  "low_confidence": 47,
+  "candidates_median": 78
+ },
+ "runs": [
+  {
+   "name": "zurich-london",
+   "rep": 1,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:0.49 n743:0.46 n889:0.05",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 146,
+     "ms_pick": 716,
+     "ms_act": 11,
+     "ms_settle": 82,
+     "ms": 956,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.49,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n483",
+     "probs": "n483:1.00 n473:0.00 n493:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 139,
+     "ms_pick": 346,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 573,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n743",
+     "group": "g:440",
+     "probs": "n743:0.92 n889:0.08 n1074:0.00",
+     "done_prob": 0.01,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 140,
+     "ms_pick": 433,
+     "ms_act": 174,
+     "ms_settle": 165,
+     "ms": 914,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.9016000000000001,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n881",
+     "probs": "n881:0.94 n860:0.06 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 241,
+     "ms_pick": 433,
+     "ms_act": 65,
+     "ms_settle": 82,
+     "ms": 822,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.94
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n823",
+     "group": "g:442",
+     "probs": "n823:0.96 n891:0.04 n4337:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 275,
+     "ms_pick": 395,
+     "ms_act": 202,
+     "ms_settle": 82,
+     "ms": 955,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.96,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n883",
+     "probs": "n883:0.86 n904:0.14 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 896,
+     "ms_pick": 226,
+     "ms_act": 67,
+     "ms_settle": 83,
+     "ms": 1274,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.86
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n907",
+     "group": "g:442",
+     "probs": "n907:1.00 n4353:0.00 n504:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 294,
+     "ms_pick": 511,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 896,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.98,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4353",
+     "group": "g:442",
+     "probs": "n4353:1.00 n504:0.00 n675:0.00",
+     "done_prob": 0.07,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 282,
+     "ms_pick": 442,
+     "ms_act": 83,
+     "ms_settle": 83,
+     "ms": 892,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.53,
+     "group_confidence": 0.53
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.66 n1250:0.27 scroll:0.04",
+     "done_prob": 0.24,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 517,
+     "ms_pick": 216,
+     "ms_act": 1260,
+     "ms_settle": 81,
+     "ms": 2076,
+     "candidates": 335,
+     "options": 25,
+     "confidence": 0.66
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.72 wait:0.16 g:1073:0.08",
+     "done_prob": 0.28,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 448,
+     "ms_pick": 230,
+     "ms_act": 24,
+     "ms_settle": 82,
+     "ms": 787,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.72
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.51 n4355:0.29 wait:0.12",
+     "done_prob": 0.27,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 481,
+     "ms_pick": 278,
+     "ms_act": 27,
+     "ms_settle": 83,
+     "ms": 871,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.51,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1254",
+     "probs": "n1254:0.33 n4355:0.32 wait:0.18",
+     "done_prob": 0.34,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 485,
+     "ms_pick": 231,
+     "ms_act": 38,
+     "ms_settle": 168,
+     "ms": 924,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.33
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1254",
+     "probs": "n1254:0.48 n4355:0.26 wait:0.12",
+     "done_prob": 0.25,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 482,
+     "ms_pick": 239,
+     "ms_act": 41,
+     "ms_settle": 166,
+     "ms": 930,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.48,
+     "wasted": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4355",
+     "probs": "n4355:0.33 wait:0.30 g:1073:0.20",
+     "done_prob": 0.18,
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 452,
+     "ms_pick": 193,
+     "ms_act": 8,
+     "ms_settle": 85,
+     "ms": 740,
+     "candidates": 360,
+     "options": 26,
+     "confidence": 0.33
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4373",
+     "group": "g:442",
+     "probs": "n4373:0.96 n823:0.02 n740:0.01",
+     "done_prob": 0.18,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 452,
+     "ms_pick": 472,
+     "ms_act": 80,
+     "ms_settle": 166,
+     "ms": 1172,
+     "navigated": true,
+     "candidates": 73,
+     "options": 31,
+     "confidence": 0.6528,
+     "group_confidence": 0.68
+    },
+    {
+     "step": 16,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.82 scroll:0.07 n1371:0.04",
+     "done_prob": 0.5,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 128,
+     "ms_pick": 201,
+     "ms_act": 1495,
+     "ms_settle": 82,
+     "ms": 1908,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.8200000000000001
+    },
+    {
+     "step": 17,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 590,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 17287,
+   "picker_stats": {
+    "calls": 22,
+    "ms": 5557,
+    "input_tokens": 82526,
+    "output_tokens": 5509,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 16,
+    "wasted": 2,
+    "fallback": 0,
+    "low_confidence": 6,
+    "candidates_median": 78,
+    "options_median": 26
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 2,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n447",
+     "group": "g:439",
+     "probs": "n447:0.54 n742:0.42 n888:0.04",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 145,
+     "ms_pick": 462,
+     "ms_act": 11,
+     "ms_settle": 83,
+     "ms": 702,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.54,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n482",
+     "probs": "n482:1.00 n472:0.00 n492:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 148,
+     "ms_pick": 167,
+     "ms_act": 4,
+     "ms_settle": 82,
+     "ms": 403,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n742",
+     "group": "g:439",
+     "probs": "n742:0.90 n888:0.10 n1073:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 144,
+     "ms_pick": 449,
+     "ms_act": 194,
+     "ms_settle": 127,
+     "ms": 916,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.891,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n880",
+     "probs": "n880:0.95 n859:0.05 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 232,
+     "ms_pick": 222,
+     "ms_act": 65,
+     "ms_settle": 170,
+     "ms": 690,
+     "navigated": true,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.95
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n822",
+     "group": "g:441",
+     "probs": "n822:0.96 n890:0.04 n4336:0.00",
+     "done_prob": 0.03,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 249,
+     "ms_pick": 483,
+     "ms_act": 193,
+     "ms_settle": 83,
+     "ms": 1010,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.96,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n882",
+     "probs": "n882:0.93 n903:0.06 enter:0.01",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 917,
+     "ms_pick": 298,
+     "ms_act": 74,
+     "ms_settle": 83,
+     "ms": 1374,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.93
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n906",
+     "group": "g:441",
+     "probs": "n906:1.00 n4352:0.00 n503:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 263,
+     "ms_pick": 398,
+     "ms_act": 9,
+     "ms_settle": 84,
+     "ms": 756,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.96,
+     "group_confidence": 0.96
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4352",
+     "group": "g:441",
+     "probs": "n4352:1.00 n503:0.00 n674:0.00",
+     "done_prob": 0.07,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 277,
+     "ms_pick": 580,
+     "ms_act": 85,
+     "ms_settle": 82,
+     "ms": 1025,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.51,
+     "group_confidence": 0.51
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.66 n1249:0.28 n4339:0.03",
+     "done_prob": 0.27,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 527,
+     "ms_pick": 231,
+     "ms_act": 1201,
+     "ms_settle": 82,
+     "ms": 2043,
+     "candidates": 335,
+     "options": 25,
+     "confidence": 0.66
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1251",
+     "probs": "n1251:0.75 wait:0.15 g:1072:0.07",
+     "done_prob": 0.23,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 475,
+     "ms_pick": 257,
+     "ms_act": 16,
+     "ms_settle": 83,
+     "ms": 833,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.75
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1251",
+     "probs": "n1251:0.44 n4354:0.30 wait:0.17",
+     "done_prob": 0.27,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 445,
+     "ms_pick": 253,
+     "ms_act": 26,
+     "ms_settle": 82,
+     "ms": 808,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.44,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1253",
+     "probs": "n1253:0.37 n4354:0.33 wait:0.18",
+     "done_prob": 0.31,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 460,
+     "ms_pick": 230,
+     "ms_act": 21,
+     "ms_settle": 82,
+     "ms": 795,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.37
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1253",
+     "probs": "n1253:0.41 n4354:0.31 wait:0.14",
+     "done_prob": 0.25,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 456,
+     "ms_pick": 239,
+     "ms_act": 33,
+     "ms_settle": 175,
+     "ms": 905,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.41000000000000003,
+     "wasted": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4354",
+     "probs": "n4354:0.35 wait:0.27 g:1072:0.20",
+     "done_prob": 0.19,
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 470,
+     "ms_pick": 241,
+     "ms_act": 9,
+     "ms_settle": 84,
+     "ms": 805,
+     "candidates": 360,
+     "options": 26,
+     "confidence": 0.35
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4372",
+     "group": "g:441",
+     "probs": "n4372:0.94 n739:0.02 n822:0.02",
+     "done_prob": 0.19,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 420,
+     "ms_pick": 450,
+     "ms_act": 73,
+     "ms_settle": 142,
+     "ms": 1086,
+     "navigated": true,
+     "candidates": 73,
+     "options": 31,
+     "confidence": 0.6486000000000001,
+     "group_confidence": 0.6900000000000001
+    },
+    {
+     "step": 16,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.84 scroll:0.08 n1370:0.03",
+     "done_prob": 0.41,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 87,
+     "ms_pick": 182,
+     "ms_act": 1082,
+     "ms_settle": 82,
+     "ms": 1434,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.84
+    },
+    {
+     "step": 17,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 637,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 16229,
+   "picker_stats": {
+    "calls": 22,
+    "ms": 5136,
+    "input_tokens": 82482,
+    "output_tokens": 5509,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 16,
+    "wasted": 2,
+    "fallback": 0,
+    "low_confidence": 6,
+    "candidates_median": 78,
+    "options_median": 26
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 3,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:0.55 n743:0.42 n889:0.03",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 151,
+     "ms_pick": 368,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 606,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.55,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n483",
+     "probs": "n483:1.00 n473:0.00 n493:0.00",
+     "done_prob": 0.01,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 115,
+     "ms_pick": 162,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 363,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n743",
+     "group": "g:440",
+     "probs": "n743:0.90 n889:0.10 n1074:0.00",
+     "done_prob": 0.01,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 142,
+     "ms_pick": 408,
+     "ms_act": 214,
+     "ms_settle": 128,
+     "ms": 893,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.891,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n881",
+     "probs": "n881:0.96 n860:0.04 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 216,
+     "ms_pick": 185,
+     "ms_act": 66,
+     "ms_settle": 82,
+     "ms": 550,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.96
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n823",
+     "group": "g:442",
+     "probs": "n823:0.97 n891:0.03 n4337:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 267,
+     "ms_pick": 384,
+     "ms_act": 179,
+     "ms_settle": 82,
+     "ms": 913,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.97,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n883",
+     "probs": "n883:0.88 n904:0.12 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 846,
+     "ms_pick": 214,
+     "ms_act": 72,
+     "ms_settle": 83,
+     "ms": 1216,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.88
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n907",
+     "group": "g:442",
+     "probs": "n907:1.00 n4353:0.00 n504:0.00",
+     "done_prob": 0.04,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 284,
+     "ms_pick": 372,
+     "ms_act": 8,
+     "ms_settle": 83,
+     "ms": 748,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.97,
+     "group_confidence": 0.97
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4353",
+     "group": "g:442",
+     "probs": "n4353:1.00 n504:0.00 n675:0.00",
+     "done_prob": 0.07,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 516,
+     "ms_pick": 418,
+     "ms_act": 81,
+     "ms_settle": 83,
+     "ms": 1099,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.5700000000000001,
+     "group_confidence": 0.5700000000000001
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.62 n1250:0.32 n4340:0.04",
+     "done_prob": 0.2,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 501,
+     "ms_pick": 249,
+     "ms_act": 1267,
+     "ms_settle": 82,
+     "ms": 2101,
+     "candidates": 335,
+     "options": 25,
+     "confidence": 0.62
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.67 wait:0.20 g:1073:0.07",
+     "done_prob": 0.26,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 451,
+     "ms_pick": 216,
+     "ms_act": 33,
+     "ms_settle": 170,
+     "ms": 871,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.67
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.41 n4355:0.33 wait:0.16",
+     "done_prob": 0.26,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 464,
+     "ms_pick": 215,
+     "ms_act": 38,
+     "ms_settle": 165,
+     "ms": 884,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.41000000000000003,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1254",
+     "probs": "n1254:0.36 n4355:0.33 wait:0.15",
+     "done_prob": 0.32,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 438,
+     "ms_pick": 299,
+     "ms_act": 22,
+     "ms_settle": 83,
+     "ms": 844,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.36
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1254",
+     "probs": "n1254:0.41 n4355:0.29 wait:0.15",
+     "done_prob": 0.25,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 465,
+     "ms_pick": 230,
+     "ms_act": 38,
+     "ms_settle": 167,
+     "ms": 901,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.41000000000000003,
+     "wasted": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4355",
+     "probs": "n4355:0.34 wait:0.28 g:1073:0.19",
+     "done_prob": 0.16,
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 485,
+     "ms_pick": 261,
+     "ms_act": 6,
+     "ms_settle": 84,
+     "ms": 837,
+     "candidates": 360,
+     "options": 26,
+     "confidence": 0.34
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4373",
+     "group": "g:442",
+     "probs": "n4373:0.95 n740:0.02 n823:0.02",
+     "done_prob": 0.19,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 473,
+     "ms_pick": 426,
+     "ms_act": 83,
+     "ms_settle": 165,
+     "ms": 1148,
+     "navigated": true,
+     "candidates": 73,
+     "options": 31,
+     "confidence": 0.5984999999999999,
+     "group_confidence": 0.63
+    },
+    {
+     "step": 16,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.80 scroll:0.08 n1371:0.04",
+     "done_prob": 0.43,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 129,
+     "ms_pick": 544,
+     "ms_act": 776,
+     "ms_settle": 83,
+     "ms": 1534,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.8
+    },
+    {
+     "step": 17,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 632,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 16149,
+   "picker_stats": {
+    "calls": 22,
+    "ms": 4928,
+    "input_tokens": 82526,
+    "output_tokens": 5509,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 16,
+    "wasted": 2,
+    "fallback": 0,
+    "low_confidence": 7,
+    "candidates_median": 78,
+    "options_median": 26
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 4,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:0.58 n743:0.40 n889:0.02",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 153,
+     "ms_pick": 417,
+     "ms_act": 15,
+     "ms_settle": 83,
+     "ms": 669,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.58,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n483",
+     "probs": "n483:1.00 n473:0.00 n493:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 138,
+     "ms_pick": 220,
+     "ms_act": 8,
+     "ms_settle": 83,
+     "ms": 450,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n743",
+     "group": "g:440",
+     "probs": "n743:0.93 n889:0.07 n1074:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 192,
+     "ms_pick": 457,
+     "ms_act": 211,
+     "ms_settle": 128,
+     "ms": 990,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.9114,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n881",
+     "probs": "n881:0.96 n860:0.04 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 236,
+     "ms_pick": 218,
+     "ms_act": 68,
+     "ms_settle": 82,
+     "ms": 605,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.96
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n823",
+     "group": "g:442",
+     "probs": "n823:0.97 n891:0.03 n4337:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 261,
+     "ms_pick": 439,
+     "ms_act": 208,
+     "ms_settle": 82,
+     "ms": 992,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.97,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n883",
+     "probs": "n883:0.87 n904:0.12 enter:0.01",
+     "done_prob": 0.03,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 865,
+     "ms_pick": 285,
+     "ms_act": 75,
+     "ms_settle": 175,
+     "ms": 1401,
+     "navigated": true,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.87
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n907",
+     "group": "g:442",
+     "probs": "n907:1.00 n4353:0.00 n504:0.00",
+     "done_prob": 0.04,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 259,
+     "ms_pick": 386,
+     "ms_act": 8,
+     "ms_settle": 84,
+     "ms": 739,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.97,
+     "group_confidence": 0.97
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4353",
+     "group": "g:442",
+     "probs": "n4353:1.00 n504:0.00 n675:0.00",
+     "done_prob": 0.08,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 269,
+     "ms_pick": 427,
+     "ms_act": 102,
+     "ms_settle": 82,
+     "ms": 882,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.51,
+     "group_confidence": 0.51
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.54 n1250:0.37 scroll:0.04",
+     "done_prob": 0.22,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 425,
+     "ms_pick": 218,
+     "ms_act": 1201,
+     "ms_settle": 82,
+     "ms": 1929,
+     "candidates": 335,
+     "options": 25,
+     "confidence": 0.54
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.69 wait:0.18 g:1073:0.06",
+     "done_prob": 0.31,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 433,
+     "ms_pick": 257,
+     "ms_act": 42,
+     "ms_settle": 166,
+     "ms": 900,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.6900000000000001
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.45 n4355:0.35 wait:0.10",
+     "done_prob": 0.27,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 506,
+     "ms_pick": 209,
+     "ms_act": 22,
+     "ms_settle": 83,
+     "ms": 823,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.45,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1254",
+     "probs": "n1254:0.37 n4355:0.31 wait:0.15",
+     "done_prob": 0.27,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 497,
+     "ms_pick": 217,
+     "ms_act": 28,
+     "ms_settle": 170,
+     "ms": 915,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.37
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1254",
+     "probs": "n1254:0.40 n4355:0.30 g:1073:0.15",
+     "done_prob": 0.23,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 474,
+     "ms_pick": 229,
+     "ms_act": 37,
+     "ms_settle": 168,
+     "ms": 910,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.4,
+     "wasted": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4355",
+     "probs": "n4355:0.37 wait:0.25 g:1073:0.20",
+     "done_prob": 0.18,
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 460,
+     "ms_pick": 239,
+     "ms_act": 7,
+     "ms_settle": 85,
+     "ms": 793,
+     "candidates": 360,
+     "options": 26,
+     "confidence": 0.37
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4373",
+     "group": "g:442",
+     "probs": "n4373:0.94 n740:0.02 n823:0.02",
+     "done_prob": 0.19,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 518,
+     "ms_pick": 406,
+     "ms_act": 78,
+     "ms_settle": 82,
+     "ms": 1085,
+     "navigated": true,
+     "candidates": 73,
+     "options": 31,
+     "confidence": 0.611,
+     "group_confidence": 0.65
+    },
+    {
+     "step": 16,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.84 scroll:0.07 n1371:0.04",
+     "done_prob": 0.42,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 100,
+     "ms_pick": 181,
+     "ms_act": 1184,
+     "ms_settle": 82,
+     "ms": 1548,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.84
+    },
+    {
+     "step": 17,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 685,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 16324,
+   "picker_stats": {
+    "calls": 22,
+    "ms": 4800,
+    "input_tokens": 82646,
+    "output_tokens": 5509,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 16,
+    "wasted": 2,
+    "fallback": 0,
+    "low_confidence": 7,
+    "candidates_median": 78,
+    "options_median": 26
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 5,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:0.57 n743:0.41 n889:0.02",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 151,
+     "ms_pick": 477,
+     "ms_act": 10,
+     "ms_settle": 84,
+     "ms": 724,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.5700000000000001,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n483",
+     "probs": "n483:1.00 n473:0.00 n493:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 133,
+     "ms_pick": 227,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 450,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n743",
+     "group": "g:440",
+     "probs": "n743:0.93 n889:0.07 n1074:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 184,
+     "ms_pick": 429,
+     "ms_act": 186,
+     "ms_settle": 166,
+     "ms": 966,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.9114,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n881",
+     "probs": "n881:0.94 n860:0.06 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 257,
+     "ms_pick": 205,
+     "ms_act": 63,
+     "ms_settle": 82,
+     "ms": 607,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.94
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n823",
+     "group": "g:442",
+     "probs": "n823:0.98 n891:0.02 n4337:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 263,
+     "ms_pick": 613,
+     "ms_act": 206,
+     "ms_settle": 83,
+     "ms": 1167,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.98,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n883",
+     "probs": "n883:0.87 n904:0.12 enter:0.01",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 839,
+     "ms_pick": 194,
+     "ms_act": 68,
+     "ms_settle": 173,
+     "ms": 1275,
+     "navigated": true,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.87
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n907",
+     "group": "g:442",
+     "probs": "n907:1.00 n4353:0.00 n504:0.00",
+     "done_prob": 0.05,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 268,
+     "ms_pick": 436,
+     "ms_act": 10,
+     "ms_settle": 83,
+     "ms": 797,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.98,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.48 g:442:0.44 g:4433:0.05",
+     "done_prob": 0.06,
+     "action": "pressed Enter",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 347,
+     "ms_pick": 186,
+     "ms_act": 16,
+     "ms_settle": 83,
+     "ms": 634,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.48
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4353",
+     "group": "g:442",
+     "probs": "n4353:0.99 n907:0.01 n504:0.00",
+     "done_prob": 0.09,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 281,
+     "ms_pick": 505,
+     "ms_act": 70,
+     "ms_settle": 166,
+     "ms": 1023,
+     "navigated": true,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.693,
+     "group_confidence": 0.7
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.82 scroll:0.08 n1371:0.06",
+     "done_prob": 0.43,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 206,
+     "ms_pick": 207,
+     "ms_act": 1086,
+     "ms_settle": 81,
+     "ms": 1580,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.8200000000000001
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 602,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "pressed Enter",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 9831,
+   "picker_stats": {
+    "calls": 15,
+    "ms": 3475,
+    "input_tokens": 38986,
+    "output_tokens": 3560,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 10,
+    "wasted": 0,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 77.5,
+    "options_median": 30.5
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 6,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n447",
+     "group": "g:439",
+     "probs": "n447:0.63 n742:0.33 n888:0.04",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 212,
+     "ms_pick": 468,
+     "ms_act": 11,
+     "ms_settle": 81,
+     "ms": 774,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.63,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n482",
+     "probs": "n482:1.00 n472:0.00 n492:0.00",
+     "done_prob": 0.01,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 143,
+     "ms_pick": 215,
+     "ms_act": 6,
+     "ms_settle": 130,
+     "ms": 494,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n742",
+     "group": "g:439",
+     "probs": "n742:0.97 n888:0.03 n1073:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 259,
+     "ms_pick": 430,
+     "ms_act": 199,
+     "ms_settle": 129,
+     "ms": 1019,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.97,
+     "group_confidence": 1
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n880",
+     "probs": "n880:0.81 n859:0.18 enter:0.01",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 275,
+     "ms_pick": 173,
+     "ms_act": 70,
+     "ms_settle": 174,
+     "ms": 693,
+     "navigated": true,
+     "candidates": 5,
+     "options": 7,
+     "confidence": 0.81
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n822",
+     "group": "g:441",
+     "probs": "n822:0.95 n890:0.05 n4336:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 258,
+     "ms_pick": 629,
+     "ms_act": 167,
+     "ms_settle": 165,
+     "ms": 1220,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.95,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n882",
+     "probs": "n882:0.92 n903:0.08 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 260,
+     "ms_pick": 256,
+     "ms_act": 87,
+     "ms_settle": 82,
+     "ms": 686,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.92
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n906",
+     "group": "g:441",
+     "probs": "n906:1.00 n4352:0.00 n503:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 265,
+     "ms_pick": 431,
+     "ms_act": 9,
+     "ms_settle": 83,
+     "ms": 789,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.96,
+     "group_confidence": 0.96
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4352",
+     "group": "g:441",
+     "probs": "n4352:1.00 n503:0.00 n674:0.00",
+     "done_prob": 0.06,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 273,
+     "ms_pick": 400,
+     "ms_act": 83,
+     "ms_settle": 82,
+     "ms": 839,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.48,
+     "group_confidence": 0.48
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.67 n1249:0.26 scroll:0.04",
+     "done_prob": 0.25,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 432,
+     "ms_pick": 201,
+     "ms_act": 1245,
+     "ms_settle": 82,
+     "ms": 1961,
+     "candidates": 335,
+     "options": 25,
+     "confidence": 0.67
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1251",
+     "probs": "n1251:0.70 wait:0.16 g:1072:0.08",
+     "done_prob": 0.28,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 430,
+     "ms_pick": 190,
+     "ms_act": 44,
+     "ms_settle": 168,
+     "ms": 834,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.7
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1251",
+     "probs": "n1251:0.44 n4354:0.34 wait:0.15",
+     "done_prob": 0.26,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 442,
+     "ms_pick": 240,
+     "ms_act": 46,
+     "ms_settle": 166,
+     "ms": 895,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.44,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1253",
+     "probs": "n1253:0.34 n4354:0.33 wait:0.18",
+     "done_prob": 0.27,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 523,
+     "ms_pick": 201,
+     "ms_act": 66,
+     "ms_settle": 169,
+     "ms": 961,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.34
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1253",
+     "probs": "n1253:0.49 n4354:0.30 wait:0.11",
+     "done_prob": 0.24,
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 443,
+     "ms_pick": 274,
+     "ms_act": 65,
+     "ms_settle": 168,
+     "ms": 952,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.49,
+     "wasted": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4354",
+     "probs": "n4354:0.36 wait:0.28 g:1072:0.18",
+     "done_prob": 0.19,
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 450,
+     "ms_pick": 258,
+     "ms_act": 10,
+     "ms_settle": 83,
+     "ms": 803,
+     "candidates": 360,
+     "options": 26,
+     "confidence": 0.36
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4372",
+     "group": "g:441",
+     "probs": "n4372:0.94 n822:0.03 n739:0.02",
+     "done_prob": 0.21,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 434,
+     "ms_pick": 381,
+     "ms_act": 143,
+     "ms_settle": 82,
+     "ms": 1041,
+     "navigated": true,
+     "candidates": 73,
+     "options": 31,
+     "confidence": 0.6392,
+     "group_confidence": 0.68
+    },
+    {
+     "step": 16,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.83 scroll:0.09 n1370:0.03",
+     "done_prob": 0.39,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 98,
+     "ms_pick": 186,
+     "ms_act": 1317,
+     "ms_settle": 82,
+     "ms": 1685,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.83
+    },
+    {
+     "step": 17,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 616,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked generic \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 16272,
+   "picker_stats": {
+    "calls": 22,
+    "ms": 4929,
+    "input_tokens": 82519,
+    "output_tokens": 5491,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 16,
+    "wasted": 2,
+    "fallback": 0,
+    "low_confidence": 5,
+    "candidates_median": 78,
+    "options_median": 26
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 7,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n447",
+     "group": "g:439",
+     "probs": "n447:0.59 n742:0.37 n888:0.04",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 155,
+     "ms_pick": 407,
+     "ms_act": 9,
+     "ms_settle": 82,
+     "ms": 654,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.59,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n482",
+     "probs": "n482:1.00 n472:0.00 n492:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 171,
+     "ms_pick": 191,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 453,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n742",
+     "group": "g:439",
+     "probs": "n742:0.91 n888:0.09 n1073:0.00",
+     "done_prob": 0.01,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 158,
+     "ms_pick": 431,
+     "ms_act": 178,
+     "ms_settle": 129,
+     "ms": 897,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.8918,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n880",
+     "probs": "n880:0.94 n859:0.06 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 239,
+     "ms_pick": 186,
+     "ms_act": 69,
+     "ms_settle": 83,
+     "ms": 579,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.94
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n822",
+     "group": "g:441",
+     "probs": "n822:0.98 n890:0.02 n4336:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 302,
+     "ms_pick": 380,
+     "ms_act": 195,
+     "ms_settle": 84,
+     "ms": 962,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.98,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n882",
+     "probs": "n882:0.88 n903:0.12 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 872,
+     "ms_pick": 219,
+     "ms_act": 74,
+     "ms_settle": 174,
+     "ms": 1341,
+     "navigated": true,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.88
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n906",
+     "group": "g:441",
+     "probs": "n906:1.00 n4352:0.00 n503:0.00",
+     "done_prob": 0.04,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 249,
+     "ms_pick": 460,
+     "ms_act": 9,
+     "ms_settle": 84,
+     "ms": 804,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.98,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.47 g:441:0.45 g:4432:0.04",
+     "done_prob": 0.07,
+     "action": "pressed Enter",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 270,
+     "ms_pick": 261,
+     "ms_act": 12,
+     "ms_settle": 82,
+     "ms": 627,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.47000000000000003
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4352",
+     "group": "g:441",
+     "probs": "n4352:1.00 n503:0.00 n674:0.00",
+     "done_prob": 0.09,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 271,
+     "ms_pick": 515,
+     "ms_act": 88,
+     "ms_settle": 141,
+     "ms": 1017,
+     "navigated": true,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.67,
+     "group_confidence": 0.67
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.80 scroll:0.11 n1370:0.05",
+     "done_prob": 0.47,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 93,
+     "ms_pick": 231,
+     "ms_act": 1665,
+     "ms_settle": 83,
+     "ms": 2073,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.8
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 609,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "pressed Enter",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 10021,
+   "picker_stats": {
+    "calls": 15,
+    "ms": 3278,
+    "input_tokens": 38986,
+    "output_tokens": 3560,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 10,
+    "wasted": 0,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 77.5,
+    "options_median": 30.5
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 8,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n447",
+     "group": "g:439",
+     "probs": "n447:0.58 n742:0.38 n888:0.04",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 171,
+     "ms_pick": 434,
+     "ms_act": 13,
+     "ms_settle": 83,
+     "ms": 702,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.58,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n482",
+     "probs": "n482:1.00 n472:0.00 n492:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 219,
+     "ms_pick": 219,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 525,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n742",
+     "group": "g:439",
+     "probs": "n742:0.90 n888:0.10 n1073:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 155,
+     "ms_pick": 515,
+     "ms_act": 183,
+     "ms_settle": 124,
+     "ms": 978,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.882,
+     "group_confidence": 0.98
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n880",
+     "probs": "n880:0.95 n859:0.05 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 221,
+     "ms_pick": 237,
+     "ms_act": 74,
+     "ms_settle": 82,
+     "ms": 616,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.95
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n822",
+     "group": "g:441",
+     "probs": "n822:0.95 n890:0.05 n4336:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 259,
+     "ms_pick": 391,
+     "ms_act": 174,
+     "ms_settle": 81,
+     "ms": 907,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.95,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n882",
+     "probs": "n882:0.88 n903:0.11 enter:0.01",
+     "done_prob": 0.03,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 890,
+     "ms_pick": 227,
+     "ms_act": 78,
+     "ms_settle": 181,
+     "ms": 1377,
+     "navigated": true,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.88
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n906",
+     "group": "g:441",
+     "probs": "n906:1.00 n4352:0.00 n503:0.00",
+     "done_prob": 0.05,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 261,
+     "ms_pick": 472,
+     "ms_act": 13,
+     "ms_settle": 83,
+     "ms": 831,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.96,
+     "group_confidence": 0.96
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4352",
+     "group": "g:441",
+     "probs": "n4352:1.00 n503:0.00 n674:0.00",
+     "done_prob": 0.06,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 715,
+     "ms_pick": 400,
+     "ms_act": 103,
+     "ms_settle": 82,
+     "ms": 1301,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.53,
+     "group_confidence": 0.53
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.58 n1249:0.34 scroll:0.05",
+     "done_prob": 0.26,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 514,
+     "ms_pick": 243,
+     "ms_act": 1476,
+     "ms_settle": 81,
+     "ms": 2316,
+     "candidates": 335,
+     "options": 25,
+     "confidence": 0.58
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1251",
+     "probs": "n1251:0.73 wait:0.15 g:1072:0.08",
+     "done_prob": 0.3,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 510,
+     "ms_pick": 266,
+     "ms_act": 51,
+     "ms_settle": 168,
+     "ms": 997,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.73
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1251",
+     "probs": "n1251:0.43 n4354:0.35 wait:0.14",
+     "done_prob": 0.25,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 495,
+     "ms_pick": 239,
+     "ms_act": 51,
+     "ms_settle": 166,
+     "ms": 953,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.43,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4354",
+     "probs": "n1253:0.34 n4354:0.34 wait:0.15",
+     "done_prob": 0.3,
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 481,
+     "ms_pick": 226,
+     "ms_act": 7,
+     "ms_settle": 84,
+     "ms": 800,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.34
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4372",
+     "group": "g:441",
+     "probs": "n4372:0.93 n739:0.04 n906:0.02",
+     "done_prob": 0.19,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 439,
+     "ms_pick": 403,
+     "ms_act": 87,
+     "ms_settle": 237,
+     "ms": 1168,
+     "navigated": true,
+     "candidates": 73,
+     "options": 31,
+     "confidence": 0.4464,
+     "group_confidence": 0.48
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.84 scroll:0.08 n1370:0.05",
+     "done_prob": 0.42,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 104,
+     "ms_pick": 202,
+     "ms_act": 1077,
+     "ms_settle": 82,
+     "ms": 1467,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.84
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 679,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 15624,
+   "picker_stats": {
+    "calls": 20,
+    "ms": 4469,
+    "input_tokens": 68867,
+    "output_tokens": 4889,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 14,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 6,
+    "candidates_median": 78,
+    "options_median": 28
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 9,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n448",
+     "group": "g:440",
+     "probs": "n448:0.54 n743:0.42 n889:0.04",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 154,
+     "ms_pick": 446,
+     "ms_act": 9,
+     "ms_settle": 82,
+     "ms": 692,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.54,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n483",
+     "probs": "n483:1.00 n473:0.00 n493:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 170,
+     "ms_pick": 183,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 444,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n743",
+     "group": "g:440",
+     "probs": "n743:0.91 n889:0.09 n1074:0.00",
+     "done_prob": 0.01,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 141,
+     "ms_pick": 454,
+     "ms_act": 189,
+     "ms_settle": 165,
+     "ms": 950,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.9009,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n881",
+     "probs": "n881:0.95 n860:0.05 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 248,
+     "ms_pick": 164,
+     "ms_act": 59,
+     "ms_settle": 82,
+     "ms": 554,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.95
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n823",
+     "group": "g:442",
+     "probs": "n823:0.97 n891:0.03 n4337:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 282,
+     "ms_pick": 414,
+     "ms_act": 198,
+     "ms_settle": 82,
+     "ms": 978,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.97,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n883",
+     "probs": "n883:0.84 n904:0.16 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 912,
+     "ms_pick": 178,
+     "ms_act": 54,
+     "ms_settle": 124,
+     "ms": 1269,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.84
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n907",
+     "group": "g:442",
+     "probs": "n907:1.00 n4353:0.00 n504:0.00",
+     "done_prob": 0.04,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 262,
+     "ms_pick": 461,
+     "ms_act": 8,
+     "ms_settle": 83,
+     "ms": 815,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.97,
+     "group_confidence": 0.97
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4353",
+     "group": "g:442",
+     "probs": "n4353:1.00 n504:0.00 n675:0.00",
+     "done_prob": 0.06,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 291,
+     "ms_pick": 499,
+     "ms_act": 91,
+     "ms_settle": 82,
+     "ms": 965,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.49,
+     "group_confidence": 0.49
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.68 n1250:0.25 n4340:0.04",
+     "done_prob": 0.25,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 492,
+     "ms_pick": 229,
+     "ms_act": 1292,
+     "ms_settle": 82,
+     "ms": 2096,
+     "candidates": 335,
+     "options": 25,
+     "confidence": 0.68
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.74 wait:0.17 g:1073:0.04",
+     "done_prob": 0.26,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 468,
+     "ms_pick": 232,
+     "ms_act": 42,
+     "ms_settle": 169,
+     "ms": 913,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.74
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1252",
+     "probs": "n1252:0.45 n4355:0.33 wait:0.14",
+     "done_prob": 0.27,
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 599,
+     "ms_pick": 215,
+     "ms_act": 35,
+     "ms_settle": 167,
+     "ms": 1018,
+     "candidates": 362,
+     "options": 26,
+     "confidence": 0.45,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4355",
+     "probs": "n4355:0.34 n1254:0.32 wait:0.17",
+     "done_prob": 0.3,
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 466,
+     "ms_pick": 212,
+     "ms_act": 7,
+     "ms_settle": 83,
+     "ms": 770,
+     "candidates": 361,
+     "options": 26,
+     "confidence": 0.34
+    },
+    {
+     "step": 13,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4373",
+     "group": "g:442",
+     "probs": "n4373:0.91 n740:0.06 n907:0.02",
+     "done_prob": 0.23,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 491,
+     "ms_pick": 421,
+     "ms_act": 84,
+     "ms_settle": 211,
+     "ms": 1207,
+     "navigated": true,
+     "candidates": 73,
+     "options": 31,
+     "confidence": 0.40950000000000003,
+     "group_confidence": 0.45
+    },
+    {
+     "step": 14,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.84 scroll:0.08 n1371:0.04",
+     "done_prob": 0.38,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 103,
+     "ms_pick": 196,
+     "ms_act": 1294,
+     "ms_settle": 81,
+     "ms": 1675,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.84
+    },
+    {
+     "step": 15,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 628,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked gridcell \"Sunday, September 20, 2026, departure d…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Done. Search for one-way flights, depar…\"",
+     "to": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 14982,
+   "picker_stats": {
+    "calls": 20,
+    "ms": 4298,
+    "input_tokens": 68735,
+    "output_tokens": 4889,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 14,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 5,
+    "candidates_median": 78,
+    "options_median": 28
+   }
+  },
+  {
+   "name": "zurich-london",
+   "rep": 10,
+   "goal": "Find one-way flights from Zurich to London on September 20, 2026, for one adult in economy. Stop when matching flight options are visible.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "flights/search"
+      },
+      {
+       "text_contains": "Leaves Zurich Airport"
+      },
+      {
+       "text_contains": "September 20"
+      },
+      {
+       "text_contains": "One way"
+      }
+     ]
+    },
+    "values": {
+     "departure": "Sep 20, 2026",
+     "from": "Zurich",
+     "to": "London"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n447",
+     "group": "g:439",
+     "probs": "n447:0.64 n742:0.31 n888:0.05",
+     "done_prob": 0.01,
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 165,
+     "ms_pick": 460,
+     "ms_act": 12,
+     "ms_settle": 82,
+     "ms": 723,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.64,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n482",
+     "probs": "n482:1.00 n472:0.00 n492:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"One way\"",
+     "url_after": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "ms_snap": 160,
+     "ms_pick": 167,
+     "ms_act": 6,
+     "ms_settle": 82,
+     "ms": 416,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.google.com/travel/flights?hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n742",
+     "group": "g:439",
+     "probs": "n742:0.91 n888:0.09 n1073:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where from?\" with from",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 156,
+     "ms_pick": 468,
+     "ms_act": 199,
+     "ms_settle": 166,
+     "ms": 991,
+     "navigated": true,
+     "candidates": 78,
+     "options": 30,
+     "confidence": 0.9009,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 4,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n880",
+     "probs": "n880:0.94 n859:0.06 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 256,
+     "ms_pick": 231,
+     "ms_act": 78,
+     "ms_settle": 82,
+     "ms": 647,
+     "candidates": 5,
+     "options": 8,
+     "confidence": 0.9400000000000001
+    },
+    {
+     "step": 5,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n822",
+     "group": "g:441",
+     "probs": "n822:0.97 n890:0.03 n4336:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Where to? \" with to",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 293,
+     "ms_pick": 422,
+     "ms_act": 207,
+     "ms_settle": 82,
+     "ms": 1005,
+     "candidates": 77,
+     "options": 31,
+     "confidence": 0.97,
+     "group_confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n882",
+     "probs": "n882:0.85 n903:0.15 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked option \"London, United Kingdom\"",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 948,
+     "ms_pick": 229,
+     "ms_act": 62,
+     "ms_settle": 287,
+     "ms": 1527,
+     "navigated": true,
+     "candidates": 12,
+     "options": 16,
+     "confidence": 0.85
+    },
+    {
+     "step": 7,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n906",
+     "group": "g:441",
+     "probs": "n906:1.00 n4352:0.00 n503:0.00",
+     "done_prob": 0.04,
+     "action": "filled textbox \"Departure\" with departure",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 420,
+     "ms_pick": 432,
+     "ms_act": 3,
+     "ms_settle": 84,
+     "ms": 941,
+     "candidates": 78,
+     "options": 32,
+     "confidence": 0.97,
+     "group_confidence": 0.97
+    },
+    {
+     "step": 8,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.48 g:441:0.45 g:4432:0.03",
+     "done_prob": 0.09,
+     "action": "pressed Enter",
+     "url_after": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "ms_snap": 270,
+     "ms_pick": 199,
+     "ms_act": 22,
+     "ms_settle": 83,
+     "ms": 575,
+     "candidates": 78,
+     "options": 33,
+     "confidence": 0.48
+    },
+    {
+     "step": 9,
+     "url": "https://www.google.com/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n4352",
+     "group": "g:441",
+     "probs": "n4352:0.99 n906:0.01 n503:0.00",
+     "done_prob": 0.1,
+     "action": "clicked button \"Search\"",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 359,
+     "ms_pick": 337,
+     "ms_act": 79,
+     "ms_settle": 124,
+     "ms": 900,
+     "navigated": true,
+     "candidates": 79,
+     "options": 32,
+     "confidence": 0.6830999999999999,
+     "group_confidence": 0.69
+    },
+    {
+     "step": 10,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.83 scroll:0.10 n1370:0.05",
+     "done_prob": 0.48,
+     "action": "waited",
+     "url_after": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "ms_snap": 97,
+     "ms_pick": 187,
+     "ms_act": 1643,
+     "ms_settle": 82,
+     "ms": 2011,
+     "candidates": 31,
+     "options": 34,
+     "confidence": 0.83
+    },
+    {
+     "step": 11,
+     "url": "https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 697,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked combobox \"Change ticket type. Round trip\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "clicked option \"One way\"",
+     "to": "/travel/flights?hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where from?\" with from",
+     "to": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoOagwIAhIIL20vMDEzeXFAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"Zurich Airport (ZRH)\"",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled combobox \"Where to? \" with to",
+     "to": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoJagcIARIDWlJIQAFIAXABggELCP___________wGYAQI\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked option \"London, United Kingdom\"",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "filled textbox \"Departure\" with departure",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "pressed Enter",
+     "to": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "changed": false
+    },
+    {
+     "from": "/travel/flights?tfs=CBwQARoXagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026tfu=KgIIAw\u0026hl=en\u0026curr=USD",
+     "action": "clicked button \"Search\"",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": true
+    },
+    {
+     "from": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "action": "waited",
+     "to": "/travel/flights/search?tfs=CBwQAhojEgoyMDI2LTA5LTIwagcIARIDWlJIcgwIAxIIL20vMDRqcGxAAUgBcAGCAQsI____________AZgBAg\u0026hl=en\u0026curr=USD",
+     "changed": false
+    }
+   ],
+   "ms": 10439,
+   "picker_stats": {
+    "calls": 15,
+    "ms": 3127,
+    "input_tokens": 39006,
+    "output_tokens": 3560,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 10,
+    "wasted": 0,
+    "fallback": 0,
+    "low_confidence": 1,
+    "candidates_median": 77.5,
+    "options_median": 30.5
+   }
+  }
+ ]
+}

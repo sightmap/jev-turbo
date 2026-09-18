@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -19,13 +20,20 @@ type Spec struct {
 // DoneWhen is a deterministic goal check over the current page. Every set
 // field must hold; All nests further checks that must all hold.
 type DoneWhen struct {
-	View            string     `json:"view,omitempty"`
-	URLContains     string     `json:"url_contains,omitempty"`
-	TextContains    string     `json:"text_contains,omitempty"`
-	Component       string     `json:"component,omitempty"`
-	Prop            *PropCheck `json:"prop,omitempty"`
-	HistoryContains string     `json:"history_contains,omitempty"`
-	All             []DoneWhen `json:"all,omitempty"`
+	View            string        `json:"view,omitempty"`
+	URLContains     string        `json:"url_contains,omitempty"`
+	TextContains    string        `json:"text_contains,omitempty"`
+	Component       string        `json:"component,omitempty"`
+	Prop            *PropCheck    `json:"prop,omitempty"`
+	HistoryContains string        `json:"history_contains,omitempty"`
+	HistoryCount    *HistoryCount `json:"history_count,omitempty"`
+	All             []DoneWhen    `json:"all,omitempty"`
+}
+
+// HistoryCount requires at least Min earlier steps whose record mentions Substr.
+type HistoryCount struct {
+	Substr string `json:"substr"`
+	Min    int    `json:"min"`
 }
 
 // PropCheck asserts that a visible component's extracted property contains a
@@ -47,12 +55,33 @@ func LoadSpec(path string) (*Spec, error) {
 	if err := json.Unmarshal(data, &s); err != nil {
 		return nil, fmt.Errorf("spec %s: %w", path, err)
 	}
+	if err := s.DoneWhen.validate(); err != nil {
+		return nil, fmt.Errorf("spec %s: %w", path, err)
+	}
 	return &s, nil
 }
 
+// validate rejects a check that JSON can express but the loop cannot act on.
+// The flag syntax already refuses these; a spec file has to be checked too.
+func (d *DoneWhen) validate() error {
+	if d == nil {
+		return nil
+	}
+	if hc := d.HistoryCount; hc != nil && (hc.Min < 1 || hc.Substr == "") {
+		return fmt.Errorf("history_count wants min >= 1 and a substr, got min=%d substr=%q", hc.Min, hc.Substr)
+	}
+	for i := range d.All {
+		if err := d.All[i].validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // ParseDoneWhen parses the flag mini-syntax: one "key=value" per expression,
-// keys view, url, text, component, history, or prop=Component.name~value
-// (with an optional "@Within.name~value" suffix). Several expressions are ANDed.
+// keys view, url, text, component, history, history_count=N:SUBSTR, or
+// prop=Component.name~value (with an optional "@Within.name~value" suffix).
+// Several expressions are ANDed.
 func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 	if len(exprs) == 0 {
 		return nil, nil
@@ -75,6 +104,13 @@ func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 			d.Component = v
 		case "history":
 			d.HistoryContains = v
+		case "history_count":
+			ns, sub, ok := strings.Cut(v, ":")
+			n, convErr := strconv.Atoi(ns)
+			if !ok || convErr != nil || n < 1 || sub == "" {
+				return nil, fmt.Errorf("--done-when history_count: want N:SUBSTR, got %q", v)
+			}
+			d.HistoryCount = &HistoryCount{Substr: sub, Min: n}
 		case "prop":
 			pc, err := parsePropCheck(v)
 			if err != nil {
@@ -82,7 +118,7 @@ func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 			}
 			d.Prop = pc
 		default:
-			return nil, fmt.Errorf("done-when %q: unknown key %q (view, url, text, component, history, prop)", e, k)
+			return nil, fmt.Errorf("done-when %q: unknown key %q (view, url, text, component, history, history_count, prop)", e, k)
 		}
 		parts = append(parts, d)
 	}
@@ -123,7 +159,7 @@ func parseOnePropCheck(s string) (*PropCheck, error) {
 
 // Deterministic reports whether the check has any condition at all.
 func (d *DoneWhen) Deterministic() bool {
-	return d != nil && (d.View != "" || d.URLContains != "" || d.TextContains != "" || d.Component != "" || d.Prop != nil || d.HistoryContains != "" || len(d.All) > 0)
+	return d != nil && (d.View != "" || d.URLContains != "" || d.TextContains != "" || d.Component != "" || d.Prop != nil || d.HistoryContains != "" || d.HistoryCount != nil || len(d.All) > 0)
 }
 
 // String renders the check for the picker's context.
@@ -153,6 +189,9 @@ func (d *DoneWhen) String() string {
 	}
 	if d.HistoryContains != "" {
 		parts = append(parts, fmt.Sprintf("an earlier step mentioned %q", d.HistoryContains))
+	}
+	if d.HistoryCount != nil {
+		parts = append(parts, fmt.Sprintf("at least %d earlier steps mentioned %q", d.HistoryCount.Min, d.HistoryCount.Substr))
 	}
 	for _, a := range d.All {
 		parts = append(parts, a.String())
@@ -194,6 +233,22 @@ func (d *DoneWhen) Check(page *Page, history []string) bool {
 			}
 		}
 		if !found {
+			return false
+		}
+	}
+	if d.HistoryCount != nil {
+		if d.HistoryCount.Min < 1 || d.HistoryCount.Substr == "" {
+			// A count with no minimum or no substring matches anything, which
+			// would pass the goal at step 1; treat it as never satisfied.
+			return false
+		}
+		n := 0
+		for _, h := range history {
+			if strings.Contains(h, d.HistoryCount.Substr) {
+				n++
+			}
+		}
+		if n < d.HistoryCount.Min {
 			return false
 		}
 	}

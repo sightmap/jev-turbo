@@ -38,6 +38,33 @@ func TestCandidatesSkipContainersAndBackdrops(t *testing.T) {
 	}
 }
 
+func TestCandidatesKeepControlInsideSameNamedContainer(t *testing.T) {
+	form := mk("f", "form", "Login", "form", "", "", true)
+	user := mk("1", "textbox", "Username", "input", "", "", true)
+	login := mk("2", "button", "Login", "input", "type=submit", "", true)
+	under(form, user, login)
+	form.InteractiveDesc = 2
+	keys := []string{}
+	for _, c := range Candidates([]*Node{form, user, login}, CandidateOptions{}) {
+		keys = append(keys, c.Key)
+	}
+	if strings.Join(keys, ",") != "n1,n2" {
+		t.Fatalf("keys = %v (the form is a container, the button inside it is an action)", keys)
+	}
+	// The original case still holds: an icon inside a same-named button is a wrapper.
+	btn := mk("3", "button", "Search", "button", "", "", true)
+	icon := mk("4", "button", "Search", "span", "", "", true)
+	under(btn, icon)
+	btn.InteractiveDesc = 1
+	keys = keys[:0]
+	for _, c := range Candidates([]*Node{btn, icon}, CandidateOptions{}) {
+		keys = append(keys, c.Key)
+	}
+	if strings.Join(keys, ",") != "n3" {
+		t.Fatalf("keys = %v (the inner span duplicates its button)", keys)
+	}
+}
+
 func TestCandidatesRepeatGuard(t *testing.T) {
 	n := mk("1", "button", "Add", "button", "", "", true)
 	seen := map[string]int{"https://s/|" + `clicked button Add`: 2}

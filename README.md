@@ -1,8 +1,8 @@
 # jev-turbo
 
-**Browser use where a 200 ms model picks every step.**
+**Browser use where a 200 ms model picks every step, measured with and without a map of the site.**
 
-Give it one goal. A [sightmap](https://sightmap.org) turns the page into a short list of named actions. [Jev](https://docs.typesafe.ai/introduction), TypeSafe's typed-answer model, picks one and says whether the goal is met. No large model is called to act, so a step takes well under a second.
+Give it one goal. A [sightmap](https://sightmap.org) turns the page into a short list of named actions. [Jev](https://docs.typesafe.ai/introduction), TypeSafe's typed-answer model, picks one and says whether the goal is met. No large model is called to act. jev-turbo runs that loop with the map and without it, over the same site and the same model, and reports what the map changed.
 
 <a href="docs/demo.mp4"><img src="docs/demo.gif" alt="One-way Zürich to London on Google Flights at 1x: nine actions in 8.9 seconds, every one picked by Jev over a 14-component sightmap" width="100%" /></a>
 
@@ -38,7 +38,7 @@ jev-turbo explore --sightmap-dir bench/saucedemo/.sightmap \
 OK  done_when satisfied  steps=6  1.5s  picker=jev:jev-latest calls=5 732ms tokens=6120+610
 ```
 
-No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--grow`. jev-turbo names the controls it meets as it goes, and the result is a plain `.sightmap/` directory that any other agent can read. `--start` launches the browser session for you. The session is a headed Chrome, and jev-turbo brings its tab to the front when it connects, so run it on a display you are not typing on.
+No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--grow`. jev-turbo names the controls it meets as it goes, and the result is a plain `.sightmap/` directory that any other agent can read. `--start` launches the browser session for you. The session is a headed Chrome by default. jev-turbo never brings it to the front, but Chrome takes focus once when it launches; add `--headless` to `sightmap browser start` (or to `--start`) to keep it off your screen.
 
 ## What happens in a step
 
@@ -48,28 +48,35 @@ No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--
 
 Jev never writes text. Everything the loop types comes from `--value` or a spec file. If you would rather have a model write the spec, `--plan` calls Claude once per goal. That is the only large-model call in the tool, and it is optional.
 
-## Numbers
+## What the map changed
 
-Three sites, ten goals each on the first two, one goal run five times on the third. The right column is the same loop with Claude Sonnet picking instead of Jev, for scale.
+Same loop, same site, same model, run once with a sightmap and once with `--no-map` so Jev sees the raw HTML and ARIA tree instead.
 
-| site | Jev | Claude Sonnet in the same seat |
-|---|---|---|
-| saucedemo.com, 39-component map | 10/10, 0.24 s a step | 10/10, 1.16 s a step, $0.25 |
-| books.toscrape.com, no map | 10/10, 0.30 s a step | 9/10, 2.54 s a step, $0.81 |
-| Google Flights, Zürich to London | 5/5, median 8.4 s a run | 1/1, 61.6 s, $0.29 |
+| suite | condition | goals reached | steps per reached goal | wasted steps | unsure picks | seconds |
+|---|---|---|---|---|---|---|
+| saucedemo, 10 goals ×3 | map | 30/30 | 4.5 | 3 | 0 | 48.4 |
+| saucedemo, 10 goals ×3 | no map | 30/30 | 4.5 | 3 | 2 | 45.6 |
+| journeys, 2 long goals ×3 | map | 3/6 | 13 | 63 | 34 | 53.8 |
+| journeys, 2 long goals ×3 | no map | 3/6 | 13 | 53 | 49 | 53.4 |
+| Google Flights, Zürich to London ×10 | map | 10/10 | 10 | 7 | 4 | 116.3 |
+| Google Flights, Zürich to London ×10 | no map | 10/10 | 15 | 12 | 47 | 143.2 |
 
-Growing books.toscrape.com from an empty map takes one pass: 10/10 goals, 89% of the visited pages covered after the first pass and 100% after the second. Suites, maps, and every run file are in [`bench/`](bench/README.md).
+Unsure picks are picks Jev gave under 60% probability; on a page large enough to be answered as a group and then an option inside it, that is the two probabilities multiplied. Wasted steps are a stale click, a back, or a repeat of a control already used on that page.
+
+On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights. Steps per reached goal went from 15 to 10. Unsure picks went from 47 to 4. The ten runs took 116 seconds instead of 143. On saucedemo, whose raw tree already carries good names, the map changed little: 30 of 30 goals, 4.5 steps and 3 wasted steps either way, two unsure picks without the map against none with it, and three seconds between the two conditions. Two earlier no-map runs failed from bugs in this loop, not from the map. Saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree. Both bugs are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time. That is a limit of the loop, not something the map caused.
+
+Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet comparison, are in [`bench/`](bench/README.md).
 
 ## Commands
 
 ```
-jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--record DIR]
-jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--record DIR]
+jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--record DIR] [--no-map]
+jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--record DIR] [--no-map]
 jev-turbo plan    --goal "..." [--site host]
 jev-turbo graph   [RUN.json ...]
 ```
 
-`--done-when` is a deterministic finish check: `view=NAME`, `url=SUBSTR`, `text=SUBSTR`, `component=NAME`, or `prop=Comp.name~value`. Repeat it to AND checks. Without one, the loop stops when Jev's own "done" answer passes 0.85. A spec file carries the same in JSON:
+`--done-when` is a deterministic finish check: `view=NAME`, `url=SUBSTR`, `text=SUBSTR`, `component=NAME`, `prop=Comp.name~value`, or `history_count=N:SUBSTR` (at least N earlier steps mention SUBSTR). Repeat it to AND checks. Without one, the loop stops when Jev's own "done" answer passes 0.85. A spec file carries the same in JSON:
 
 ```json
 { "done_when": { "view": "Cart" }, "values": { "username": "standard_user", "password": "secret_sauce" }, "avoid": ["Delete", "Pay"] }
@@ -81,9 +88,10 @@ jev-turbo graph   [RUN.json ...]
 
 ## Limits
 
-- The goals here are 2 to 12 steps on cooperative sites. None needed backtracking, a modal that eats clicks, or an infinite feed.
+- The short goals are 2 to 12 steps on cooperative sites; the two long ones cap at 30 and 45 steps, and one of them fails both with and without the map because the loop cannot repeat a flow.
 - Jev picks from what the sightmap library can see: HTML and ARIA controls. Canvas, frames, and file uploads are out.
 - Snapshotting a Google Flights page costs 250 to 350 ms a step, and that is most of the gap to a loop tuned for one page.
+- After a value is typed with the native setter, pressing Enter submits a form only some of the time in headless Chrome. Click the submit control instead.
 
 ## Related work
 

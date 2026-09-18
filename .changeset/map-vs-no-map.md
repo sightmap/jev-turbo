@@ -1,0 +1,5 @@
+---
+"@sightmap/jev-turbo": patch
+---
+
+`--no-map` on `explore` and `bench` runs the same loop with no components, views, or memory, so a map's effect can be measured against the same site and model. Every step records the candidates offered, how many were named, the pick's confidence, whether the pick fell back to an unnamed node, and whether the step was wasted (stale, back, or a repeat). Runs and suites summarise these. `history_count` is a new finish check for long goals (`--done-when history_count=3:Finish`), and `bench/journeys.json` holds two 30–45 step saucedemo goals. Two loop fixes: a button inside a same-named form is a candidate again, and a suggestion list that reaches the tree late is observed twice, which also makes Google Flights work headless. jev-turbo no longer brings the browser tab to the front, and `--start` takes `--headless`. The README reports what the map changed: the same goals reached with and without it on three suites, and on Google Flights 9 steps a goal instead of 16, 1 unsure pick instead of 36, 101 seconds instead of 142 over ten runs.

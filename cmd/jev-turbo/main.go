@@ -65,8 +65,8 @@ func usage() {
 	fmt.Fprint(os.Stderr, `jev-turbo — browser use where Jev picks every step over a sightmap
 
 Commands:
-  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--record DIR]
-  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--record DIR]
+  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--no-map] [--record DIR]
+  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--no-map] [--record DIR]
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
   version
@@ -77,6 +77,7 @@ Session flags (explore, bench):
   --tab ID             tab to drive when several are open
   --url URL            navigate here first
   --start              run 'sightmap browser start --detach' when no session exists (needs sightmap on PATH)
+  --headless           with --start, launch the session headless
 
 Keys: TYPESAFE_API_KEY (Jev, required), ANTHROPIC_API_KEY (planner and the anthropic picker).
 `)
@@ -87,22 +88,24 @@ var errNotDone = fmt.Errorf("goal not reached")
 /* ---------------- session flags ---------------- */
 
 type liveFlags struct {
-	dir   *string
-	addr  *string
-	tab   *string
-	url   *string
-	wait  *float64
-	start *bool
+	dir      *string
+	addr     *string
+	tab      *string
+	url      *string
+	wait     *float64
+	start    *bool
+	headless *bool
 }
 
 func addLiveFlags(fs *flag.FlagSet) *liveFlags {
 	return &liveFlags{
-		dir:   fs.String("sightmap-dir", ".sightmap", "Path to the .sightmap/ corpus (its .session file locates Chrome)"),
-		addr:  fs.String("addr", "", "CDP address host:port (default: the session recorded for --sightmap-dir)"),
-		tab:   fs.String("tab", "", "Tab id from 'sightmap browser status' when several tabs are open"),
-		url:   fs.String("url", "", "Navigate to this URL before starting"),
-		wait:  fs.Float64("wait", 0, "Extra seconds to wait after navigation"),
-		start: fs.Bool("start", false, "Start a session with 'sightmap browser start --detach' when none is running"),
+		dir:      fs.String("sightmap-dir", ".sightmap", "Path to the .sightmap/ corpus (its .session file locates Chrome)"),
+		addr:     fs.String("addr", "", "CDP address host:port (default: the session recorded for --sightmap-dir)"),
+		tab:      fs.String("tab", "", "Tab id from 'sightmap browser status' when several tabs are open"),
+		url:      fs.String("url", "", "Navigate to this URL before starting"),
+		wait:     fs.Float64("wait", 0, "Extra seconds to wait after navigation"),
+		start:    fs.Bool("start", false, "Start a session with 'sightmap browser start --detach' when none is running"),
+		headless: fs.Bool("headless", false, "With --start, launch the session headless"),
 	}
 }
 
@@ -123,6 +126,9 @@ func (lf *liveFlags) connect(ctx context.Context) (*browser.CDPConn, error) {
 		if *lf.url != "" {
 			args = append(args, "--url", *lf.url)
 		}
+		if *lf.headless {
+			args = append(args, "--headless")
+		}
 		cmd := exec.Command("sightmap", args...)
 		cmd.Stdout, cmd.Stderr = os.Stderr, os.Stderr
 		if err := cmd.Run(); err != nil {
@@ -137,7 +143,6 @@ func (lf *liveFlags) connect(ctx context.Context) (*browser.CDPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	_ = browser.BringToFront(ctx, conn)
 	if *lf.url != "" {
 		if err := browser.NavigateAndWaitIdle(ctx, conn, *lf.url, 8*time.Second); err != nil {
 			conn.Close()
@@ -211,12 +216,13 @@ func runExplore(args []string) error {
 	goalFlag := fs.String("goal", "", "What to achieve, in plain words")
 	specFlag := fs.String("spec", "", "JSON spec file: done_when, values, hint, avoid")
 	var doneWhen, values, avoid stringList
-	fs.Var(&doneWhen, "done-when", "Deterministic finish check, repeatable: view=NAME | url=SUBSTR | text=SUBSTR | component=NAME | history=SUBSTR | prop=Comp.name~value[@Within.name~value]")
+	fs.Var(&doneWhen, "done-when", "Deterministic finish check, repeatable: view=NAME | url=SUBSTR | text=SUBSTR | component=NAME | history=SUBSTR | history_count=N:SUBSTR | prop=Comp.name~value[@Within.name~value]")
 	fs.Var(&values, "value", "A value the loop may type, as key=text (repeatable). The loop never invents text.")
 	fs.Var(&avoid, "avoid", "Drop controls whose name contains this (repeatable), e.g. Delete, Pay")
 	pickerFlag := fs.String("picker", "jev", "jev[:model] (TYPESAFE_API_KEY) or anthropic[:model] (ANTHROPIC_API_KEY)")
 	planFlag := fs.Bool("plan", false, "Ask Anthropic once to write the spec from the goal")
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring: name unmapped controls on every page visited")
+	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
 	maxStepsFlag := fs.Int("max-steps", 20, "Stop after this many steps")
 	jsonFlag := fs.Bool("json", false, "Print the run as JSON on stdout")
 	recordFlag := fs.String("record", "", "Capture the tab as JPEG frames into this directory while the goal runs (see scripts/render-demo.py)")
@@ -230,6 +236,9 @@ func runExplore(args []string) error {
 	if *goalFlag == "" {
 		return fmt.Errorf("explore needs --goal (or the goal as positional words)")
 	}
+	if *noMapFlag && *growFlag {
+		return fmt.Errorf("--no-map and --grow do not combine")
+	}
 
 	ctx := context.Background()
 	conn, err := lf.connect(ctx)
@@ -241,9 +250,12 @@ func runExplore(args []string) error {
 	if err != nil {
 		return err
 	}
-	if corpus == nil {
+	if *noMapFlag {
+		corpus = nil
+	} else if corpus == nil {
 		fmt.Fprintf(os.Stderr, "explore: no corpus at %q, driving the raw tree (add --grow to build one as you go)\n", *lf.dir)
 	}
+	hasMap := corpus != nil && len(corpus.AllComponents()) > 0
 	drv := explore.NewCDPDriver(conn, corpus)
 
 	hook, report, err := maybeGrow(*growFlag, *lf.dir, drv)
@@ -270,7 +282,7 @@ func runExplore(args []string) error {
 		}
 	}
 	run, err := explore.Explore(ctx, drv, explore.Options{
-		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, Hook: hook,
+		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, HasMap: hasMap, Hook: hook,
 		OnStep: func(s explore.Step) {
 			line := explore.FormatStep(s)
 			fmt.Fprintln(os.Stderr, line)
@@ -409,10 +421,11 @@ func runBench(args []string) error {
 	suiteFlag := fs.String("suite", "", "Suite JSON file (or pass it as the positional)")
 	pickerFlag := fs.String("picker", "jev", "jev[:model] or anthropic[:model]")
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring")
+	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
 	repeatFlag := fs.Int("repeat", 1, "Run the suite this many times")
 	onlyFlag := fs.String("only", "", "Only goals whose name contains this")
 	maxStepsFlag := fs.Int("max-steps", 0, "Override every goal's max_steps")
-	outFlag := fs.String("out", "", "Write the full result JSON here (default: explore-<suite>-<picker>-<time>.json)")
+	outFlag := fs.String("out", "", "Write the full result JSON here (default: explore-<suite>-<condition>-<picker>-<time>.json)")
 	recordFlag := fs.String("record", "", "Capture the tab as JPEG frames into this directory while the suite runs (see scripts/render-demo.py)")
 	pos, err := parseInterspersed(fs, args)
 	if err != nil {
@@ -423,6 +436,9 @@ func runBench(args []string) error {
 	}
 	if *suiteFlag == "" {
 		return fmt.Errorf("bench needs a suite file")
+	}
+	if *noMapFlag && *growFlag {
+		return fmt.Errorf("--no-map and --grow do not combine")
 	}
 	suite, err := explore.LoadSuite(*suiteFlag)
 	if err != nil {
@@ -451,6 +467,10 @@ func runBench(args []string) error {
 	if err != nil {
 		return err
 	}
+	if *noMapFlag {
+		corpus = nil
+	}
+	hasMap := corpus != nil && len(corpus.AllComponents()) > 0
 	drv := explore.NewCDPDriver(conn, corpus)
 	hook, report, err := maybeGrow(*growFlag, *lf.dir, drv)
 	if err != nil {
@@ -462,7 +482,7 @@ func runBench(args []string) error {
 	var rec *recorder
 	sopts := explore.SuiteOptions{
 		NewPicker: func() (explore.Picker, error) { return makePicker(*pickerFlag) },
-		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, Hook: hook, Out: os.Stderr,
+		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, HasMap: hasMap, Hook: hook, Out: os.Stderr,
 	}
 	if *recordFlag != "" {
 		// Recording starts when the first goal starts, after its reset, so the video opens on the start page.
@@ -494,7 +514,7 @@ func runBench(args []string) error {
 	fmt.Print("\n" + explore.FormatTable(res))
 	out := *outFlag
 	if out == "" {
-		out = fmt.Sprintf("explore-%s-%s-%s.json", suite.Name, strings.NewReplacer(":", "_", "/", "_").Replace(res.Picker), time.Now().Format("20060102-150405"))
+		out = fmt.Sprintf("explore-%s-%s-%s-%s.json", suite.Name, res.Condition, strings.NewReplacer(":", "_", "/", "_").Replace(res.Picker), time.Now().Format("20060102-150405"))
 	}
 	data, _ := json.MarshalIndent(res, "", " ")
 	if err := os.WriteFile(out, data, 0o644); err != nil {
