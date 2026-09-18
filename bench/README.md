@@ -236,40 +236,44 @@ back to a raw element on a step where no tool fits.
                       saucedemo/map/jev:jev-latest  saucedemo-tools/tools/jev:jev-latest
 reached               30/30                         30/30
 steps / goal          4.5                           2.5
-wasted steps          3                             9
+wasted steps          3                             18
 fallback picks        3                             0
-low-confidence picks  0                             13
-candidates offered    3                             25
+low-confidence picks  0                             14
+candidates offered    3                             30
 low-coverage pages    0                             0
-seconds               48.4                          84.8
+seconds               48.4                          79.5
 ```
 
 Both conditions reach all 30 goals. Tools mode takes fewer steps per goal, 2.5
 against 4.5, because one tool call folds several element actions into one
 step. For example `log_in` fills two fields and clicks Login, and
 `add_to_cart` clicks the product's button and waits for it to read Remove.
-Jev ran 68 tool calls across the 30 goals; 62 reported ok and 6 failed.
+Jev ran 76 tool calls across the 30 goals; 67 reported ok and 9 failed.
 
-Wasted steps go up, 9 against 3, and the failed calls are the whole
-difference. The map run's 3 are one repeated click, the same Add to cart pick
-taken twice on the same page, once in each of the three repeats. The tools run
-has that same repeated click plus its 6 failed tool calls, which the loop
-counts as wasted because nothing on the page moved.
+Wasted steps go up, 18 against 3. The map run's 3 are one repeated click, the
+same Add to cart pick taken twice on the same page, once in each of the three
+repeats. The tools run has that click as well, plus 6 failed `log_out` calls,
+8 repeated tool calls, and one repeated menu click. All 8 repeats are in a
+single logout run that cycled `log_out` and `log_in` four times before falling
+back to the menu link; the other two logout runs finished in six steps. Three
+more calls failed and are not counted: the locked-out logins, whose `wait_for`
+times out but whose error banner is what their goal asks for, so the next
+observation finishes the goal and the step keeps its work.
 
-Low-confidence picks go up too, 13 against 0, and that is not the failures: 7
-of the 13 are in goals where no tool failed. What moves them is the longer
-option list. Switching tools on takes the median options a step from 5 to 30,
+Low-confidence picks go up too, 14 against 0, and that is not the failures: 8
+of the 14 are in goals where no tool failed. What moves them is the longer
+option list. Switching tools on takes the median options a step from 5 to 37,
 and Jev spreads the same probability mass over more entries, so more picks
 land under the 0.6 line.
 
-Candidates offered rises to 25 from 3, but not because tools count as
+Candidates offered rises to 30 from 3, but not because tools count as
 candidates: `Step.Candidates` counts page elements only, and tools are counted
 separately, in `options`. With tools, login is a single `log_in` step, so fewer
 of the run's steps land on the Login page, which offers only 3 candidates. More
-of them land on the Inventory page instead, where the element count runs into
-the 30s, and that pulls the median up. Cart steps carry about 10.
+of them land on the Inventory page instead, where the median is 34, and that
+pulls the overall median up. Cart steps carry about 10.
 
-Seconds go up in tools mode, 84.8 s against 48.4 s, even with fewer steps,
+Seconds go up in tools mode, 79.5 s against 48.4 s, even with fewer steps,
 because a tool call is not one browser action. Each `sightkick call --via cli`
 run is several `sightmap browser` commands in sequence, and some of those,
 mainly click and fill, stall on saucedemo's own elements before returning.
@@ -280,7 +284,7 @@ Commands:
 cd bench
 
 sightmap browser start --detach --headless --url https://www.saucedemo.com/ --sightmap-dir saucedemo/.sightmap \
-  --profile ~/.sightmap/profiles/explore-saucedemo --port 7959 --cdp-port 7960
+  --profile ~/.sightmap/profiles/explore-saucedemo --port 7961 --cdp-port 7962
 jev-turbo bench saucedemo-tools.json --repeat 3 --out results/saucedemo-tools.json
 cd saucedemo && sightmap browser stop && cd ..
 
