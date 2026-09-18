@@ -1,8 +1,8 @@
 # jev-turbo
 
-**Browser use where a 200 ms model picks every step.**
+**Browser use where a 200 ms model picks every step, measured with and without a map of the site.**
 
-Give it one goal. A [sightmap](https://sightmap.org) turns the page into a short list of named actions. [Jev](https://docs.typesafe.ai/introduction), TypeSafe's typed-answer model, picks one and says whether the goal is met. No large model is called to act, so a step takes well under a second.
+Give it one goal. A [sightmap](https://sightmap.org) turns the page into a short list of named actions. [Jev](https://docs.typesafe.ai/introduction), TypeSafe's typed-answer model, picks one and says whether the goal is met. No large model is called to act. jev-turbo runs that loop with the map and without it, over the same site and the same model, and reports what the map changed.
 
 <a href="docs/demo.mp4"><img src="docs/demo.gif" alt="One-way Zürich to London on Google Flights at 1x: nine actions in 8.9 seconds, every one picked by Jev over a 14-component sightmap" width="100%" /></a>
 
@@ -48,23 +48,28 @@ No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--
 
 Jev never writes text. Everything the loop types comes from `--value` or a spec file. If you would rather have a model write the spec, `--plan` calls Claude once per goal. That is the only large-model call in the tool, and it is optional.
 
-## Numbers
+## What the map changed
 
-Three sites, ten goals each on the first two, one goal run five times on the third. The right column is the same loop with Claude Sonnet picking instead of Jev, for scale.
+Same loop, same site, same model, run once with a sightmap and once with `--no-map` so Jev sees the raw HTML and ARIA tree instead.
 
-| site | Jev | Claude Sonnet in the same seat |
-|---|---|---|
-| saucedemo.com, 39-component map | 10/10, 0.24 s a step | 10/10, 1.16 s a step, $0.25 |
-| books.toscrape.com, no map | 10/10, 0.30 s a step | 9/10, 2.54 s a step, $0.81 |
-| Google Flights, Zürich to London | 5/5, median 8.4 s a run | 1/1, 61.6 s, $0.29 |
+| suite | condition | goals reached | steps per goal | wasted steps | unsure picks | seconds |
+|---|---|---|---|---|---|---|
+| saucedemo, 10 goals ×3 | map | 30/30 | 5 | 3 | 0 | 48.4 |
+| saucedemo, 10 goals ×3 | no map | 30/30 | 5 | 3 | 2 | 45.6 |
+| journeys, 2 long goals ×3 | map | 3/6 | 13 | 63 | 34 | 53.8 |
+| journeys, 2 long goals ×3 | no map | 3/6 | 13 | 53 | 49 | 53.4 |
+| Google Flights, Zürich to London ×10 | map | 10/10 | 9 | 2 | 1 | 100.6 |
+| Google Flights, Zürich to London ×10 | no map | 10/10 | 16 | 12 | 36 | 142.2 |
 
-Growing books.toscrape.com from an empty map takes one pass: 10/10 goals, 89% of the visited pages covered after the first pass and 100% after the second. Suites, maps, and every run file are in [`bench/`](bench/README.md).
+On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights: steps per goal went from 16 to 9, unsure picks from 36 to 1, and the ten runs took 101 seconds instead of 142. On saucedemo, whose raw tree already carries good names, the map changed nothing. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time; that is a limit of the loop, not something the map caused.
+
+Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet comparison, are in [`bench/`](bench/README.md).
 
 ## Commands
 
 ```
-jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--record DIR]
-jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--record DIR]
+jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--record DIR] [--no-map]
+jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--record DIR] [--no-map]
 jev-turbo plan    --goal "..." [--site host]
 jev-turbo graph   [RUN.json ...]
 ```
