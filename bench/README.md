@@ -83,11 +83,13 @@ saucedemo and 3.7k on the books home page; output under 200.
 
 Same loop, same site, same model, run once with a sightmap and once with
 `--no-map`, which points the loop at an empty corpus so every candidate is an
-unnamed node from the raw HTML and ARIA tree. `jev-turbo` at commit `8bda9cd`
-on this branch (`map-vs-no-map`), Jev `jev-latest`. Saucedemo and journeys ran
-headless in one session; Google Flights ran headless in a second session with
-a fresh Chrome profile, because a reused profile pre-fills places from earlier
-searches and the run drifts.
+unnamed node from the raw HTML and ARIA tree. Jev `jev-latest`, on this branch
+(`map-vs-no-map`): saucedemo and journeys at commit `8bda9cd`, Google Flights
+rerun at commit `111c91c`, once a grouped step started recording the joint
+probability of its two answers rather than the second one alone. Saucedemo and
+journeys ran headless in one session; Google Flights ran headless in a second
+session with a fresh Chrome profile, because a reused profile pre-fills places
+from earlier searches and the run drifts.
 
 | suite | condition | goals reached | steps per reached goal (median) | wasted steps | low-confidence picks | candidates a step (median) | seconds |
 |---|---|---|---|---|---|---|---|
@@ -95,8 +97,8 @@ searches and the run drifts.
 | saucedemo, 10 goals ×3 | no map | 30/30 | 4.5 | 3 | 2 | 3 | 45.6 |
 | journeys, 2 long goals ×3 | map | 3/6 | 13 | 63 | 34 | 9 | 53.8 |
 | journeys, 2 long goals ×3 | no map | 3/6 | 13 | 53 | 49 | 10 | 53.4 |
-| Google Flights, Zürich to London ×10 | map | 10/10 | 9 | 2 | 1 | 78 | 100.6 |
-| Google Flights, Zürich to London ×10 | no map | 10/10 | 16 | 12 | 36 | 78 | 142.2 |
+| Google Flights, Zürich to London ×10 | map | 10/10 | 10 | 7 | 4 | 78 | 116.3 |
+| Google Flights, Zürich to London ×10 | no map | 10/10 | 15 | 12 | 47 | 78 | 143.2 |
 
 Commands:
 
@@ -112,7 +114,7 @@ jev-turbo bench journeys.json --repeat 3 --no-map --out results/journeys-no-map.
 cd saucedemo && sightmap browser stop && cd ..
 
 sightmap browser start --detach --headless --url 'https://www.google.com/travel/flights?hl=en&curr=USD' --sightmap-dir flights/.sightmap \
-  --profile ~/.sightmap/profiles/explore-flights-5 --port 7953 --cdp-port 7954
+  --profile ~/.sightmap/profiles/explore-flights-7 --port 7953 --cdp-port 7954
 jev-turbo bench flights.json --repeat 10 --out results/flights-map.json
 jev-turbo bench flights.json --repeat 10 --no-map --out results/flights-no-map.json
 cd flights && sightmap browser stop && cd ..
