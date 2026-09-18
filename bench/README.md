@@ -150,8 +150,9 @@ Both fixes are on this branch, ahead of the six runs in the table above.
 
 ## Map score
 
-`jev-turbo score` reads one or more run files and prints one column per
-file, so any number of runs sit side by side. It is the table above, built
+`jev-turbo score` reads one or more files, each a bench result or a single
+run file, and prints one column per file, so any number of runs sit side by
+side. It is the table above, built
 by `explore.ScoreResult` instead of by hand, and it runs on any run file,
 not only a map-versus-no-map pair.
 
