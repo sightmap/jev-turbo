@@ -10,7 +10,7 @@ environment (`TYPESAFE_API_KEY`; `ANTHROPIC_API_KEY` only for
 | suite | site | corpus | what it tests |
 |---|---|---|---|
 | `saucedemo.json` | saucedemo.com | `saucedemo/.sightmap` (39 components, from the sightkick example) | a mapped site: login, cart, a 12-step checkout, a select, a menu, an error state; finish checks are URL and text so `--no-map` can pass them |
-| `saucedemo-tools.json` | saucedemo.com | `saucedemo/.sightmap` + `saucedemo/.sightkick` (17 tools, the sightkick example) | the same ten goals as `saucedemo.json`, run with `--tools saucedemo` so the picker sees tools like `log_in` and `add_to_cart` ahead of raw elements |
+| `saucedemo-tools.json` | saucedemo.com | `saucedemo/.sightmap` + `saucedemo/.sightkick` (17 tools, the sightkick example) | the same ten goals as `saucedemo.json`, plus a `name` value on the four product goals, run over the tool layer named by the suite's `tools` field so the picker sees tools like `log_in` and `add_to_cart` ahead of raw elements |
 | `books.json` | books.toscrape.com | `books/.sightmap` (empty) | an unmapped site with 114 raw links on the home page: categories, pagination, detail pages |
 | `flights.json` | Google Flights | `flights/.sightmap` (14 components, 6 memory lines) | the jev-ultrafast task: one-way Zürich to London on September 20, 2026; suggestion dialogs, a select, a typed date, a results page that renders late |
 | `journeys.json` | saucedemo.com | `saucedemo/.sightmap` | two long goals (30–45 steps): three separate orders; sort and buy the two cheapest |
@@ -219,10 +219,14 @@ seconds               48.4                          45.6                        
 
 ## Tools mode
 
-Same ten saucedemo goals as `saucedemo.json`, run with `--tools saucedemo` so
-Jev sees the sightkick tool layer's 17 tools, such as `log_in`, `add_to_cart`,
-and `go_to_cart`, offered ahead of the raw sightmap elements, over the same
-`saucedemo/.sightmap` corpus. When Jev picks a tool, jev-turbo runs it with
+Same ten saucedemo goals as `saucedemo.json`, over the same
+`saucedemo/.sightmap` corpus, with the sightkick tool layer named by the
+suite's `tools` field switched on, so Jev sees its 17 tools, such as `log_in`,
+`add_to_cart`, and `go_to_cart`, offered ahead of the raw sightmap elements.
+The goals are not quite identical: `saucedemo-tools.json` adds a `name` value
+to the four product goals, so that `add_to_cart(name)` and `open_item(name)`
+have the argument they require and can be offered at all. When Jev picks a
+tool, jev-turbo runs it with
 `sightkick call <app dir> <tool> --param k=v --via cli`. That command
 translates the tool's steps into `sightmap browser` commands (a snapshot, a
 click or fill, a wait) against the same recorded session. Jev can still fall
@@ -244,21 +248,31 @@ Both conditions reach all 30 goals. Tools mode takes fewer steps per goal, 2.5
 against 4.5, because one tool call folds several element actions into one
 step. For example `log_in` fills two fields and clicks Login, and
 `add_to_cart` clicks the product's button and waits for it to read Remove.
-Jev ran 68 tool calls across the 30 goals; 62 reported ok and 6 failed. It
-also shows more wasted steps, 9 against 3, and more low-confidence picks, 13
-against 0: some of that is a tool failing partway through, such as a click
-that cannot be scrolled into view or a wait that times out, and the loop
-retrying as its own step, which the score counts. Candidates offered rises to
-25 from 3, but not because tools count as candidates: `Step.Candidates`
-counts page elements only, and tools are counted separately, in `options`.
-With tools, login is a single `log_in` step, so fewer of the run's steps land
-on the Login page, which offers only 3 candidates. More of the run's steps
-land on the Inventory and Cart pages instead, where the element count runs
-into the 30s, and that pulls the median up. Seconds go up in tools mode,
-84.8s against 48.4s, even with fewer steps, because a tool call is not one
-browser action. Each `sightkick call --via cli` run is several `sightmap
-browser` commands in sequence, and some of those, mainly click and fill,
-stall on saucedemo's own elements before returning.
+Jev ran 68 tool calls across the 30 goals; 62 reported ok and 6 failed.
+
+Wasted steps go up, 9 against 3, and the failed calls are the whole
+difference. The map run's 3 are one repeated click, the same Add to cart pick
+taken twice on the same page, once in each of the three repeats. The tools run
+has that same repeated click plus its 6 failed tool calls, which the loop
+counts as wasted because nothing on the page moved.
+
+Low-confidence picks go up too, 13 against 0, and that is not the failures: 7
+of the 13 are in goals where no tool failed. What moves them is the longer
+option list. Switching tools on takes the median options a step from 5 to 30,
+and Jev spreads the same probability mass over more entries, so more picks
+land under the 0.6 line.
+
+Candidates offered rises to 25 from 3, but not because tools count as
+candidates: `Step.Candidates` counts page elements only, and tools are counted
+separately, in `options`. With tools, login is a single `log_in` step, so fewer
+of the run's steps land on the Login page, which offers only 3 candidates. More
+of them land on the Inventory page instead, where the element count runs into
+the 30s, and that pulls the median up. Cart steps carry about 10.
+
+Seconds go up in tools mode, 84.8 s against 48.4 s, even with fewer steps,
+because a tool call is not one browser action. Each `sightkick call --via cli`
+run is several `sightmap browser` commands in sequence, and some of those,
+mainly click and fill, stall on saucedemo's own elements before returning.
 
 Commands:
 
