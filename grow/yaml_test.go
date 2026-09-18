@@ -159,7 +159,9 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 	root := &sightmap.ComponentNode{Id: "root", Role: "none", IsVisible: true, Element: &sightmap.Element{Tag: "body"}, Children: []*sightmap.ComponentNode{list, logo}}
 
 	res := &observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{}}
-	page := explore.NewPage(res, "https://b/")
+	// /about is not a route in the fixture corpus, so ensureView writes a new
+	// view before any component lands: the run adds a view and two components.
+	page := explore.NewPage(res, "https://b/about/")
 	g := New(dir, classifyAll{kind: "link"})
 	if err := g.OnPage(context.Background(), page); err != nil {
 		t.Fatal(err)
@@ -169,29 +171,33 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 	// is always decisive), so classify never reaches the picker: Calls is 0,
 	// not one per group, while the corpus output (Added, names, selectors) is
 	// unchanged.
-	if st.Added != 2 || st.Calls != 0 {
+	if st.Added != 2 || st.Calls != 0 || st.Views != 1 {
 		t.Fatalf("stats = %+v", st)
 	}
 	c, err := sightmap.Load(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
-	home := c.ViewByName("Home")
+	about := c.ViewByName("About")
 	var names, sels []string
-	for _, comp := range home.Components {
+	for _, comp := range about.Components {
 		names = append(names, comp.Name)
 		sels = append(sels, comp.Selectors[0])
 	}
 	if strings.Join(names, ",") != "NavListLink,LogoLink" || strings.Join(sels, ",") != "ul.nav-list a,#logo" {
 		t.Fatalf("names = %v sels = %v", names, sels)
 	}
-	// Stats().Components mirrors the added list: one entry per written component.
+	// Stats().Components lists the written components only. The About view is
+	// in Names and counted in Views, but it is not a component row.
 	wantComponents := []Added{
-		{Name: "NavListLink", View: "Home", Selector: "ul.nav-list a", Kind: "link", Count: 2},
-		{Name: "LogoLink", View: "Home", Selector: "#logo", Kind: "link", Count: 1},
+		{Name: "NavListLink", View: "About", Selector: "ul.nav-list a", Kind: "link", Count: 2},
+		{Name: "LogoLink", View: "About", Selector: "#logo", Kind: "link", Count: 1},
 	}
 	if !reflect.DeepEqual(st.Components, wantComponents) {
 		t.Fatalf("components = %+v", st.Components)
+	}
+	if strings.Join(st.Names, ",") != "About,NavListLink,LogoLink" {
+		t.Fatalf("names = %v", st.Names)
 	}
 	// the new corpus covers the page
 	if OfflineCount(root, "ul.nav-list a") != 2 {
@@ -201,7 +207,7 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 	res2 := &observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{
 		li1.Children[0]: {Name: "NavListLink"}, li2.Children[0]: {Name: "NavListLink"}, logo: {Name: "LogoLink"},
 	}}
-	if err := g.OnPage(context.Background(), explore.NewPage(res2, "https://b/")); err != nil {
+	if err := g.OnPage(context.Background(), explore.NewPage(res2, "https://b/about/")); err != nil {
 		t.Fatal(err)
 	}
 	if g.Stats().Added != 2 {
