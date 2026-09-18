@@ -36,7 +36,9 @@ func ScoreResult(res *SuiteResult) Score {
 	if res.Condition != "" {
 		label += "/" + res.Condition
 	}
-	label += "/" + res.Picker
+	if res.Picker != "" {
+		label += "/" + res.Picker
+	}
 	s := Score{Label: label, Condition: res.Condition}
 	var stepsPerGoal, cands []float64
 	lowCov := map[string]bool{}
@@ -117,15 +119,16 @@ func FormatScores(scores []Score) string {
 	widths := make([]int, len(rows[0]))
 	for _, r := range rows {
 		for i, c := range r {
-			if len(c) > widths[i] {
-				widths[i] = len(c)
+			if l := len([]rune(c)); l > widths[i] {
+				widths[i] = l
 			}
 		}
 	}
 	var b strings.Builder
 	for _, r := range rows {
 		for i, c := range r {
-			fmt.Fprintf(&b, "%-*s  ", widths[i], c)
+			b.WriteString(c)
+			b.WriteString(strings.Repeat(" ", widths[i]-len([]rune(c))+2))
 		}
 		b.WriteString("\n")
 	}
