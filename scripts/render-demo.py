@@ -1,40 +1,52 @@
 #!/usr/bin/env python3
-"""Assemble a recorded run (jev-turbo explore --record DIR) into an MP4 and a GIF.
+"""Assemble one or more recorded runs (jev-turbo explore --record DIR) into an MP4 and a GIF.
 
     python3 scripts/render-demo.py DIR out/demo [--title "Zürich → London"] [--subtitle "..."]
     python3 scripts/render-demo.py DIR out/still.png --still 3200      # one composed frame at 3.2 s
 
+    python3 scripts/render-demo.py --compare "without a map=DIR1" "with a map=DIR2" out/demo [--title ...] [--subtitle ...]
+    python3 scripts/render-demo.py --compare "without a map=DIR1" "with a map=DIR2" out/still.png --still 1:3200
+
 The page sits on the left in a browser frame. The run sits on the right: the
-elapsed clock, one row per action with the sightmap component it used, the
-finish check, and the median Jev pick. Frames play at the wall-clock intervals
-they were captured at, so the video runs at 1x. Needs ffmpeg and Pillow.
+elapsed clock, one row per action with the sightmap component it used (or the
+sightkick tool it ran) and how many candidates it chose among, the finish
+check, and the median Jev pick. Frames play at the wall-clock intervals they
+were captured at, so the video runs at 1x.
+
+In --compare mode, any number of "LABEL=DIR" acts render back to back into one
+video, each with a pill in the top right showing its position and label. Every
+act but the last holds 1.2 s on its final frame before the next begins; the
+last holds 1.5 s. The default --title summarizes step counts per act. Needs
+ffmpeg and Pillow.
 """
 import argparse, json, os, re, shutil, subprocess, sys, tempfile
 
 from PIL import Image, ImageDraw, ImageFont
 
 ap = argparse.ArgumentParser()
-ap.add_argument("src")
-ap.add_argument("out")
+ap.add_argument("--compare", action="store_true", help="render several recordings as acts of one video")
+ap.add_argument("rest", nargs="+", help="SRC OUT, or with --compare: LABEL=DIR ... OUT")
 ap.add_argument("--title", default="")
 ap.add_argument("--subtitle", default="One goal. Every pick by Jev over a sightmap.")
-ap.add_argument("--still", type=int, default=None, help="render one frame at this ms offset to OUT and stop")
+ap.add_argument("--still", default=None, help="render one frame and stop: MS, or with --compare: ACT_INDEX:MS")
 ap.add_argument("--width", type=int, default=1200)
 args = ap.parse_args()
-src = args.src
 
-frames = [json.loads(l) for l in open(os.path.join(src, "frames.jsonl")) if l.strip()]
-events = [json.loads(l) for l in open(os.path.join(src, "events.jsonl")) if l.strip()]
-if not frames:
-    sys.exit("no frames")
-run_path = os.path.join(src, "run.json")
-run = json.load(open(run_path)) if os.path.exists(run_path) else {}
-if "runs" in run:
-    run = run["runs"][0]
-spec = run.get("spec") or {}
-values = spec.get("values") or {}
-total_ms = run.get("ms") or frames[-1]["t"]
-tail_ms = 700
+if args.compare:
+    if len(args.rest) < 2:
+        ap.error("--compare needs at least one LABEL=DIR act and an OUT path")
+    *act_args, out = args.rest
+    acts_spec = []
+    for a in act_args:
+        if "=" not in a:
+            ap.error(f"expected LABEL=DIR, got {a!r}")
+        label, _, d = a.partition("=")
+        acts_spec.append((label, d))
+else:
+    if len(args.rest) != 2:
+        ap.error("expected SRC OUT")
+    src, out = args.rest
+    acts_spec = [(None, src)]
 
 # sightmap.org palette
 BG, TEXT, TEXT2, DIM, BORDER, SUBTLE, RAISED = "#faf8f6", "#1a1714", "#3d3929", "#8a8272", "#e5e0da", "#f0ece8", "#ffffff"
@@ -60,17 +72,20 @@ def font(kind, size):
 
 
 F = {k: font(*v) for k, v in {
-    "brand": ("bold", 22), "brand2": ("sans", 17), "pill": ("mono", 11), "h1": ("bold", 40), "sub": ("sans", 17),
+    "brand": ("bold", 22), "brand2": ("sans", 17), "pill": ("mono", 11), "sub": ("sans", 17),
     "url": ("mono", 12), "label": ("mono", 12), "clock": ("monobold", 54), "clockcap": ("mono", 11),
     "row": ("bold", 16), "rowsub": ("mono", 11), "card": ("bold", 15), "cardline": ("mono", 12),
     "stat": ("monobold", 22), "statcap": ("sans", 12), "foot": ("sans", 12), "footmono": ("mono", 11),
 }.items()}
 
+H1_SIZE = 40
+
 ACTION = re.compile(r'^(filled|clicked|selected|typed|chose|opened) \[(\w+)((?: [^\]]*)?)\](?: with (\w+))?')
 PROP = re.compile(r'(\w+)="([^"]*)"')
+TOOL_TEXT = re.compile(r'^ran tool (\w+)\(|^tool (\w+) failed:')
 
 
-def human(text):
+def human(text, values):
     """One line for a person, and one line naming the sightmap component."""
     m = ACTION.match(text)
     if not m:
@@ -103,17 +118,11 @@ def human(text):
     return label, comp
 
 
-rows = []
-for ev in events:
-    if ev["text"].startswith("stale") or ev["text"] == "done":
-        continue
-    label, comp = human(ev["text"])
-    rows.append({"t": ev["t"], "label": label, "comp": comp, "view": ev.get("view", ""), "step": ev["step"]})
-done_at = next((ev["t"] for ev in events if ev["text"] == "done"), None)
-if run.get("ok") and done_at is None:
-    done_at = total_ms
+def tool_name(text):
+    m = TOOL_TEXT.match(text)
+    return (m.group(1) or m.group(2)) if m else None
 
-# finish check lines
+
 def check_lines(dw):
     if not dw:
         return ["Jev's own done answer ≥ 0.85"]
@@ -128,10 +137,71 @@ def check_lines(dw):
     return []
 
 
-checks = check_lines(spec.get("done_when") or run.get("done_when"))[:3]
-picks = [s.get("ms_pick") for s in run.get("steps", []) if s.get("ms_pick")]
-median_pick = sorted(picks)[len(picks) // 2] if picks else None
-llm_calls = (run.get("picker_stats") or {}).get("llm_calls", 0)
+def title_case(name, sep=" "):
+    return name.replace("-", sep).title()
+
+
+def load(src):
+    """Load one recording directory into everything compose() needs to draw it."""
+    frames = [json.loads(l) for l in open(os.path.join(src, "frames.jsonl")) if l.strip()]
+    events = [json.loads(l) for l in open(os.path.join(src, "events.jsonl")) if l.strip()]
+    if not frames:
+        sys.exit(f"no frames: {src}")
+    run_path = os.path.join(src, "run.json")
+    run = json.load(open(run_path)) if os.path.exists(run_path) else {}
+    if "runs" in run:
+        run = run["runs"][0]
+    spec = run.get("spec") or {}
+    values = spec.get("values") or {}
+    total_ms = run.get("ms") or frames[-1]["t"]
+    steps_by_n = {s.get("step"): s for s in run.get("steps", [])}
+
+    rows = []
+    for ev in events:
+        if ev["text"].startswith("stale") or ev["text"] == "done":
+            continue
+        step = steps_by_n.get(ev["step"], {})
+        tool = step.get("tool") or ""
+        if tool:
+            label = tool_name(ev["text"]) or tool
+            sub = f"tool › {tool}"
+        else:
+            label, comp = human(ev["text"], values)
+            sub = f"{ev.get('view', '')} › {comp}" if ev.get("view") and comp else (comp or "")
+        rows.append({"t": ev["t"], "label": label, "sub": sub, "candidates": step.get("candidates")})
+
+    done_at = next((ev["t"] for ev in events if ev["text"] == "done"), None)
+    ok = bool(run.get("ok"))
+    if ok and done_at is None:
+        done_at = total_ms
+
+    checks = check_lines(spec.get("done_when") or run.get("done_when"))[:3]
+    picks = [s.get("ms_pick") for s in run.get("steps", []) if s.get("ms_pick")]
+    median_pick = sorted(picks)[len(picks) // 2] if picks else None
+
+    return {
+        "src": src, "frames": frames, "run": run, "rows": rows,
+        "done_at": done_at, "total_ms": total_ms, "checks": checks, "median_pick": median_pick,
+        "ok": ok, "name": run.get("name", "run"), "n_steps": len(run.get("steps", [])),
+        "url": (run.get("steps") or [{}])[0].get("url", "") or "",
+        "llm_calls": (run.get("picker_stats") or {}).get("llm_calls", 0),
+    }
+
+
+def single_title(rec):
+    return f"{title_case(rec['name'], ' → ')}. {rec['total_ms'] / 1000:.1f} seconds."
+
+
+def compare_title(name, acts):
+    """acts: [(label, rec), ...] in play order."""
+    clauses = []
+    for i, (label, rec) in enumerate(acts):
+        clause = f"{rec['n_steps']} steps {label}" if i == 0 else f"{rec['n_steps']} {label}"
+        if not rec["ok"]:
+            clause += " (not reached)"
+        clauses.append(clause)
+    return f"{title_case(name)}. {', '.join(clauses)}."
+
 
 W = args.width
 H = round(W * 800 / 1200)
@@ -151,7 +221,27 @@ def text_w(draw, s, f):
     return r - l
 
 
-def compose(page, t_ms):
+def fit_font(text, kind, max_w, start_size, min_size=20):
+    """The largest size of kind, down to min_size, that fits text in max_w.
+
+    A single-dir title is short and always fits at start_size; a --compare
+    title lists steps per act and can run long, so it shrinks to fit instead
+    of running off the frame.
+    """
+    probe = ImageDraw.Draw(Image.new("RGB", (1, 1)))
+    for size in range(start_size, min_size, -1):
+        f = font(kind, size)
+        if text_w(probe, text, f) <= max_w:
+            return f
+    return font(kind, min_size)
+
+
+def compose(rec, page, t_ms, act):
+    """One frame: the page on the left, the run's progress on the right.
+
+    act is None in single-dir mode, or {"label", "index", "count", "accent"}
+    when playing one act of a --compare video.
+    """
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
 
@@ -160,13 +250,17 @@ def compose(page, t_ms):
     d.text((x, S(26)), "jev-turbo", font=F["brand"], fill=TEXT)
     x += text_w(d, "jev-turbo", F["brand"]) + S(12)
     d.text((x, S(30)), "sightmap × TypeSafe Jev", font=F["brand2"], fill=DIM)
-    pill = "LIVE SITE · 1× SPEED · 0 LLM CALLS" if not llm_calls else "LIVE SITE · 1× SPEED"
+    if act is None:
+        pill = "LIVE SITE · 1× SPEED · 0 LLM CALLS" if not rec["llm_calls"] else "LIVE SITE · 1× SPEED"
+        pill_fill, pill_text = ACCENT_DIM, ACCENT
+    else:
+        pill = f"{act['index'] + 1}/{act['count']} · {act['label'].upper()}"
+        pill_fill, pill_text = (ACCENT_DIM, ACCENT) if act["accent"] else (SUBTLE, DIM)
     pw = text_w(d, pill, F["pill"]) + S(28)
-    rounded(d, (W - S(28) - pw, S(24), W - S(28), S(24) + S(26)), S(13), fill=ACCENT_DIM)
-    d.text((W - S(28) - pw + S(14), S(31)), pill, font=F["pill"], fill=ACCENT)
-    title = args.title or (f"{run.get('name', 'run').replace('-', ' → ').title()}. {total_ms / 1000:.1f} seconds.")
-    d.text((S(28), S(58)), title, font=F["h1"], fill=TEXT)
-    d.text((S(28), S(108)), args.subtitle, font=F["sub"], fill=DIM)
+    rounded(d, (W - S(28) - pw, S(24), W - S(28), S(24) + S(26)), S(13), fill=pill_fill)
+    d.text((W - S(28) - pw + S(14), S(31)), pill, font=F["pill"], fill=pill_text)
+    d.text((S(28), S(58)), TITLE, font=TITLE_FONT, fill=TEXT)
+    d.text((S(28), S(108)), SUBTITLE, font=F["sub"], fill=DIM)
 
     # browser frame
     fx, fy, fw = S(28), S(146), S(820)
@@ -176,8 +270,7 @@ def compose(page, t_ms):
     for i, c in enumerate(("#ff5f57", "#febc2e", "#28c840")):
         cx = fx + S(16) + i * S(18)
         d.ellipse((cx, fy + S(10), cx + S(10), fy + S(20)), fill=c)
-    url = (run.get("steps") or [{}])[0].get("url", "") or ""
-    url = re.sub(r"^https?://(www\.)?", "", url).split("?")[0]
+    url = re.sub(r"^https?://(www\.)?", "", rec["url"]).split("?")[0]
     d.text((fx + S(80), fy + S(8)), url[:60], font=F["url"], fill="#9aa3b2")
     scaled = page.resize((fw, ph), Image.LANCZOS)
     mask = Image.new("L", (fw, ph), 255)
@@ -188,11 +281,14 @@ def compose(page, t_ms):
     # right column
     rx, ry = S(876), S(148)
     d.text((rx, ry), "JEV-TURBO", font=F["label"], fill=ACCENT)
-    clock = f"{min(t_ms, done_at or t_ms) / 1000:05.2f}"
+    clock = f"{min(t_ms, rec['done_at'] or t_ms) / 1000:05.2f}"
     d.text((rx - S(2), ry + S(18)), clock, font=F["clock"], fill=TEXT)
     d.text((rx, ry + S(84)), "SECONDS ELAPSED", font=F["clockcap"], fill=DIM)
+    cap = "choices"
+    d.text((W - S(28) - text_w(d, cap, F["label"]), ry + S(84)), cap, font=F["label"], fill=DIM)
 
     # rows
+    rows = rec["rows"]
     y = ry + S(116)
     rh = S(38)
     max_rows = 9
@@ -207,32 +303,40 @@ def compose(page, t_ms):
         else:
             d.ellipse((cx - S(10), cy - S(10), cx + S(10), cy + S(10)), fill=SUBTLE, outline=BORDER)
         d.text((rx + S(32), y - S(1)), r["label"], font=F["row"], fill=TEXT if state == "done" else DIM)
-        sub = f"{r['view']} › {r['comp']}" if r["view"] and r["comp"] else (r["comp"] or "")
-        d.text((rx + S(32), y + S(20)), sub, font=F["rowsub"], fill=ACCENT if state == "done" else DIM)
+        d.text((rx + S(32), y + S(20)), r["sub"], font=F["rowsub"], fill=ACCENT if state == "done" else DIM)
+        if r["candidates"] is not None:
+            ntxt = str(r["candidates"])
+            d.text((W - S(28) - text_w(d, ntxt, F["rowsub"]), y + S(4)), ntxt, font=F["rowsub"], fill=DIM)
         y += rh
 
     # one line of numbers, then the finish check
     sy = ry + S(116) + rh * min(max_rows, len(rows)) + S(4)
     stats = []
-    if median_pick:
-        stats.append(f"{median_pick} ms median decision")
+    if rec["median_pick"]:
+        stats.append(f"{rec['median_pick']} ms median decision")
     stats.append(f"{len(rows)} actions")
     d.text((rx, sy), " · ".join(stats), font=F["cardline"], fill=DIM)
     cy0 = sy + S(26)
-    finished = done_at is not None and t_ms >= done_at
-    ch = S(30) + S(18) * max(1, len(checks)) + S(12)
-    rounded(d, (rx, cy0, W - S(28), cy0 + ch), S(10), fill=ACCENT_DIM if finished else SUBTLE)
-    d.text((rx + S(14), cy0 + S(10)), "Goal reached" if finished else "Finish check", font=F["card"], fill=ACCENT if finished else TEXT2)
-    yy = cy0 + S(32)
-    for c in checks:
-        mark = "✓ " if finished else "· "
-        d.text((rx + S(14), yy), (mark + c)[:38], font=F["cardline"], fill=TEXT2 if finished else DIM)
-        yy += S(18)
+    if not rec["ok"]:
+        ch = S(30) + S(18) + S(12)
+        rounded(d, (rx, cy0, W - S(28), cy0 + ch), S(10), fill=SUBTLE)
+        d.text((rx + S(14), cy0 + S(10)), f"Not reached · {rec['n_steps']} steps", font=F["card"], fill=TEXT2)
+    else:
+        checks = rec["checks"]
+        finished = rec["done_at"] is not None and t_ms >= rec["done_at"]
+        ch = S(30) + S(18) * max(1, len(checks)) + S(12)
+        rounded(d, (rx, cy0, W - S(28), cy0 + ch), S(10), fill=ACCENT_DIM if finished else SUBTLE)
+        d.text((rx + S(14), cy0 + S(10)), "Goal reached" if finished else "Finish check", font=F["card"], fill=ACCENT if finished else TEXT2)
+        yy = cy0 + S(32)
+        for c in checks:
+            mark = "✓ " if finished else "· "
+            d.text((rx + S(14), yy), (mark + c)[:38], font=F["cardline"], fill=TEXT2 if finished else DIM)
+            yy += S(18)
 
     # footer
     py = H - S(44)
     d.rectangle((S(28), py, W - S(28), py + S(3)), fill=BORDER)
-    frac = min(1.0, t_ms / max(1, done_at or total_ms))
+    frac = min(1.0, t_ms / max(1, rec["done_at"] or rec["total_ms"]))
     d.rectangle((S(28), py, S(28) + round((W - S(56)) * frac), py + S(3)), fill=ACCENT)
     d.text((S(28), py + S(12)), "Jev picks each step from the sightmap's named components. Typed values come from the spec. Original timing, waits included.", font=F["foot"], fill=DIM)
     tag = "github.com/sightmap/jev-turbo"
@@ -240,7 +344,7 @@ def compose(page, t_ms):
     return img
 
 
-def frame_at(t_ms):
+def frame_at(frames, t_ms):
     cur = frames[0]
     for fr in frames:
         if fr["t"] <= t_ms:
@@ -248,29 +352,71 @@ def frame_at(t_ms):
     return cur
 
 
+def render_frames(rec, act, hold_ms, tmp, start_idx):
+    """Compose every frame of one recording to tmp, holding hold_ms on the last.
+
+    Returns (paths, durations_ms, next_start_idx).
+    """
+    paths = []
+    for fr in rec["frames"]:
+        page = Image.open(os.path.join(rec["src"], fr["file"])).convert("RGB")
+        path = os.path.join(tmp, f"r{start_idx + len(paths):05d}.jpg")
+        compose(rec, page, fr["t"], act).save(path, quality=90)
+        paths.append(path)
+    frames = rec["frames"]
+    durations = [max(frames[i + 1]["t"] - frames[i]["t"], 16) for i in range(len(frames) - 1)] + [hold_ms]
+    return paths, durations, start_idx + len(paths)
+
+
+TAIL_MS = 700  # single-dir mode's hold on the last frame, unchanged from before --compare
+
+n_acts = len(acts_spec)
+acts = []
+for i, (label, d) in enumerate(acts_spec):
+    rec = load(d)
+    if label is None:
+        act_dict, hold_ms = None, TAIL_MS
+    else:
+        act_dict = {"label": label, "index": i, "count": n_acts, "accent": i != 0}
+        hold_ms = 1500 if i == n_acts - 1 else 1200
+    acts.append((rec, act_dict, hold_ms))
+
+if args.compare:
+    TITLE = args.title or compare_title(acts[0][0]["name"], [(a["label"], r) for r, a, _ in acts])
+else:
+    TITLE = args.title or single_title(acts[0][0])
+SUBTITLE = args.subtitle
+TITLE_FONT = fit_font(TITLE, "bold", W - S(56), H1_SIZE)
+
 if args.still is not None:
-    fr = frame_at(args.still)
-    page = Image.open(os.path.join(src, fr["file"])).convert("RGB")
-    compose(page, args.still).save(args.out)
-    print(args.out)
+    if args.compare:
+        if ":" not in args.still:
+            ap.error("--compare --still needs ACT_INDEX:MS")
+        idx_s, _, ms_s = args.still.partition(":")
+        idx, ms = int(idx_s), int(ms_s)
+    else:
+        idx, ms = 0, int(args.still)
+    rec, act_dict, _ = acts[idx]
+    fr = frame_at(rec["frames"], ms)
+    page = Image.open(os.path.join(rec["src"], fr["file"])).convert("RGB")
+    compose(rec, page, ms, act_dict).save(out)
+    print(out)
     sys.exit(0)
 
 tmp = tempfile.mkdtemp(prefix="jev-turbo-demo-")
-rendered = []
-for i, fr in enumerate(frames):
-    page = Image.open(os.path.join(src, fr["file"])).convert("RGB")
-    path = os.path.join(tmp, f"r{i:05d}.jpg")
-    compose(page, fr["t"]).save(path, quality=90)
-    rendered.append(path)
+all_paths, all_durations, idx = [], [], 0
+for rec, act_dict, hold_ms in acts:
+    paths, durations, idx = render_frames(rec, act_dict, hold_ms, tmp, idx)
+    all_paths += paths
+    all_durations += durations
 
 with open(os.path.join(tmp, "list.txt"), "w") as f:
-    for i, fr in enumerate(frames):
-        nxt = frames[i + 1]["t"] if i + 1 < len(frames) else fr["t"] + tail_ms
-        f.write(f"file '{rendered[i]}'\nduration {max(nxt - fr['t'], 16) / 1000:.3f}\n")
-    f.write(f"file '{rendered[-1]}'\n")
+    for path, dur in zip(all_paths, all_durations):
+        f.write(f"file '{path}'\nduration {dur / 1000:.3f}\n")
+    f.write(f"file '{all_paths[-1]}'\n")
 
-os.makedirs(os.path.dirname(os.path.abspath(args.out)) or ".", exist_ok=True)
-mp4, gif = args.out + ".mp4", args.out + ".gif"
+os.makedirs(os.path.dirname(os.path.abspath(out)) or ".", exist_ok=True)
+mp4, gif = out + ".mp4", out + ".gif"
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", os.path.join(tmp, "list.txt"),
                        "-vf", "fps=20,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "23", "-movflags", "+faststart", mp4])
 palette = os.path.join(tmp, "palette.png")
@@ -278,4 +424,6 @@ subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-vf", "
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-i", palette, "-lavfi",
                        "fps=12,scale=1152:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5", "-loop", "0", gif])
 shutil.rmtree(tmp, ignore_errors=True)
-print(f"{mp4}: {os.path.getsize(mp4) // 1024} KB, {gif}: {os.path.getsize(gif) // 1024} KB, {len(frames)} frames, {len(rows)} actions")
+total_frames = sum(len(rec["frames"]) for rec, _, _ in acts)
+total_rows = sum(len(rec["rows"]) for rec, _, _ in acts)
+print(f"{mp4}: {os.path.getsize(mp4) // 1024} KB, {gif}: {os.path.getsize(gif) // 1024} KB, {total_frames} frames, {total_rows} actions")
