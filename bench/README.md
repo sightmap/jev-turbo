@@ -217,6 +217,55 @@ low-coverage pages    0                             -                           
 seconds               48.4                          45.6                             53.8                         53.4                            116.3                       143.2
 ```
 
+## Tools mode
+
+Same ten saucedemo goals as `saucedemo.json`, run with `--tools saucedemo` so
+Jev sees the sightkick tool layer's 17 tools, such as `log_in`, `add_to_cart`,
+and `go_to_cart`, offered ahead of the raw sightmap elements, over the same
+`saucedemo/.sightmap` corpus. When Jev picks a tool, jev-turbo runs it with
+`sightkick call <app dir> <tool> --param k=v --via cli`. That command
+translates the tool's steps into `sightmap browser` commands (a snapshot, a
+click or fill, a wait) against the same recorded session. Jev can still fall
+back to a raw element on a step where no tool fits.
+
+```
+                      saucedemo/map/jev:jev-latest  saucedemo-tools/tools/jev:jev-latest
+reached               30/30                         30/30
+steps / goal          4.5                           2.5
+wasted steps          3                             9
+fallback picks        3                             0
+low-confidence picks  0                             13
+candidates offered    3                             25
+low-coverage pages    0                             0
+seconds               48.4                          84.8
+```
+
+Both conditions reach all 30 goals. Tools mode takes fewer steps per goal, 2.5
+against 4.5, because one tool call like `add_to_cart` folds a login, a hover,
+and a click into a single step. It also shows more wasted steps, 9 against 3,
+and more low-confidence picks, 13 against 0: some of that is a tool failing
+partway through, such as a click that cannot be scrolled into view or a wait
+that times out, and the loop retrying as its own step, which the score
+counts. Candidates offered rises to 25 from 3 because the 17 tools are listed
+as candidates alongside the mapped elements on every step. Seconds go up in
+tools mode, 84.8s against 48.4s, even with fewer steps, because a tool call is
+not one browser action. Each `sightkick call --via cli` run is several
+`sightmap browser` commands in sequence, and some of those, mainly click and
+fill, stall on saucedemo's own elements before returning.
+
+Commands:
+
+```bash
+cd bench
+
+sightmap browser start --detach --headless --url https://www.saucedemo.com/ --sightmap-dir saucedemo/.sightmap \
+  --profile ~/.sightmap/profiles/explore-saucedemo --port 7959 --cdp-port 7960
+jev-turbo bench saucedemo-tools.json --repeat 3 --out results/saucedemo-tools.json
+cd saucedemo && sightmap browser stop && cd ..
+
+jev-turbo score results/saucedemo-map.json results/saucedemo-tools.json
+```
+
 ## Growing the corpus (`--grow`)
 
 `jev-turbo bench books.json --grow --repeat 3`, starting from
