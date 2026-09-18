@@ -61,7 +61,7 @@ type Step struct {
 	Confidence      float64 `json:"confidence,omitempty"`       // probability of the chosen option
 	GroupConfidence float64 `json:"group_confidence,omitempty"` // probability of the chosen group on a grouped pick
 	Fallback        bool    `json:"fallback,omitempty"`         // a map exists but the pick is an unnamed node
-	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, or a control already acted on at this URL
+	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, a control or tool repeated at this URL, or a tool call that failed and did not finish the goal
 
 	Tool   string `json:"tool,omitempty"`    // the sightkick tool run, when the pick was a "t:" option
 	ToolOK bool   `json:"tool_ok,omitempty"` // the tool call reported ok
@@ -126,6 +126,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	run := &Run{Goal: opts.Goal, Spec: spec, Picker: opts.Picker.Name()}
 	var suggested []string // tool names to rank first on the next ToolOptions call, from the last tool's Guidance
 	skipTool := ""         // a tool that just failed: left out of the next pick only, while its guidance still counts
+	failedToolAt := -1     // index in run.Steps of the step just appended, when it was a failed tool call
 	t0 := time.Now()
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
@@ -160,6 +161,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 
 		if spec.DoneWhen.Deterministic() && spec.DoneWhen.Check(page, history) {
+			if failedToolAt >= 0 {
+				// The call reported a failure, but the page it left behind is
+				// the one the goal asks for, so the step did the work.
+				run.Steps[failedToolAt].Wasted = false
+			}
 			step.Action = "done"
 			run.Steps = append(run.Steps, step)
 			run.OK = true
@@ -282,9 +288,14 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			for _, g := range res.Guidance {
 				suggested = append(suggested, g.Tool)
 			}
-			if err == nil && !res.OK {
-				step.Wasted = true
-				skipTool = tool.Name
+			if err == nil {
+				// A tool run twice at one URL repeats work, the same as a
+				// control clicked twice there.
+				step.Wasted = step.Wasted || seen[page.URL+"|"+act.seenKey] > 0
+				if !res.OK {
+					step.Wasted = true
+					skipTool = tool.Name
+				}
 			}
 		} else {
 			act, err = perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page, doneFn)
@@ -338,6 +349,10 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		step.Ms = int(time.Since(tS).Milliseconds())
 		run.Steps = append(run.Steps, step)
+		failedToolAt = -1
+		if step.Tool != "" && !step.ToolOK {
+			failedToolAt = len(run.Steps) - 1
+		}
 		run.Transitions = append(run.Transitions, Transition{From: pageLabel(page), Action: act.summary, Comp: act.comp, To: shortURL(act.urlAfter), Changed: step.Navigated})
 		history = append(history, fmt.Sprintf("%d. %s → %s", n, act.summary, shortURL(act.urlAfter)))
 		seen[page.URL+"|"+act.seenKey]++

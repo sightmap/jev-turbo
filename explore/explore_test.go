@@ -387,3 +387,42 @@ func TestToolFailureFallsBackToElements(t *testing.T) {
 		t.Fatalf("picks = %v", p.picks)
 	}
 }
+
+func TestFailedToolThatFinishesTheGoalIsNotWasted(t *testing.T) {
+	ts, _ := ParseIR([]byte(irFixture))
+	login := &fakePage{url: "/", view: "Login", nodes: []*Node{mk("1", "button", "Log in", "button", "", "LoginButton", true)}}
+	inv := &fakePage{url: "/inventory.html", view: "Inventory", nodes: []*Node{mk("2", "button", "Add to cart", "button", "", "AddToCartButton", true)}}
+	d := newFakeDriver("/", login, inv)
+	// The call reports a failure, its wait_for having given up, but it left the
+	// page on the view the goal asks for.
+	runner := &fakeToolRunner{drv: d, after: map[string]string{"log_in": "/inventory.html"},
+		results: map[string]ToolResult{"log_in": {OK: false, Message: "wait_for timed out"}}}
+	p := &fakePicker{script: []string{"t:log_in"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "log in", Picker: p,
+		Spec:  &Spec{Values: map[string]string{"username": "u", "password": "p"}, DoneWhen: &DoneWhen{View: "Inventory"}},
+		Tools: ts, ToolRunner: runner, MaxSteps: 4})
+	if err != nil || !run.OK {
+		t.Fatalf("run: %v %+v", err, run)
+	}
+	if run.Steps[0].Wasted || run.Metrics.Wasted != 0 {
+		t.Fatalf("a failed call the next page finishes is not wasted: step %+v metrics %+v", run.Steps[0], run.Metrics)
+	}
+}
+
+func TestRepeatedToolCallAtOneURLIsWasted(t *testing.T) {
+	ts, _ := ParseIR([]byte(irFixture))
+	page := &fakePage{url: "/", view: "Login", nodes: []*Node{mk("1", "button", "Log in", "button", "", "LoginButton", true)}}
+	d := newFakeDriver("/", page)
+	// go_to_cart is callable from any view, and this after map leaves the page
+	// where it was, so the second call repeats the first exactly.
+	runner := &fakeToolRunner{drv: d, after: map[string]string{"go_to_cart": "/"}}
+	p := &fakePicker{prefer: []string{"t:go_to_cart"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "open the cart", Picker: p,
+		Spec: &Spec{DoneWhen: &DoneWhen{View: "Cart"}}, Tools: ts, ToolRunner: runner, MaxSteps: 2})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || run.Steps[0].Wasted || !run.Steps[1].Wasted {
+		t.Fatalf("the second call of one tool at one URL is wasted: %+v", run.Steps)
+	}
+}
