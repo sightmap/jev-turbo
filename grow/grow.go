@@ -60,8 +60,9 @@ type Stats struct {
 type Grower struct {
 	Dir        string
 	Picker     explore.Picker
-	MaxPerPage int // orphans examined per page visit (default 40)
-	MaxVisits  int // times one route pattern is grown (default 2)
+	Namer      Namer // decides each group's kind and name; defaults from Picker if nil
+	MaxPerPage int   // orphans examined per page visit (default 40)
+	MaxVisits  int   // times one route pattern is grown (default 2)
 	// Reload is called after every successful write. It should reload and
 	// validate the corpus and hand it to the driver; an error rolls the write back.
 	Reload func() error
@@ -72,18 +73,17 @@ type Grower struct {
 	promoted int
 	skipped  int
 	rejected int
-	calls    int
 	ms       int
 }
 
 // New returns a grower for the corpus at dir that classifies with picker.
 func New(dir string, picker explore.Picker) *Grower {
-	return &Grower{Dir: dir, Picker: picker, MaxPerPage: 40, MaxVisits: 2, pages: map[string]int{}}
+	return &Grower{Dir: dir, Picker: picker, Namer: &TemplateNamer{Picker: picker}, MaxPerPage: 40, MaxVisits: 2, pages: map[string]int{}}
 }
 
 // Stats reports what the grower has written.
 func (g *Grower) Stats() Stats {
-	st := Stats{Promoted: g.promoted, Skipped: g.skipped, Rejected: g.rejected, Pages: len(g.pages), Calls: g.calls, Ms: g.ms}
+	st := Stats{Promoted: g.promoted, Skipped: g.skipped, Rejected: g.rejected, Pages: len(g.pages), Calls: g.Namer.Calls(), Ms: g.ms}
 	for _, a := range g.added {
 		st.Names = append(st.Names, a.Name)
 		if a.Kind == "view" {
@@ -101,19 +101,13 @@ func (g *Grower) log(format string, args ...interface{}) {
 	}
 }
 
-// group is a set of orphans that share a container hook, tag, and role.
-type group struct {
-	hook       string
-	tag        string
-	role       string
-	members    []*explore.Node
-	candidates []string // the first member's own ranked selector candidates
-}
-
 // OnPage grows the corpus from one observed page.
 func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 	t0 := time.Now()
 	defer func() { g.ms += int(time.Since(t0).Milliseconds()) }()
+	if g.Namer == nil {
+		g.Namer = &TemplateNamer{Picker: g.Picker}
+	}
 	if page.Result == nil || page.Result.Root == nil {
 		return nil
 	}
@@ -154,7 +148,7 @@ func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 	if maxPer <= 0 {
 		maxPer = 40
 	}
-	groups := map[string]*group{}
+	groups := map[string]*Group{}
 	var order []string
 	for i, n := range orphans {
 		if i >= maxPer {
@@ -164,14 +158,14 @@ func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 		gk := hook + "|" + n.Tag + "|" + n.Role
 		gr, ok := groups[gk]
 		if !ok {
-			gr = &group{hook: hook, tag: n.Tag, role: n.Role}
+			gr = &Group{Hook: hook, Tag: n.Tag, Role: n.Role}
 			if n.Raw.Element != nil {
-				gr.candidates = coverage.SelectorCandidates(n.Raw.Element)
+				gr.Candidates = coverage.SelectorCandidates(n.Raw.Element)
 			}
 			groups[gk] = gr
 			order = append(order, gk)
 		}
-		gr.members = append(gr.members, n)
+		gr.Members = append(gr.Members, n)
 	}
 
 	written := 0
@@ -179,7 +173,7 @@ func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 		gr := groups[gk]
 		sel, count := g.selectorFor(page, gr)
 		if sel == "" {
-			g.skipped += len(gr.members)
+			g.skipped += len(gr.Members)
 			continue
 		}
 		if dup, ok := bySelector[sel]; ok {
@@ -190,22 +184,23 @@ func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 			}
 			continue
 		}
-		kind, err := g.classify(ctx, gr)
+		dec, err := g.Namer.Name(ctx, *gr, count)
 		if err != nil {
 			return err
 		}
-		if kind == "noise" {
-			g.skipped += len(gr.members)
+		if dec.Kind == "noise" {
+			g.skipped += len(gr.Members)
 			continue
 		}
-		name := uniqueName(GroupName(gr.hook, gr.tag, gr.role, gr.members, kind, count), names)
+		kind := dec.Kind
+		name := uniqueName(dec.Name, names)
 		comp := component{
 			Name:        name,
 			Selector:    sel,
-			Description: fmt.Sprintf("%s; auto-grown: %d %s in %s e.g. %s", kind, len(gr.members), gr.tag, orDefault(gr.hook, "page"), sampleNames(gr.members, 3)),
+			Description: fmt.Sprintf("%s; auto-grown: %d %s in %s e.g. %s", kind, len(gr.Members), gr.Tag, orDefault(gr.Hook, "page"), sampleNames(gr.Members, 3)),
 			Properties:  []property{{Name: "label", Extract: "text"}},
 		}
-		switch gr.tag {
+		switch gr.Tag {
 		case "a":
 			comp.Properties = append(comp.Properties, property{Name: "href", Extract: "attr=href"})
 		case "input":
@@ -237,14 +232,14 @@ func orphansOf(page *explore.Page) []*explore.Node {
 
 // selectorFor tries the scoped container selector first, then a single node's
 // own hooks, and returns the first one the offline matcher accepts on this page.
-func (g *Grower) selectorFor(page *explore.Page, gr *group) (string, int) {
+func (g *Grower) selectorFor(page *explore.Page, gr *Group) (string, int) {
 	var tries []string
-	if gr.hook != "" {
-		tries = append(tries, gr.hook+" "+gr.tag)
+	if gr.Hook != "" {
+		tries = append(tries, gr.Hook+" "+gr.Tag)
 	}
-	if len(gr.members) == 1 {
-		m := gr.members[0]
-		cands := append([]string{}, gr.candidates...)
+	if len(gr.Members) == 1 {
+		m := gr.Members[0]
+		cands := append([]string{}, gr.Candidates...)
 		sort.SliceStable(cands, func(i, j int) bool { return Stability(cands[i]) > Stability(cands[j]) })
 		if len(cands) > 3 {
 			cands = cands[:3]
@@ -278,33 +273,6 @@ func (g *Grower) selectorFor(page *explore.Page, gr *group) (string, int) {
 func OfflineCount(root *sightmap.ComponentNode, selector string) int {
 	defs := []sightmap.ComponentDef{{Name: "__grow__", Selectors: []string{selector}}}
 	return len(match.NewMatcher(&sightmap.Corpus{GlobalComponents: defs}).Match(root, ""))
-}
-
-func (g *Grower) classify(ctx context.Context, gr *group) (string, error) {
-	if kind, ok := KindFromRoles(gr.tag, gr.role, gr.hook, len(gr.members)); ok {
-		return kind, nil
-	}
-	var examples []string
-	for i, m := range gr.members {
-		if i >= 5 {
-			break
-		}
-		e := fmt.Sprintf("%q", truncate(m.Name, 40))
-		if h := m.Attrs["href"]; h != "" {
-			e += " → " + truncate(h, 40)
-		}
-		examples = append(examples, e)
-	}
-	desc := fmt.Sprintf("%d × <%s> role=%s inside %s; examples: %s", len(gr.members), gr.tag, gr.role, orDefault(gr.hook, "(no stable container)"), strings.Join(examples, ", "))
-	g.calls++
-	kind, err := g.Picker.Choose(ctx, "ELEMENTS: "+desc, explore.Criteria{Options: Kinds}, "What kind of UI elements are these? Answer noise if they are not worth naming as a component.")
-	if err != nil {
-		return "", fmt.Errorf("grow: classify: %w", err)
-	}
-	if kind == "" {
-		kind = "noise"
-	}
-	return kind, nil
 }
 
 // owner records where a selector already lives in the corpus.
