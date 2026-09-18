@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -19,13 +20,20 @@ type Spec struct {
 // DoneWhen is a deterministic goal check over the current page. Every set
 // field must hold; All nests further checks that must all hold.
 type DoneWhen struct {
-	View            string     `json:"view,omitempty"`
-	URLContains     string     `json:"url_contains,omitempty"`
-	TextContains    string     `json:"text_contains,omitempty"`
-	Component       string     `json:"component,omitempty"`
-	Prop            *PropCheck `json:"prop,omitempty"`
-	HistoryContains string     `json:"history_contains,omitempty"`
-	All             []DoneWhen `json:"all,omitempty"`
+	View            string        `json:"view,omitempty"`
+	URLContains     string        `json:"url_contains,omitempty"`
+	TextContains    string        `json:"text_contains,omitempty"`
+	Component       string        `json:"component,omitempty"`
+	Prop            *PropCheck    `json:"prop,omitempty"`
+	HistoryContains string        `json:"history_contains,omitempty"`
+	HistoryCount    *HistoryCount `json:"history_count,omitempty"`
+	All             []DoneWhen    `json:"all,omitempty"`
+}
+
+// HistoryCount requires at least Min earlier steps whose record mentions Substr.
+type HistoryCount struct {
+	Substr string `json:"substr"`
+	Min    int    `json:"min"`
 }
 
 // PropCheck asserts that a visible component's extracted property contains a
@@ -75,6 +83,13 @@ func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 			d.Component = v
 		case "history":
 			d.HistoryContains = v
+		case "history_count":
+			ns, sub, ok := strings.Cut(v, ":")
+			n, convErr := strconv.Atoi(ns)
+			if !ok || convErr != nil || n < 1 || sub == "" {
+				return nil, fmt.Errorf("--done-when history_count: want N:SUBSTR, got %q", v)
+			}
+			d.HistoryCount = &HistoryCount{Substr: sub, Min: n}
 		case "prop":
 			pc, err := parsePropCheck(v)
 			if err != nil {
@@ -123,7 +138,7 @@ func parseOnePropCheck(s string) (*PropCheck, error) {
 
 // Deterministic reports whether the check has any condition at all.
 func (d *DoneWhen) Deterministic() bool {
-	return d != nil && (d.View != "" || d.URLContains != "" || d.TextContains != "" || d.Component != "" || d.Prop != nil || d.HistoryContains != "" || len(d.All) > 0)
+	return d != nil && (d.View != "" || d.URLContains != "" || d.TextContains != "" || d.Component != "" || d.Prop != nil || d.HistoryContains != "" || d.HistoryCount != nil || len(d.All) > 0)
 }
 
 // String renders the check for the picker's context.
@@ -153,6 +168,9 @@ func (d *DoneWhen) String() string {
 	}
 	if d.HistoryContains != "" {
 		parts = append(parts, fmt.Sprintf("an earlier step mentioned %q", d.HistoryContains))
+	}
+	if d.HistoryCount != nil {
+		parts = append(parts, fmt.Sprintf("at least %d earlier steps mentioned %q", d.HistoryCount.Min, d.HistoryCount.Substr))
 	}
 	for _, a := range d.All {
 		parts = append(parts, a.String())
@@ -194,6 +212,17 @@ func (d *DoneWhen) Check(page *Page, history []string) bool {
 			}
 		}
 		if !found {
+			return false
+		}
+	}
+	if d.HistoryCount != nil {
+		n := 0
+		for _, h := range history {
+			if strings.Contains(h, d.HistoryCount.Substr) {
+				n++
+			}
+		}
+		if n < d.HistoryCount.Min {
 			return false
 		}
 	}

@@ -1,8 +1,10 @@
 package explore
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -71,6 +73,33 @@ func TestDoneWhenCheck(t *testing.T) {
 	}
 	if s := (&DoneWhen{View: "Cart", Prop: &PropCheck{Component: "A", Name: "b", Contains: "c"}}).String(); s != `the page is the "Cart" view and A.b contains "c"` {
 		t.Fatalf("String = %q", s)
+	}
+}
+
+func TestHistoryCount(t *testing.T) {
+	d, err := ParseDoneWhen([]string{"history_count=2:Finish"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	page := &Page{URL: "/"}
+	one := []string{"1. clicked [FinishButton] → /done"}
+	if d.Check(page, one) {
+		t.Fatal("one mention must not satisfy min 2")
+	}
+	if !d.Check(page, append(one, "2. clicked button \"Finish\" → /done")) {
+		t.Fatal("two mentions satisfy min 2")
+	}
+	if !strings.Contains(d.String(), "2") {
+		t.Fatalf("String() = %q", d.String())
+	}
+	for _, bad := range []string{"history_count=x:Foo", "history_count=0:Foo", "history_count=2:"} {
+		if _, err := ParseDoneWhen([]string{bad}); err == nil {
+			t.Fatalf("%q should not parse", bad)
+		}
+	}
+	var s Spec
+	if err := json.Unmarshal([]byte(`{"done_when":{"history_count":{"substr":"Finish","min":3}}}`), &s); err != nil || s.DoneWhen.HistoryCount == nil || s.DoneWhen.HistoryCount.Min != 3 {
+		t.Fatalf("json: %v %+v", err, s.DoneWhen)
 	}
 }
 
