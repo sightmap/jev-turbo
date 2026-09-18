@@ -9,3 +9,4 @@ node_modules/
 **/.sightmap/.session
 **/.sightmap/snapshots/
 explore-*.json
+/out/

@@ -3,7 +3,11 @@
   "sightmap_dir": "ikea/.sightmap",
   "start_url": "https://www.ikea.com/us/en/",
   "reset": "clear-storage",
-  "avoid": ["Checkout", "Continue to checkout", "Pay"],
+  "avoid": [
+    "Checkout",
+    "Continue to checkout",
+    "Pay"
+  ],
   "goals": [
     {
       "name": "billy-into-the-bag",
@@ -12,11 +16,20 @@
       "spec": {
         "done_when": {
           "all": [
-            { "url_contains": "/shoppingcart" },
-            { "text_contains": "BILLY" }
+            {
+              "url_contains": "/shoppingcart"
+            },
+            {
+              "text_contains": "BILLY"
+            },
+            {
+              "text_contains": "Bookcase, white"
+            }
           ]
         },
-        "values": { "search": "BILLY bookcase" }
+        "values": {
+          "search": "BILLY bookcase"
+        }
       }
     }
   ]
