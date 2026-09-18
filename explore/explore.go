@@ -125,7 +125,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	afterFill := false
 	run := &Run{Goal: opts.Goal, Spec: spec, Picker: opts.Picker.Name()}
 	var suggested []string // tool names to rank first on the next ToolOptions call, from the last tool's Guidance
-	toolsOff := false      // true for one step after a tool call failed: fall back to elements only
+	skipTool := ""         // a tool that just failed: left out of the next pick only, while its guidance still counts
 	t0 := time.Now()
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
@@ -211,11 +211,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL, AfterFill: afterFill, CanGoBack: navigations > 0})
 		var toolOpts []Criterion
-		if opts.Tools != nil && opts.ToolRunner != nil && !toolsOff {
-			toolOpts = ToolOptions(opts.Tools, page.View, values, suggested)
+		if opts.Tools != nil && opts.ToolRunner != nil {
+			toolOpts = dropTool(ToolOptions(opts.Tools, page.View, values, suggested), skipTool)
 			crit.Options = append(append([]Criterion{}, toolOpts...), crit.Options...)
 		}
-		toolsOff = false
+		skipTool = ""
 		step.Candidates = len(cands)
 		step.Options = len(crit.Options)
 		step.Named = countNamed(cands)
@@ -284,7 +284,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			}
 			if err == nil && !res.OK {
 				step.Wasted = true
-				toolsOff = true
+				skipTool = tool.Name
 			}
 		} else {
 			act, err = perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page, doneFn)
@@ -516,6 +516,22 @@ func performTool(ctx context.Context, drv Driver, runner ToolRunner, t *Tool, ar
 		summary += " (already applied)"
 	}
 	return &action{summary: summary, comp: "tool:" + t.Name, seenKey: "tool " + t.Name, urlAfter: info.URL, settleMs: info.Ms}, res, nil
+}
+
+// dropTool leaves one tool out of a pick's options. A tool that just failed is
+// worth skipping once, but the rest of the layer, and the guidance the failed
+// call returned, are still worth offering.
+func dropTool(opts []Criterion, name string) []Criterion {
+	if name == "" {
+		return opts
+	}
+	var out []Criterion
+	for _, o := range opts {
+		if strings.TrimPrefix(o.Key, ToolPrefix) != name {
+			out = append(out, o)
+		}
+	}
+	return out
 }
 
 func isStale(err error) bool {

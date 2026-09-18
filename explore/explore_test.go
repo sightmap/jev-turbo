@@ -348,22 +348,42 @@ func TestToolsMode(t *testing.T) {
 
 func TestToolFailureFallsBackToElements(t *testing.T) {
 	ts, _ := ParseIR([]byte(irFixture))
-	login := &fakePage{url: "/", view: "Login", nodes: []*Node{mk("1", "button", "Log in", "button", "", "LoginButton", true)}, edges: map[string]string{"1": "/inventory.html"}}
-	inv := &fakePage{url: "/inventory.html", view: "Inventory", nodes: []*Node{mk("2", "button", "Add to cart", "button", "", "AddToCartButton", true)}}
-	d := newFakeDriver("/", login, inv)
-	runner := &fakeToolRunner{drv: d, results: map[string]ToolResult{"log_in": {OK: false, Message: "wait_for timed out"}}}
-	p := &fakePicker{script: []string{"t:log_in", "n1"}, prefer: []string{"t:log_in"}}
-	run, err := Explore(context.Background(), d, Options{Goal: "log in", Picker: p, Spec: &Spec{Values: map[string]string{"username": "u", "password": "p"}, DoneWhen: &DoneWhen{View: "Inventory"}}, Tools: ts, ToolRunner: runner, MaxSteps: 4})
+	site := func() *fakeDriver {
+		login := &fakePage{url: "/", view: "Login", nodes: []*Node{mk("1", "button", "Log in", "button", "", "LoginButton", true)}, edges: map[string]string{"1": "/inventory.html"}}
+		inv := &fakePage{url: "/inventory.html", view: "Inventory", nodes: []*Node{mk("2", "button", "Add to cart", "button", "", "AddToCartButton", true)}}
+		return newFakeDriver("/", login, inv)
+	}
+	failing := func(d *fakeDriver) *fakeToolRunner {
+		return &fakeToolRunner{drv: d, results: map[string]ToolResult{"log_in": {OK: false, Message: "wait_for timed out"}}}
+	}
+	spec := func() *Spec {
+		return &Spec{Values: map[string]string{"username": "u", "password": "p"}, DoneWhen: &DoneWhen{View: "Inventory"}}
+	}
+
+	d := site()
+	p := &fakePicker{script: []string{"t:log_in"}, prefer: []string{"t:log_in", "n1"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "log in", Picker: p, Spec: spec(), Tools: ts, ToolRunner: failing(d), MaxSteps: 4})
 	if err != nil || !run.OK {
 		t.Fatalf("run: %v %+v", err, run)
 	}
 	if run.Steps[0].Tool != "log_in" || run.Steps[0].ToolOK || !run.Steps[0].Wasted {
 		t.Fatalf("failed tool step = %+v", run.Steps[0])
 	}
-	// The pick after a failed tool sees no tool options: the sticky preference
-	// for "t:log_in" cannot be honoured, so the picker falls through to the
-	// scripted "n1" (the login page's only button) instead of looping on the tool.
-	if len(p.picks) < 2 || strings.HasPrefix(p.picks[1], ToolPrefix) {
+	// The pick after a failed tool is offered every tool but that one, so the
+	// sticky preference for "t:log_in" cannot be honoured and the picker falls
+	// through to "n1", the login page's only button.
+	if len(p.picks) < 2 || p.picks[1] != "n1" {
+		t.Fatalf("picks = %v", p.picks)
+	}
+
+	// Only the failed tool is skipped, not the layer: the fixture's go_to_cart
+	// has no ensureView, so it is offered anywhere, including on this pick.
+	d = site()
+	p = &fakePicker{script: []string{"t:log_in"}, prefer: []string{"t:log_in", "t:go_to_cart"}}
+	if _, err := Explore(context.Background(), d, Options{Goal: "log in", Picker: p, Spec: spec(), Tools: ts, ToolRunner: failing(d), MaxSteps: 4}); err != nil {
+		t.Fatal(err)
+	}
+	if len(p.picks) < 2 || p.picks[1] != "t:go_to_cart" {
 		t.Fatalf("picks = %v", p.picks)
 	}
 }
