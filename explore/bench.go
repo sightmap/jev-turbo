@@ -87,6 +87,11 @@ type Summary struct {
 	InputTokens  int     `json:"input_tokens"`
 	OutputTokens int     `json:"output_tokens"`
 	USD          float64 `json:"usd"`
+
+	Wasted           int     `json:"wasted"`
+	Fallback         int     `json:"fallback"`
+	LowConfidence    int     `json:"low_confidence"`
+	CandidatesMedian float64 `json:"candidates_median"`
 }
 
 // RunSuite runs every goal (optionally repeated), resetting the browser between goals.
@@ -195,6 +200,7 @@ func resetBetweenGoals(ctx context.Context, drv Driver, suite *Suite, g Goal) er
 // Summarize aggregates goal results.
 func Summarize(runs []GoalResult) Summary {
 	var s Summary
+	var allCandidates []float64
 	for _, r := range runs {
 		if r.Run == nil {
 			continue
@@ -210,6 +216,14 @@ func Summarize(runs []GoalResult) Summary {
 		s.InputTokens += r.Stats.InputTokens
 		s.OutputTokens += r.Stats.OutputTokens
 		s.USD += r.Stats.USD
+		s.Wasted += r.Metrics.Wasted
+		s.Fallback += r.Metrics.Fallback
+		s.LowConfidence += r.Metrics.LowConfidence
+		for _, st := range r.Steps {
+			if st.Candidates > 0 {
+				allCandidates = append(allCandidates, float64(st.Candidates))
+			}
+		}
 	}
 	if s.Steps > 0 {
 		s.MsPerStep = float64(s.Ms) / float64(s.Steps)
@@ -217,6 +231,7 @@ func Summarize(runs []GoalResult) Summary {
 	if s.ModelCalls > 0 {
 		s.MsPerCall = float64(s.ModelMs) / float64(s.ModelCalls)
 	}
+	s.CandidatesMedian = median(allCandidates)
 	return s
 }
 
@@ -273,7 +288,7 @@ func FormatTable(res *SuiteResult) string {
 		b.WriteString("\n")
 	}
 	s := res.Summary
-	fmt.Fprintf(&b, "%s: %d/%d ok · %d steps · %.1fs total · %.2fs/step · model %d calls, %.0f ms/call, %d+%d tok", res.Picker, s.OK, s.Goals, s.Steps, float64(s.Ms)/1000, s.MsPerStep/1000, s.ModelCalls, s.MsPerCall, s.InputTokens, s.OutputTokens)
+	fmt.Fprintf(&b, "%s: %d/%d ok · %d steps · %.1fs total · %.2fs/step · model %d calls, %.0f ms/call, %d+%d tok · wasted %d · fallback %d · low-conf %d · candidates ~%.0f", res.Picker, s.OK, s.Goals, s.Steps, float64(s.Ms)/1000, s.MsPerStep/1000, s.ModelCalls, s.MsPerCall, s.InputTokens, s.OutputTokens, s.Wasted, s.Fallback, s.LowConfidence, s.CandidatesMedian)
 	if s.USD > 0 {
 		fmt.Fprintf(&b, ", $%.3f", s.USD)
 	}

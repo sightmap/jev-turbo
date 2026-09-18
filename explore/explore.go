@@ -86,6 +86,7 @@ type Run struct {
 	Transitions []Transition `json:"transitions"`
 	Ms          int          `json:"ms"`
 	Stats       Stats        `json:"picker_stats"`
+	Metrics     RunMetrics   `json:"metrics"`
 	HookErrors  int          `json:"hook_errors,omitempty"`
 }
 
@@ -118,6 +119,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
 		run.Stats = opts.Picker.Stats()
+		run.Metrics = Metrics(run.Steps)
 	}()
 
 	for n := 1; n <= opts.MaxSteps; n++ {
