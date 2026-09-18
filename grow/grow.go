@@ -82,9 +82,18 @@ func New(dir string, picker explore.Picker) *Grower {
 	return &Grower{Dir: dir, Picker: picker, Namer: &TemplateNamer{Picker: picker}, MaxPerPage: 40, MaxVisits: 2, pages: map[string]int{}}
 }
 
+// namer returns the Namer to decide with, installing the default built from
+// Picker when the field was left nil.
+func (g *Grower) namer() Namer {
+	if g.Namer == nil {
+		g.Namer = &TemplateNamer{Picker: g.Picker}
+	}
+	return g.Namer
+}
+
 // Stats reports what the grower has written.
 func (g *Grower) Stats() Stats {
-	st := Stats{Promoted: g.promoted, Skipped: g.skipped, Rejected: g.rejected, Pages: len(g.pages), Calls: g.Namer.Calls(), Ms: g.ms}
+	st := Stats{Promoted: g.promoted, Skipped: g.skipped, Rejected: g.rejected, Pages: len(g.pages), Calls: g.namer().Calls(), Ms: g.ms}
 	for _, a := range g.added {
 		st.Names = append(st.Names, a.Name)
 		if a.Kind == "view" {
@@ -107,9 +116,6 @@ func (g *Grower) log(format string, args ...interface{}) {
 func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 	t0 := time.Now()
 	defer func() { g.ms += int(time.Since(t0).Milliseconds()) }()
-	if g.Namer == nil {
-		g.Namer = &TemplateNamer{Picker: g.Picker}
-	}
 	if page.Result == nil || page.Result.Root == nil {
 		return nil
 	}
@@ -186,7 +192,7 @@ func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 			}
 			continue
 		}
-		dec, err := g.Namer.Name(ctx, *gr, count)
+		dec, err := g.namer().Name(ctx, *gr, count)
 		if err != nil {
 			return err
 		}

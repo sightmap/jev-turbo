@@ -521,7 +521,7 @@ func runBench(args []string) error {
 		out = fmt.Sprintf("explore-%s-%s-%s-%s.json", suite.Name, res.Condition, strings.NewReplacer(":", "_", "/", "_").Replace(res.Picker), time.Now().Format("20060102-150405"))
 	}
 	var data []byte
-	if *growFlag {
+	if stats != nil {
 		data, _ = json.MarshalIndent(struct {
 			*explore.SuiteResult
 			Grow grow.Stats `json:"grow"`
