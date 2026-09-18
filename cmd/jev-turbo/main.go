@@ -77,6 +77,7 @@ Session flags (explore, bench):
   --tab ID             tab to drive when several are open
   --url URL            navigate here first
   --start              run 'sightmap browser start --detach' when no session exists (needs sightmap on PATH)
+  --headless           with --start, launch the session headless
 
 Keys: TYPESAFE_API_KEY (Jev, required), ANTHROPIC_API_KEY (planner and the anthropic picker).
 `)
@@ -87,22 +88,24 @@ var errNotDone = fmt.Errorf("goal not reached")
 /* ---------------- session flags ---------------- */
 
 type liveFlags struct {
-	dir   *string
-	addr  *string
-	tab   *string
-	url   *string
-	wait  *float64
-	start *bool
+	dir      *string
+	addr     *string
+	tab      *string
+	url      *string
+	wait     *float64
+	start    *bool
+	headless *bool
 }
 
 func addLiveFlags(fs *flag.FlagSet) *liveFlags {
 	return &liveFlags{
-		dir:   fs.String("sightmap-dir", ".sightmap", "Path to the .sightmap/ corpus (its .session file locates Chrome)"),
-		addr:  fs.String("addr", "", "CDP address host:port (default: the session recorded for --sightmap-dir)"),
-		tab:   fs.String("tab", "", "Tab id from 'sightmap browser status' when several tabs are open"),
-		url:   fs.String("url", "", "Navigate to this URL before starting"),
-		wait:  fs.Float64("wait", 0, "Extra seconds to wait after navigation"),
-		start: fs.Bool("start", false, "Start a session with 'sightmap browser start --detach' when none is running"),
+		dir:      fs.String("sightmap-dir", ".sightmap", "Path to the .sightmap/ corpus (its .session file locates Chrome)"),
+		addr:     fs.String("addr", "", "CDP address host:port (default: the session recorded for --sightmap-dir)"),
+		tab:      fs.String("tab", "", "Tab id from 'sightmap browser status' when several tabs are open"),
+		url:      fs.String("url", "", "Navigate to this URL before starting"),
+		wait:     fs.Float64("wait", 0, "Extra seconds to wait after navigation"),
+		start:    fs.Bool("start", false, "Start a session with 'sightmap browser start --detach' when none is running"),
+		headless: fs.Bool("headless", false, "With --start, launch the session headless"),
 	}
 }
 
@@ -123,6 +126,9 @@ func (lf *liveFlags) connect(ctx context.Context) (*browser.CDPConn, error) {
 		if *lf.url != "" {
 			args = append(args, "--url", *lf.url)
 		}
+		if *lf.headless {
+			args = append(args, "--headless")
+		}
 		cmd := exec.Command("sightmap", args...)
 		cmd.Stdout, cmd.Stderr = os.Stderr, os.Stderr
 		if err := cmd.Run(); err != nil {
@@ -137,7 +143,6 @@ func (lf *liveFlags) connect(ctx context.Context) (*browser.CDPConn, error) {
 	if err != nil {
 		return nil, err
 	}
-	_ = browser.BringToFront(ctx, conn)
 	if *lf.url != "" {
 		if err := browser.NavigateAndWaitIdle(ctx, conn, *lf.url, 8*time.Second); err != nil {
 			conn.Close()

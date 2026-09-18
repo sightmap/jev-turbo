@@ -38,7 +38,7 @@ jev-turbo explore --sightmap-dir bench/saucedemo/.sightmap \
 OK  done_when satisfied  steps=6  1.5s  picker=jev:jev-latest calls=5 732ms tokens=6120+610
 ```
 
-No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--grow`. jev-turbo names the controls it meets as it goes, and the result is a plain `.sightmap/` directory that any other agent can read. `--start` launches the browser session for you. The session is a headed Chrome, and jev-turbo brings its tab to the front when it connects, so run it on a display you are not typing on.
+No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--grow`. jev-turbo names the controls it meets as it goes, and the result is a plain `.sightmap/` directory that any other agent can read. `--start` launches the browser session for you. The session is a headed Chrome by default. jev-turbo never brings it to the front, but Chrome takes focus once when it launches; add `--headless` to `sightmap browser start` (or to `--start`) to keep it off your screen. Google Flights needs a headed session.
 
 ## What happens in a step
 
