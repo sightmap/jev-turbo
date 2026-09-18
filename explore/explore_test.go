@@ -260,3 +260,39 @@ func TestStepMetrics(t *testing.T) {
 		t.Fatalf("without a map nothing is a fallback: %+v", run.Steps[0])
 	}
 }
+
+func TestSuggestionsReobserveWhenOptionsLag(t *testing.T) {
+	field := mk("1", "combobox", "Where from?", "input", "aria-autocomplete=list", "OriginField", true)
+	// Non-interactive filler so each page has 3+ nodes: fewer trips the loop's
+	// own "almost nothing came back" retry, which would (as a side effect)
+	// already swap in the option before step 2 starts and defeat this test.
+	heading := mk("h", "heading", "Flights", "h1", "", "", false)
+	blurb := mk("b", "text", "Search for flights", "p", "", "", false)
+	option := mk("2", "option", "Zurich Airport (ZRH)", "li", "", "", true)
+	first := &fakePage{url: "/", view: "Home", nodes: []*Node{field, heading, blurb}}
+	later := &fakePage{url: "/", view: "Home", nodes: []*Node{field, heading, blurb, option}}
+	d := newFakeDriver("/", first)
+	// The option only shows up once the "first" page has been observed
+	// twice (step 1's look, then step 2's own first look, still lagging);
+	// only the loop's second look within step 2 (this task's fix) should see it.
+	seenFirst := 0
+	d.observeHook = func(p *fakePage) {
+		if p == first {
+			seenFirst++
+			if seenFirst == 2 {
+				d.pages["/"] = later
+			}
+		}
+	}
+	p := &fakePicker{script: []string{"n1", "n2"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "fly from Zurich", Picker: p, MaxSteps: 2, Spec: &Spec{Values: map[string]string{"from": "Zurich"}}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || !strings.Contains(run.Steps[1].Action, "Zurich Airport") {
+		t.Fatalf("expected the option to be picked on step 2, got %+v", run.Steps)
+	}
+	if len(p.picks) != 2 || p.picks[1] != "n2" {
+		t.Fatalf("second pick should see only the option: %v", p.picks)
+	}
+}

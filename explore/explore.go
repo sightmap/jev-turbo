@@ -163,6 +163,19 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			// the typed value only counts once an option is chosen, so offer only those.
 			if opts := onlyOptions(cands); len(opts) > 0 {
 				cands = opts
+			} else {
+				// The options can still be rendering when this observation landed
+				// (a few hundred ms behind in headless Chrome): look once more
+				// before giving up and offering the whole page.
+				drv.Wait(ctx, 300*time.Millisecond)
+				if page, err = drv.Observe(ctx); err != nil {
+					return run, fmt.Errorf("explore: observe: %w", err)
+				}
+				step.MsSnap = int(time.Since(tS).Milliseconds())
+				cands = Candidates(page.Nodes, CandidateOptions{Seen: seen, URL: page.URL, Avoid: spec.Avoid})
+				if opts := onlyOptions(cands); len(opts) > 0 {
+					cands = opts
+				}
 			}
 			suggestionsOpen = false
 		}

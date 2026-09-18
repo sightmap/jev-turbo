@@ -62,6 +62,10 @@ type fakeDriver struct {
 	fills   map[string]string
 	failIDs map[string]int // click on this id fails this many times with a stale error
 	scrolls int
+	// observeHook, when set, is called in Observe with the page about to be
+	// returned (before it is copied into a *Page), letting a test swap in a
+	// different page for the next call.
+	observeHook func(*fakePage)
 }
 
 func newFakeDriver(start string, pages ...*fakePage) *fakeDriver {
@@ -78,6 +82,9 @@ func (d *fakeDriver) Observe(ctx context.Context) (*Page, error) {
 	p := d.page()
 	if p == nil {
 		return nil, fmt.Errorf("no page at %s", d.cur)
+	}
+	if d.observeHook != nil {
+		d.observeHook(p)
 	}
 	return &Page{URL: p.url, View: p.view, Nodes: p.nodes}, nil
 }
