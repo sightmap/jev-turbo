@@ -103,6 +103,32 @@ func TestHistoryCount(t *testing.T) {
 	}
 }
 
+func TestHistoryCountFromJSONNeedsMinAndSubstr(t *testing.T) {
+	var s Spec
+	if err := json.Unmarshal([]byte(`{"done_when":{"history_count":{}}}`), &s); err != nil {
+		t.Fatal(err)
+	}
+	// A zero count would otherwise match an empty history and pass the goal at step 1.
+	if s.DoneWhen.Check(&Page{URL: "/"}, nil) {
+		t.Fatal("history_count with no min and no substr must not be satisfied")
+	}
+	dir := t.TempDir()
+	suitePath := filepath.Join(dir, "suite.json")
+	os.WriteFile(suitePath, []byte(`{"name":"s","start_url":"https://s/","goals":[
+	  {"name":"fine","goal":"a","spec":{"done_when":{"view":"Cart"}}},
+	  {"name":"broken","goal":"b","spec":{"done_when":{"history_count":{}}}}
+	]}`), 0o644)
+	_, err := LoadSuite(suitePath)
+	if err == nil || !strings.Contains(err.Error(), "history_count") || !strings.Contains(err.Error(), "broken") {
+		t.Fatalf("LoadSuite error = %v, want one naming the goal and history_count", err)
+	}
+	specPath := filepath.Join(dir, "spec.json")
+	os.WriteFile(specPath, []byte(`{"done_when":{"all":[{"history_count":{"substr":"Finish"}}]}}`), 0o644)
+	if _, err := LoadSpec(specPath); err == nil || !strings.Contains(err.Error(), "history_count") {
+		t.Fatalf("LoadSpec error = %v, want one mentioning history_count", err)
+	}
+}
+
 func TestLoadSpec(t *testing.T) {
 	dir := t.TempDir()
 	p := filepath.Join(dir, "spec.json")

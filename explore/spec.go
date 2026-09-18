@@ -55,7 +55,27 @@ func LoadSpec(path string) (*Spec, error) {
 	if err := json.Unmarshal(data, &s); err != nil {
 		return nil, fmt.Errorf("spec %s: %w", path, err)
 	}
+	if err := s.DoneWhen.validate(); err != nil {
+		return nil, fmt.Errorf("spec %s: %w", path, err)
+	}
 	return &s, nil
+}
+
+// validate rejects a check that JSON can express but the loop cannot act on.
+// The flag syntax already refuses these; a spec file has to be checked too.
+func (d *DoneWhen) validate() error {
+	if d == nil {
+		return nil
+	}
+	if hc := d.HistoryCount; hc != nil && (hc.Min < 1 || hc.Substr == "") {
+		return fmt.Errorf("history_count wants min >= 1 and a substr, got min=%d substr=%q", hc.Min, hc.Substr)
+	}
+	for i := range d.All {
+		if err := d.All[i].validate(); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // ParseDoneWhen parses the flag mini-syntax: one "key=value" per expression,
@@ -216,6 +236,11 @@ func (d *DoneWhen) Check(page *Page, history []string) bool {
 		}
 	}
 	if d.HistoryCount != nil {
+		if d.HistoryCount.Min < 1 || d.HistoryCount.Substr == "" {
+			// A count with no minimum or no substring matches anything, which
+			// would pass the goal at step 1; treat it as never satisfied.
+			return false
+		}
 		n := 0
 		for _, h := range history {
 			if strings.Contains(h, d.HistoryCount.Substr) {

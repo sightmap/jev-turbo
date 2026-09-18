@@ -42,6 +42,14 @@ func LoadSuite(path string) (*Suite, error) {
 	if len(s.Goals) == 0 {
 		return nil, fmt.Errorf("suite %s: no goals", path)
 	}
+	for _, g := range s.Goals {
+		if g.Spec == nil {
+			continue
+		}
+		if err := g.Spec.DoneWhen.validate(); err != nil {
+			return nil, fmt.Errorf("suite %s: goal %q: %w", path, g.Name, err)
+		}
+	}
 	return &s, nil
 }
 
