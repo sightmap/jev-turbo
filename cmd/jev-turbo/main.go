@@ -261,7 +261,7 @@ func runExplore(args []string) error {
 	hasMap := corpus != nil && len(corpus.AllComponents()) > 0
 	drv := explore.NewCDPDriver(conn, corpus)
 
-	hook, report, err := maybeGrow(*growFlag, *lf.dir, drv)
+	hook, report, _, err := maybeGrow(*growFlag, *lf.dir, drv)
 	if err != nil {
 		return err
 	}
@@ -380,21 +380,21 @@ func makePicker(name string) (explore.Picker, error) {
 	return nil, fmt.Errorf("--picker %q: use jev[:model] or anthropic[:model]", name)
 }
 
-func maybeGrow(on bool, dir string, drv *explore.CDPDriver) (explore.PageHook, func() string, error) {
+func maybeGrow(on bool, dir string, drv *explore.CDPDriver) (explore.PageHook, func() string, func() grow.Stats, error) {
 	if !on {
-		return nil, nil, nil
+		return nil, nil, nil, nil
 	}
 	if _, err := os.Stat(dir); err != nil {
 		if err := os.MkdirAll(dir, 0o755); err != nil {
-			return nil, nil, fmt.Errorf("--grow: create %s: %w", dir, err)
+			return nil, nil, nil, fmt.Errorf("--grow: create %s: %w", dir, err)
 		}
 		if err := os.WriteFile(filepath.Join(dir, "components.yaml"), []byte("version: 1\ncomponents: []\n"), 0o644); err != nil {
-			return nil, nil, err
+			return nil, nil, nil, err
 		}
 	}
 	jev, err := explore.NewJevPicker("")
 	if err != nil {
-		return nil, nil, fmt.Errorf("--grow: %w", err)
+		return nil, nil, nil, fmt.Errorf("--grow: %w", err)
 	}
 	g := grow.New(dir, jev)
 	g.Reload = func() error {
@@ -413,7 +413,7 @@ func maybeGrow(on bool, dir string, drv *explore.CDPDriver) (explore.PageHook, f
 		st := g.Stats()
 		return fmt.Sprintf("grow: %d components, %d views, %d promoted to global, %d pages, %d model calls, %d ms", st.Added, st.Views, st.Promoted, st.Pages, st.Calls, st.Ms)
 	}
-	return g, report, nil
+	return g, report, g.Stats, nil
 }
 
 /* ---------------- bench ---------------- */
@@ -475,7 +475,7 @@ func runBench(args []string) error {
 	}
 	hasMap := corpus != nil && len(corpus.AllComponents()) > 0
 	drv := explore.NewCDPDriver(conn, corpus)
-	hook, report, err := maybeGrow(*growFlag, *lf.dir, drv)
+	hook, report, stats, err := maybeGrow(*growFlag, *lf.dir, drv)
 	if err != nil {
 		return err
 	}
@@ -520,7 +520,15 @@ func runBench(args []string) error {
 	if out == "" {
 		out = fmt.Sprintf("explore-%s-%s-%s-%s.json", suite.Name, res.Condition, strings.NewReplacer(":", "_", "/", "_").Replace(res.Picker), time.Now().Format("20060102-150405"))
 	}
-	data, _ := json.MarshalIndent(res, "", " ")
+	var data []byte
+	if *growFlag {
+		data, _ = json.MarshalIndent(struct {
+			*explore.SuiteResult
+			Grow grow.Stats `json:"grow"`
+		}{res, stats()}, "", " ")
+	} else {
+		data, _ = json.MarshalIndent(res, "", " ")
+	}
 	if err := os.WriteFile(out, data, 0o644); err != nil {
 		return err
 	}

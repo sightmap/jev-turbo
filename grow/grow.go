@@ -45,15 +45,16 @@ type Added struct {
 
 // Stats summarises a grower's work.
 type Stats struct {
-	Added    int      `json:"added"`
-	Views    int      `json:"views"`
-	Promoted int      `json:"promoted_global"`
-	Skipped  int      `json:"skipped"`
-	Rejected int      `json:"rejected"`
-	Pages    int      `json:"pages"`
-	Calls    int      `json:"model_calls"`
-	Ms       int      `json:"ms"`
-	Names    []string `json:"names"`
+	Added      int      `json:"added"`
+	Views      int      `json:"views"`
+	Promoted   int      `json:"promoted_global"`
+	Skipped    int      `json:"skipped"`
+	Rejected   int      `json:"rejected"`
+	Pages      int      `json:"pages"`
+	Calls      int      `json:"model_calls"`
+	Ms         int      `json:"ms"`
+	Names      []string `json:"names"`
+	Components []Added  `json:"components,omitempty"`
 }
 
 // Grower is an explore.PageHook that writes into the corpus at Dir.
@@ -86,6 +87,7 @@ func (g *Grower) Stats() Stats {
 	st := Stats{Promoted: g.promoted, Skipped: g.skipped, Rejected: g.rejected, Pages: len(g.pages), Calls: g.Namer.Calls(), Ms: g.ms}
 	for _, a := range g.added {
 		st.Names = append(st.Names, a.Name)
+		st.Components = append(st.Components, a)
 		if a.Kind == "view" {
 			st.Views++
 		} else {

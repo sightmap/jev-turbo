@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -183,6 +184,14 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 	}
 	if strings.Join(names, ",") != "NavListLink,LogoLink" || strings.Join(sels, ",") != "ul.nav-list a,#logo" {
 		t.Fatalf("names = %v sels = %v", names, sels)
+	}
+	// Stats().Components mirrors the added list: one entry per written component.
+	wantComponents := []Added{
+		{Name: "NavListLink", View: "Home", Selector: "ul.nav-list a", Kind: "link", Count: 2},
+		{Name: "LogoLink", View: "Home", Selector: "#logo", Kind: "link", Count: 1},
+	}
+	if !reflect.DeepEqual(st.Components, wantComponents) {
+		t.Fatalf("components = %+v", st.Components)
 	}
 	// the new corpus covers the page
 	if OfflineCount(root, "ul.nav-list a") != 2 {
