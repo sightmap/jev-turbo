@@ -15,12 +15,18 @@ type RunMetrics struct {
 	OptionsMedian    float64 `json:"options_median"`
 }
 
+// IsAction reports whether a step acted on the page. The closing "done",
+// "done(judged)" and "no-candidates" steps are records, not actions.
+func IsAction(s Step) bool {
+	return s.Action != "done" && s.Action != "done(judged)" && s.Action != "no-candidates"
+}
+
 // Metrics folds the acted steps of a run. The final "done" step is not an action.
 func Metrics(steps []Step) RunMetrics {
 	var m RunMetrics
 	var cands, opts []float64
 	for _, s := range steps {
-		if s.Action == "done" || s.Action == "done(judged)" || s.Action == "no-candidates" {
+		if !IsAction(s) {
 			continue
 		}
 		m.Steps++

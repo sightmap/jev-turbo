@@ -24,7 +24,7 @@ func TestMetrics(t *testing.T) {
 func TestSummarizeAggregatesMetrics(t *testing.T) {
 	runs := []GoalResult{
 		{Name: "a", Run: &Run{OK: true, Steps: []Step{{Action: "x", Candidates: 4, Wasted: true}, {Action: "done"}}}},
-		{Name: "b", Run: &Run{OK: false, Steps: []Step{{Action: "y", Candidates: 8, Fallback: true, Confidence: 0.2}}}},
+		{Name: "b", Run: &Run{OK: false, Steps: []Step{{Action: "y", Candidates: 8, Fallback: true, Confidence: 0.2}, {Action: "done(judged)", Candidates: 100}}}},
 	}
 	for i := range runs {
 		runs[i].Run.Metrics = Metrics(runs[i].Run.Steps)
@@ -32,5 +32,14 @@ func TestSummarizeAggregatesMetrics(t *testing.T) {
 	s := Summarize(runs)
 	if s.Wasted != 1 || s.Fallback != 1 || s.LowConfidence != 1 || s.CandidatesMedian != 6 {
 		t.Fatalf("got %+v", s)
+	}
+}
+
+func TestIsAction(t *testing.T) {
+	if IsAction(Step{Action: "done"}) || IsAction(Step{Action: "done(judged)"}) || IsAction(Step{Action: "no-candidates"}) {
+		t.Fatal("closing steps should not count as actions")
+	}
+	if !IsAction(Step{Action: "clicked [A]"}) {
+		t.Fatal("an ordinary step should count as an action")
 	}
 }

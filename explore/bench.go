@@ -220,6 +220,9 @@ func Summarize(runs []GoalResult) Summary {
 		s.Fallback += r.Metrics.Fallback
 		s.LowConfidence += r.Metrics.LowConfidence
 		for _, st := range r.Steps {
+			if !IsAction(st) {
+				continue
+			}
 			if st.Candidates > 0 {
 				allCandidates = append(allCandidates, float64(st.Candidates))
 			}
