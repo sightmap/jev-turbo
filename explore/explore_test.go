@@ -230,7 +230,7 @@ func TestBuildStateListsEverything(t *testing.T) {
 	drv := loginSite()
 	page, _ := drv.Observe(context.Background())
 	cands := Candidates(page.Nodes, CandidateOptions{})
-	s := buildState("log in", &Spec{DoneWhen: &DoneWhen{View: "Cart"}, Values: map[string]string{"username": "u"}}, page, []string{"1. did a thing → /x"}, cands)
+	s := buildState("log in", &Spec{DoneWhen: &DoneWhen{View: "Cart"}, Values: map[string]string{"username": "u"}}, page, []string{"1. did a thing → /x"}, cands, nil)
 	for _, want := range []string{"GOAL: log in", `the page is the "Cart" view`, `username="u"`, "view=Login", "COMPONENTS ON PAGE: LoginButton, PasswordField, UsernameField", "1. did a thing", "n29: [UsernameField]", "back: go back"} {
 		if !strings.Contains(s, want) {
 			t.Errorf("state missing %q:\n%s", want, s)
@@ -317,5 +317,53 @@ func TestSuggestionsReobserveWhenOptionsLag(t *testing.T) {
 	}
 	if run.Steps[1].View != "HomeOpen" {
 		t.Fatalf("step should record the page the second look landed on, got view %q", run.Steps[1].View)
+	}
+}
+
+func TestToolsMode(t *testing.T) {
+	ts, _ := ParseIR([]byte(irFixture))
+	login := &fakePage{url: "/", view: "Login", nodes: []*Node{mk("1", "textbox", "Username", "input", "", "UsernameField", true)}}
+	inv := &fakePage{url: "/inventory.html", view: "Inventory", nodes: []*Node{mk("2", "button", "Add to cart", "button", "", "AddToCartButton", true)}}
+	cart := &fakePage{url: "/cart.html", view: "Cart", nodes: []*Node{mk("3", "button", "Checkout", "button", "", "CheckoutButton", true)}}
+	d := newFakeDriver("/", login, inv, cart)
+	runner := &fakeToolRunner{drv: d, after: map[string]string{"log_in": "/inventory.html", "go_to_cart": "/cart.html"},
+		results: map[string]ToolResult{"log_in": {OK: true, Guidance: []Suggestion{{Tool: "go_to_cart", When: "now"}}}}}
+	p := &fakePicker{script: []string{"t:log_in", "t:go_to_cart"}}
+	values := map[string]string{"username": "standard_user", "password": "secret_sauce"}
+	run, err := Explore(context.Background(), d, Options{Goal: "log in and open the cart", Picker: p,
+		Spec: &Spec{Values: values, DoneWhen: &DoneWhen{View: "Cart"}}, Tools: ts, ToolRunner: runner, MaxSteps: 5})
+	if err != nil || !run.OK {
+		t.Fatalf("run: %v %+v", err, run)
+	}
+	if strings.Join(runner.calls, "; ") != "log_in password=secret_sauce username=standard_user; go_to_cart" {
+		t.Fatalf("calls = %v", runner.calls)
+	}
+	if run.Steps[0].Tool != "log_in" || !run.Steps[0].ToolOK || run.Steps[0].Fallback {
+		t.Fatalf("step 1 = %+v", run.Steps[0])
+	}
+	if len(d.clicks) != 0 {
+		t.Fatalf("no element clicks expected, got %v", d.clicks)
+	}
+}
+
+func TestToolFailureFallsBackToElements(t *testing.T) {
+	ts, _ := ParseIR([]byte(irFixture))
+	login := &fakePage{url: "/", view: "Login", nodes: []*Node{mk("1", "button", "Log in", "button", "", "LoginButton", true)}, edges: map[string]string{"1": "/inventory.html"}}
+	inv := &fakePage{url: "/inventory.html", view: "Inventory", nodes: []*Node{mk("2", "button", "Add to cart", "button", "", "AddToCartButton", true)}}
+	d := newFakeDriver("/", login, inv)
+	runner := &fakeToolRunner{drv: d, results: map[string]ToolResult{"log_in": {OK: false, Message: "wait_for timed out"}}}
+	p := &fakePicker{script: []string{"t:log_in", "n1"}, prefer: []string{"t:log_in"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "log in", Picker: p, Spec: &Spec{Values: map[string]string{"username": "u", "password": "p"}, DoneWhen: &DoneWhen{View: "Inventory"}}, Tools: ts, ToolRunner: runner, MaxSteps: 4})
+	if err != nil || !run.OK {
+		t.Fatalf("run: %v %+v", err, run)
+	}
+	if run.Steps[0].Tool != "log_in" || run.Steps[0].ToolOK || !run.Steps[0].Wasted {
+		t.Fatalf("failed tool step = %+v", run.Steps[0])
+	}
+	// The pick after a failed tool sees no tool options: the sticky preference
+	// for "t:log_in" cannot be honoured, so the picker falls through to the
+	// scripted "n1" (the login page's only button) instead of looping on the tool.
+	if len(p.picks) < 2 || strings.HasPrefix(p.picks[1], ToolPrefix) {
+		t.Fatalf("picks = %v", p.picks)
 	}
 }
