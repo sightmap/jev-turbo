@@ -89,8 +89,8 @@ searches and the run drifts.
 
 | suite | condition | goals reached | steps per reached goal (median) | wasted steps | low-confidence picks | candidates a step (median) | seconds |
 |---|---|---|---|---|---|---|---|
-| saucedemo, 10 goals ×3 | map | 30/30 | 5 | 3 | 0 | 3 | 48.4 |
-| saucedemo, 10 goals ×3 | no map | 30/30 | 5 | 3 | 2 | 3 | 45.6 |
+| saucedemo, 10 goals ×3 | map | 30/30 | 4.5 | 3 | 0 | 3 | 48.4 |
+| saucedemo, 10 goals ×3 | no map | 30/30 | 4.5 | 3 | 2 | 3 | 45.6 |
 | journeys, 2 long goals ×3 | map | 3/6 | 13 | 63 | 34 | 9 | 53.8 |
 | journeys, 2 long goals ×3 | no map | 3/6 | 13 | 53 | 49 | 10 | 53.4 |
 | Google Flights, Zürich to London ×10 | map | 10/10 | 9 | 2 | 1 | 78 | 100.6 |

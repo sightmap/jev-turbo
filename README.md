@@ -52,10 +52,10 @@ Jev never writes text. Everything the loop types comes from `--value` or a spec 
 
 Same loop, same site, same model, run once with a sightmap and once with `--no-map` so Jev sees the raw HTML and ARIA tree instead.
 
-| suite | condition | goals reached | steps per goal | wasted steps | unsure picks | seconds |
+| suite | condition | goals reached | steps per reached goal | wasted steps | unsure picks | seconds |
 |---|---|---|---|---|---|---|
-| saucedemo, 10 goals ×3 | map | 30/30 | 5 | 3 | 0 | 48.4 |
-| saucedemo, 10 goals ×3 | no map | 30/30 | 5 | 3 | 2 | 45.6 |
+| saucedemo, 10 goals ×3 | map | 30/30 | 4.5 | 3 | 0 | 48.4 |
+| saucedemo, 10 goals ×3 | no map | 30/30 | 4.5 | 3 | 2 | 45.6 |
 | journeys, 2 long goals ×3 | map | 3/6 | 13 | 63 | 34 | 53.8 |
 | journeys, 2 long goals ×3 | no map | 3/6 | 13 | 53 | 49 | 53.4 |
 | Google Flights, Zürich to London ×10 | map | 10/10 | 9 | 2 | 1 | 100.6 |
@@ -63,7 +63,7 @@ Same loop, same site, same model, run once with a sightmap and once with `--no-m
 
 Unsure picks are picks Jev gave under 60% probability. Wasted steps are a stale click, a back, or a repeat of a control already used on that page.
 
-On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights: steps per goal went from 16 to 9, unsure picks from 36 to 1, and the ten runs took 101 seconds instead of 142. On saucedemo, whose raw tree already carries good names, the map changed nothing. Two earlier no-map runs failed for reasons that were bugs in this loop: saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree; both are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time; that is a limit of the loop, not something the map caused.
+On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights. Steps per reached goal went from 16 to 9. Unsure picks went from 36 to 1. The ten runs took 101 seconds instead of 142. On saucedemo, whose raw tree already carries good names, the map changed nothing. Two earlier no-map runs failed from bugs in this loop, not from the map. Saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree. Both bugs are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time. That is a limit of the loop, not something the map caused.
 
 Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet comparison, are in [`bench/`](bench/README.md).
 
