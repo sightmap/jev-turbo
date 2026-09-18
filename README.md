@@ -38,7 +38,7 @@ jev-turbo explore --sightmap-dir bench/saucedemo/.sightmap \
 OK  done_when satisfied  steps=6  1.5s  picker=jev:jev-latest calls=5 732ms tokens=6120+610
 ```
 
-No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--grow`. jev-turbo names the controls it meets as it goes, and the result is a plain `.sightmap/` directory that any other agent can read. `--start` launches the browser session for you. The session is a headed Chrome by default. jev-turbo never brings it to the front, but Chrome takes focus once when it launches; add `--headless` to `sightmap browser start` (or to `--start`) to keep it off your screen. Google Flights needs a headed session.
+No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--grow`. jev-turbo names the controls it meets as it goes, and the result is a plain `.sightmap/` directory that any other agent can read. `--start` launches the browser session for you. The session is a headed Chrome by default. jev-turbo never brings it to the front, but Chrome takes focus once when it launches; add `--headless` to `sightmap browser start` (or to `--start`) to keep it off your screen.
 
 ## What happens in a step
 
@@ -61,7 +61,9 @@ Same loop, same site, same model, run once with a sightmap and once with `--no-m
 | Google Flights, Zürich to London ×10 | map | 10/10 | 9 | 2 | 1 | 100.6 |
 | Google Flights, Zürich to London ×10 | no map | 10/10 | 16 | 12 | 36 | 142.2 |
 
-On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights: steps per goal went from 16 to 9, unsure picks from 36 to 1, and the ten runs took 101 seconds instead of 142. On saucedemo, whose raw tree already carries good names, the map changed nothing. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time; that is a limit of the loop, not something the map caused.
+Unsure picks are picks Jev gave under 60% probability. Wasted steps are a stale click, a back, or a repeat of a control already used on that page.
+
+On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights: steps per goal went from 16 to 9, unsure picks from 36 to 1, and the ten runs took 101 seconds instead of 142. On saucedemo, whose raw tree already carries good names, the map changed nothing. Two earlier no-map runs failed for reasons that were bugs in this loop: saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree; both are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time; that is a limit of the loop, not something the map caused.
 
 Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet comparison, are in [`bench/`](bench/README.md).
 
@@ -86,7 +88,7 @@ jev-turbo graph   [RUN.json ...]
 
 ## Limits
 
-- The goals here are 2 to 12 steps on cooperative sites. None needed backtracking, a modal that eats clicks, or an infinite feed.
+- The short goals are 2 to 12 steps on cooperative sites; the two long ones cap at 30 and 45 steps, and one of them fails both with and without the map because the loop cannot repeat a flow.
 - Jev picks from what the sightmap library can see: HTML and ARIA controls. Canvas, frames, and file uploads are out.
 - Snapshotting a Google Flights page costs 250 to 350 ms a step, and that is most of the gap to a loop tuned for one page.
 
