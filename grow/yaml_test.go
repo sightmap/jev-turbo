@@ -164,7 +164,11 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 		t.Fatal(err)
 	}
 	st := g.Stats()
-	if st.Added != 2 || st.Calls != 2 {
+	// Both link groups are decided by the KindFromRoles role rule (role=link
+	// is always decisive), so classify never reaches the picker: Calls is 0,
+	// not one per group, while the corpus output (Added, names, selectors) is
+	// unchanged.
+	if st.Added != 2 || st.Calls != 0 {
 		t.Fatalf("stats = %+v", st)
 	}
 	c, err := sightmap.Load(dir)
@@ -198,7 +202,11 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 
 func TestOnPageSkipsNoise(t *testing.T) {
 	dir := newCorpus(t)
-	btn := &sightmap.ComponentNode{Id: "b", Role: "button", Name: "x", IsInteractive: true, IsVisible: true, Element: &sightmap.Element{Tag: "button", Classes: []string{"btn"}}}
+	// A plain interactive <div> with no ARIA role: KindFromRoles is not
+	// decisive for it (unlike a real <button>, which the role rule now always
+	// resolves to "button" without asking Jev), so it still reaches the
+	// picker and can be marked noise.
+	btn := &sightmap.ComponentNode{Id: "b", Role: "", Name: "x", IsInteractive: true, IsVisible: true, Element: &sightmap.Element{Tag: "div", Classes: []string{"btn"}}}
 	root := &sightmap.ComponentNode{Id: "root", Role: "none", IsVisible: true, Element: &sightmap.Element{Tag: "body"}, Children: []*sightmap.ComponentNode{btn}}
 	page := explore.NewPage(&observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{}}, "https://b/")
 	g := New(dir, classifyAll{kind: "noise"})

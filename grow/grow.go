@@ -281,6 +281,9 @@ func OfflineCount(root *sightmap.ComponentNode, selector string) int {
 }
 
 func (g *Grower) classify(ctx context.Context, gr *group) (string, error) {
+	if kind, ok := KindFromRoles(gr.tag, gr.role, gr.hook, len(gr.members)); ok {
+		return kind, nil
+	}
 	var examples []string
 	for i, m := range gr.members {
 		if i >= 5 {
