@@ -4,11 +4,16 @@ import "strings"
 
 // KindFromRoles decides the obvious cases from tag and role. It is not
 // decisive for repeated containers, where nav, card and noise need judgment.
+// Kind drives only the name suffix and the description, so roles that need the
+// same two collapse: checkbox, radio and switch map to button, and a combobox
+// that is not a <select> maps to input.
 func KindFromRoles(tag, role, hook string, count int) (kind string, decisive bool) {
 	switch role {
 	case "button", "menuitem", "tab", "checkbox", "radio", "switch":
 		return "button", true
 	case "link":
+		// nav and link share the Link suffix in kindSuffix, so this split
+		// changes the description and nothing else.
 		if count >= 3 && isNavHook(hook) {
 			return "nav", true
 		}

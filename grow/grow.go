@@ -1,10 +1,11 @@
 // Package grow builds a sightmap corpus while a page is being explored. On
 // every observed page it groups the unmapped interactive nodes by their nearest
-// stable ancestor selector, asks a typed model what kind of control each group
-// is, names it from a template, verifies a scoped selector with the offline
-// matcher, and appends the component to the view's YAML. Selectors that turn
-// up on more than one view are promoted to global components. Every write is
-// followed by a corpus reload and rolled back if the corpus stops loading.
+// stable ancestor selector, decides each group's kind from its roles and tags,
+// asks the picker only about the groups KindFromRoles cannot decide, names the
+// group from a template, verifies a scoped selector with the offline matcher,
+// and appends the component to the view's YAML. Selectors that turn up on more
+// than one view are promoted to global components. Every write is followed by a
+// corpus reload and rolled back if the corpus stops loading.
 package grow
 
 import (
@@ -77,7 +78,8 @@ type Grower struct {
 	ms       int
 }
 
-// New returns a grower for the corpus at dir that classifies with picker.
+// New returns a grower for the corpus at dir. Kinds are decided from roles and
+// tags; picker is asked only about the groups KindFromRoles cannot decide.
 func New(dir string, picker explore.Picker) *Grower {
 	return &Grower{Dir: dir, Picker: picker, Namer: &TemplateNamer{Picker: picker}, MaxPerPage: 40, MaxVisits: 2, pages: map[string]int{}}
 }

@@ -219,9 +219,9 @@ seconds               48.4                          45.6                        
 
 `jev-turbo bench books.json --grow --repeat 3`, starting from
 the empty `books/.sightmap` (reset it with `rm -rf books/.sightmap/views` and a
-fresh `components.yaml` of `version: 1`, `components: []`), on the branch
-where grow decides button, link, input and select from role and tag and
-asks Jev only about repeated containers (`grow/kinds.go`):
+fresh `components.yaml` of `version: 1`, `components: []`), jev-turbo at
+this commit, where grow decides button, link, input and select from role and
+tag and asks Jev only about repeated containers (`grow/kinds.go`):
 
 | repeat | goals | corpus after |
 |---|---|---|
@@ -230,9 +230,11 @@ asks Jev only about repeated containers (`grow/kinds.go`):
 | 3 | 10/10 | unchanged |
 
 Grow work cost 213 ms in total across the four page types, with one Jev
-classification call, down from seven calls on the earlier version of grow
-that asked Jev about every container. `sightmap validate` and `sightmap
-lint --warn-only` are clean on the result. The run file is
+classification call. The earlier version of grow, which asked Jev about
+every container, printed seven model calls in the stderr report at the end
+of its run; no run file was kept for it, so that seven comes from the report
+line and not from `results/`. `sightmap validate` and `sightmap lint
+--warn-only` are clean on the result. The run file for the numbers above is
 `results/books-jev-grow.json`.
 
 Grow is coverage scaffolding, nothing more. It scopes each new component to
@@ -242,8 +244,9 @@ names the component from a template, reads off `label`, `href`, and
 add meaning. Any property beyond those three, a memory line, or a name a
 person would actually choose still has to come from the authoring skill or a
 curator. The naming step is where a curator plugs in: it sits behind the
-`grow.Namer` interface, and the shipped default, `TemplateNamer` in
-`grow/namer.go`, is a placeholder until someone does.
+`grow.Namer` interface. The shipped default, `TemplateNamer` in
+`grow/namer.go`, names from a template; a curator that proposes names
+implements the same interface.
 
 ## What the numbers do and do not show
 
