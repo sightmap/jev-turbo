@@ -72,6 +72,7 @@ Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet compari
 ```
 jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--record DIR] [--no-map]
 jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--record DIR] [--no-map]
+jev-turbo score   RUN.json [RUN.json ...]   # one column per run file
 jev-turbo plan    --goal "..." [--site host]
 jev-turbo graph   [RUN.json ...]
 ```

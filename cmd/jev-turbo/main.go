@@ -37,6 +37,8 @@ func main() {
 		err = runExplore(os.Args[2:])
 	case "bench":
 		err = runBench(os.Args[2:])
+	case "score":
+		err = runScore(os.Args[2:])
 	case "plan":
 		err = runPlan(os.Args[2:])
 	case "graph":
@@ -67,6 +69,7 @@ func usage() {
 Commands:
   explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--no-map] [--record DIR]
   bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--no-map] [--record DIR]
+  score   RUN.json [RUN.json ...]             one column per run file
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
   version
@@ -512,6 +515,7 @@ func runBench(args []string) error {
 		return err
 	}
 	fmt.Print("\n" + explore.FormatTable(res))
+	fmt.Print("\n" + explore.FormatScores([]explore.Score{explore.ScoreResult(res)}))
 	out := *outFlag
 	if out == "" {
 		out = fmt.Sprintf("explore-%s-%s-%s-%s.json", suite.Name, res.Condition, strings.NewReplacer(":", "_", "/", "_").Replace(res.Picker), time.Now().Format("20060102-150405"))
@@ -524,6 +528,31 @@ func runBench(args []string) error {
 	if res.Summary.OK < res.Summary.Goals {
 		return fmt.Errorf("%d of %d goals not reached", res.Summary.Goals-res.Summary.OK, res.Summary.Goals)
 	}
+	return nil
+}
+
+/* ---------------- score ---------------- */
+
+func runScore(args []string) error {
+	if len(args) == 0 {
+		return fmt.Errorf("score needs one or more run files")
+	}
+	var scores []explore.Score
+	for _, path := range args {
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return fmt.Errorf("score %s: %w", path, err)
+		}
+		var res explore.SuiteResult
+		if err := json.Unmarshal(data, &res); err != nil {
+			return fmt.Errorf("score %s: not a SuiteResult: %w", path, err)
+		}
+		if res.Suite == "" || len(res.Runs) == 0 {
+			return fmt.Errorf("score %s: not a SuiteResult (no suite name or runs)", path)
+		}
+		scores = append(scores, explore.ScoreResult(&res))
+	}
+	fmt.Print(explore.FormatScores(scores))
 	return nil
 }
 
