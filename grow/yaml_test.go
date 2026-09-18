@@ -232,3 +232,37 @@ func TestOnPageSkipsNoise(t *testing.T) {
 		t.Fatalf("stats = %+v", st)
 	}
 }
+
+// kindOnlyNamer decides a kind and leaves the name empty, which Decision.Name
+// documents as "the template name".
+type kindOnlyNamer struct{ kind string }
+
+func (k kindOnlyNamer) Name(context.Context, Group, int) (Decision, error) {
+	return Decision{Kind: k.kind}, nil
+}
+func (k kindOnlyNamer) Calls() int { return 0 }
+
+func TestOnPageNamesFromTemplateWhenTheNamerLeavesTheNameEmpty(t *testing.T) {
+	dir := newCorpus(t)
+	btn := &sightmap.ComponentNode{Id: "b", Role: "button", Name: "Add to cart", IsInteractive: true, IsVisible: true, Element: &sightmap.Element{Tag: "button", Id: "add"}}
+	root := &sightmap.ComponentNode{Id: "root", Role: "none", IsVisible: true, Element: &sightmap.Element{Tag: "body"}, Children: []*sightmap.ComponentNode{btn}}
+	page := explore.NewPage(&observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{}}, "https://b/")
+	g := New(dir, nil)
+	g.Namer = kindOnlyNamer{kind: "button"}
+	if err := g.OnPage(context.Background(), page); err != nil {
+		t.Fatal(err)
+	}
+	// GroupName drops the stopword "to", so "Add to cart" names AddCartButton.
+	want := []Added{{Name: "AddCartButton", View: "Home", Selector: "#add", Kind: "button", Count: 1}}
+	if !reflect.DeepEqual(g.Stats().Components, want) {
+		t.Fatalf("components = %+v", g.Stats().Components)
+	}
+	c, err := sightmap.Load(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	home := c.ViewByName("Home")
+	if len(home.Components) != 1 || home.Components[0].Name != "AddCartButton" {
+		t.Fatalf("home = %+v", home.Components)
+	}
+}

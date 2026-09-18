@@ -190,6 +190,11 @@ func (g *Grower) OnPage(ctx context.Context, page *explore.Page) error {
 		if err != nil {
 			return err
 		}
+		// Decision.Name documents an empty name as "the template name", so a
+		// Namer that only decides the kind gets the template name here.
+		if dec.Kind != "noise" && dec.Name == "" {
+			dec.Name = GroupName(gr.Hook, gr.Tag, gr.Role, gr.Members, dec.Kind, count)
+		}
 		if dec.Kind == "noise" {
 			g.skipped += len(gr.Members)
 			continue
