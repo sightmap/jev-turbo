@@ -455,7 +455,7 @@ func runBench(args []string) error {
 	suiteFlag := fs.String("suite", "", "Suite JSON file (or pass it as the positional)")
 	pickerFlag := fs.String("picker", "jev", "jev[:model] or anthropic[:model]")
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring")
-	toolsFlag := fs.String("tools", "", "Sightkick tool layer dir: offer its tools alongside elements (default: the suite's \"tools\", resolved relative to the suite file; needs the sightkick CLI)")
+	toolsFlag := fs.String("tools", "", "Sightkick tool layer dir: offer its tools alongside elements (default: the suite's \"tools\", resolved relative to the suite file; pass an empty value to run the suite without it; needs the sightkick CLI)")
 	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
 	repeatFlag := fs.Int("repeat", 1, "Run the suite this many times")
 	onlyFlag := fs.String("only", "", "Only goals whose name contains this")
@@ -479,10 +479,13 @@ func runBench(args []string) error {
 	if err != nil {
 		return err
 	}
-	explicitDir := false
+	explicitDir, explicitTools := false, false
 	fs.Visit(func(f *flag.Flag) {
-		if f.Name == "sightmap-dir" {
+		switch f.Name {
+		case "sightmap-dir":
 			explicitDir = true
+		case "tools":
+			explicitTools = true
 		}
 	})
 	if !explicitDir && suite.SightmapDir != "" {
@@ -491,11 +494,16 @@ func runBench(args []string) error {
 	if *lf.url == "" && *lf.start {
 		*lf.url = suite.StartURL
 	}
-	toolsDir := *toolsFlag
-	if toolsDir == "" && suite.Tools != "" {
-		toolsDir = filepath.Join(filepath.Dir(*suiteFlag), suite.Tools)
+	// An explicit --tools wins over the suite's field, including an explicit
+	// empty one, which is how a suite that names a tool layer is run without it.
+	toolsDir, fromSuite := *toolsFlag, false
+	if !explicitTools && suite.Tools != "" {
+		toolsDir, fromSuite = filepath.Join(filepath.Dir(*suiteFlag), suite.Tools), true
 	}
 	if *noMapFlag && toolsDir != "" {
+		if fromSuite {
+			return fmt.Errorf(`--no-map and the suite's "tools" field do not combine: pass --tools "" to run %s without its tool layer`, filepath.Base(*suiteFlag))
+		}
 		return fmt.Errorf("--tools and --no-map do not combine")
 	}
 	ctx := context.Background()

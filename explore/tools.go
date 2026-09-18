@@ -155,8 +155,10 @@ func ToolOptions(ts *ToolSet, view string, values map[string]string, first []str
 	return opts
 }
 
-// ToolArgs fills a tool's params from values by word overlap between the param
-// name and the value key. ok is false when a required param has no value.
+// ToolArgs fills a tool's params from values. A param takes the value whose key
+// is exactly the same set of words: first_name takes a value keyed "first name",
+// while a param named "name" does not, because "first name" carries a word the
+// param has not. ok is false when a required param has no value.
 func ToolArgs(t *Tool, values map[string]string) (map[string]string, bool) {
 	args := map[string]string{}
 	for name := range t.Params {
@@ -176,6 +178,7 @@ func ToolArgs(t *Tool, values map[string]string) (map[string]string, bool) {
 			}
 			// A match must cover kw fully too, or a short param name like
 			// "name" would spuriously match a longer key like "first name".
+			// With the len(pw) check below this makes the two word sets equal.
 			if score != len(kw) {
 				continue
 			}

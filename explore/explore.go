@@ -124,7 +124,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	navigations := 0
 	afterFill := false
 	run := &Run{Goal: opts.Goal, Spec: spec, Picker: opts.Picker.Name()}
-	var suggested []string // tool names to rank first on the next ToolOptions call, from the last tool's Guidance
+	var suggested []string // tool names to rank first, from the last tool call's Guidance; the next ToolOptions call consumes it and it is cleared there
 	skipTool := ""         // a tool that just failed: left out of the next pick only, while its guidance still counts
 	failedToolAt := -1     // index in run.Steps of the step just appended, when it was a failed tool call
 	t0 := time.Now()
@@ -219,6 +219,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		var toolOpts []Criterion
 		if opts.Tools != nil && opts.ToolRunner != nil {
 			toolOpts = dropTool(ToolOptions(opts.Tools, page.View, values, suggested), skipTool)
+			suggested = suggested[:0]
 			crit.Options = append(append([]Criterion{}, toolOpts...), crit.Options...)
 		}
 		skipTool = ""
@@ -278,13 +279,16 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		var act *action
 		if strings.HasPrefix(pick.Next, ToolPrefix) {
-			tool := opts.Tools.Get(strings.TrimPrefix(pick.Next, ToolPrefix))
+			name := strings.TrimPrefix(pick.Next, ToolPrefix)
+			tool := opts.Tools.Get(name)
+			if tool == nil {
+				return run, fmt.Errorf("explore: act: picked unknown tool %q", name)
+			}
 			args, _ := ToolArgs(tool, values)
 			var res ToolResult
 			act, res, err = performTool(ctx, drv, opts.ToolRunner, tool, args, page)
 			step.Tool = tool.Name
 			step.ToolOK = err == nil && res.OK
-			suggested = suggested[:0]
 			for _, g := range res.Guidance {
 				suggested = append(suggested, g.Tool)
 			}
@@ -530,7 +534,15 @@ func performTool(ctx context.Context, drv Driver, runner ToolRunner, t *Tool, ar
 	case res.Skipped:
 		summary += " (already applied)"
 	}
-	return &action{summary: summary, comp: "tool:" + t.Name, seenKey: "tool " + t.Name, urlAfter: info.URL, settleMs: info.Ms}, res, nil
+	urlAfter := info.URL
+	if urlAfter == "" {
+		if u, err := drv.URL(ctx); err == nil {
+			urlAfter = u
+		} else {
+			urlAfter = page.URL
+		}
+	}
+	return &action{summary: summary, comp: "tool:" + t.Name, seenKey: "tool " + t.Name, urlAfter: urlAfter, settleMs: info.Ms}, res, nil
 }
 
 // dropTool leaves one tool out of a pick's options. A tool that just failed is
