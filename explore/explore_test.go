@@ -224,3 +224,39 @@ func TestBuildStateListsEverything(t *testing.T) {
 		}
 	}
 }
+
+func TestStepMetrics(t *testing.T) {
+	a := mk("1", "button", "Go", "button", "", "GoButton", true)
+	b := mk("2", "link", "Other", "a", "", "", true)
+	site := func() *fakeDriver {
+		return newFakeDriver("/", &fakePage{url: "/", view: "Home", nodes: []*Node{a, b}})
+	}
+	run, err := Explore(context.Background(), site(), Options{Goal: "go", Picker: &fakePicker{script: []string{"n1", "n1"}}, MaxSteps: 2, HasMap: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 {
+		t.Fatalf("steps = %d", len(run.Steps))
+	}
+	s0, s1 := run.Steps[0], run.Steps[1]
+	if s0.Candidates != 2 || s0.Named != 1 || s0.Options < 2 {
+		t.Fatalf("counts = candidates %d named %d options %d", s0.Candidates, s0.Named, s0.Options)
+	}
+	if s0.Confidence != 1 || s0.Fallback || s0.Wasted {
+		t.Fatalf("first step: confidence %v fallback %v wasted %v", s0.Confidence, s0.Fallback, s0.Wasted)
+	}
+	if !s1.Wasted {
+		t.Fatalf("second click of the same control at the same URL should be wasted: %+v", s1)
+	}
+	run, err = Explore(context.Background(), site(), Options{Goal: "go", Picker: &fakePicker{script: []string{"n2"}}, MaxSteps: 1, HasMap: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !run.Steps[0].Fallback {
+		t.Fatalf("an unnamed pick with a map present is a fallback: %+v", run.Steps[0])
+	}
+	run, _ = Explore(context.Background(), site(), Options{Goal: "go", Picker: &fakePicker{script: []string{"n2"}}, MaxSteps: 1})
+	if run.Steps[0].Fallback {
+		t.Fatalf("without a map nothing is a fallback: %+v", run.Steps[0])
+	}
+}

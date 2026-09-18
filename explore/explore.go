@@ -18,6 +18,7 @@ type Options struct {
 	MaxSteps      int     // default 20
 	MaxCandidates int     // default 60
 	DoneThreshold float64 // picker "done" confidence that ends a goal with no deterministic check (default 0.85)
+	HasMap        bool    // the corpus has at least one component; enables Step.Fallback
 	// Hook runs on every observed page before candidates are built (used by --grow).
 	Hook PageHook
 	// OnStep is called after each step with its record.
@@ -48,6 +49,13 @@ type Step struct {
 	MsSettle  int      `json:"ms_settle"`
 	Ms        int      `json:"ms"`
 	Navigated bool     `json:"navigated,omitempty"`
+
+	Candidates int     `json:"candidates,omitempty"` // element candidates after the guards
+	Options    int     `json:"options,omitempty"`    // options on the first pick; a group counts once
+	Named      int     `json:"named,omitempty"`      // candidates that carry a sightmap component
+	Confidence float64 `json:"confidence,omitempty"` // probability of the chosen option
+	Fallback   bool    `json:"fallback,omitempty"`   // a map exists but the pick is an unnamed node
+	Wasted     bool    `json:"wasted,omitempty"`     // stale, back, or a control already acted on at this URL
 }
 
 // CovStat is the page's coverage at the moment of a step.
@@ -173,6 +181,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			return run, nil
 		}
 		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL, AfterFill: afterFill, CanGoBack: navigations > 0})
+		step.Candidates = len(cands)
+		step.Options = len(crit.Options)
+		step.Named = countNamed(cands)
 		state := buildState(opts.Goal, spec, page, history, cands)
 
 		tP := time.Now()
@@ -197,6 +208,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		step.Probs = topProbs(pick.Probs, 3)
 		step.DoneProb = pick.Done
 		step.Why = pick.Why
+		step.Confidence = pick.Probs[pick.Next]
+		if c := findCandidate(cands, pick.Next); c != nil {
+			step.Fallback = opts.HasMap && c.Node.Comp == ""
+			step.Wasted = seen[page.URL+"|"+c.SeenKey] > 0
+		}
 
 		if pick.Done >= opts.DoneThreshold && !spec.DoneWhen.Deterministic() {
 			step.Action = "done(judged)"
@@ -252,6 +268,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		step.MsSettle = act.settleMs
 		step.Action = act.summary
+		if pick.Next == MetaBack || strings.HasPrefix(act.summary, "stale element") {
+			step.Wasted = true
+		}
 		step.URLAfter = act.urlAfter
 		step.Navigated = act.urlAfter != page.URL
 		if step.Navigated {
@@ -636,4 +655,15 @@ func shortURL(u string) string {
 		s = "/"
 	}
 	return s
+}
+
+// countNamed counts candidates that carry a sightmap component.
+func countNamed(cands []*Candidate) int {
+	n := 0
+	for _, c := range cands {
+		if c.Node != nil && c.Node.Comp != "" {
+			n++
+		}
+	}
+	return n
 }
