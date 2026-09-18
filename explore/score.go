@@ -10,6 +10,7 @@ import (
 // success, in the terms a curator can act on.
 type Score struct {
 	Label            string  `json:"label"`
+	Condition        string  `json:"condition,omitempty"` // "map" or "no-map", when the file records one
 	Goals            int     `json:"goals"`
 	Reached          int     `json:"reached"`
 	StepsMedian      float64 `json:"steps_median"` // acted steps per reached goal
@@ -19,6 +20,13 @@ type Score struct {
 	CandidatesMedian float64 `json:"candidates_median"`
 	LowCoveragePages int     `json:"low_coverage_pages"` // distinct URLs where named controls are under half of the interactive ones
 	Ms               int     `json:"ms"`
+
+	// HasCoverage and HasMetrics say whether those rows could be measured at
+	// all. A file run without a map carries no coverage, and a file written
+	// before the metrics existed carries no counts. Either would otherwise
+	// read as a real zero.
+	HasCoverage bool `json:"has_coverage"`
+	HasMetrics  bool `json:"has_metrics"`
 }
 
 // ScoreResult folds one suite result into a Score. Runs written before
@@ -29,7 +37,7 @@ func ScoreResult(res *SuiteResult) Score {
 		label += "/" + res.Condition
 	}
 	label += "/" + res.Picker
-	s := Score{Label: label}
+	s := Score{Label: label, Condition: res.Condition}
 	var stepsPerGoal, cands []float64
 	lowCov := map[string]bool{}
 	for _, r := range res.Runs {
@@ -37,7 +45,9 @@ func ScoreResult(res *SuiteResult) Score {
 			continue
 		}
 		m := r.Metrics
-		if m.Steps == 0 && len(r.Steps) > 0 {
+		if m.Steps > 0 {
+			s.HasMetrics = true
+		} else if len(r.Steps) > 0 {
 			m = Metrics(r.Steps)
 		}
 		s.Goals++
@@ -54,10 +64,14 @@ func ScoreResult(res *SuiteResult) Score {
 				continue
 			}
 			if st.Candidates > 0 {
+				s.HasMetrics = true
 				cands = append(cands, float64(st.Candidates))
 			}
-			if c := st.Coverage; c != nil && c.Interactive > 0 && 2*(c.T1+c.T2) < c.Interactive {
-				lowCov[st.URL] = true
+			if c := st.Coverage; c != nil && c.Interactive > 0 {
+				s.HasCoverage = true
+				if 2*(c.T1+c.T2) < c.Interactive {
+					lowCov[st.URL] = true
+				}
 			}
 		}
 	}
@@ -80,13 +94,25 @@ func FormatScores(scores []Score) string {
 		}
 		rows = append(rows, row)
 	}
+	count := func(n int, measured bool) string {
+		if !measured {
+			return "-"
+		}
+		return fmt.Sprintf("%d", n)
+	}
 	add("reached", func(s Score) string { return fmt.Sprintf("%d/%d", s.Reached, s.Goals) })
 	add("steps / goal", func(s Score) string { return num(s.StepsMedian) })
-	add("wasted steps", func(s Score) string { return fmt.Sprintf("%d", s.Wasted) })
-	add("fallback picks", func(s Score) string { return fmt.Sprintf("%d", s.Fallback) })
-	add("low-confidence picks", func(s Score) string { return fmt.Sprintf("%d", s.LowConfidence) })
-	add("candidates offered", func(s Score) string { return num(s.CandidatesMedian) })
-	add("low-coverage pages", func(s Score) string { return fmt.Sprintf("%d", s.LowCoveragePages) })
+	add("wasted steps", func(s Score) string { return count(s.Wasted, s.HasMetrics) })
+	// A fallback pick is a pick that carries no component, so it needs a map to fire.
+	add("fallback picks", func(s Score) string { return count(s.Fallback, s.HasMetrics && s.Condition != "no-map") })
+	add("low-confidence picks", func(s Score) string { return count(s.LowConfidence, s.HasMetrics) })
+	add("candidates offered", func(s Score) string {
+		if !s.HasMetrics {
+			return "-"
+		}
+		return num(s.CandidatesMedian)
+	})
+	add("low-coverage pages", func(s Score) string { return count(s.LowCoveragePages, s.HasCoverage) })
 	add("seconds", func(s Score) string { return fmt.Sprintf("%.1f", float64(s.Ms)/1000) })
 	widths := make([]int, len(rows[0]))
 	for _, r := range rows {
