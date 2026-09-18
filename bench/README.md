@@ -155,12 +155,13 @@ file, so any number of runs sit side by side. It is the table above, built
 by `explore.ScoreResult` instead of by hand, and it runs on any run file,
 not only a map-versus-no-map pair.
 
-Every row measures the map, not the picker. Jev is a cheap driver: it never
-sees a screenshot, only the map's named controls and their properties. When
-it reaches the goal in few steps, on picks it is sure of, the map gave it
-what it needed. When it wastes steps, falls back to an unnamed node, or
-answers unsure, some page in the map is missing a name or a property. The
-score is the objective a person curating that map can read and act on.
+The score reads on the map only when the picker is held fixed. Run the same
+picker over two maps, or over a map and `--no-map`, and the difference
+between the columns is what the map changed. A different picker moves every
+row too, as the Jev-versus-Claude rows above show. For a curator holding the
+picker fixed, the rows to watch are wasted steps, fallback picks,
+low-confidence picks, and candidates offered. A page that scores badly on
+those is a page where a name, a property, or a memory line is missing.
 
 - `reached`: goals reached out of goals attempted (`Score.Reached` /
   `Score.Goals`).
