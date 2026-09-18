@@ -171,6 +171,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 				if page, err = drv.Observe(ctx); err != nil {
 					return run, fmt.Errorf("explore: observe: %w", err)
 				}
+				step.URL = page.URL
+				step.View = page.View
+				step.Coverage = covStat(page)
 				step.MsSnap = int(time.Since(tS).Milliseconds())
 				cands = Candidates(page.Nodes, CandidateOptions{Seen: seen, URL: page.URL, Avoid: spec.Avoid})
 				if opts := onlyOptions(cands); len(opts) > 0 {

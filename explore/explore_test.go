@@ -270,7 +270,9 @@ func TestSuggestionsReobserveWhenOptionsLag(t *testing.T) {
 	blurb := mk("b", "text", "Search for flights", "p", "", "", false)
 	option := mk("2", "option", "Zurich Airport (ZRH)", "li", "", "", true)
 	first := &fakePage{url: "/", view: "Home", nodes: []*Node{field, heading, blurb}}
-	later := &fakePage{url: "/", view: "Home", nodes: []*Node{field, heading, blurb, option}}
+	// A different view than "first" so the test can confirm the step record
+	// reflects the page the second look actually landed on, not the first.
+	later := &fakePage{url: "/", view: "HomeOpen", nodes: []*Node{field, heading, blurb, option}}
 	d := newFakeDriver("/", first)
 	// The option only shows up once the "first" page has been observed
 	// twice (step 1's look, then step 2's own first look, still lagging);
@@ -294,5 +296,8 @@ func TestSuggestionsReobserveWhenOptionsLag(t *testing.T) {
 	}
 	if len(p.picks) != 2 || p.picks[1] != "n2" {
 		t.Fatalf("second pick should see only the option: %v", p.picks)
+	}
+	if run.Steps[1].View != "HomeOpen" {
+		t.Fatalf("step should record the page the second look landed on, got view %q", run.Steps[1].View)
 	}
 }
