@@ -2,29 +2,29 @@
  "suite": "ikea",
  "picker": "jev:jev-latest",
  "condition": "no-map",
- "when": "2026-09-18T19:37:24.8796-04:00",
+ "when": "2026-09-18T19:49:26.172923-04:00",
  "summary": {
   "goals": 1,
   "ok": 1,
-  "steps": 5,
-  "ms": 3553,
-  "ms_per_step": 710.6,
-  "model_calls": 4,
-  "model_ms": 971,
-  "ms_per_call": 242.75,
-  "input_tokens": 28466,
-  "output_tokens": 2053,
+  "steps": 10,
+  "ms": 16405,
+  "ms_per_step": 1640.5,
+  "model_calls": 14,
+  "model_ms": 3225,
+  "ms_per_call": 230.35714285714286,
+  "input_tokens": 104778,
+  "output_tokens": 5512,
   "usd": 0,
-  "wasted": 0,
+  "wasted": 1,
   "fallback": 0,
-  "low_confidence": 0,
-  "candidates_median": 381
+  "low_confidence": 5,
+  "candidates_median": 423
  },
  "runs": [
   {
-   "name": "billy-into-the-bag",
+   "name": "kallax-into-the-bag",
    "rep": 1,
-   "goal": "Find the BILLY bookcase in white, add it to the bag, then open the bag.",
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
    "spec": {
     "done_when": {
      "all": [
@@ -32,15 +32,16 @@
        "url_contains": "/shoppingcart"
       },
       {
-       "text_contains": "BILLY"
+       "text_contains": "KALLAX"
       },
       {
-       "text_contains": "Bookcase, white"
+       "text_contains": "white"
       }
      ]
     },
     "values": {
-     "search": "BILLY bookcase"
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
     },
     "avoid": [
      "Checkout",
@@ -61,19 +62,21 @@
       "t2": 0,
       "t3": 0
      },
-     "pick": "n1609",
-     "probs": "n1609:0.67 g:200:0.23 n1610:0.08",
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
      "done_prob": 0.02,
-     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "action": "filled combobox \"Search by product\" with search",
      "url_after": "https://www.ikea.com/us/en/",
-     "ms_snap": 332,
-     "ms_pick": 436,
-     "ms_act": 11,
-     "ms_settle": 82,
-     "ms": 863,
-     "candidates": 381,
-     "options": 45,
-     "confidence": 0.67
+     "ms_snap": 365,
+     "ms_pick": 906,
+     "ms_act": 143,
+     "ms_settle": 1675,
+     "ms": 3093,
+     "candidates": 423,
+     "options": 49,
+     "confidence": 1,
+     "group_confidence": 1
     },
     {
      "step": 2,
@@ -84,19 +87,22 @@
       "t2": 0,
       "t3": 0
      },
-     "pick": "n1585",
-     "probs": "n1585:0.89 n1563:0.04 g:200:0.02",
-     "done_prob": 0.05,
-     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
      "url_after": "https://www.ikea.com/us/en/",
-     "ms_snap": 334,
-     "ms_pick": 176,
-     "ms_act": 5,
-     "ms_settle": 86,
-     "ms": 604,
-     "candidates": 381,
-     "options": 45,
-     "confidence": 0.89
+     "ms_snap": 1000,
+     "ms_pick": 400,
+     "ms_act": 125,
+     "ms_settle": 1730,
+     "ms": 3258,
+     "candidates": 423,
+     "options": 50,
+     "confidence": 0.52,
+     "group_confidence": 0.52,
+     "wasted": true
     },
     {
      "step": 3,
@@ -107,23 +113,145 @@
       "t2": 0,
       "t3": 0
      },
-     "pick": "n258",
-     "probs": "n258:0.97 n1587:0.02 n1614:0.01",
-     "done_prob": 0.06,
-     "action": "clicked link \"Shopping bag, 1 items\"",
-     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
-     "ms_snap": 350,
-     "ms_pick": 164,
-     "ms_act": 11,
-     "ms_settle": 839,
-     "ms": 1366,
-     "navigated": true,
-     "candidates": 381,
-     "options": 45,
-     "confidence": 0.97
+     "pick": "enter",
+     "probs": "enter:0.46 g:411:0.23 g:181:0.18",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1049,
+     "ms_pick": 179,
+     "ms_act": 3,
+     "ms_settle": 84,
+     "ms": 1317,
+     "candidates": 422,
+     "options": 50,
+     "confidence": 0.46
     },
     {
      "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n182",
+     "group": "g:181",
+     "probs": "n182:1.00 n184:0.00 n186:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 361,
+     "ms_pick": 359,
+     "ms_act": 14,
+     "ms_settle": 1718,
+     "ms": 2454,
+     "candidates": 422,
+     "options": 49,
+     "confidence": 0.39,
+     "group_confidence": 0.39
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:200",
+     "probs": "n203:0.98 n225:0.02 n201:0.00",
+     "done_prob": 0.02,
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 983,
+     "ms_pick": 499,
+     "ms_act": 14,
+     "ms_settle": 85,
+     "ms": 1584,
+     "candidates": 463,
+     "options": 55,
+     "confidence": 0.3822,
+     "group_confidence": 0.39
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n276",
+     "probs": "n276:0.96 g:341:0.02 g:254:0.01",
+     "done_prob": 0.02,
+     "action": "clicked link \"Shelving furniture\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 340,
+     "ms_pick": 209,
+     "ms_act": 9,
+     "ms_settle": 948,
+     "ms": 1510,
+     "navigated": true,
+     "candidates": 468,
+     "options": 54,
+     "confidence": 0.96
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n2276",
+     "probs": "n2276:0.97 n2295:0.02 n2254:0.01",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 376,
+     "ms_pick": 177,
+     "ms_act": 14,
+     "ms_settle": 84,
+     "ms": 654,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.97
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n265",
+     "group": "g:237",
+     "probs": "n265:1.00 n247:0.00 n257:0.00",
+     "done_prob": 0.06,
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 504,
+     "ms_pick": 351,
+     "ms_act": 18,
+     "ms_settle": 909,
+     "ms": 1785,
+     "navigated": true,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.83,
+     "group_confidence": 0.83
+    },
+    {
+     "step": 9,
      "url": "https://www.ikea.com/us/en/shoppingcart/",
      "coverage": {
       "interactive": 0,
@@ -132,21 +260,21 @@
       "t3": 0
      },
      "pick": "wait",
-     "probs": "wait:0.60 n238:0.17 scroll:0.09",
+     "probs": "wait:0.50 n237:0.26 scroll:0.15",
      "done_prob": 0.43,
      "action": "waited",
      "url_after": "https://www.ikea.com/us/en/shoppingcart/",
-     "ms_snap": 52,
-     "ms_pick": 195,
-     "ms_act": 281,
-     "ms_settle": 84,
-     "ms": 613,
-     "candidates": 38,
-     "options": 41,
-     "confidence": 0.6
+     "ms_snap": 54,
+     "ms_pick": 151,
+     "ms_act": 316,
+     "ms_settle": 83,
+     "ms": 606,
+     "candidates": 66,
+     "options": 17,
+     "confidence": 0.5
     },
     {
-     "step": 5,
+     "step": 10,
      "url": "https://www.ikea.com/us/en/shoppingcart/",
      "coverage": {
       "interactive": 0,
@@ -156,7 +284,7 @@
      },
      "done_prob": 0,
      "action": "done",
-     "ms_snap": 104,
+     "ms_snap": 140,
      "ms_pick": 0,
      "ms_act": 0,
      "ms_settle": 0,
@@ -166,18 +294,48 @@
    "transitions": [
     {
      "from": "/us/en/",
-     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "action": "filled combobox \"Search by product\" with search",
      "to": "/us/en/",
      "changed": false
     },
     {
      "from": "/us/en/",
-     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "action": "filled combobox \"Search by product\" with search",
      "to": "/us/en/",
      "changed": false
     },
     {
      "from": "/us/en/",
+     "action": "pressed Enter",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked button \"Products\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked link \"Shelving furniture\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
      "action": "clicked link \"Shopping bag, 1 items\"",
      "to": "/us/en/shoppingcart/",
      "changed": true
@@ -189,21 +347,21 @@
      "changed": false
     }
    ],
-   "ms": 3553,
+   "ms": 16405,
    "picker_stats": {
-    "calls": 4,
-    "ms": 971,
-    "input_tokens": 28466,
-    "output_tokens": 2053,
+    "calls": 14,
+    "ms": 3225,
+    "input_tokens": 104778,
+    "output_tokens": 5512,
     "usd": 0
    },
    "metrics": {
-    "steps": 4,
-    "wasted": 0,
+    "steps": 9,
+    "wasted": 1,
     "fallback": 0,
-    "low_confidence": 0,
-    "candidates_median": 381,
-    "options_median": 45
+    "low_confidence": 5,
+    "candidates_median": 423,
+    "options_median": 49
    }
   }
  ]
