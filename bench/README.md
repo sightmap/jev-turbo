@@ -235,11 +235,12 @@ that asked Jev about every container. `sightmap validate` and `sightmap
 lint --warn-only` are clean on the result. The run file is
 `results/books-jev-grow.json`.
 
-Grow is coverage scaffolding, nothing more. It gives each new container a
-stable hook, a verified selector, and a template name, and reads off
-`label`, `href`, and `placeholder` as properties. It does not add meaning.
-Any property beyond those three, a memory line, or a view name a person
-would actually choose still has to come from the authoring skill or a
+Grow is coverage scaffolding, nothing more. It scopes each new component to
+the nearest stable ancestor the page already has, verifies the selector,
+names the component from a template, reads off `label`, `href`, and
+`placeholder` as properties, and names views from their routes. It does not
+add meaning. Any property beyond those three, a memory line, or a name a
+person would actually choose still has to come from the authoring skill or a
 curator. The naming step is where a curator plugs in: it sits behind the
 `grow.Namer` interface, and the shipped default, `TemplateNamer` in
 `grow/namer.go`, is a placeholder until someone does.
