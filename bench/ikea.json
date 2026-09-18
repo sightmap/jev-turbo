@@ -10,8 +10,8 @@
   ],
   "goals": [
     {
-      "name": "billy-into-the-bag",
-      "goal": "Find the BILLY bookcase in white, add it to the bag, then open the bag.",
+      "name": "kallax-into-the-bag",
+      "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
       "max_steps": 24,
       "spec": {
         "done_when": {
@@ -20,15 +20,16 @@
               "url_contains": "/shoppingcart"
             },
             {
-              "text_contains": "BILLY"
+              "text_contains": "KALLAX"
             },
             {
-              "text_contains": "Bookcase, white"
+              "text_contains": "white"
             }
           ]
         },
         "values": {
-          "search": "BILLY bookcase"
+          "search": "KALLAX shelf unit",
+          "query": "KALLAX shelf unit"
         }
       }
     }
