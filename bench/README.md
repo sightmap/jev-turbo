@@ -241,17 +241,24 @@ seconds               48.4                          84.8
 ```
 
 Both conditions reach all 30 goals. Tools mode takes fewer steps per goal, 2.5
-against 4.5, because one tool call like `add_to_cart` folds a login, a hover,
-and a click into a single step. It also shows more wasted steps, 9 against 3,
-and more low-confidence picks, 13 against 0: some of that is a tool failing
-partway through, such as a click that cannot be scrolled into view or a wait
-that times out, and the loop retrying as its own step, which the score
-counts. Candidates offered rises to 25 from 3 because the 17 tools are listed
-as candidates alongside the mapped elements on every step. Seconds go up in
-tools mode, 84.8s against 48.4s, even with fewer steps, because a tool call is
-not one browser action. Each `sightkick call --via cli` run is several
-`sightmap browser` commands in sequence, and some of those, mainly click and
-fill, stall on saucedemo's own elements before returning.
+against 4.5, because one tool call folds several element actions into one
+step. For example `log_in` fills two fields and clicks Login, and
+`add_to_cart` clicks the product's button and waits for it to read Remove.
+Jev ran 68 tool calls across the 30 goals; 62 reported ok and 6 failed. It
+also shows more wasted steps, 9 against 3, and more low-confidence picks, 13
+against 0: some of that is a tool failing partway through, such as a click
+that cannot be scrolled into view or a wait that times out, and the loop
+retrying as its own step, which the score counts. Candidates offered rises to
+25 from 3, but not because tools count as candidates: `Step.Candidates`
+counts page elements only, and tools are counted separately, in `options`.
+With tools, login is a single `log_in` step, so fewer of the run's steps land
+on the Login page, which offers only 3 candidates. More of the run's steps
+land on the Inventory and Cart pages instead, where the element count runs
+into the 30s, and that pulls the median up. Seconds go up in tools mode,
+84.8s against 48.4s, even with fewer steps, because a tool call is not one
+browser action. Each `sightkick call --via cli` run is several `sightmap
+browser` commands in sequence, and some of those, mainly click and fill,
+stall on saucedemo's own elements before returning.
 
 Commands:
 
