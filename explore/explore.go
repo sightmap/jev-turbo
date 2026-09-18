@@ -103,6 +103,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	seen := map[string]int{}
 	var history []string
 	suggestionsOpen := false
+	navigations := 0
 	afterFill := false
 	run := &Run{Goal: opts.Goal, Spec: spec, Picker: opts.Picker.Name()}
 	t0 := time.Now()
@@ -171,7 +172,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			emit(opts, step)
 			return run, nil
 		}
-		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL, AfterFill: afterFill})
+		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL, AfterFill: afterFill, CanGoBack: navigations > 0})
 		state := buildState(opts.Goal, spec, page, history, cands)
 
 		tP := time.Now()
@@ -253,6 +254,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		step.Action = act.summary
 		step.URLAfter = act.urlAfter
 		step.Navigated = act.urlAfter != page.URL
+		if step.Navigated {
+			navigations++
+		}
 		step.Ms = int(time.Since(tS).Milliseconds())
 		run.Steps = append(run.Steps, step)
 		run.Transitions = append(run.Transitions, Transition{From: pageLabel(page), Action: act.summary, Comp: act.comp, To: shortURL(act.urlAfter), Changed: step.Navigated})
