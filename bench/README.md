@@ -1,9 +1,11 @@
 # explore benchmarks
 
-Goal suites for `jev-turbo bench`. Each suite is ten goals on
-one site with a reset between goals. Runs are reproducible from this directory
-with a running session and the keys in the environment (`TYPESAFE_API_KEY`;
-`ANTHROPIC_API_KEY` only for `--picker anthropic`).
+Goal suites for `jev-turbo bench`. Each suite is a set of goals on one site
+with a reset between goals: ten short ones for saucedemo and books, two long
+ones for journeys, and the single jev-ultrafast task for flights. Runs are
+reproducible from this directory with a running session and the keys in the
+environment (`TYPESAFE_API_KEY`; `ANTHROPIC_API_KEY` only for
+`--picker anthropic`).
 
 | suite | site | corpus | what it tests |
 |---|---|---|---|
@@ -116,7 +118,9 @@ jev-turbo bench flights.json --repeat 10 --no-map --out results/flights-no-map.j
 cd flights && sightmap browser stop && cd ..
 ```
 
-Wasted counts a step that repeats work: a stale pick, a back, or a control
+Steps per reached goal is the median of the acted steps of the runs that
+reached their goal; the closing `done` record is not an action and is not
+counted (`IsAction`, `explore/metrics.go`). Wasted counts a step that repeats work: a stale pick, a back, or a control
 already acted on at this URL (`Step.Wasted`, `explore/explore.go`). Fallback
 counts a step where a map exists but Jev's pick carries no sightmap
 component (`Step.Fallback`); it can only fire in the map condition, which is

@@ -63,7 +63,7 @@ Same loop, same site, same model, run once with a sightmap and once with `--no-m
 
 Unsure picks are picks Jev gave under 60% probability. Wasted steps are a stale click, a back, or a repeat of a control already used on that page.
 
-On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights. Steps per reached goal went from 16 to 9. Unsure picks went from 36 to 1. The ten runs took 101 seconds instead of 142. On saucedemo, whose raw tree already carries good names, the map changed nothing. Two earlier no-map runs failed from bugs in this loop, not from the map. Saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree. Both bugs are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time. That is a limit of the loop, not something the map caused.
+On all three suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights. Steps per reached goal went from 16 to 9. Unsure picks went from 36 to 1. The ten runs took 101 seconds instead of 142. On saucedemo, whose raw tree already carries good names, the map changed little: 30 of 30 goals, 4.5 steps and 3 wasted steps either way, two unsure picks without the map against none with it, and three seconds between the two conditions. Two earlier no-map runs failed from bugs in this loop, not from the map. Saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree. Both bugs are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time. That is a limit of the loop, not something the map caused.
 
 Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet comparison, are in [`bench/`](bench/README.md).
 
@@ -91,6 +91,7 @@ jev-turbo graph   [RUN.json ...]
 - The short goals are 2 to 12 steps on cooperative sites; the two long ones cap at 30 and 45 steps, and one of them fails both with and without the map because the loop cannot repeat a flow.
 - Jev picks from what the sightmap library can see: HTML and ARIA controls. Canvas, frames, and file uploads are out.
 - Snapshotting a Google Flights page costs 250 to 350 ms a step, and that is most of the gap to a loop tuned for one page.
+- After a value is typed with the native setter, pressing Enter submits a form only some of the time in headless Chrome. Click the submit control instead.
 
 ## Related work
 
