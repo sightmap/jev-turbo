@@ -1,0 +1,1241 @@
+{
+ "suite": "ikea",
+ "picker": "jev:jev-latest",
+ "condition": "tools",
+ "when": "2026-09-18T19:35:53.023142-04:00",
+ "summary": {
+  "goals": 5,
+  "ok": 5,
+  "steps": 31,
+  "ms": 58539,
+  "ms_per_step": 1888.3548387096773,
+  "model_calls": 36,
+  "model_ms": 7598,
+  "ms_per_call": 211.05555555555554,
+  "input_tokens": 319514,
+  "output_tokens": 15472,
+  "usd": 0,
+  "wasted": 5,
+  "fallback": 10,
+  "low_confidence": 11,
+  "candidates_median": 381
+ },
+ "runs": [
+  {
+   "name": "billy-into-the-bag",
+   "rep": 1,
+   "goal": "Find the BILLY bookcase in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "BILLY"
+      },
+      {
+       "text_contains": "Bookcase, white"
+      }
+     ]
+    },
+    "values": {
+     "search": "BILLY bookcase"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 338,
+     "ms_pick": 629,
+     "ms_act": 142,
+     "ms_settle": 1596,
+     "ms": 2707,
+     "candidates": 382,
+     "options": 48,
+     "named": 4,
+     "confidence": 0.8,
+     "group_confidence": 0.8
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.03,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 887,
+     "ms_pick": 400,
+     "ms_act": 119,
+     "ms_settle": 1746,
+     "ms": 3155,
+     "candidates": 382,
+     "options": 49,
+     "named": 4,
+     "confidence": 0.36,
+     "group_confidence": 0.36,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1609",
+     "probs": "n1609:0.34 n1610:0.30 enter:0.16",
+     "done_prob": 0.02,
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 879,
+     "ms_pick": 231,
+     "ms_act": 13,
+     "ms_settle": 83,
+     "ms": 1208,
+     "candidates": 381,
+     "options": 49,
+     "named": 3,
+     "confidence": 0.34,
+     "fallback": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1585",
+     "probs": "n1585:0.72 n1563:0.14 n1610:0.09",
+     "done_prob": 0.05,
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 339,
+     "ms_pick": 199,
+     "ms_act": 7,
+     "ms_settle": 84,
+     "ms": 632,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.72,
+     "fallback": true
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.94 n1565:0.01 n1587:0.01",
+     "done_prob": 0.06,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 336,
+     "ms_pick": 183,
+     "ms_act": 3677,
+     "ms_settle": 84,
+     "ms": 4283,
+     "navigated": true,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.9400000000000001,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 8,
+      "t2": 15,
+      "t3": 81
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 106,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 12094,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1640,
+    "input_tokens": 61998,
+    "output_tokens": 2981,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 5,
+    "wasted": 1,
+    "fallback": 2,
+    "low_confidence": 2,
+    "candidates_median": 381,
+    "options_median": 48
+   }
+  },
+  {
+   "name": "billy-into-the-bag",
+   "rep": 2,
+   "goal": "Find the BILLY bookcase in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "BILLY"
+      },
+      {
+       "text_contains": "Bookcase, white"
+      }
+     ]
+    },
+    "values": {
+     "search": "BILLY bookcase"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 356,
+     "ms_pick": 385,
+     "ms_act": 235,
+     "ms_settle": 1627,
+     "ms": 2605,
+     "candidates": 382,
+     "options": 48,
+     "named": 4,
+     "confidence": 0.79,
+     "group_confidence": 0.79
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.03,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 948,
+     "ms_pick": 394,
+     "ms_act": 115,
+     "ms_settle": 1737,
+     "ms": 3197,
+     "candidates": 382,
+     "options": 49,
+     "named": 4,
+     "confidence": 0.35000000000000003,
+     "group_confidence": 0.35000000000000003,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1609",
+     "probs": "n1609:0.35 n1610:0.32 enter:0.14",
+     "done_prob": 0.02,
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 930,
+     "ms_pick": 217,
+     "ms_act": 17,
+     "ms_settle": 85,
+     "ms": 1252,
+     "candidates": 381,
+     "options": 49,
+     "named": 3,
+     "confidence": 0.35000000000000003,
+     "fallback": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1585",
+     "probs": "n1585:0.69 n1563:0.15 n1610:0.09",
+     "done_prob": 0.05,
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 359,
+     "ms_pick": 183,
+     "ms_act": 7,
+     "ms_settle": 84,
+     "ms": 637,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.6900000000000001,
+     "fallback": true
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.93 n1587:0.02 n1565:0.01",
+     "done_prob": 0.07,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 431,
+     "ms_pick": 252,
+     "ms_act": 3036,
+     "ms_settle": 84,
+     "ms": 3805,
+     "navigated": true,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.93,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 8,
+      "t2": 15,
+      "t3": 81
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 125,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 11624,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1429,
+    "input_tokens": 61998,
+    "output_tokens": 2981,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 5,
+    "wasted": 1,
+    "fallback": 2,
+    "low_confidence": 2,
+    "candidates_median": 381,
+    "options_median": 48
+   }
+  },
+  {
+   "name": "billy-into-the-bag",
+   "rep": 3,
+   "goal": "Find the BILLY bookcase in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "BILLY"
+      },
+      {
+       "text_contains": "Bookcase, white"
+      }
+     ]
+    },
+    "values": {
+     "search": "BILLY bookcase"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 344,
+     "ms_pick": 350,
+     "ms_act": 133,
+     "ms_settle": 1624,
+     "ms": 2454,
+     "candidates": 382,
+     "options": 48,
+     "named": 4,
+     "confidence": 0.85,
+     "group_confidence": 0.85
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.03,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 902,
+     "ms_pick": 372,
+     "ms_act": 125,
+     "ms_settle": 1585,
+     "ms": 2987,
+     "candidates": 382,
+     "options": 49,
+     "named": 4,
+     "confidence": 0.37,
+     "group_confidence": 0.37,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1610",
+     "probs": "n1610:0.34 n1609:0.30 enter:0.15",
+     "done_prob": 0.02,
+     "action": "clicked link \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 907,
+     "ms_pick": 176,
+     "ms_act": 9,
+     "ms_settle": 84,
+     "ms": 1179,
+     "candidates": 381,
+     "options": 49,
+     "named": 3,
+     "confidence": 0.34,
+     "fallback": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1585",
+     "probs": "n1585:0.82 n1610:0.12 n1563:0.02",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 341,
+     "ms_pick": 411,
+     "ms_act": 10,
+     "ms_settle": 84,
+     "ms": 848,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.8200000000000001,
+     "fallback": true
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.96 n1587:0.01 n1614:0.01",
+     "done_prob": 0.07,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 346,
+     "ms_pick": 200,
+     "ms_act": 3073,
+     "ms_settle": 84,
+     "ms": 3706,
+     "navigated": true,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.96,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 8,
+      "t2": 15,
+      "t3": 81
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 121,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 11297,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1506,
+    "input_tokens": 61996,
+    "output_tokens": 2981,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 5,
+    "wasted": 1,
+    "fallback": 2,
+    "low_confidence": 2,
+    "candidates_median": 381,
+    "options_median": 48
+   }
+  },
+  {
+   "name": "billy-into-the-bag",
+   "rep": 4,
+   "goal": "Find the BILLY bookcase in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "BILLY"
+      },
+      {
+       "text_contains": "Bookcase, white"
+      }
+     ]
+    },
+    "values": {
+     "search": "BILLY bookcase"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 340,
+     "ms_pick": 454,
+     "ms_act": 138,
+     "ms_settle": 1591,
+     "ms": 2525,
+     "candidates": 382,
+     "options": 48,
+     "named": 4,
+     "confidence": 0.75,
+     "group_confidence": 0.75
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "enter",
+     "probs": "enter:0.38 g:200:0.24 n1610:0.20",
+     "done_prob": 0.03,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 910,
+     "ms_pick": 199,
+     "ms_act": 6,
+     "ms_settle": 88,
+     "ms": 1206,
+     "candidates": 382,
+     "options": 49,
+     "named": 4,
+     "confidence": 0.38
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.03,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 292,
+     "ms_pick": 355,
+     "ms_act": 131,
+     "ms_settle": 1753,
+     "ms": 2534,
+     "candidates": 382,
+     "options": 48,
+     "named": 4,
+     "confidence": 0.53,
+     "group_confidence": 0.53,
+     "wasted": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1609",
+     "probs": "n1609:0.34 n1610:0.34 t:close_survey:0.12",
+     "done_prob": 0.02,
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1029,
+     "ms_pick": 184,
+     "ms_act": 17,
+     "ms_settle": 83,
+     "ms": 1315,
+     "candidates": 381,
+     "options": 49,
+     "named": 3,
+     "confidence": 0.34,
+     "fallback": true
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1585",
+     "probs": "n1585:0.73 n1563:0.12 n1610:0.10",
+     "done_prob": 0.04,
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 346,
+     "ms_pick": 187,
+     "ms_act": 6,
+     "ms_settle": 86,
+     "ms": 629,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.73,
+     "fallback": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.90 n1587:0.04 n1565:0.02",
+     "done_prob": 0.07,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 356,
+     "ms_pick": 205,
+     "ms_act": 3069,
+     "ms_settle": 84,
+     "ms": 3717,
+     "navigated": true,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.9,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 8,
+      "t2": 15,
+      "t3": 81
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 109,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 12038,
+   "picker_stats": {
+    "calls": 8,
+    "ms": 1582,
+    "input_tokens": 71524,
+    "output_tokens": 3548,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "fallback": 2,
+    "low_confidence": 3,
+    "candidates_median": 381.5,
+    "options_median": 48
+   }
+  },
+  {
+   "name": "billy-into-the-bag",
+   "rep": 5,
+   "goal": "Find the BILLY bookcase in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "BILLY"
+      },
+      {
+       "text_contains": "Bookcase, white"
+      }
+     ]
+    },
+    "values": {
+     "search": "BILLY bookcase"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 363,
+     "ms_pick": 363,
+     "ms_act": 151,
+     "ms_settle": 1615,
+     "ms": 2494,
+     "candidates": 382,
+     "options": 48,
+     "named": 4,
+     "confidence": 0.83,
+     "group_confidence": 0.83
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.03,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 886,
+     "ms_pick": 457,
+     "ms_act": 122,
+     "ms_settle": 1757,
+     "ms": 3224,
+     "candidates": 382,
+     "options": 49,
+     "named": 4,
+     "confidence": 0.35000000000000003,
+     "group_confidence": 0.35000000000000003,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1609",
+     "probs": "n1609:0.35 n1610:0.29 enter:0.16",
+     "done_prob": 0.02,
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 900,
+     "ms_pick": 207,
+     "ms_act": 9,
+     "ms_settle": 83,
+     "ms": 1202,
+     "candidates": 381,
+     "options": 49,
+     "named": 3,
+     "confidence": 0.35000000000000003,
+     "fallback": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "n1585",
+     "probs": "n1585:0.72 n1563:0.14 n1610:0.09",
+     "done_prob": 0.05,
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 470,
+     "ms_pick": 233,
+     "ms_act": 10,
+     "ms_settle": 84,
+     "ms": 799,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.72,
+     "fallback": true
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 538,
+      "t1": 4,
+      "t2": 5,
+      "t3": 529
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.91 n1565:0.03 n1587:0.03",
+     "done_prob": 0.08,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 339,
+     "ms_pick": 183,
+     "ms_act": 3042,
+     "ms_settle": 84,
+     "ms": 3651,
+     "navigated": true,
+     "candidates": 381,
+     "options": 48,
+     "named": 3,
+     "confidence": 0.91,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 8,
+      "t2": 15,
+      "t3": 81
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 113,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "toggled radio \"Option: BILLY, Bookcase, white, 15 3/4x…\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Add \\\"BILLY Bookcase\\\" to cart\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 11486,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1441,
+    "input_tokens": 61998,
+    "output_tokens": 2981,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 5,
+    "wasted": 1,
+    "fallback": 2,
+    "low_confidence": 2,
+    "candidates_median": 381,
+    "options_median": 48
+   }
+  }
+ ]
+}
