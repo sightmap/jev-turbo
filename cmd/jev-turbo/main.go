@@ -67,8 +67,8 @@ func usage() {
 	fmt.Fprint(os.Stderr, `jev-turbo — browser use where Jev picks every step over a sightmap
 
 Commands:
-  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--no-map] [--record DIR]
-  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--no-map] [--record DIR]
+  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--tools DIR] [--no-map] [--record DIR]
+  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--tools DIR] [--no-map] [--record DIR]
   score   RESULT.json [RESULT.json ...]       one column per file
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
@@ -225,6 +225,7 @@ func runExplore(args []string) error {
 	pickerFlag := fs.String("picker", "jev", "jev[:model] (TYPESAFE_API_KEY) or anthropic[:model] (ANTHROPIC_API_KEY)")
 	planFlag := fs.Bool("plan", false, "Ask Anthropic once to write the spec from the goal")
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring: name unmapped controls on every page visited")
+	toolsFlag := fs.String("tools", "", "Sightkick tool layer dir: offer its tools alongside elements (needs the sightkick CLI)")
 	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
 	maxStepsFlag := fs.Int("max-steps", 20, "Stop after this many steps")
 	jsonFlag := fs.Bool("json", false, "Print the run as JSON on stdout")
@@ -241,6 +242,13 @@ func runExplore(args []string) error {
 	}
 	if *noMapFlag && *growFlag {
 		return fmt.Errorf("--no-map and --grow do not combine")
+	}
+	if *noMapFlag && *toolsFlag != "" {
+		return fmt.Errorf("--tools and --no-map do not combine")
+	}
+	tools, toolRunner, err := loadTools(*toolsFlag)
+	if err != nil {
+		return err
 	}
 
 	ctx := context.Background()
@@ -286,6 +294,7 @@ func runExplore(args []string) error {
 	}
 	run, err := explore.Explore(ctx, drv, explore.Options{
 		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, HasMap: hasMap, Hook: hook,
+		Tools: tools, ToolRunner: toolRunner,
 		OnStep: func(s explore.Step) {
 			line := explore.FormatStep(s)
 			fmt.Fprintln(os.Stderr, line)
@@ -380,6 +389,28 @@ func makePicker(name string) (explore.Picker, error) {
 	return nil, fmt.Errorf("--picker %q: use jev[:model] or anthropic[:model]", name)
 }
 
+// loadTools compiles the sightkick tool layer at dir with --tools, when dir
+// is set, and returns a runner for it. It checks sightkick is on PATH first,
+// and resolves dir to an absolute path so both the build and the runner
+// work regardless of the process's working directory.
+func loadTools(dir string) (*explore.ToolSet, explore.ToolRunner, error) {
+	if dir == "" {
+		return nil, nil, nil
+	}
+	if _, err := exec.LookPath("sightkick"); err != nil {
+		return nil, nil, fmt.Errorf("--tools needs the sightkick CLI: npm i -g @sightmap/sightkick")
+	}
+	abs, err := filepath.Abs(dir)
+	if err != nil {
+		return nil, nil, err
+	}
+	tools, err := explore.LoadTools(abs)
+	if err != nil {
+		return nil, nil, err
+	}
+	return tools, explore.SightkickRunner{AppDir: abs}, nil
+}
+
 func maybeGrow(on bool, dir string, drv *explore.CDPDriver) (explore.PageHook, func() string, func() grow.Stats, error) {
 	if !on {
 		return nil, nil, nil, nil
@@ -424,6 +455,7 @@ func runBench(args []string) error {
 	suiteFlag := fs.String("suite", "", "Suite JSON file (or pass it as the positional)")
 	pickerFlag := fs.String("picker", "jev", "jev[:model] or anthropic[:model]")
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring")
+	toolsFlag := fs.String("tools", "", "Sightkick tool layer dir: offer its tools alongside elements (default: the suite's \"tools\", resolved relative to the suite file; needs the sightkick CLI)")
 	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
 	repeatFlag := fs.Int("repeat", 1, "Run the suite this many times")
 	onlyFlag := fs.String("only", "", "Only goals whose name contains this")
@@ -459,6 +491,17 @@ func runBench(args []string) error {
 	if *lf.url == "" && *lf.start {
 		*lf.url = suite.StartURL
 	}
+	toolsDir := *toolsFlag
+	if toolsDir == "" && suite.Tools != "" {
+		toolsDir = filepath.Join(filepath.Dir(*suiteFlag), suite.Tools)
+	}
+	if *noMapFlag && toolsDir != "" {
+		return fmt.Errorf("--tools and --no-map do not combine")
+	}
+	tools, toolRunner, err := loadTools(toolsDir)
+	if err != nil {
+		return err
+	}
 
 	ctx := context.Background()
 	conn, err := lf.connect(ctx)
@@ -486,6 +529,7 @@ func runBench(args []string) error {
 	sopts := explore.SuiteOptions{
 		NewPicker: func() (explore.Picker, error) { return makePicker(*pickerFlag) },
 		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, HasMap: hasMap, Hook: hook, Out: os.Stderr,
+		Tools: tools, ToolRunner: toolRunner,
 	}
 	if *recordFlag != "" {
 		// Recording starts when the first goal starts, after its reset, so the video opens on the start page.

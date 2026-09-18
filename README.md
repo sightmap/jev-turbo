@@ -46,6 +46,8 @@ No map of the site yet? Point `--sightmap-dir` at an empty directory and add `--
 2. Jev answers two questions in one request: which candidate, and whether the goal is met. It can also pick back, scroll, wait, or Enter.
 3. jev-turbo performs the action and waits for the page to settle.
 
+With `--tools DIR`, the tools of a sightkick layer are offered ahead of the page's elements: `log_in(username, password)`, `add_to_cart(name)`. A picked tool runs through `sightkick call`, and its guidance puts the suggested next tools first. If no tool fits the page or a call fails, the step falls back to elements.
+
 Jev never writes text. Everything the loop types comes from `--value` or a spec file. If you would rather have a model write the spec, `--plan` calls Claude once per goal. That is the only large-model call in the tool, and it is optional.
 
 ## What the map changed
@@ -70,8 +72,8 @@ Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet compari
 ## Commands
 
 ```
-jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--record DIR] [--no-map]
-jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--record DIR] [--no-map]
+jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--tools DIR] [--record DIR] [--no-map]
+jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--tools DIR] [--record DIR] [--no-map]
 jev-turbo score   RESULT.json [RESULT.json ...]   # one column per file
 jev-turbo plan    --goal "..." [--site host]
 jev-turbo graph   [RUN.json ...]
