@@ -51,6 +51,7 @@ type SuiteOptions struct {
 	Repeat    int
 	Only      string // substring filter on goal names
 	MaxSteps  int    // overrides per-goal max_steps when > 0
+	HasMap    bool   // the corpus has at least one component; forwarded to every goal's Options
 	Hook      PageHook
 	Out       io.Writer  // step-by-step progress; nil for silent
 	OnStep    func(Step) // called for every step of every goal, after it is printed
@@ -67,11 +68,12 @@ type GoalResult struct {
 
 // SuiteResult is the whole run.
 type SuiteResult struct {
-	Suite   string       `json:"suite"`
-	Picker  string       `json:"picker"`
-	When    time.Time    `json:"when"`
-	Summary Summary      `json:"summary"`
-	Runs    []GoalResult `json:"runs"`
+	Suite     string       `json:"suite"`
+	Picker    string       `json:"picker"`
+	Condition string       `json:"condition,omitempty"` // "map" or "no-map"
+	When      time.Time    `json:"when"`
+	Summary   Summary      `json:"summary"`
+	Runs      []GoalResult `json:"runs"`
 }
 
 // Summary aggregates a suite run.
@@ -106,7 +108,11 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 	if out == nil {
 		out = io.Discard
 	}
-	result := &SuiteResult{Suite: suite.Name, When: time.Now()}
+	condition := "no-map"
+	if opts.HasMap {
+		condition = "map"
+	}
+	result := &SuiteResult{Suite: suite.Name, Condition: condition, When: time.Now()}
 	for rep := 1; rep <= opts.Repeat; rep++ {
 		for _, g := range suite.Goals {
 			if opts.Only != "" && !strings.Contains(g.Name, opts.Only) {
@@ -141,7 +147,7 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 			var partial []Step
 			t0 := time.Now()
 			run, err := Explore(ctx, drv, Options{
-				Goal: g.Goal, Spec: spec, Picker: picker, MaxSteps: maxSteps, Hook: opts.Hook,
+				Goal: g.Goal, Spec: spec, Picker: picker, MaxSteps: maxSteps, HasMap: opts.HasMap, Hook: opts.Hook,
 				OnStep: func(s Step) {
 					partial = append(partial, s)
 					fmt.Fprintln(out, FormatStep(s))
@@ -291,7 +297,7 @@ func FormatTable(res *SuiteResult) string {
 		b.WriteString("\n")
 	}
 	s := res.Summary
-	fmt.Fprintf(&b, "%s: %d/%d ok · %d steps · %.1fs total · %.2fs/step · model %d calls, %.0f ms/call, %d+%d tok · wasted %d · fallback %d · low-conf %d · candidates ~%.0f", res.Picker, s.OK, s.Goals, s.Steps, float64(s.Ms)/1000, s.MsPerStep/1000, s.ModelCalls, s.MsPerCall, s.InputTokens, s.OutputTokens, s.Wasted, s.Fallback, s.LowConfidence, s.CandidatesMedian)
+	fmt.Fprintf(&b, "condition=%s %s: %d/%d ok · %d steps · %.1fs total · %.2fs/step · model %d calls, %.0f ms/call, %d+%d tok · wasted %d · fallback %d · low-conf %d · candidates ~%.0f", res.Condition, res.Picker, s.OK, s.Goals, s.Steps, float64(s.Ms)/1000, s.MsPerStep/1000, s.ModelCalls, s.MsPerCall, s.InputTokens, s.OutputTokens, s.Wasted, s.Fallback, s.LowConfidence, s.CandidatesMedian)
 	if s.USD > 0 {
 		fmt.Fprintf(&b, ", $%.3f", s.USD)
 	}
