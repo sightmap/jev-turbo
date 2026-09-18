@@ -79,8 +79,9 @@ func (d *DoneWhen) validate() error {
 }
 
 // ParseDoneWhen parses the flag mini-syntax: one "key=value" per expression,
-// keys view, url, text, component, history, or prop=Component.name~value
-// (with an optional "@Within.name~value" suffix). Several expressions are ANDed.
+// keys view, url, text, component, history, history_count=N:SUBSTR, or
+// prop=Component.name~value (with an optional "@Within.name~value" suffix).
+// Several expressions are ANDed.
 func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 	if len(exprs) == 0 {
 		return nil, nil
@@ -117,7 +118,7 @@ func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 			}
 			d.Prop = pc
 		default:
-			return nil, fmt.Errorf("done-when %q: unknown key %q (view, url, text, component, history, prop)", e, k)
+			return nil, fmt.Errorf("done-when %q: unknown key %q (view, url, text, component, history, history_count, prop)", e, k)
 		}
 		parts = append(parts, d)
 	}

@@ -65,8 +65,8 @@ func usage() {
 	fmt.Fprint(os.Stderr, `jev-turbo — browser use where Jev picks every step over a sightmap
 
 Commands:
-  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--record DIR]
-  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--record DIR]
+  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--no-map] [--record DIR]
+  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--no-map] [--record DIR]
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
   version
@@ -216,7 +216,7 @@ func runExplore(args []string) error {
 	goalFlag := fs.String("goal", "", "What to achieve, in plain words")
 	specFlag := fs.String("spec", "", "JSON spec file: done_when, values, hint, avoid")
 	var doneWhen, values, avoid stringList
-	fs.Var(&doneWhen, "done-when", "Deterministic finish check, repeatable: view=NAME | url=SUBSTR | text=SUBSTR | component=NAME | history=SUBSTR | prop=Comp.name~value[@Within.name~value]")
+	fs.Var(&doneWhen, "done-when", "Deterministic finish check, repeatable: view=NAME | url=SUBSTR | text=SUBSTR | component=NAME | history=SUBSTR | history_count=N:SUBSTR | prop=Comp.name~value[@Within.name~value]")
 	fs.Var(&values, "value", "A value the loop may type, as key=text (repeatable). The loop never invents text.")
 	fs.Var(&avoid, "avoid", "Drop controls whose name contains this (repeatable), e.g. Delete, Pay")
 	pickerFlag := fs.String("picker", "jev", "jev[:model] (TYPESAFE_API_KEY) or anthropic[:model] (ANTHROPIC_API_KEY)")
