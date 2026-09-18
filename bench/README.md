@@ -14,6 +14,7 @@ environment (`TYPESAFE_API_KEY`; `ANTHROPIC_API_KEY` only for
 | `books.json` | books.toscrape.com | `books/.sightmap` (empty) | an unmapped site with 114 raw links on the home page: categories, pagination, detail pages |
 | `flights.json` | Google Flights | `flights/.sightmap` (14 components, 6 memory lines) | the jev-ultrafast task: one-way Zürich to London on September 20, 2026; suggestion dialogs, a select, a typed date, a results page that renders late |
 | `journeys.json` | saucedemo.com | `saucedemo/.sightmap` | two long goals (30–45 steps): three separate orders; sort and buy the two cheapest |
+| `ikea.json` | ikea.com | `ikea/.sightmap` (20 components, 4 views, 12 memory lines) + `ikea/.sightkick` (6 tools) | a large public retail site, about 380 candidates a step: one goal, the BILLY bookcase into the shopping bag. A consent banner that floats over the lower viewport, a survey modal that can open on any page, a search box whose submit button is hidden until it has focus, an add-to-bag confirmation sheet that is modal, and a bag page built on hashed CSS-module class names. Run it with `--tools ikea` for the tool condition; the suite file carries no `tools` key |
 
 ## Run
 
@@ -34,6 +35,11 @@ sightmap browser start --detach --url 'https://www.google.com/travel/flights?hl=
   --profile ~/.sightmap/profiles/explore-flights --port 7931 --cdp-port 7932
 jev-turbo bench flights.json --repeat 5
 jev-turbo bench flights.json --record ../out/rec && python3 ../scripts/render-demo.py ../out/rec ../out/demo   # the README video
+
+sightmap browser start --detach --headless --url https://www.ikea.com/us/en/ --sightmap-dir ikea/.sightmap \
+  --profile ~/.sightmap/profiles/explore-ikea --port 7957 --cdp-port 7958
+jev-turbo bench ikea.json --repeat 2
+jev-turbo bench ikea.json --tools ikea                 # same goal, over the sightkick tool layer
 ```
 
 Use a fresh profile for Google Flights. After many automated searches from one

@@ -1,0 +1,42 @@
+version: 1
+views:
+  - name: Search
+    route: "/us/en/search/**"
+    url: https://www.ikea.com/us/en/search/?q=billy%20bookcase
+    description: >
+      Search results (/us/en/search/?q=...). About 23 ProductCards for
+      "billy bookcase", most of them named BILLY, so pick a card by its full
+      title, not by the series name alone.
+    memory:
+      - >
+        Every BILLY card's title starts with "BILLY, " — the part after it
+        (Bookcase / Height extension unit / Bookcase with doors, the colour and
+        the size) is what tells them apart. The plain white bookcase is
+        "BILLY, Bookcase, white, 31 1/2x11x79 1/2".
+    components:
+      - $ref: SurveyDialog
+      - $ref: CookieBanner
+      - $ref: SearchField
+      - $ref: SearchSuggestion
+      - $ref: BagLink
+      - name: ProductCard
+        selector: '[data-testid="plp-product-card"]'
+        description: >
+          One result tile. The card element carries the product's own data
+          attributes (data-product-name, data-price, data-ref-id), so price
+          comes straight off the card and needs no child component.
+        properties:
+          - name: title
+            extract: ProductLink.label
+          - name: price
+            extract: attr=data-price
+        children:
+          - name: ProductLink
+            selector: 'a.plp-price-module__product-link'
+            description: >
+              The card's title link to the product page. Its visible text is
+              only the series name ("BILLY"); the aria-label is the full,
+              distinguishing title, so label reads that.
+            properties:
+              - name: label
+                extract: attr=aria-label
