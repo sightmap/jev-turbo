@@ -123,7 +123,10 @@ component (`Step.Fallback`); it can only fire in the map condition, which is
 why every no-map row reads 0. Low-confidence, called unsure picks in the
 README's table, counts a step where Jev's own probability for the option it
 picked is above 0 and below 0.6, the `LowConfidence` constant in
-`explore/metrics.go`. Candidates counts what is left of the page after the
+`explore/metrics.go`. On a grouped step, where a page too large for one
+question is answered as a group and then an option inside it, that
+probability is the group's times the option's within the group; the group
+half of it is kept on its own in `group_confidence`. Candidates counts what is left of the page after the
 guards filter it, before Jev sees any names (`Step.Candidates`,
 `explore/explore.go`); on Google Flights its median is 78 in both
 conditions, because the guards keep the same elements either way and only

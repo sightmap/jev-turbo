@@ -50,12 +50,13 @@ type Step struct {
 	Ms        int      `json:"ms"`
 	Navigated bool     `json:"navigated,omitempty"`
 
-	Candidates int     `json:"candidates,omitempty"` // element candidates after the guards
-	Options    int     `json:"options,omitempty"`    // options on the first pick; a group counts once
-	Named      int     `json:"named,omitempty"`      // candidates that carry a sightmap component
-	Confidence float64 `json:"confidence,omitempty"` // probability of the chosen option
-	Fallback   bool    `json:"fallback,omitempty"`   // a map exists but the pick is an unnamed node
-	Wasted     bool    `json:"wasted,omitempty"`     // stale, back, or a control already acted on at this URL
+	Candidates      int     `json:"candidates,omitempty"`       // element candidates after the guards
+	Options         int     `json:"options,omitempty"`          // options on the first pick; a group counts once
+	Named           int     `json:"named,omitempty"`            // candidates that carry a sightmap component
+	Confidence      float64 `json:"confidence,omitempty"`       // probability of the chosen option
+	GroupConfidence float64 `json:"group_confidence,omitempty"` // probability of the chosen group on a grouped pick
+	Fallback        bool    `json:"fallback,omitempty"`         // a map exists but the pick is an unnamed node
+	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, or a control already acted on at this URL
 }
 
 // CovStat is the page's coverage at the moment of a step.
@@ -211,11 +212,13 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		if strings.HasPrefix(pick.Next, "g:") && crit.Groups != nil {
 			members := crit.Groups[pick.Next]
+			gp := pick.Probs[pick.Next]
 			second, err := opts.Picker.Pick(ctx, state, GroupCriteria(members))
 			if err != nil {
 				return run, fmt.Errorf("explore: pick in group: %w", err)
 			}
 			step.Group = pick.Next
+			step.GroupConfidence = gp
 			if second.Done < pick.Done {
 				second.Done = pick.Done
 			}
@@ -227,6 +230,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		step.DoneProb = pick.Done
 		step.Why = pick.Why
 		step.Confidence = pick.Probs[pick.Next]
+		if step.Group != "" {
+			// A grouped pick is two answers: the option's own probability is
+			// conditional on the group, so the step's confidence is the joint one.
+			step.Confidence *= step.GroupConfidence
+		}
 		if c := findCandidate(cands, pick.Next); c != nil {
 			step.Fallback = opts.HasMap && c.Node.Comp == ""
 			step.Wasted = seen[page.URL+"|"+c.SeenKey] > 0

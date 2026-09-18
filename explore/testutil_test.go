@@ -137,18 +137,36 @@ type fakePicker struct {
 	calls   int
 	chooses []string
 	picks   []string
+	// probs gives the probability of each successive pick, in call order; a
+	// missing or zero entry is 1, so a test only states what it cares about.
+	probs []float64
 }
 
 func (p *fakePicker) Name() string { return "fake" }
+
+// prob takes the probability for the pick being answered now.
+func (p *fakePicker) prob() float64 {
+	if len(p.probs) == 0 {
+		return 1
+	}
+	v := p.probs[0]
+	p.probs = p.probs[1:]
+	if v == 0 {
+		return 1
+	}
+	return v
+}
+
 func (p *fakePicker) Pick(ctx context.Context, state string, crit Criteria) (Pick, error) {
 	p.calls++
+	pr := p.prob()
 	if len(p.script) > 0 {
 		want := p.script[0]
 		for _, o := range crit.Options {
 			if strings.Contains(o.Desc, want) || o.Key == want {
 				p.script = p.script[1:]
 				p.picks = append(p.picks, o.Key)
-				return Pick{Next: o.Key, Done: p.done, Probs: map[string]float64{o.Key: 1}}, nil
+				return Pick{Next: o.Key, Done: p.done, Probs: map[string]float64{o.Key: pr}}, nil
 			}
 		}
 	}
@@ -156,13 +174,13 @@ func (p *fakePicker) Pick(ctx context.Context, state string, crit Criteria) (Pic
 		for _, o := range crit.Options {
 			if strings.Contains(o.Desc, want) || o.Key == want {
 				p.picks = append(p.picks, o.Key)
-				return Pick{Next: o.Key, Done: p.done, Probs: map[string]float64{o.Key: 1}}, nil
+				return Pick{Next: o.Key, Done: p.done, Probs: map[string]float64{o.Key: pr}}, nil
 			}
 		}
 	}
 	k := crit.Options[0].Key
 	p.picks = append(p.picks, k)
-	return Pick{Next: k, Done: p.done, Probs: map[string]float64{k: 1}}, nil
+	return Pick{Next: k, Done: p.done, Probs: map[string]float64{k: pr}}, nil
 }
 func (p *fakePicker) Choose(ctx context.Context, state string, crit Criteria, instructions string) (string, error) {
 	p.chooses = append(p.chooses, instructions)

@@ -175,13 +175,21 @@ func TestExploreSecondPickInsideGroup(t *testing.T) {
 	home := &fakePage{url: "https://b/", nodes: nodes, edges: map[string]string{target.ID: "https://b/done"}}
 	done := &fakePage{url: "https://b/done", nodes: []*Node{mk("x", "link", "Home", "a", "", "", true)}}
 	drv := newFakeDriver("https://b/", home, done)
-	picker := &fakePicker{script: []string{"g:l", "n" + target.ID}}
+	picker := &fakePicker{script: []string{"g:l", "n" + target.ID}, probs: []float64{0.5, 0.8}}
 	run, err := Explore(context.Background(), drv, Options{Goal: "zzz", Spec: &Spec{DoneWhen: &DoneWhen{URLContains: "done"}}, Picker: picker})
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !run.OK || run.Steps[0].Group != "g:l" || picker.calls != 2 {
 		t.Fatalf("run = %+v calls=%d", run.Steps[0], picker.calls)
+	}
+	// The second pick's 0.8 is P(option | group); the step records the joint
+	// probability, with the group's own half kept separately.
+	if got := run.Steps[0].Confidence; got != 0.4 {
+		t.Fatalf("confidence = %v, want the joint 0.5*0.8", got)
+	}
+	if got := run.Steps[0].GroupConfidence; got != 0.5 {
+		t.Fatalf("group confidence = %v, want 0.5", got)
 	}
 }
 
