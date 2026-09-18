@@ -2,6 +2,7 @@ package explore
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -80,11 +81,11 @@ func FormatScores(scores []Score) string {
 		rows = append(rows, row)
 	}
 	add("reached", func(s Score) string { return fmt.Sprintf("%d/%d", s.Reached, s.Goals) })
-	add("steps / goal", func(s Score) string { return fmt.Sprintf("%.0f", s.StepsMedian) })
+	add("steps / goal", func(s Score) string { return num(s.StepsMedian) })
 	add("wasted steps", func(s Score) string { return fmt.Sprintf("%d", s.Wasted) })
 	add("fallback picks", func(s Score) string { return fmt.Sprintf("%d", s.Fallback) })
 	add("low-confidence picks", func(s Score) string { return fmt.Sprintf("%d", s.LowConfidence) })
-	add("candidates offered", func(s Score) string { return fmt.Sprintf("%.0f", s.CandidatesMedian) })
+	add("candidates offered", func(s Score) string { return num(s.CandidatesMedian) })
 	add("low-coverage pages", func(s Score) string { return fmt.Sprintf("%d", s.LowCoveragePages) })
 	add("seconds", func(s Score) string { return fmt.Sprintf("%.1f", float64(s.Ms)/1000) })
 	widths := make([]int, len(rows[0]))
@@ -103,4 +104,9 @@ func FormatScores(scores []Score) string {
 		b.WriteString("\n")
 	}
 	return b.String()
+}
+
+// num prints a median without inventing or dropping a digit: 4.5 stays 4.5, 13 stays 13.
+func num(v float64) string {
+	return strconv.FormatFloat(v, 'f', -1, 64)
 }

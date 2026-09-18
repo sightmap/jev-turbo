@@ -47,3 +47,29 @@ func TestScoreOldRunFile(t *testing.T) {
 		t.Fatalf("got %+v", s)
 	}
 }
+
+func TestFormatScoresMedianHalf(t *testing.T) {
+	// A median of 4.5 is a real half step. Rounding it to 4 would hide a step.
+	out := FormatScores([]Score{{Label: "s/map/jev", Goals: 2, Reached: 2, StepsMedian: 4.5, CandidatesMedian: 13}})
+	if !cellRow(out, "steps / goal", "4.5") {
+		t.Fatalf("steps / goal should read 4.5:\n%s", out)
+	}
+	if !cellRow(out, "candidates offered", "13") {
+		t.Fatalf("candidates offered should read 13:\n%s", out)
+	}
+}
+
+// cellRow reports whether the row named name has want as one of its cells.
+func cellRow(out, name, want string) bool {
+	for _, line := range strings.Split(out, "\n") {
+		if !strings.HasPrefix(line, name) {
+			continue
+		}
+		for _, f := range strings.Fields(strings.TrimPrefix(line, name)) {
+			if f == want {
+				return true
+			}
+		}
+	}
+	return false
+}
