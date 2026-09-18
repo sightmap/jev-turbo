@@ -246,12 +246,12 @@ func runExplore(args []string) error {
 	if *noMapFlag && *toolsFlag != "" {
 		return fmt.Errorf("--tools and --no-map do not combine")
 	}
-	tools, toolRunner, err := loadTools(*toolsFlag)
+	ctx := context.Background()
+	tools, toolRunner, err := loadTools(ctx, *toolsFlag)
 	if err != nil {
 		return err
 	}
 
-	ctx := context.Background()
 	conn, err := lf.connect(ctx)
 	if err != nil {
 		return err
@@ -393,7 +393,7 @@ func makePicker(name string) (explore.Picker, error) {
 // is set, and returns a runner for it. It checks sightkick is on PATH first,
 // and resolves dir to an absolute path so both the build and the runner
 // work regardless of the process's working directory.
-func loadTools(dir string) (*explore.ToolSet, explore.ToolRunner, error) {
+func loadTools(ctx context.Context, dir string) (*explore.ToolSet, explore.ToolRunner, error) {
 	if dir == "" {
 		return nil, nil, nil
 	}
@@ -404,7 +404,7 @@ func loadTools(dir string) (*explore.ToolSet, explore.ToolRunner, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	tools, err := explore.LoadTools(abs)
+	tools, err := explore.LoadTools(ctx, abs)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -498,12 +498,12 @@ func runBench(args []string) error {
 	if *noMapFlag && toolsDir != "" {
 		return fmt.Errorf("--tools and --no-map do not combine")
 	}
-	tools, toolRunner, err := loadTools(toolsDir)
+	ctx := context.Background()
+	tools, toolRunner, err := loadTools(ctx, toolsDir)
 	if err != nil {
 		return err
 	}
 
-	ctx := context.Background()
 	conn, err := lf.connect(ctx)
 	if err != nil {
 		return err

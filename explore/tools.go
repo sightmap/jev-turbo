@@ -8,7 +8,13 @@ import (
 	"os/exec"
 	"sort"
 	"strings"
+	"time"
 )
+
+// toolTimeout bounds one sightkick process. A build that never finishes, or a
+// call whose wait_for sits on a page that never settles, would otherwise hold
+// the whole run open.
+const toolTimeout = 60 * time.Second
 
 // ToolPrefix marks a picker option that runs a sightkick tool.
 const ToolPrefix = "t:"
@@ -88,8 +94,10 @@ func ParseIR(b []byte) (*ToolSet, error) {
 }
 
 // LoadTools compiles the tool layer under appDir with `sightkick build`.
-func LoadTools(appDir string) (*ToolSet, error) {
-	cmd := exec.Command("sightkick", "build", appDir)
+func LoadTools(ctx context.Context, appDir string) (*ToolSet, error) {
+	ctx, cancel := context.WithTimeout(ctx, toolTimeout)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, "sightkick", "build", appDir)
 	var out, errb bytes.Buffer
 	cmd.Stdout, cmd.Stderr = &out, &errb
 	if err := cmd.Run(); err != nil {
@@ -226,6 +234,8 @@ func (r SightkickRunner) Run(ctx context.Context, tool string, args map[string]s
 		argv = append(argv, "--param", k+"="+args[k])
 	}
 	argv = append(argv, "--via", "cli")
+	ctx, cancel := context.WithTimeout(ctx, toolTimeout)
+	defer cancel()
 	cmd := exec.CommandContext(ctx, "sightkick", argv...)
 	var out, errb bytes.Buffer
 	cmd.Stdout, cmd.Stderr = &out, &errb
