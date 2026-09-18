@@ -49,7 +49,7 @@ func TestRunSuiteResetsAndSummarises(t *testing.T) {
 		t.Fatal("second goal did not reset")
 	}
 	table := FormatTable(res)
-	for _, want := range []string{"login", "✓", "impossible", "✗", "fake: 1/2 ok · 6 steps"} {
+	for _, want := range []string{"login", "✓", "impossible", "✗", "condition=no-map fake: 1/2 ok · 6 steps", "wasted 0 · fallback 0 · low-conf 0 · candidates ~4"} {
 		_ = want
 		if !strings.Contains(table, want) {
 			t.Errorf("table missing %q:\n%s", want, table)

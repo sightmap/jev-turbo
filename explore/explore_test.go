@@ -128,6 +128,11 @@ func TestExploreSkipsElementGoneTwice(t *testing.T) {
 	if !run.OK || !strings.HasPrefix(run.Steps[0].Action, "stale element, skipped") || len(drv.clicks) != 1 {
 		t.Fatalf("run = %+v clicks = %v", run.Steps, drv.clicks)
 	}
+	// Nothing was acted on, so the skip counts as wasted work; so does step 2,
+	// which picks the same control again at the same URL.
+	if !run.Steps[0].Wasted || run.Metrics.Wasted != 2 {
+		t.Fatalf("a skipped stale element is wasted: step %+v metrics %+v", run.Steps[0], run.Metrics)
+	}
 }
 
 func TestExploreGroupsLargePages(t *testing.T) {
@@ -255,6 +260,11 @@ func TestStepMetrics(t *testing.T) {
 	}
 	if !s1.Wasted {
 		t.Fatalf("second click of the same control at the same URL should be wasted: %+v", s1)
+	}
+	// Explore's defer folds the steps into Run.Metrics; the bench summary and
+	// both READMEs' numbers are read from there, not from the steps.
+	if run.Metrics.Steps != 2 || run.Metrics.Wasted != 1 {
+		t.Fatalf("run metrics = %+v, want 2 steps and 1 wasted", run.Metrics)
 	}
 	run, err = Explore(context.Background(), site(), Options{Goal: "go", Picker: &fakePicker{script: []string{"n2"}}, MaxSteps: 1, HasMap: true})
 	if err != nil {

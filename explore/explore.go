@@ -281,7 +281,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 				if want != nil {
 					seenKey = want.SeenKey
 				}
-				act = &action{summary: fmt.Sprintf("stale element, skipped (%s)", pickLabel(want, pick.Next)), seenKey: seenKey, urlAfter: fresh.URL}
+				act = &action{summary: fmt.Sprintf("stale element, skipped (%s)", pickLabel(want, pick.Next)), stale: true, seenKey: seenKey, urlAfter: fresh.URL}
 				err = nil
 			}
 		}
@@ -294,7 +294,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		step.MsSettle = act.settleMs
 		step.Action = act.summary
-		if pick.Next == MetaBack || strings.HasPrefix(act.summary, "stale element") {
+		if pick.Next == MetaBack || act.stale {
 			step.Wasted = true
 		}
 		step.URLAfter = act.urlAfter
@@ -327,6 +327,7 @@ type action struct {
 	seenKey      string
 	urlAfter     string
 	settleMs     int
+	stale        bool   // the element was gone twice: nothing was acted on
 	combobox     bool   // typed into, or opened, a control with a list; wait for its options before observing
 	optionsShown bool   // the list was visible after the wait
 	filled       bool   // typed into a field; Enter is offered next
