@@ -1,0 +1,6884 @@
+{
+ "suite": "journeys",
+ "picker": "jev:jev-latest",
+ "condition": "no-map",
+ "when": "2026-09-18T14:22:09.946193-04:00",
+ "summary": {
+  "goals": 6,
+  "ok": 0,
+  "steps": 225,
+  "ms": 149898,
+  "ms_per_step": 666.2133333333334,
+  "model_calls": 277,
+  "model_ms": 50210,
+  "ms_per_call": 181.26353790613717,
+  "input_tokens": 201589,
+  "output_tokens": 16836,
+  "usd": 0,
+  "wasted": 49,
+  "fallback": 0,
+  "low_confidence": 33,
+  "candidates_median": 2
+ },
+ "runs": [
+  {
+   "name": "three-orders",
+   "rep": 1,
+   "goal": "Log in, then buy the Sauce Labs Backpack, the Sauce Labs Bike Light, and the Sauce Labs Fleece Jacket as three separate orders. For each: add the one item, open the cart, check out with the customer details, continue, finish, then go back to the products for the next item.",
+   "spec": {
+    "done_when": {
+     "history_count": {
+      "substr": "Finish",
+      "min": 3
+     }
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 45 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 wait:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 320,
+     "ms_act": 138,
+     "ms_settle": 82,
+     "ms": 556,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.99 enter:0.01 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 158,
+     "ms_act": 9,
+     "ms_settle": 83,
+     "ms": 264,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.99
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.80 wait:0.18 n29:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 151,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 252,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.8
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.02 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 425,
+     "ms_act": 1342,
+     "ms_settle": 81,
+     "ms": 1865,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.98 n29:0.01 n31:0.01",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 138,
+     "ms_act": 1345,
+     "ms_settle": 82,
+     "ms": 1580,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.98
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.58 n31:0.42",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 122,
+     "ms_act": 164,
+     "ms_settle": 83,
+     "ms": 384,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.58,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.75 enter:0.25",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 145,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 246,
+     "candidates": 1,
+     "options": 2,
+     "confidence": 0.75,
+     "wasted": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.89 wait:0.10 n31:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 142,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 240,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.89
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.02 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 297,
+     "ms_act": 1340,
+     "ms_settle": 83,
+     "ms": 1735,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.03 n31:0.01",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 178,
+     "ms_act": 1342,
+     "ms_settle": 82,
+     "ms": 1618,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.58 n31:0.42",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 192,
+     "ms_act": 154,
+     "ms_settle": 82,
+     "ms": 442,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.58
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.55 enter:0.43 n29:0.02",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 150,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 251,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.55
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.98 n31:0.02 n29:0.00",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 183,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 285,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.98
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.54 n31:0.46",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 199,
+     "ms_act": 167,
+     "ms_settle": 83,
+     "ms": 465,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.54,
+     "wasted": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 154,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 256,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.93 wait:0.06 n31:0.01",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 116,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 219,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.93
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.93 n29:0.04 n31:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 236,
+     "ms_act": 1343,
+     "ms_settle": 83,
+     "ms": 1677,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.93
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.95 n29:0.03 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 160,
+     "ms_act": 1320,
+     "ms_settle": 82,
+     "ms": 1578,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.95
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.55 n31:0.45",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 204,
+     "ms_act": 211,
+     "ms_settle": 83,
+     "ms": 504,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.55
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.52 n31:0.46 n29:0.02",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 164,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 267,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.52
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.85 n29:0.15",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 161,
+     "ms_act": 3,
+     "ms_settle": 81,
+     "ms": 261,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.85
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.73 n29:0.27",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 121,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 213,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.73,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 147,
+     "ms_act": 226,
+     "ms_settle": 82,
+     "ms": 460,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.71 wait:0.18 n31:0.06",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 179,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 282,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.71
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.79 n31:0.18 n29:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 203,
+     "ms_act": 1334,
+     "ms_settle": 82,
+     "ms": 1635,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.79
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.86 n31:0.11 n29:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 208,
+     "ms_act": 1330,
+     "ms_settle": 81,
+     "ms": 1637,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.86
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.69 n29:0.31",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 173,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 276,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.69
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.85 n29:0.12 n31:0.03",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 176,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 280,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.85
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.66 n31:0.34",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 224,
+     "ms_act": 193,
+     "ms_settle": 83,
+     "ms": 513,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.66
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.68 n29:0.32",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 216,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 318,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.68,
+     "wasted": true
+    },
+    {
+     "step": 31,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 185,
+     "ms_act": 150,
+     "ms_settle": 82,
+     "ms": 434,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 32,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.82 wait:0.14 n29:0.03",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 193,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 283,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.82
+    },
+    {
+     "step": 33,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.88 n29:0.08 n31:0.04",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 212,
+     "ms_act": 1337,
+     "ms_settle": 81,
+     "ms": 1647,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.88
+    },
+    {
+     "step": 34,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.90 n29:0.07 n31:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 10,
+     "ms_pick": 138,
+     "ms_act": 1345,
+     "ms_settle": 83,
+     "ms": 1577,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.9
+    },
+    {
+     "step": 35,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.58 n31:0.42",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 205,
+     "ms_act": 171,
+     "ms_settle": 83,
+     "ms": 476,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.58
+    },
+    {
+     "step": 36,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.79 n31:0.17 n29:0.04",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 171,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 272,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.79
+    },
+    {
+     "step": 37,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.69 n29:0.31",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 193,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 295,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.69
+    },
+    {
+     "step": 38,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.64 n29:0.36",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 145,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 248,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.64,
+     "wasted": true
+    },
+    {
+     "step": 39,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 144,
+     "ms_act": 226,
+     "ms_settle": 83,
+     "ms": 467,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 40,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.70 wait:0.17 n31:0.08",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 172,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 273,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.7
+    },
+    {
+     "step": 41,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.78 n31:0.18 n29:0.04",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 133,
+     "ms_act": 1344,
+     "ms_settle": 82,
+     "ms": 1576,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.78
+    },
+    {
+     "step": 42,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.88 n31:0.09 n29:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 131,
+     "ms_act": 1338,
+     "ms_settle": 82,
+     "ms": 1568,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.88
+    },
+    {
+     "step": 43,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.74 n29:0.26",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 207,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 310,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.74
+    },
+    {
+     "step": 44,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.85 n29:0.13 n31:0.02",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 212,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 315,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.85
+    },
+    {
+     "step": 45,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.62 n31:0.38",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 165,
+     "ms_act": 152,
+     "ms_settle": 82,
+     "ms": 417,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.62
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    }
+   ],
+   "ms": 30750,
+   "picker_stats": {
+    "calls": 56,
+    "ms": 10152,
+    "input_tokens": 40442,
+    "output_tokens": 3214,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 45,
+    "wasted": 10,
+    "fallback": 0,
+    "low_confidence": 7,
+    "candidates_median": 2,
+    "options_median": 3
+   }
+  },
+  {
+   "name": "cheapest-two",
+   "rep": 1,
+   "goal": "Log in, sort the products by price low to high, add the two cheapest products to the cart, check out with the customer details, and finish the order.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "text_contains": "Thank you for your order"
+      },
+      {
+       "history_count": {
+        "substr": "Add to cart",
+        "min": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 30 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 wait:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 189,
+     "ms_act": 239,
+     "ms_settle": 85,
+     "ms": 528,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 158,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 260,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.82 wait:0.16 n29:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 301,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 402,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.82
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.02 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 193,
+     "ms_act": 1340,
+     "ms_settle": 82,
+     "ms": 1622,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.98 n29:0.01 n31:0.01",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 125,
+     "ms_act": 1340,
+     "ms_settle": 83,
+     "ms": 1565,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.98
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.55 n31:0.45",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 168,
+     "ms_act": 163,
+     "ms_settle": 82,
+     "ms": 429,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.55,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.74 enter:0.26",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 165,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 267,
+     "candidates": 1,
+     "options": 2,
+     "confidence": 0.74,
+     "wasted": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.84 wait:0.11 n31:0.05",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 162,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 264,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.84
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.95 n29:0.03 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 160,
+     "ms_act": 1343,
+     "ms_settle": 83,
+     "ms": 1604,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.95
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.89 n29:0.07 n31:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 115,
+     "ms_act": 1344,
+     "ms_settle": 83,
+     "ms": 1557,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.89
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.57 n31:0.43",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 215,
+     "ms_act": 142,
+     "ms_settle": 83,
+     "ms": 458,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.57
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.54 enter:0.42 n29:0.04",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 147,
+     "ms_act": 4,
+     "ms_settle": 81,
+     "ms": 250,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.54
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.98 n29:0.01 n31:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 150,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 252,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.98
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.68 n31:0.32",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 151,
+     "ms_act": 186,
+     "ms_settle": 82,
+     "ms": 435,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.68,
+     "wasted": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 195,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 298,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.81 wait:0.17 n29:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 200,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 302,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.81
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.94 n29:0.04 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 173,
+     "ms_act": 1348,
+     "ms_settle": 83,
+     "ms": 1620,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.94
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.03 n31:0.01",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 195,
+     "ms_act": 1339,
+     "ms_settle": 83,
+     "ms": 1633,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.68 n31:0.32",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 181,
+     "ms_act": 161,
+     "ms_settle": 82,
+     "ms": 439,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.68
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.76 n31:0.20 n29:0.04",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 193,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 291,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.76
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.85 n29:0.15",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 154,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 255,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.85
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.77 n29:0.23",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 140,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 241,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.77,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 149,
+     "ms_act": 263,
+     "ms_settle": 83,
+     "ms": 510,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.70 wait:0.20 n29:0.05",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 196,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 299,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.7
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.78 n31:0.18 n29:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 191,
+     "ms_act": 1326,
+     "ms_settle": 83,
+     "ms": 1617,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.78
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.89 n31:0.07 n29:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 332,
+     "ms_act": 1323,
+     "ms_settle": 82,
+     "ms": 1753,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.89
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.62 n29:0.38",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 211,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 311,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.62
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.89 n29:0.07 n31:0.04",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 301,
+     "ms_act": 1,
+     "ms_settle": 82,
+     "ms": 399,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.89
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.54 n31:0.46",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 128,
+     "ms_act": 163,
+     "ms_settle": 83,
+     "ms": 388,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.54
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.75 n29:0.25",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 150,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 251,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.75,
+     "wasted": true
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    }
+   ],
+   "ms": 20518,
+   "picker_stats": {
+    "calls": 37,
+    "ms": 6770,
+    "input_tokens": 26005,
+    "output_tokens": 2135,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 30,
+    "wasted": 7,
+    "fallback": 0,
+    "low_confidence": 4,
+    "candidates_median": 2,
+    "options_median": 3
+   }
+  },
+  {
+   "name": "three-orders",
+   "rep": 2,
+   "goal": "Log in, then buy the Sauce Labs Backpack, the Sauce Labs Bike Light, and the Sauce Labs Fleece Jacket as three separate orders. For each: add the one item, open the cart, check out with the customer details, continue, finish, then go back to the products for the next item.",
+   "spec": {
+    "done_when": {
+     "history_count": {
+      "substr": "Finish",
+      "min": 3
+     }
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 45 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 wait:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 125,
+     "ms_act": 208,
+     "ms_settle": 82,
+     "ms": 433,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 135,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 240,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.79 wait:0.18 n31:0.02",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 132,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 232,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.79
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.95 n29:0.03 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 190,
+     "ms_act": 1330,
+     "ms_settle": 83,
+     "ms": 1617,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.95
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.97 n29:0.02 n31:0.01",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 137,
+     "ms_act": 1336,
+     "ms_settle": 82,
+     "ms": 1570,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.97
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.51 n31:0.49",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 141,
+     "ms_act": 213,
+     "ms_settle": 82,
+     "ms": 449,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.51,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.75 enter:0.25",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 270,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 372,
+     "candidates": 1,
+     "options": 2,
+     "confidence": 0.75,
+     "wasted": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.88 wait:0.10 n31:0.02",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 149,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 250,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.88
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.02 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 186,
+     "ms_act": 1343,
+     "ms_settle": 83,
+     "ms": 1628,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.94 n29:0.04 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 204,
+     "ms_act": 1336,
+     "ms_settle": 82,
+     "ms": 1640,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.94
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.59 n31:0.41",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 140,
+     "ms_act": 239,
+     "ms_settle": 83,
+     "ms": 478,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.59
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.60 enter:0.38 n29:0.02",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 194,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 296,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.6
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.97 n31:0.03 n29:0.00",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 179,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 281,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.97
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.54 n31:0.46",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 239,
+     "ms_act": 185,
+     "ms_settle": 83,
+     "ms": 526,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.54,
+     "wasted": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 287,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 389,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.92 wait:0.07 n31:0.01",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 133,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 235,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.92
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.93 n29:0.04 n31:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 183,
+     "ms_act": 1346,
+     "ms_settle": 82,
+     "ms": 1628,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.93
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.95 n29:0.03 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 191,
+     "ms_act": 1333,
+     "ms_settle": 82,
+     "ms": 1621,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.95
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.58 n31:0.42",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 227,
+     "ms_act": 205,
+     "ms_settle": 83,
+     "ms": 531,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.58
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.52 n31:0.46 n29:0.02",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 172,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 273,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.52
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.81 n29:0.19",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 209,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 314,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.81
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.76 n29:0.24",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 19,
+     "ms_pick": 221,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 328,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.76,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 120,
+     "ms_act": 228,
+     "ms_settle": 83,
+     "ms": 449,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.68 wait:0.18 n31:0.09",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 264,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 365,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.6799999999999999
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.77 n31:0.20 n29:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 128,
+     "ms_act": 1341,
+     "ms_settle": 82,
+     "ms": 1567,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.77
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.86 n31:0.10 n29:0.04",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 229,
+     "ms_act": 1346,
+     "ms_settle": 82,
+     "ms": 1675,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.86
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.69 n29:0.31",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 176,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 276,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.69
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.84 n29:0.13 n31:0.03",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 147,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 246,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.84
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.63 n31:0.37",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 195,
+     "ms_act": 171,
+     "ms_settle": 83,
+     "ms": 467,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.63
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.60 n29:0.40",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 11,
+     "ms_pick": 177,
+     "ms_act": 3,
+     "ms_settle": 80,
+     "ms": 272,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.6,
+     "wasted": true
+    },
+    {
+     "step": 31,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 123,
+     "ms_act": 148,
+     "ms_settle": 83,
+     "ms": 368,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 32,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.76 wait:0.20 n29:0.03",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 18,
+     "ms_pick": 213,
+     "ms_act": 1,
+     "ms_settle": 82,
+     "ms": 315,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.76
+    },
+    {
+     "step": 33,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.86 n29:0.09 n31:0.05",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 215,
+     "ms_act": 1319,
+     "ms_settle": 82,
+     "ms": 1630,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.86
+    },
+    {
+     "step": 34,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.91 n29:0.06 n31:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 202,
+     "ms_act": 1268,
+     "ms_settle": 82,
+     "ms": 1568,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.91
+    },
+    {
+     "step": 35,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.58 n31:0.42",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 124,
+     "ms_act": 146,
+     "ms_settle": 82,
+     "ms": 358,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.58
+    },
+    {
+     "step": 36,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.75 n31:0.19 n29:0.06",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 15,
+     "ms_pick": 147,
+     "ms_act": 82,
+     "ms_settle": 82,
+     "ms": 327,
+     "navigated": true,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.75
+    },
+    {
+     "step": 37,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n77",
+     "probs": "n77:0.47 n90:0.38 n81:0.14",
+     "done_prob": 0.01,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 35,
+     "ms_pick": 187,
+     "ms_act": 6,
+     "ms_settle": 98,
+     "ms": 327,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.47000000000000003
+    },
+    {
+     "step": 38,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:0.99 wait:0.01 back:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 8,
+     "ms_pick": 142,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 236,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.99
+    },
+    {
+     "step": 39,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 19,
+     "ms_pick": 146,
+     "ms_act": 5,
+     "ms_settle": 97,
+     "ms": 268,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 1
+    },
+    {
+     "step": 40,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n86",
+     "probs": "n86:0.99 n54:0.01 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 8,
+     "ms_pick": 173,
+     "ms_act": 8,
+     "ms_settle": 96,
+     "ms": 286,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.99
+    },
+    {
+     "step": 41,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 8,
+     "ms_pick": 145,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 242,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 42,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 18,
+     "ms_pick": 169,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 276,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 43,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 19,
+     "ms_pick": 246,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 354,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 44,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 21,
+     "ms_pick": 185,
+     "ms_act": 10,
+     "ms_settle": 91,
+     "ms": 307,
+     "navigated": true,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 45,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n104",
+     "probs": "n104:0.99 back:0.01 n101:0.00",
+     "done_prob": 0.04,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 11,
+     "ms_pick": 247,
+     "ms_act": 4,
+     "ms_settle": 89,
+     "ms": 352,
+     "navigated": true,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.99
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    }
+   ],
+   "ms": 27892,
+   "picker_stats": {
+    "calls": 54,
+    "ms": 9847,
+    "input_tokens": 42726,
+    "output_tokens": 4017,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 45,
+    "wasted": 8,
+    "fallback": 0,
+    "low_confidence": 7,
+    "candidates_median": 2,
+    "options_median": 3
+   }
+  },
+  {
+   "name": "cheapest-two",
+   "rep": 2,
+   "goal": "Log in, sort the products by price low to high, add the two cheapest products to the cart, check out with the customer details, and finish the order.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "text_contains": "Thank you for your order"
+      },
+      {
+       "history_count": {
+        "substr": "Add to cart",
+        "min": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 30 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 wait:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 217,
+     "ms_act": 149,
+     "ms_settle": 81,
+     "ms": 463,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.99 enter:0.01 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 179,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 283,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.99
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.83 wait:0.16 n31:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 126,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 225,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.83
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.02 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 145,
+     "ms_act": 1332,
+     "ms_settle": 82,
+     "ms": 1574,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.98 n29:0.01 n31:0.01",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 176,
+     "ms_act": 1331,
+     "ms_settle": 82,
+     "ms": 1605,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.98
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.54 n31:0.46",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 20,
+     "ms_pick": 135,
+     "ms_act": 145,
+     "ms_settle": 82,
+     "ms": 382,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.54,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.72 enter:0.28",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 192,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 291,
+     "candidates": 1,
+     "options": 2,
+     "confidence": 0.72,
+     "wasted": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.83 wait:0.13 n31:0.03",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 215,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 315,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.83
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.97 n29:0.02 n31:0.01",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 202,
+     "ms_act": 1331,
+     "ms_settle": 83,
+     "ms": 1632,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.97
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.91 n29:0.05 n31:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 245,
+     "ms_act": 1331,
+     "ms_settle": 83,
+     "ms": 1675,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.91
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.58 n31:0.42",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 196,
+     "ms_act": 128,
+     "ms_settle": 82,
+     "ms": 424,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.58
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.53 n31:0.40 n29:0.07",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 20,
+     "ms_pick": 126,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 233,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.53
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.73 n29:0.27",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 183,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 283,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.73
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.68 n29:0.32",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 211,
+     "ms_act": 1,
+     "ms_settle": 82,
+     "ms": 310,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.68,
+     "wasted": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 148,
+     "ms_act": 179,
+     "ms_settle": 82,
+     "ms": 426,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.69 wait:0.16 n31:0.08",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 159,
+     "ms_act": 1,
+     "ms_settle": 83,
+     "ms": 259,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.69
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.82 n31:0.13 n29:0.05",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 222,
+     "ms_act": 1342,
+     "ms_settle": 82,
+     "ms": 1661,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.82
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.88 n31:0.08 n29:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 228,
+     "ms_act": 1334,
+     "ms_settle": 82,
+     "ms": 1659,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.88
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.58 n29:0.42",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 169,
+     "ms_act": 4,
+     "ms_settle": 82,
+     "ms": 269,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.58
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.87 n29:0.08 n31:0.05",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 141,
+     "ms_act": 1,
+     "ms_settle": 83,
+     "ms": 242,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.87
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.53 n31:0.47",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 134,
+     "ms_act": 172,
+     "ms_settle": 82,
+     "ms": 404,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.53
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.55 n31:0.45",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 169,
+     "ms_act": 128,
+     "ms_settle": 82,
+     "ms": 394,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.55,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 9,
+     "ms_pick": 178,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 273,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.74 wait:0.21 n29:0.04",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 19,
+     "ms_pick": 215,
+     "ms_act": 2,
+     "ms_settle": 81,
+     "ms": 318,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.74
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.87 n29:0.08 n31:0.05",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 233,
+     "ms_act": 1333,
+     "ms_settle": 82,
+     "ms": 1665,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.87
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.91 n29:0.07 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 10,
+     "ms_pick": 123,
+     "ms_act": 1329,
+     "ms_settle": 83,
+     "ms": 1547,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.91
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.69 n31:0.31",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 185,
+     "ms_act": 132,
+     "ms_settle": 81,
+     "ms": 414,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.69
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.70 n31:0.21 n29:0.09",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 11,
+     "ms_pick": 152,
+     "ms_act": 2,
+     "ms_settle": 81,
+     "ms": 247,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.7
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.80 n29:0.20",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 19,
+     "ms_pick": 206,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 311,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.8
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.75 n29:0.25",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 144,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 243,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.75,
+     "wasted": true
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    }
+   ],
+   "ms": 20045,
+   "picker_stats": {
+    "calls": 37,
+    "ms": 6361,
+    "input_tokens": 25987,
+    "output_tokens": 2128,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 30,
+    "wasted": 7,
+    "fallback": 0,
+    "low_confidence": 6,
+    "candidates_median": 2,
+    "options_median": 3
+   }
+  },
+  {
+   "name": "three-orders",
+   "rep": 3,
+   "goal": "Log in, then buy the Sauce Labs Backpack, the Sauce Labs Bike Light, and the Sauce Labs Fleece Jacket as three separate orders. For each: add the one item, open the cart, check out with the customer details, continue, finish, then go back to the products for the next item.",
+   "spec": {
+    "done_when": {
+     "history_count": {
+      "substr": "Finish",
+      "min": 3
+     }
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 45 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 wait:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 140,
+     "ms_act": 162,
+     "ms_settle": 82,
+     "ms": 400,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.99 enter:0.01 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 206,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 304,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.99
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.81 wait:0.17 n29:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 210,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 311,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.81
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.02 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 264,
+     "ms_act": 1330,
+     "ms_settle": 82,
+     "ms": 1689,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.97 n29:0.02 n31:0.01",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 145,
+     "ms_act": 1323,
+     "ms_settle": 82,
+     "ms": 1567,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.97
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.52 n31:0.48",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 207,
+     "ms_act": 158,
+     "ms_settle": 82,
+     "ms": 462,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.52,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.73 enter:0.27",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 229,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 331,
+     "candidates": 1,
+     "options": 2,
+     "confidence": 0.73,
+     "wasted": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.90 wait:0.08 n31:0.02",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 132,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 232,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.9
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.97 n29:0.02 n31:0.01",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 130,
+     "ms_act": 1300,
+     "ms_settle": 82,
+     "ms": 1525,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.97
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.95 n29:0.04 n31:0.01",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 186,
+     "ms_act": 1328,
+     "ms_settle": 83,
+     "ms": 1612,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.95
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.55 n31:0.45",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 186,
+     "ms_act": 304,
+     "ms_settle": 83,
+     "ms": 590,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.55
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.63 enter:0.35 n29:0.02",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 167,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 266,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.63
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.98 n31:0.02 n29:0.00",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 148,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 249,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.98
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.64 n31:0.36",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 192,
+     "ms_act": 159,
+     "ms_settle": 82,
+     "ms": 450,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.64,
+     "wasted": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 270,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 371,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.90 wait:0.09 n31:0.01",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 166,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 266,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.9
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.95 n29:0.03 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 350,
+     "ms_act": 1297,
+     "ms_settle": 82,
+     "ms": 1744,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.95
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.94 n29:0.04 n31:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 185,
+     "ms_act": 1292,
+     "ms_settle": 82,
+     "ms": 1573,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.94
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.59 n31:0.41",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 180,
+     "ms_act": 160,
+     "ms_settle": 82,
+     "ms": 435,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.59
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.63 n31:0.36 n29:0.01",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 160,
+     "ms_act": 2,
+     "ms_settle": 81,
+     "ms": 257,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.63
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.82 n29:0.18",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 203,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 302,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.82
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.75 n29:0.25",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 140,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 239,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.75,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 154,
+     "ms_act": 183,
+     "ms_settle": 80,
+     "ms": 425,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.73 wait:0.15 n29:0.07",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 139,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 230,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.73
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.77 n31:0.20 n29:0.03",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 251,
+     "ms_act": 1297,
+     "ms_settle": 82,
+     "ms": 1644,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.77
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.84 n31:0.12 n29:0.04",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 189,
+     "ms_act": 1334,
+     "ms_settle": 82,
+     "ms": 1619,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.84
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.67 n29:0.33",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 135,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 234,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.67
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.77 n29:0.21 n31:0.02",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 165,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 262,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.77
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.71 n31:0.29",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 256,
+     "ms_act": 126,
+     "ms_settle": 82,
+     "ms": 479,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.71
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.64 n29:0.36",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 11,
+     "ms_pick": 159,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 256,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.64,
+     "wasted": true
+    },
+    {
+     "step": 31,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 11,
+     "ms_pick": 380,
+     "ms_act": 185,
+     "ms_settle": 83,
+     "ms": 660,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 32,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.81 wait:0.14 n29:0.04",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 216,
+     "ms_act": 1,
+     "ms_settle": 83,
+     "ms": 317,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.81
+    },
+    {
+     "step": 33,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.88 n29:0.08 n31:0.04",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 241,
+     "ms_act": 1328,
+     "ms_settle": 82,
+     "ms": 1665,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.88
+    },
+    {
+     "step": 34,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.92 n29:0.06 n31:0.02",
+     "done_prob": 0.03,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 138,
+     "ms_act": 1337,
+     "ms_settle": 81,
+     "ms": 1570,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.92
+    },
+    {
+     "step": 35,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.53 n31:0.47",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 226,
+     "ms_act": 144,
+     "ms_settle": 81,
+     "ms": 468,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.53
+    },
+    {
+     "step": 36,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.61 n31:0.35 n29:0.04",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 213,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 304,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.61
+    },
+    {
+     "step": 37,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.61 n29:0.39",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 204,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 303,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.61
+    },
+    {
+     "step": 38,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.63 n29:0.37",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 123,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 223,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.63,
+     "wasted": true
+    },
+    {
+     "step": 39,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 170,
+     "ms_act": 157,
+     "ms_settle": 81,
+     "ms": 422,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 40,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.75 wait:0.14 n31:0.08",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 219,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 318,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.75
+    },
+    {
+     "step": 41,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.80 n31:0.17 n29:0.03",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 202,
+     "ms_act": 1308,
+     "ms_settle": 83,
+     "ms": 1611,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.8
+    },
+    {
+     "step": 42,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.87 n31:0.11 n29:0.02",
+     "done_prob": 0.02,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 122,
+     "ms_act": 1308,
+     "ms_settle": 82,
+     "ms": 1527,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.87
+    },
+    {
+     "step": 43,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.67 n29:0.33",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 157,
+     "ms_act": 1,
+     "ms_settle": 81,
+     "ms": 245,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.67
+    },
+    {
+     "step": 44,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.82 n29:0.15 n31:0.03",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 234,
+     "ms_act": 1,
+     "ms_settle": 82,
+     "ms": 323,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.82
+    },
+    {
+     "step": 45,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.63 n31:0.37",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 228,
+     "ms_act": 244,
+     "ms_settle": 83,
+     "ms": 563,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.63
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    }
+   ],
+   "ms": 30868,
+   "picker_stats": {
+    "calls": 56,
+    "ms": 10654,
+    "input_tokens": 40442,
+    "output_tokens": 3214,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 45,
+    "wasted": 10,
+    "fallback": 0,
+    "low_confidence": 4,
+    "candidates_median": 2,
+    "options_median": 3
+   }
+  },
+  {
+   "name": "cheapest-two",
+   "rep": 3,
+   "goal": "Log in, sort the products by price low to high, add the two cheapest products to the cart, check out with the customer details, and finish the order.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "text_contains": "Thank you for your order"
+      },
+      {
+       "history_count": {
+        "substr": "Add to cart",
+        "min": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 30 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 wait:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 192,
+     "ms_act": 150,
+     "ms_settle": 83,
+     "ms": 438,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 224,
+     "ms_act": 4,
+     "ms_settle": 82,
+     "ms": 325,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.79 wait:0.20 n31:0.01",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 171,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 269,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.79
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.97 n29:0.02 n31:0.01",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 152,
+     "ms_act": 1300,
+     "ms_settle": 82,
+     "ms": 1549,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.97
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.96 n29:0.02 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 157,
+     "ms_act": 1315,
+     "ms_settle": 82,
+     "ms": 1570,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.96
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.53 n31:0.47",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 137,
+     "ms_act": 131,
+     "ms_settle": 83,
+     "ms": 358,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.53,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.66 enter:0.34",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 253,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 354,
+     "candidates": 1,
+     "options": 2,
+     "confidence": 0.66,
+     "wasted": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.83 wait:0.12 n31:0.05",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 181,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 281,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.83
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.94 n29:0.03 n31:0.03",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 177,
+     "ms_act": 1299,
+     "ms_settle": 82,
+     "ms": 1575,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.9400000000000001
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.89 n29:0.07 n31:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 193,
+     "ms_act": 1297,
+     "ms_settle": 82,
+     "ms": 1588,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.89
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.60 n31:0.40",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 177,
+     "ms_act": 159,
+     "ms_settle": 83,
+     "ms": 433,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.6
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.55 n31:0.39 n29:0.06",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 123,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 223,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.55
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.78 n29:0.22",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 13,
+     "ms_pick": 138,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 237,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.78
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.71 n29:0.29",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 124,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 224,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.71,
+     "wasted": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 150,
+     "ms_act": 168,
+     "ms_settle": 82,
+     "ms": 417,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.70 wait:0.20 n29:0.05",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 140,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 240,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.7
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.83 n31:0.13 n29:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 219,
+     "ms_act": 1293,
+     "ms_settle": 82,
+     "ms": 1610,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.83
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.88 n31:0.08 n29:0.04",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 5,
+     "ms_pick": 272,
+     "ms_act": 1324,
+     "ms_settle": 82,
+     "ms": 1684,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.88
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.56 n29:0.44",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 206,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 308,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.56
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.88 n29:0.07 n31:0.05",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 225,
+     "ms_act": 1,
+     "ms_settle": 82,
+     "ms": 314,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.88
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.61 n31:0.39",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 6,
+     "ms_pick": 128,
+     "ms_act": 182,
+     "ms_settle": 83,
+     "ms": 400,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.61
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.53 n31:0.47",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 145,
+     "ms_act": 211,
+     "ms_settle": 82,
+     "ms": 454,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.53,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 178,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 279,
+     "candidates": 1,
+     "options": 1,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.76 wait:0.17 n29:0.06",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 225,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 326,
+     "candidates": 2,
+     "options": 4,
+     "confidence": 0.76
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.84 n29:0.11 n31:0.05",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 145,
+     "ms_act": 1299,
+     "ms_settle": 83,
+     "ms": 1544,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.84
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.93 n29:0.05 n31:0.02",
+     "done_prob": 0.01,
+     "action": "waited",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 18,
+     "ms_pick": 137,
+     "ms_act": 1298,
+     "ms_settle": 82,
+     "ms": 1536,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.93
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:0.59 n31:0.41",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 166,
+     "ms_act": 218,
+     "ms_settle": 82,
+     "ms": 482,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.59
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.73 n31:0.19 n29:0.08",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 175,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 275,
+     "candidates": 2,
+     "options": 3,
+     "confidence": 0.73
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.81 n29:0.19",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 8,
+     "ms_pick": 192,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 287,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.81
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.79 n29:0.21",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 131,
+     "ms_act": 3,
+     "ms_settle": 81,
+     "ms": 230,
+     "candidates": 2,
+     "options": 2,
+     "confidence": 0.79,
+     "wasted": true
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "waited",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "pressed Enter",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    }
+   ],
+   "ms": 19825,
+   "picker_stats": {
+    "calls": 37,
+    "ms": 6426,
+    "input_tokens": 25987,
+    "output_tokens": 2128,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 30,
+    "wasted": 7,
+    "fallback": 0,
+    "low_confidence": 5,
+    "candidates_median": 2,
+    "options_median": 3
+   }
+  }
+ ]
+}
