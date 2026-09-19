@@ -337,7 +337,7 @@ The suite's earlier goal was the BILLY bookcase. The home page carries a BILLY
 rail with an Add button, so a raw tree reached that goal in three actions, and
 the goal was replaced with the KALLAX shelf unit, which has to be searched for.
 
-The recorded map run reached the goal in 18 steps over 29.0 s, all of it
+The recorded map run reached the goal in 17 steps over 29.0 s, all of it
 captured; the video plays the full run at 1x with no held frames.
 
 Commands:

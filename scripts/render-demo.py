@@ -88,6 +88,10 @@ TOOL_TEXT = re.compile(r'^ran tool (\w+)\(|^tool (\w+) failed:')
 
 MAX_LABEL = 26
 
+# explore/metrics.go IsAction: the closing "done", "done(judged)" and
+# "no-candidates" steps are records, not actions, and don't count as steps here.
+CLOSING_ACTIONS = {"done", "done(judged)", "no-candidates"}
+
 
 def shorten(label):
     return label if len(label) <= MAX_LABEL else label[:MAX_LABEL - 1] + "…"
@@ -174,7 +178,7 @@ def load(src):
 
     rows = []
     for ev in events:
-        if ev["text"].startswith("stale") or ev["text"] == "done":
+        if ev["text"].startswith("stale") or ev["text"] in CLOSING_ACTIONS:
             continue
         step = steps_by_n.get(ev["step"], {})
         tool = step.get("tool") or ""
@@ -237,10 +241,15 @@ def single_title(rec):
 
 
 def compare_title(name, acts):
-    """acts: [(label, rec), ...] in play order."""
+    """acts: [(label, rec), ...] in play order.
+
+    Counts acted steps (rec["rows"]), not rec["n_steps"], which includes the
+    closing "done"/"done(judged)"/"no-candidates" record.
+    """
     clauses = []
     for i, (label, rec) in enumerate(acts):
-        clause = f"{rec['n_steps']} steps {label}" if i == 0 else f"{rec['n_steps']} {label}"
+        n = len(rec["rows"])
+        clause = f"{n} steps {label}" if i == 0 else f"{n} {label}"
         if not rec["ok"]:
             clause += " (not reached)"
         clauses.append(clause)
