@@ -10,7 +10,7 @@ import (
 // success, in the terms a curator can act on.
 type Score struct {
 	Label            string  `json:"label"`
-	Condition        string  `json:"condition,omitempty"` // "map" or "no-map", when the file records one
+	Condition        string  `json:"condition,omitempty"` // "map", "no-map" or "tools", when the file records one
 	Goals            int     `json:"goals"`
 	Reached          int     `json:"reached"`
 	StepsMedian      float64 `json:"steps_median"` // acted steps per reached goal
