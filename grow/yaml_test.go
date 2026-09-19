@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -158,27 +159,45 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 	root := &sightmap.ComponentNode{Id: "root", Role: "none", IsVisible: true, Element: &sightmap.Element{Tag: "body"}, Children: []*sightmap.ComponentNode{list, logo}}
 
 	res := &observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{}}
-	page := explore.NewPage(res, "https://b/")
+	// /about is not a route in the fixture corpus, so ensureView writes a new
+	// view before any component lands: the run adds a view and two components.
+	page := explore.NewPage(res, "https://b/about/")
 	g := New(dir, classifyAll{kind: "link"})
 	if err := g.OnPage(context.Background(), page); err != nil {
 		t.Fatal(err)
 	}
 	st := g.Stats()
-	if st.Added != 2 || st.Calls != 2 {
+	// Both link groups are decided by the KindFromRoles role rule (role=link
+	// is always decisive), so classify never reaches the picker: Calls is 0,
+	// not one per group, while the corpus output (Added, names, selectors) is
+	// unchanged.
+	if st.Added != 2 || st.Calls != 0 || st.Views != 1 {
 		t.Fatalf("stats = %+v", st)
 	}
 	c, err := sightmap.Load(dir)
 	if err != nil {
 		t.Fatal(err)
 	}
-	home := c.ViewByName("Home")
+	about := c.ViewByName("About")
 	var names, sels []string
-	for _, comp := range home.Components {
+	for _, comp := range about.Components {
 		names = append(names, comp.Name)
 		sels = append(sels, comp.Selectors[0])
 	}
 	if strings.Join(names, ",") != "NavListLink,LogoLink" || strings.Join(sels, ",") != "ul.nav-list a,#logo" {
 		t.Fatalf("names = %v sels = %v", names, sels)
+	}
+	// Stats().Components lists the written components only. The About view is
+	// in Names and counted in Views, but it is not a component row.
+	wantComponents := []Added{
+		{Name: "NavListLink", View: "About", Selector: "ul.nav-list a", Kind: "link", Count: 2},
+		{Name: "LogoLink", View: "About", Selector: "#logo", Kind: "link", Count: 1},
+	}
+	if !reflect.DeepEqual(st.Components, wantComponents) {
+		t.Fatalf("components = %+v", st.Components)
+	}
+	if strings.Join(st.Names, ",") != "About,NavListLink,LogoLink" {
+		t.Fatalf("names = %v", st.Names)
 	}
 	// the new corpus covers the page
 	if OfflineCount(root, "ul.nav-list a") != 2 {
@@ -188,7 +207,7 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 	res2 := &observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{
 		li1.Children[0]: {Name: "NavListLink"}, li2.Children[0]: {Name: "NavListLink"}, logo: {Name: "LogoLink"},
 	}}
-	if err := g.OnPage(context.Background(), explore.NewPage(res2, "https://b/")); err != nil {
+	if err := g.OnPage(context.Background(), explore.NewPage(res2, "https://b/about/")); err != nil {
 		t.Fatal(err)
 	}
 	if g.Stats().Added != 2 {
@@ -198,7 +217,11 @@ func TestOnPageGrowsGroupedLinks(t *testing.T) {
 
 func TestOnPageSkipsNoise(t *testing.T) {
 	dir := newCorpus(t)
-	btn := &sightmap.ComponentNode{Id: "b", Role: "button", Name: "x", IsInteractive: true, IsVisible: true, Element: &sightmap.Element{Tag: "button", Classes: []string{"btn"}}}
+	// A plain interactive <div> with no ARIA role: KindFromRoles is not
+	// decisive for it (unlike a real <button>, which the role rule now always
+	// resolves to "button" without asking Jev), so it still reaches the
+	// picker and can be marked noise.
+	btn := &sightmap.ComponentNode{Id: "b", Role: "", Name: "x", IsInteractive: true, IsVisible: true, Element: &sightmap.Element{Tag: "div", Classes: []string{"btn"}}}
 	root := &sightmap.ComponentNode{Id: "root", Role: "none", IsVisible: true, Element: &sightmap.Element{Tag: "body"}, Children: []*sightmap.ComponentNode{btn}}
 	page := explore.NewPage(&observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{}}, "https://b/")
 	g := New(dir, classifyAll{kind: "noise"})
@@ -207,5 +230,39 @@ func TestOnPageSkipsNoise(t *testing.T) {
 	}
 	if st := g.Stats(); st.Added != 0 || st.Skipped != 1 {
 		t.Fatalf("stats = %+v", st)
+	}
+}
+
+// kindOnlyNamer decides a kind and leaves the name empty, which Decision.Name
+// documents as "the template name".
+type kindOnlyNamer struct{ kind string }
+
+func (k kindOnlyNamer) Name(context.Context, Group, int) (Decision, error) {
+	return Decision{Kind: k.kind}, nil
+}
+func (k kindOnlyNamer) Calls() int { return 0 }
+
+func TestOnPageNamesFromTemplateWhenTheNamerLeavesTheNameEmpty(t *testing.T) {
+	dir := newCorpus(t)
+	btn := &sightmap.ComponentNode{Id: "b", Role: "button", Name: "Add to cart", IsInteractive: true, IsVisible: true, Element: &sightmap.Element{Tag: "button", Id: "add"}}
+	root := &sightmap.ComponentNode{Id: "root", Role: "none", IsVisible: true, Element: &sightmap.Element{Tag: "body"}, Children: []*sightmap.ComponentNode{btn}}
+	page := explore.NewPage(&observe.Result{Root: root, Matches: map[*sightmap.ComponentNode]*sightmap.ComponentMatch{}}, "https://b/")
+	g := New(dir, nil)
+	g.Namer = kindOnlyNamer{kind: "button"}
+	if err := g.OnPage(context.Background(), page); err != nil {
+		t.Fatal(err)
+	}
+	// GroupName drops the stopword "to", so "Add to cart" names AddCartButton.
+	want := []Added{{Name: "AddCartButton", View: "Home", Selector: "#add", Kind: "button", Count: 1}}
+	if !reflect.DeepEqual(g.Stats().Components, want) {
+		t.Fatalf("components = %+v", g.Stats().Components)
+	}
+	c, err := sightmap.Load(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	home := c.ViewByName("Home")
+	if len(home.Components) != 1 || home.Components[0].Name != "AddCartButton" {
+		t.Fatalf("home = %+v", home.Components)
 	}
 }
