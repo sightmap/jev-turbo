@@ -1,0 +1,1564 @@
+{
+ "suite": "ikea",
+ "picker": "jev:jev-latest",
+ "condition": "no-map",
+ "when": "2026-09-18T19:43:51.599833-04:00",
+ "summary": {
+  "goals": 5,
+  "ok": 5,
+  "steps": 44,
+  "ms": 71643,
+  "ms_per_step": 1628.25,
+  "model_calls": 62,
+  "model_ms": 12995,
+  "ms_per_call": 209.59677419354838,
+  "input_tokens": 489182,
+  "output_tokens": 25536,
+  "usd": 0,
+  "wasted": 5,
+  "fallback": 0,
+  "low_confidence": 18,
+  "candidates_median": 423
+ },
+ "runs": [
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 1,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 323,
+     "ms_pick": 662,
+     "ms_act": 138,
+     "ms_settle": 1702,
+     "ms": 2827,
+     "candidates": 412,
+     "options": 49,
+     "confidence": 0.99,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 944,
+     "ms_pick": 414,
+     "ms_act": 108,
+     "ms_settle": 1737,
+     "ms": 3205,
+     "candidates": 412,
+     "options": 50,
+     "confidence": 0.61,
+     "group_confidence": 0.61,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.50 g:181:0.20 g:411:0.16",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 937,
+     "ms_pick": 184,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 1208,
+     "candidates": 411,
+     "options": 50,
+     "confidence": 0.5
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n421",
+     "group": "g:411",
+     "probs": "n421:0.98 n487:0.02 n413:0.00",
+     "done_prob": 0.03,
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "ms_snap": 308,
+     "ms_pick": 447,
+     "ms_act": 10,
+     "ms_settle": 971,
+     "ms": 1738,
+     "navigated": true,
+     "candidates": 411,
+     "options": 49,
+     "confidence": 0.3626,
+     "group_confidence": 0.37
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1843",
+     "probs": "n1843:0.62 g:200:0.33 n3111:0.02",
+     "done_prob": 0.02,
+     "action": "clicked link \"KALLAX shelving units and inserts A ver…\"",
+     "url_after": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "ms_snap": 278,
+     "ms_pick": 257,
+     "ms_act": 17,
+     "ms_settle": 1001,
+     "ms": 1556,
+     "navigated": true,
+     "candidates": 299,
+     "options": 56,
+     "confidence": 0.62
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n3943",
+     "probs": "n3943:0.67 n4029:0.11 n1070:0.09",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "ms_snap": 440,
+     "ms_pick": 213,
+     "ms_act": 20,
+     "ms_settle": 84,
+     "ms": 761,
+     "candidates": 540,
+     "options": 52,
+     "confidence": 0.67
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n260",
+     "group": "g:232",
+     "probs": "n260:1.00 n242:0.00 n252:0.00",
+     "done_prob": 0.07,
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 488,
+     "ms_pick": 389,
+     "ms_act": 27,
+     "ms_settle": 1036,
+     "ms": 1944,
+     "navigated": true,
+     "candidates": 540,
+     "options": 52,
+     "confidence": 0.89,
+     "group_confidence": 0.89
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "wait",
+     "probs": "wait:0.54 n238:0.19 scroll:0.13",
+     "done_prob": 0.37,
+     "action": "waited",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 51,
+     "ms_pick": 399,
+     "ms_act": 279,
+     "ms_settle": 84,
+     "ms": 814,
+     "candidates": 66,
+     "options": 17,
+     "confidence": 0.54
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 142,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "pressed Enter",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "to": "/us/en/cat/storage-organization-st001/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/storage-organization-st001/",
+     "action": "clicked link \"KALLAX shelving units and inserts A ver…\"",
+     "to": "/us/en/cat/kallax-series-27534/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/kallax-series-27534/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/kallax-series-27534/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/kallax-series-27534/",
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "to": "/us/en/shoppingcart/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/shoppingcart/",
+     "action": "waited",
+     "to": "/us/en/shoppingcart/",
+     "changed": false
+    }
+   ],
+   "ms": 14200,
+   "picker_stats": {
+    "calls": 12,
+    "ms": 2961,
+    "input_tokens": 92855,
+    "output_tokens": 4914,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 8,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 3,
+    "candidates_median": 411.5,
+    "options_median": 50
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 2,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 344,
+     "ms_pick": 371,
+     "ms_act": 123,
+     "ms_settle": 1712,
+     "ms": 2552,
+     "candidates": 423,
+     "options": 49,
+     "confidence": 0.99,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 932,
+     "ms_pick": 478,
+     "ms_act": 115,
+     "ms_settle": 1741,
+     "ms": 3269,
+     "candidates": 423,
+     "options": 50,
+     "confidence": 0.54,
+     "group_confidence": 0.54,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.45 g:181:0.21 g:411:0.20",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 937,
+     "ms_pick": 190,
+     "ms_act": 6,
+     "ms_settle": 84,
+     "ms": 1220,
+     "candidates": 422,
+     "options": 50,
+     "confidence": 0.45
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n182",
+     "group": "g:181",
+     "probs": "n182:1.00 n184:0.00 n186:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 319,
+     "ms_pick": 396,
+     "ms_act": 14,
+     "ms_settle": 1596,
+     "ms": 2327,
+     "candidates": 422,
+     "options": 49,
+     "confidence": 0.34,
+     "group_confidence": 0.34
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:200",
+     "probs": "n203:0.97 n225:0.03 n201:0.00",
+     "done_prob": 0.02,
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 886,
+     "ms_pick": 326,
+     "ms_act": 21,
+     "ms_settle": 82,
+     "ms": 1318,
+     "candidates": 463,
+     "options": 55,
+     "confidence": 0.4559,
+     "group_confidence": 0.47000000000000003
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n276",
+     "probs": "n276:0.95 g:341:0.03 g:271:0.01",
+     "done_prob": 0.02,
+     "action": "clicked link \"Shelving furniture\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 286,
+     "ms_pick": 253,
+     "ms_act": 9,
+     "ms_settle": 866,
+     "ms": 1417,
+     "navigated": true,
+     "candidates": 468,
+     "options": 54,
+     "confidence": 0.95
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n2277",
+     "probs": "n2277:0.97 n2296:0.02 n2255:0.01",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 355,
+     "ms_pick": 221,
+     "ms_act": 21,
+     "ms_settle": 83,
+     "ms": 684,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.97
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n266",
+     "group": "g:238",
+     "probs": "n266:1.00 n248:0.00 n258:0.00",
+     "done_prob": 0.05,
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 462,
+     "ms_pick": 319,
+     "ms_act": 69,
+     "ms_settle": 1254,
+     "ms": 2108,
+     "navigated": true,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.88,
+     "group_confidence": 0.88
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 126,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "pressed Enter",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked button \"Products\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked link \"Shelving furniture\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "to": "/us/en/shoppingcart/",
+     "changed": true
+    }
+   ],
+   "ms": 15026,
+   "picker_stats": {
+    "calls": 13,
+    "ms": 2551,
+    "input_tokens": 101830,
+    "output_tokens": 5305,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 8,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 4,
+    "candidates_median": 443,
+    "options_median": 49.5
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 3,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 336,
+     "ms_pick": 375,
+     "ms_act": 148,
+     "ms_settle": 1683,
+     "ms": 2545,
+     "candidates": 423,
+     "options": 49,
+     "confidence": 0.99,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 973,
+     "ms_pick": 457,
+     "ms_act": 109,
+     "ms_settle": 1750,
+     "ms": 3291,
+     "candidates": 423,
+     "options": 50,
+     "confidence": 0.59,
+     "group_confidence": 0.59,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.40 g:181:0.26 g:411:0.19",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 975,
+     "ms_pick": 167,
+     "ms_act": 2,
+     "ms_settle": 85,
+     "ms": 1232,
+     "candidates": 422,
+     "options": 50,
+     "confidence": 0.4
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n421",
+     "group": "g:411",
+     "probs": "n421:0.98 n487:0.02 n413:0.00",
+     "done_prob": 0.03,
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "ms_snap": 332,
+     "ms_pick": 360,
+     "ms_act": 10,
+     "ms_settle": 813,
+     "ms": 1518,
+     "navigated": true,
+     "candidates": 422,
+     "options": 49,
+     "confidence": 0.3332,
+     "group_confidence": 0.34
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1843",
+     "probs": "n1843:0.66 g:200:0.28 n1331:0.02",
+     "done_prob": 0.02,
+     "action": "clicked link \"KALLAX shelving units and inserts A ver…\"",
+     "url_after": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "ms_snap": 272,
+     "ms_pick": 183,
+     "ms_act": 17,
+     "ms_settle": 910,
+     "ms": 1385,
+     "navigated": true,
+     "candidates": 299,
+     "options": 56,
+     "confidence": 0.66
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n3943",
+     "probs": "n3943:0.66 n4029:0.13 n3962:0.08",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "ms_snap": 457,
+     "ms_pick": 273,
+     "ms_act": 20,
+     "ms_settle": 83,
+     "ms": 837,
+     "candidates": 540,
+     "options": 52,
+     "confidence": 0.66
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n260",
+     "group": "g:232",
+     "probs": "n260:1.00 n242:0.00 n252:0.00",
+     "done_prob": 0.06,
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 500,
+     "ms_pick": 382,
+     "ms_act": 22,
+     "ms_settle": 802,
+     "ms": 1709,
+     "navigated": true,
+     "candidates": 540,
+     "options": 52,
+     "confidence": 0.92,
+     "group_confidence": 0.92
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 65,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "pressed Enter",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "to": "/us/en/cat/storage-organization-st001/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/storage-organization-st001/",
+     "action": "clicked link \"KALLAX shelving units and inserts A ver…\"",
+     "to": "/us/en/cat/kallax-series-27534/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/kallax-series-27534/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/kallax-series-27534/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/kallax-series-27534/",
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "to": "/us/en/shoppingcart/",
+     "changed": true
+    }
+   ],
+   "ms": 12586,
+   "picker_stats": {
+    "calls": 11,
+    "ms": 2195,
+    "input_tokens": 90834,
+    "output_tokens": 4707,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 7,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 3,
+    "candidates_median": 423,
+    "options_median": 50
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 4,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 334,
+     "ms_pick": 405,
+     "ms_act": 123,
+     "ms_settle": 1704,
+     "ms": 2569,
+     "candidates": 423,
+     "options": 49,
+     "confidence": 1,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 946,
+     "ms_pick": 438,
+     "ms_act": 120,
+     "ms_settle": 1753,
+     "ms": 3260,
+     "candidates": 423,
+     "options": 50,
+     "confidence": 0.54,
+     "group_confidence": 0.54,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.42 g:412:0.24 g:182:0.17",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 949,
+     "ms_pick": 231,
+     "ms_act": 7,
+     "ms_settle": 83,
+     "ms": 1273,
+     "candidates": 422,
+     "options": 50,
+     "confidence": 0.42
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n183",
+     "group": "g:182",
+     "probs": "n183:1.00 n185:0.00 n187:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 332,
+     "ms_pick": 390,
+     "ms_act": 16,
+     "ms_settle": 1584,
+     "ms": 2325,
+     "candidates": 422,
+     "options": 49,
+     "confidence": 0.41000000000000003,
+     "group_confidence": 0.41000000000000003
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n204",
+     "group": "g:201",
+     "probs": "n204:0.97 n226:0.03 n202:0.00",
+     "done_prob": 0.02,
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 881,
+     "ms_pick": 443,
+     "ms_act": 18,
+     "ms_settle": 84,
+     "ms": 1429,
+     "candidates": 463,
+     "options": 55,
+     "confidence": 0.41709999999999997,
+     "group_confidence": 0.43
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n277",
+     "probs": "n277:0.96 g:255:0.01 g:272:0.01",
+     "done_prob": 0.02,
+     "action": "clicked link \"Shelving furniture\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 288,
+     "ms_pick": 255,
+     "ms_act": 11,
+     "ms_settle": 943,
+     "ms": 1500,
+     "navigated": true,
+     "candidates": 468,
+     "options": 54,
+     "confidence": 0.96
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n2277",
+     "probs": "n2277:0.96 n2296:0.03 n2255:0.01",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 352,
+     "ms_pick": 182,
+     "ms_act": 19,
+     "ms_settle": 84,
+     "ms": 640,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.96
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n266",
+     "group": "g:238",
+     "probs": "n266:1.00 n248:0.00 n258:0.00",
+     "done_prob": 0.06,
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 495,
+     "ms_pick": 422,
+     "ms_act": 25,
+     "ms_settle": 834,
+     "ms": 1780,
+     "navigated": true,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.87,
+     "group_confidence": 0.87
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 103,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "pressed Enter",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked button \"Products\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked link \"Shelving furniture\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "to": "/us/en/shoppingcart/",
+     "changed": true
+    }
+   ],
+   "ms": 14885,
+   "picker_stats": {
+    "calls": 13,
+    "ms": 2762,
+    "input_tokens": 101830,
+    "output_tokens": 5305,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 8,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 4,
+    "candidates_median": 443,
+    "options_median": 49.5
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 5,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.01,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 325,
+     "ms_pick": 390,
+     "ms_act": 162,
+     "ms_settle": 1712,
+     "ms": 2591,
+     "candidates": 423,
+     "options": 49,
+     "confidence": 1,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.02,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 941,
+     "ms_pick": 397,
+     "ms_act": 127,
+     "ms_settle": 1750,
+     "ms": 3217,
+     "candidates": 423,
+     "options": 50,
+     "confidence": 0.54,
+     "group_confidence": 0.54,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "enter",
+     "probs": "enter:0.49 g:182:0.21 g:412:0.16",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 927,
+     "ms_pick": 204,
+     "ms_act": 5,
+     "ms_settle": 84,
+     "ms": 1223,
+     "candidates": 422,
+     "options": 50,
+     "confidence": 0.49
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n183",
+     "group": "g:182",
+     "probs": "n183:1.00 n185:0.00 n187:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 316,
+     "ms_pick": 415,
+     "ms_act": 16,
+     "ms_settle": 1589,
+     "ms": 2338,
+     "candidates": 422,
+     "options": 49,
+     "confidence": 0.38,
+     "group_confidence": 0.38
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n204",
+     "group": "g:201",
+     "probs": "n204:0.97 n226:0.03 n202:0.00",
+     "done_prob": 0.02,
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 954,
+     "ms_pick": 368,
+     "ms_act": 19,
+     "ms_settle": 82,
+     "ms": 1426,
+     "candidates": 463,
+     "options": 55,
+     "confidence": 0.3977,
+     "group_confidence": 0.41000000000000003
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n277",
+     "probs": "n277:0.95 wait:0.02 g:255:0.01",
+     "done_prob": 0.02,
+     "action": "clicked link \"Shelving furniture\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 288,
+     "ms_pick": 202,
+     "ms_act": 8,
+     "ms_settle": 851,
+     "ms": 1351,
+     "navigated": true,
+     "candidates": 468,
+     "options": 54,
+     "confidence": 0.95
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n2277",
+     "probs": "n2277:0.97 n2296:0.02 n2255:0.01",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 357,
+     "ms_pick": 162,
+     "ms_act": 14,
+     "ms_settle": 84,
+     "ms": 621,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.97
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n266",
+     "group": "g:238",
+     "probs": "n266:1.00 n248:0.00 n258:0.00",
+     "done_prob": 0.06,
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 476,
+     "ms_pick": 394,
+     "ms_act": 34,
+     "ms_settle": 1186,
+     "ms": 2094,
+     "navigated": true,
+     "candidates": 555,
+     "options": 47,
+     "confidence": 0.88,
+     "group_confidence": 0.88
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 76,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "pressed Enter",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked button \"Products\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked link \"Shelving furniture\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked link \"Shopping bag, 1 items\"",
+     "to": "/us/en/shoppingcart/",
+     "changed": true
+    }
+   ],
+   "ms": 14946,
+   "picker_stats": {
+    "calls": 13,
+    "ms": 2526,
+    "input_tokens": 101833,
+    "output_tokens": 5305,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 8,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 4,
+    "candidates_median": 443,
+    "options_median": 49.5
+   }
+  }
+ ]
+}

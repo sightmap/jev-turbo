@@ -1,0 +1,108 @@
+version: 1
+name: ikea
+
+tools:
+  - name: close_survey
+    description: >
+      Close IKEA's "How satisfied are you with your shopping experience?"
+      survey, which can open over any page and swallows clicks underneath it.
+      Idempotent: the guard skips the tool when no survey is showing, which is
+      the usual case, so it is safe to call first on every page.
+    guard:
+      absent:
+        query: SurveyDialog
+    steps:
+      - click:
+          query: SurveyDialog CloseButton
+
+  - name: search
+    description: >
+      Search the site from the header search field. Lands on the Search view
+      (/us/en/search/?q=...). Enter is what submits; the suggestion dropdown
+      that opens while typing can be ignored.
+    params:
+      - name: query
+        type: string
+        required: true
+        description: What to search for, e.g. "BILLY bookcase".
+    steps:
+      - fill:
+          query: SearchField
+          value: "{{query}}"
+      - keypress:
+          key: Enter
+      - wait_for:
+          view: Search
+
+  - name: open_product
+    description: >
+      Open a search result's product page by name. Most BILLY results share the
+      series name, so the query takes the first card whose title contains the
+      name — i.e. the top-ranked match, which is what "open the BILLY bookcase"
+      means after a "BILLY bookcase" search. Pass more of the title (e.g.
+      "BILLY, Bookcase, white, 31 1/2") to reach a specific variant instead.
+    ensure_view: Search
+    params:
+      - name: name
+        type: string
+        required: true
+        description: Part of the card's title, e.g. "BILLY".
+    steps:
+      - click:
+          query: 'ProductCard[title*="{{name}}" i] ProductLink#0'
+      - wait_for:
+          view: Product
+
+  - name: add_to_bag
+    description: >
+      Add the open product to the shopping bag. Add to bag does not navigate:
+      it opens the confirmation sheet over the product page, and that sheet is
+      modal, so this tool closes it again and leaves the product page usable.
+      Returns the header bag count so the caller can see the add landed. The
+      opening wait is load-bearing: a product page matches its route a second
+      or two before the Add to bag button renders, so a click that follows
+      open_product straight away can find nothing to press.
+    ensure_view: Product
+    steps:
+      - wait_for:
+          query: AddToBagButton
+          timeout_ms: 15000
+      - click:
+          query: AddToBagButton
+      - wait_for:
+          query: AddedToBagSheet GoToBagButton
+      - click:
+          query: AddedToBagSheet CloseButton
+      - wait_for:
+          query: 'BagLink[count*="item"]'
+    returns:
+      description: The header bag link's label, which carries the item count.
+      value:
+        query: BagLink
+        property: count
+
+  - name: open_bag
+    description: >
+      Open the shopping bag. It goes to the bag's own URL rather than clicking
+      BagLink, because the header link cannot be relied on from a tool: IKEA's
+      navbar is position:fixed and parks itself above the viewport once the
+      page has been scrolled down, and nothing a tool can do (no scroll step,
+      and a synthetic Home key does not move the document) brings it back — a
+      click on it then fails as "could not be scrolled into the viewport".
+      While the add-to-bag sheet is open it fails as "covered" instead. The URL
+      is stable and the wait_for still proves the Bag view rendered.
+    steps:
+      - goto:
+          url: https://www.ikea.com/us/en/shoppingcart/
+      - wait_for:
+          view: Bag
+
+  - name: read_bag
+    description: List what is currently in the bag, by product name.
+    ensure_view: Bag
+    returns:
+      description: The bag's line items.
+      list:
+        rows: BagItem
+        fields:
+          title: title

@@ -1,0 +1,20 @@
+version: 1
+
+journeys:
+  - name: buy_billy
+    description: >
+      Search for the BILLY bookcase, open the top result, put it in the bag and
+      open the bag. The journey stops at the bag — it never goes on to checkout.
+    steps:
+      - tool: close_survey
+        reason: clear the survey modal before touching the page
+      - tool: search
+        reason: reach the results list from anywhere
+      - tool: open_product
+        reason: open the top result's product page
+      - tool: add_to_bag
+        reason: add the open product and dismiss the confirmation sheet
+      - tool: open_bag
+        reason: review what is in the bag
+      - tool: read_bag
+        reason: read the bag's line items back
