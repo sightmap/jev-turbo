@@ -1,0 +1,166 @@
+{
+  "name": "saucedemo-tools",
+  "sightmap_dir": "saucedemo/.sightmap",
+  "tools": "saucedemo",
+  "start_url": "https://www.saucedemo.com/",
+  "reset": "clear-storage",
+  "goals": [
+    {
+      "name": "login",
+      "goal": "Log in as the standard user.",
+      "spec": {
+        "done_when": {
+          "url_contains": "/inventory.html"
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce"
+        }
+      }
+    },
+    {
+      "name": "add-bike-light",
+      "goal": "Log in, then add the Sauce Labs Bike Light to the cart, then open the cart.",
+      "spec": {
+        "done_when": {
+          "all": [
+            { "url_contains": "/cart.html" },
+            { "text_contains": "Bike Light" }
+          ]
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce",
+          "name": "Sauce Labs Bike Light"
+        }
+      }
+    },
+    {
+      "name": "open-fleece-jacket",
+      "goal": "Log in and open the product detail page for the Sauce Labs Fleece Jacket.",
+      "spec": {
+        "done_when": {
+          "all": [
+            { "url_contains": "/inventory-item.html" },
+            { "text_contains": "Fleece Jacket" }
+          ]
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce",
+          "name": "Sauce Labs Fleece Jacket"
+        }
+      }
+    },
+    {
+      "name": "backpack-in-cart",
+      "goal": "Log in, put the Sauce Labs Backpack in the cart, and go to the cart page.",
+      "spec": {
+        "done_when": {
+          "all": [
+            { "url_contains": "/cart.html" },
+            { "text_contains": "Backpack" }
+          ]
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce",
+          "name": "Sauce Labs Backpack"
+        }
+      }
+    },
+    {
+      "name": "checkout-onesie",
+      "goal": "Log in, buy the Sauce Labs Onesie: add it to the cart, check out with the given name and postal code, and finish the order.",
+      "spec": {
+        "done_when": {
+          "url_contains": "/checkout-complete.html"
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce",
+          "name": "Sauce Labs Onesie",
+          "first_name": "Ada",
+          "last_name": "Lovelace",
+          "postal_code": "30301"
+        }
+      },
+      "max_steps": 25
+    },
+    {
+      "name": "sort-price-low-high",
+      "goal": "Log in and sort the products by price from low to high.",
+      "spec": {
+        "done_when": {
+          "history_contains": "low to high"
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce"
+        }
+      }
+    },
+    {
+      "name": "logout",
+      "goal": "Log in, then log out again using the side menu.",
+      "spec": {
+        "done_when": {
+          "all": [
+            { "history_contains": "Logout" },
+            { "text_contains": "Login" }
+          ]
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce"
+        }
+      }
+    },
+    {
+      "name": "two-items-remove-one",
+      "goal": "Log in, add the Backpack and the Bolt T-Shirt to the cart, then remove the Backpack so only one item is in the cart, then open the cart.",
+      "spec": {
+        "done_when": {
+          "all": [
+            { "url_contains": "/cart.html" },
+            { "text_contains": "Bolt T-Shirt" },
+            { "history_contains": "Remove" }
+          ]
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce"
+        }
+      }
+    },
+    {
+      "name": "open-menu",
+      "goal": "Log in and open the side menu so its links are visible.",
+      "spec": {
+        "done_when": {
+          "all": [
+            { "text_contains": "Logout" },
+            { "history_contains": "Menu" }
+          ]
+        },
+        "values": {
+          "username": "standard_user",
+          "password": "secret_sauce"
+        }
+      }
+    },
+    {
+      "name": "locked-out-error",
+      "goal": "Try to log in as the locked out user and get the error message.",
+      "spec": {
+        "done_when": {
+          "text_contains": "locked out"
+        },
+        "values": {
+          "username": "locked_out_user",
+          "password": "secret_sauce"
+        }
+      }
+    }
+  ]
+}

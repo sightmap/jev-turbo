@@ -3,6 +3,7 @@ package explore
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strings"
 	"time"
 
@@ -194,3 +195,33 @@ func (p *fakePicker) Choose(ctx context.Context, state string, crit Criteria, in
 	return crit.Options[0].Key, nil
 }
 func (p *fakePicker) Stats() Stats { return Stats{Calls: p.calls} }
+
+// fakeToolRunner plays a script of sightkick tool calls: it records each call
+// as "tool k=v k=v" (sorted args), optionally moves the fake driver to a new
+// URL, and returns a canned result (default {OK: true}).
+type fakeToolRunner struct {
+	calls   []string
+	results map[string]ToolResult // by tool name; default {OK: true}
+	after   map[string]string     // tool -> URL the fake site moves to
+	drv     *fakeDriver
+}
+
+func (r *fakeToolRunner) Run(ctx context.Context, tool string, args map[string]string) (ToolResult, error) {
+	keys := make([]string, 0, len(args))
+	for k := range args {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	parts := []string{tool}
+	for _, k := range keys {
+		parts = append(parts, k+"="+args[k])
+	}
+	r.calls = append(r.calls, strings.Join(parts, " "))
+	if u, ok := r.after[tool]; ok && r.drv != nil {
+		r.drv.cur = u
+	}
+	if res, ok := r.results[tool]; ok {
+		return res, nil
+	}
+	return ToolResult{OK: true}, nil
+}

@@ -97,6 +97,36 @@ func TestRunSuiteHasMap(t *testing.T) {
 	}
 }
 
+func TestRunSuiteTools(t *testing.T) {
+	ts, err := ParseIR([]byte(irFixture))
+	if err != nil {
+		t.Fatal(err)
+	}
+	drv := loginSite()
+	runner := &fakeToolRunner{drv: drv, after: map[string]string{"log_in": "https://s/inventory.html"}}
+	suite := &Suite{Name: "t", StartURL: "https://s/", Goals: []Goal{
+		{Name: "login", Goal: "log in", Spec: &Spec{DoneWhen: &DoneWhen{View: "Inventory"}, Values: map[string]string{"username": "u", "password": "p"}}},
+	}}
+
+	res, err := RunSuite(context.Background(), drv, suite, SuiteOptions{
+		NewPicker:  func() (Picker, error) { return &fakePicker{script: []string{"t:log_in"}}, nil },
+		Tools:      ts,
+		ToolRunner: runner,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if res.Condition != "tools" {
+		t.Fatalf("condition = %q", res.Condition)
+	}
+	if len(res.Runs) == 0 || !res.Runs[0].OK {
+		t.Fatalf("run not ok: %+v", res.Runs)
+	}
+	if strings.Join(runner.calls, "; ") != "log_in password=p username=u" {
+		t.Fatalf("calls = %v", runner.calls)
+	}
+}
+
 func TestLoadSuiteRejectsEmpty(t *testing.T) {
 	p := filepath.Join(t.TempDir(), "s.json")
 	os.WriteFile(p, []byte(`{"name":"x","goals":[]}`), 0o644)

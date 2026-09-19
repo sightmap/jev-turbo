@@ -14,6 +14,7 @@ import (
 type Suite struct {
 	Name        string   `json:"name"`
 	SightmapDir string   `json:"sightmap_dir,omitempty"`
+	Tools       string   `json:"tools,omitempty"` // sightkick tool layer dir; resolved relative to the suite file, like SightmapDir
 	StartURL    string   `json:"start_url"`
 	Reset       string   `json:"reset,omitempty"` // "clear-storage" (cookies + storage, then navigate) or "navigate"
 	Avoid       []string `json:"avoid,omitempty"`
@@ -60,10 +61,15 @@ type SuiteOptions struct {
 	Only      string // substring filter on goal names
 	MaxSteps  int    // overrides per-goal max_steps when > 0
 	HasMap    bool   // the corpus has at least one component; forwarded to every goal's Options
-	Hook      PageHook
-	Out       io.Writer  // step-by-step progress; nil for silent
-	OnStep    func(Step) // called for every step of every goal, after it is printed
-	OnGoal    func(Goal) // called when a goal is about to start (after the reset)
+	// Tools and ToolRunner, when both set, offer a sightkick tool layer's
+	// tools alongside elements in every goal (forwarded to each goal's
+	// Options); RunSuite reports the condition as "tools" when Tools is set.
+	Tools      *ToolSet
+	ToolRunner ToolRunner
+	Hook       PageHook
+	Out        io.Writer  // step-by-step progress; nil for silent
+	OnStep     func(Step) // called for every step of every goal, after it is printed
+	OnGoal     func(Goal) // called when a goal is about to start (after the reset)
 }
 
 // GoalResult is one goal's run inside a suite.
@@ -78,7 +84,7 @@ type GoalResult struct {
 type SuiteResult struct {
 	Suite     string       `json:"suite"`
 	Picker    string       `json:"picker"`
-	Condition string       `json:"condition,omitempty"` // "map" or "no-map"
+	Condition string       `json:"condition,omitempty"` // "map", "no-map", or "tools"
 	When      time.Time    `json:"when"`
 	Summary   Summary      `json:"summary"`
 	Runs      []GoalResult `json:"runs"`
@@ -120,6 +126,9 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 	if opts.HasMap {
 		condition = "map"
 	}
+	if opts.Tools != nil {
+		condition = "tools"
+	}
 	result := &SuiteResult{Suite: suite.Name, Condition: condition, When: time.Now()}
 	for rep := 1; rep <= opts.Repeat; rep++ {
 		for _, g := range suite.Goals {
@@ -156,6 +165,7 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 			t0 := time.Now()
 			run, err := Explore(ctx, drv, Options{
 				Goal: g.Goal, Spec: spec, Picker: picker, MaxSteps: maxSteps, HasMap: opts.HasMap, Hook: opts.Hook,
+				Tools: opts.Tools, ToolRunner: opts.ToolRunner,
 				OnStep: func(s Step) {
 					partial = append(partial, s)
 					fmt.Fprintln(out, FormatStep(s))

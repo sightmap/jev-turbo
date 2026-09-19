@@ -19,6 +19,11 @@ type Options struct {
 	MaxCandidates int     // default 60
 	DoneThreshold float64 // picker "done" confidence that ends a goal with no deterministic check (default 0.85)
 	HasMap        bool    // the corpus has at least one component; enables Step.Fallback
+	// Tools and ToolRunner, when both set, offer sightkick tools as picker
+	// options alongside elements; a tool call runs through ToolRunner instead
+	// of driving an element directly.
+	Tools      *ToolSet
+	ToolRunner ToolRunner
 	// Hook runs on every observed page before candidates are built (used by --grow).
 	Hook PageHook
 	// OnStep is called after each step with its record.
@@ -56,7 +61,10 @@ type Step struct {
 	Confidence      float64 `json:"confidence,omitempty"`       // probability of the chosen option
 	GroupConfidence float64 `json:"group_confidence,omitempty"` // probability of the chosen group on a grouped pick
 	Fallback        bool    `json:"fallback,omitempty"`         // a map exists but the pick is an unnamed node
-	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, or a control already acted on at this URL
+	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, a control or tool repeated at this URL, or a tool call that failed and did not finish the goal
+
+	Tool   string `json:"tool,omitempty"`    // the sightkick tool run, when the pick was a "t:" option
+	ToolOK bool   `json:"tool_ok,omitempty"` // the tool call reported ok
 }
 
 // CovStat is the page's coverage at the moment of a step.
@@ -116,6 +124,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	navigations := 0
 	afterFill := false
 	run := &Run{Goal: opts.Goal, Spec: spec, Picker: opts.Picker.Name()}
+	var suggested []string // tool names to rank first, from the last tool call's Guidance; the next ToolOptions call consumes it and it is cleared there
+	skipTool := ""         // a tool that just failed: left out of the next pick only, while its guidance still counts
+	failedToolAt := -1     // index in run.Steps of the step just appended, when it was a failed tool call
 	t0 := time.Now()
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
@@ -150,6 +161,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 
 		if spec.DoneWhen.Deterministic() && spec.DoneWhen.Check(page, history) {
+			if failedToolAt >= 0 {
+				// The call reported a failure, but the page it left behind is
+				// the one the goal asks for, so the step did the work.
+				run.Steps[failedToolAt].Wasted = false
+			}
 			step.Action = "done"
 			run.Steps = append(run.Steps, step)
 			run.OK = true
@@ -200,10 +216,17 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			return run, nil
 		}
 		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL, AfterFill: afterFill, CanGoBack: navigations > 0})
+		var toolOpts []Criterion
+		if opts.Tools != nil && opts.ToolRunner != nil {
+			toolOpts = dropTool(ToolOptions(opts.Tools, page.View, values, suggested), skipTool)
+			suggested = suggested[:0]
+			crit.Options = append(append([]Criterion{}, toolOpts...), crit.Options...)
+		}
+		skipTool = ""
 		step.Candidates = len(cands)
 		step.Options = len(crit.Options)
 		step.Named = countNamed(cands)
-		state := buildState(opts.Goal, spec, page, history, cands)
+		state := buildState(opts.Goal, spec, page, history, cands, toolOpts)
 
 		tP := time.Now()
 		pick, err := opts.Picker.Pick(ctx, state, crit)
@@ -254,8 +277,34 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		if spec.DoneWhen.Deterministic() {
 			doneFn = func(p *Page) bool { return spec.DoneWhen.Check(p, history) }
 		}
-		act, err := perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page, doneFn)
-		if err != nil && isStale(err) {
+		var act *action
+		if strings.HasPrefix(pick.Next, ToolPrefix) {
+			name := strings.TrimPrefix(pick.Next, ToolPrefix)
+			tool := opts.Tools.Get(name)
+			if tool == nil {
+				return run, fmt.Errorf("explore: act: picked unknown tool %q", name)
+			}
+			args, _ := ToolArgs(tool, values)
+			var res ToolResult
+			act, res, err = performTool(ctx, drv, opts.ToolRunner, tool, args, page)
+			step.Tool = tool.Name
+			step.ToolOK = err == nil && res.OK
+			for _, g := range res.Guidance {
+				suggested = append(suggested, g.Tool)
+			}
+			if err == nil {
+				// A tool run twice at one URL repeats work, the same as a
+				// control clicked twice there.
+				step.Wasted = step.Wasted || seen[page.URL+"|"+act.seenKey] > 0
+				if !res.OK {
+					step.Wasted = true
+					skipTool = tool.Name
+				}
+			}
+		} else {
+			act, err = perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page, doneFn)
+		}
+		if step.Tool == "" && err != nil && isStale(err) {
 			// The page re-rendered between snapshot and act: re-observe and retry the same element by description.
 			fresh, oErr := drv.Observe(ctx)
 			if oErr != nil {
@@ -304,6 +353,10 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		step.Ms = int(time.Since(tS).Milliseconds())
 		run.Steps = append(run.Steps, step)
+		failedToolAt = -1
+		if step.Tool != "" && !step.ToolOK {
+			failedToolAt = len(run.Steps) - 1
+		}
 		run.Transitions = append(run.Transitions, Transition{From: pageLabel(page), Action: act.summary, Comp: act.comp, To: shortURL(act.urlAfter), Changed: step.Navigated})
 		history = append(history, fmt.Sprintf("%d. %s → %s", n, act.summary, shortURL(act.urlAfter)))
 		seen[page.URL+"|"+act.seenKey]++
@@ -458,6 +511,56 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 	return act, nil
 }
 
+// performTool runs a sightkick tool and settles the page afterwards.
+func performTool(ctx context.Context, drv Driver, runner ToolRunner, t *Tool, args map[string]string, page *Page) (*action, ToolResult, error) {
+	res, err := runner.Run(ctx, t.Name, args)
+	if err != nil {
+		return nil, res, err
+	}
+	info := drv.Settle(ctx, page.URL)
+	keys := make([]string, 0, len(args))
+	for k := range args {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	var kv []string
+	for _, k := range keys {
+		kv = append(kv, k+"="+args[k])
+	}
+	summary := fmt.Sprintf("ran tool %s(%s)", t.Name, strings.Join(kv, ", "))
+	switch {
+	case !res.OK:
+		summary = fmt.Sprintf("tool %s failed: %s", t.Name, res.Message)
+	case res.Skipped:
+		summary += " (already applied)"
+	}
+	urlAfter := info.URL
+	if urlAfter == "" {
+		if u, err := drv.URL(ctx); err == nil {
+			urlAfter = u
+		} else {
+			urlAfter = page.URL
+		}
+	}
+	return &action{summary: summary, comp: "tool:" + t.Name, seenKey: "tool " + t.Name, urlAfter: urlAfter, settleMs: info.Ms}, res, nil
+}
+
+// dropTool leaves one tool out of a pick's options. A tool that just failed is
+// worth skipping once, but the rest of the layer, and the guidance the failed
+// call returned, are still worth offering.
+func dropTool(opts []Criterion, name string) []Criterion {
+	if name == "" {
+		return opts
+	}
+	var out []Criterion
+	for _, o := range opts {
+		if strings.TrimPrefix(o.Key, ToolPrefix) != name {
+			out = append(out, o)
+		}
+	}
+	return out
+}
+
 func isStale(err error) bool {
 	s := err.Error()
 	return strings.Contains(s, "not found in live DOM") || strings.Contains(s, "not found") || strings.Contains(s, "noel")
@@ -573,8 +676,9 @@ func chooseOption(ctx context.Context, picker Picker, n *Node, opts []string, st
 }
 
 // buildState renders the picker's context: goal, spec, page, recent steps,
-// and every actionable element with its key.
-func buildState(goal string, spec *Spec, page *Page, history []string, cands []*Candidate) string {
+// the sightkick tools callable here (if any), and every actionable element
+// with its key.
+func buildState(goal string, spec *Spec, page *Page, history []string, cands []*Candidate, tools []Criterion) string {
 	var b strings.Builder
 	fmt.Fprintf(&b, "GOAL: %s\n", goal)
 	if spec.Hint != "" {
@@ -625,6 +729,12 @@ func buildState(goal string, spec *Spec, page *Page, history []string, cands []*
 		if c.Node.Role == "option" {
 			b.WriteString("A SUGGESTION LIST IS OPEN: a value typed into a field only counts once one of its option entries is chosen.\n")
 			break
+		}
+	}
+	if len(tools) > 0 {
+		b.WriteString("TOOLS (run a whole named action; prefer one when it fits):\n")
+		for _, t := range tools {
+			fmt.Fprintf(&b, "  %s: %s\n", t.Key, t.Desc)
 		}
 	}
 	b.WriteString("ACTIONABLE ELEMENTS (key: description):\n")
