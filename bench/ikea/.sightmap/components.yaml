@@ -152,6 +152,10 @@ components:
         without opening the product page. When the card's title is the variant
         wanted, that is one step instead of three (open, Add to bag, close the
         sheet). The button's aria-label names the product it adds.
+      - >
+        A colour that is not its own card is often a VariantSwatch under the
+        card of the same size: pick the swatch, and the card becomes that
+        colour, title and all.
     properties:
       - name: title
         extract: ProductLink.label
@@ -168,6 +172,14 @@ components:
         properties:
           - name: label
             extract: attr=aria-label
+      - name: VariantSwatch
+        selector: 'input.plp-product-variant__radio'
+        description: >
+          One colour or finish swatch under a card (a visually hidden radio
+          whose accessible name reads "Option: KALLAX, Shelf unit,
+          black-brown, ..."). Choosing one swaps the card's variant in place:
+          the card's title, price, ProductLink and AddToCartButton then all
+          refer to the chosen colour, without leaving the listing.
       - name: AddToCartButton
         selector: 'button.plp-btn--icon-emphasised[aria-label^="Add "]'
         description: >
