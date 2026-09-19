@@ -18,6 +18,7 @@ type Options struct {
 	MaxSteps      int     // default 20
 	MaxCandidates int     // default 60
 	DoneThreshold float64 // picker "done" confidence that ends a goal with no deterministic check (default 0.85)
+	HasMap        bool    // the corpus has at least one component; enables Step.Fallback
 	// Hook runs on every observed page before candidates are built (used by --grow).
 	Hook PageHook
 	// OnStep is called after each step with its record.
@@ -48,6 +49,14 @@ type Step struct {
 	MsSettle  int      `json:"ms_settle"`
 	Ms        int      `json:"ms"`
 	Navigated bool     `json:"navigated,omitempty"`
+
+	Candidates      int     `json:"candidates,omitempty"`       // element candidates after the guards
+	Options         int     `json:"options,omitempty"`          // options on the first pick; a group counts once
+	Named           int     `json:"named,omitempty"`            // candidates that carry a sightmap component
+	Confidence      float64 `json:"confidence,omitempty"`       // probability of the chosen option
+	GroupConfidence float64 `json:"group_confidence,omitempty"` // probability of the chosen group on a grouped pick
+	Fallback        bool    `json:"fallback,omitempty"`         // a map exists but the pick is an unnamed node
+	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, or a control already acted on at this URL
 }
 
 // CovStat is the page's coverage at the moment of a step.
@@ -78,6 +87,7 @@ type Run struct {
 	Transitions []Transition `json:"transitions"`
 	Ms          int          `json:"ms"`
 	Stats       Stats        `json:"picker_stats"`
+	Metrics     RunMetrics   `json:"metrics"`
 	HookErrors  int          `json:"hook_errors,omitempty"`
 }
 
@@ -110,6 +120,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
 		run.Stats = opts.Picker.Stats()
+		run.Metrics = Metrics(run.Steps)
 	}()
 
 	for n := 1; n <= opts.MaxSteps; n++ {
@@ -153,6 +164,22 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			// the typed value only counts once an option is chosen, so offer only those.
 			if opts := onlyOptions(cands); len(opts) > 0 {
 				cands = opts
+			} else {
+				// The options can still be rendering when this observation landed
+				// (a few hundred ms behind in headless Chrome): look once more
+				// before giving up and offering the whole page.
+				drv.Wait(ctx, 300*time.Millisecond)
+				if page, err = drv.Observe(ctx); err != nil {
+					return run, fmt.Errorf("explore: observe: %w", err)
+				}
+				step.URL = page.URL
+				step.View = page.View
+				step.Coverage = covStat(page)
+				step.MsSnap = int(time.Since(tS).Milliseconds())
+				cands = Candidates(page.Nodes, CandidateOptions{Seen: seen, URL: page.URL, Avoid: spec.Avoid})
+				if opts := onlyOptions(cands); len(opts) > 0 {
+					cands = opts
+				}
 			}
 			suggestionsOpen = false
 		}
@@ -173,6 +200,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			return run, nil
 		}
 		crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: opts.MaxCandidates, Goal: opts.Goal, Seen: seen, URL: page.URL, AfterFill: afterFill, CanGoBack: navigations > 0})
+		step.Candidates = len(cands)
+		step.Options = len(crit.Options)
+		step.Named = countNamed(cands)
 		state := buildState(opts.Goal, spec, page, history, cands)
 
 		tP := time.Now()
@@ -182,11 +212,13 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		if strings.HasPrefix(pick.Next, "g:") && crit.Groups != nil {
 			members := crit.Groups[pick.Next]
+			gp := pick.Probs[pick.Next]
 			second, err := opts.Picker.Pick(ctx, state, GroupCriteria(members))
 			if err != nil {
 				return run, fmt.Errorf("explore: pick in group: %w", err)
 			}
 			step.Group = pick.Next
+			step.GroupConfidence = gp
 			if second.Done < pick.Done {
 				second.Done = pick.Done
 			}
@@ -197,6 +229,16 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		step.Probs = topProbs(pick.Probs, 3)
 		step.DoneProb = pick.Done
 		step.Why = pick.Why
+		step.Confidence = pick.Probs[pick.Next]
+		if step.Group != "" {
+			// A grouped pick is two answers: the option's own probability is
+			// conditional on the group, so the step's confidence is the joint one.
+			step.Confidence *= step.GroupConfidence
+		}
+		if c := findCandidate(cands, pick.Next); c != nil {
+			step.Fallback = opts.HasMap && c.Node.Comp == ""
+			step.Wasted = seen[page.URL+"|"+c.SeenKey] > 0
+		}
 
 		if pick.Done >= opts.DoneThreshold && !spec.DoneWhen.Deterministic() {
 			step.Action = "done(judged)"
@@ -239,7 +281,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 				if want != nil {
 					seenKey = want.SeenKey
 				}
-				act = &action{summary: fmt.Sprintf("stale element, skipped (%s)", pickLabel(want, pick.Next)), seenKey: seenKey, urlAfter: fresh.URL}
+				act = &action{summary: fmt.Sprintf("stale element, skipped (%s)", pickLabel(want, pick.Next)), stale: true, seenKey: seenKey, urlAfter: fresh.URL}
 				err = nil
 			}
 		}
@@ -252,6 +294,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		step.MsSettle = act.settleMs
 		step.Action = act.summary
+		if pick.Next == MetaBack || act.stale {
+			step.Wasted = true
+		}
 		step.URLAfter = act.urlAfter
 		step.Navigated = act.urlAfter != page.URL
 		if step.Navigated {
@@ -282,6 +327,7 @@ type action struct {
 	seenKey      string
 	urlAfter     string
 	settleMs     int
+	stale        bool   // the element was gone twice: nothing was acted on
 	combobox     bool   // typed into, or opened, a control with a list; wait for its options before observing
 	optionsShown bool   // the list was visible after the wait
 	filled       bool   // typed into a field; Enter is offered next
@@ -636,4 +682,15 @@ func shortURL(u string) string {
 		s = "/"
 	}
 	return s
+}
+
+// countNamed counts candidates that carry a sightmap component.
+func countNamed(cands []*Candidate) int {
+	n := 0
+	for _, c := range cands {
+		if c.Node != nil && c.Node.Comp != "" {
+			n++
+		}
+	}
+	return n
 }

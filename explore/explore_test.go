@@ -128,6 +128,11 @@ func TestExploreSkipsElementGoneTwice(t *testing.T) {
 	if !run.OK || !strings.HasPrefix(run.Steps[0].Action, "stale element, skipped") || len(drv.clicks) != 1 {
 		t.Fatalf("run = %+v clicks = %v", run.Steps, drv.clicks)
 	}
+	// Nothing was acted on, so the skip counts as wasted work; so does step 2,
+	// which picks the same control again at the same URL.
+	if !run.Steps[0].Wasted || run.Metrics.Wasted != 2 {
+		t.Fatalf("a skipped stale element is wasted: step %+v metrics %+v", run.Steps[0], run.Metrics)
+	}
 }
 
 func TestExploreGroupsLargePages(t *testing.T) {
@@ -175,13 +180,21 @@ func TestExploreSecondPickInsideGroup(t *testing.T) {
 	home := &fakePage{url: "https://b/", nodes: nodes, edges: map[string]string{target.ID: "https://b/done"}}
 	done := &fakePage{url: "https://b/done", nodes: []*Node{mk("x", "link", "Home", "a", "", "", true)}}
 	drv := newFakeDriver("https://b/", home, done)
-	picker := &fakePicker{script: []string{"g:l", "n" + target.ID}}
+	picker := &fakePicker{script: []string{"g:l", "n" + target.ID}, probs: []float64{0.5, 0.8}}
 	run, err := Explore(context.Background(), drv, Options{Goal: "zzz", Spec: &Spec{DoneWhen: &DoneWhen{URLContains: "done"}}, Picker: picker})
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !run.OK || run.Steps[0].Group != "g:l" || picker.calls != 2 {
 		t.Fatalf("run = %+v calls=%d", run.Steps[0], picker.calls)
+	}
+	// The second pick's 0.8 is P(option | group); the step records the joint
+	// probability, with the group's own half kept separately.
+	if got := run.Steps[0].Confidence; got != 0.4 {
+		t.Fatalf("confidence = %v, want the joint 0.5*0.8", got)
+	}
+	if got := run.Steps[0].GroupConfidence; got != 0.5 {
+		t.Fatalf("group confidence = %v, want 0.5", got)
 	}
 }
 
@@ -222,5 +235,87 @@ func TestBuildStateListsEverything(t *testing.T) {
 		if !strings.Contains(s, want) {
 			t.Errorf("state missing %q:\n%s", want, s)
 		}
+	}
+}
+
+func TestStepMetrics(t *testing.T) {
+	a := mk("1", "button", "Go", "button", "", "GoButton", true)
+	b := mk("2", "link", "Other", "a", "", "", true)
+	site := func() *fakeDriver {
+		return newFakeDriver("/", &fakePage{url: "/", view: "Home", nodes: []*Node{a, b}})
+	}
+	run, err := Explore(context.Background(), site(), Options{Goal: "go", Picker: &fakePicker{script: []string{"n1", "n1"}}, MaxSteps: 2, HasMap: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 {
+		t.Fatalf("steps = %d", len(run.Steps))
+	}
+	s0, s1 := run.Steps[0], run.Steps[1]
+	if s0.Candidates != 2 || s0.Named != 1 || s0.Options < 2 {
+		t.Fatalf("counts = candidates %d named %d options %d", s0.Candidates, s0.Named, s0.Options)
+	}
+	if s0.Confidence != 1 || s0.Fallback || s0.Wasted {
+		t.Fatalf("first step: confidence %v fallback %v wasted %v", s0.Confidence, s0.Fallback, s0.Wasted)
+	}
+	if !s1.Wasted {
+		t.Fatalf("second click of the same control at the same URL should be wasted: %+v", s1)
+	}
+	// Explore's defer folds the steps into Run.Metrics; the bench summary and
+	// both READMEs' numbers are read from there, not from the steps.
+	if run.Metrics.Steps != 2 || run.Metrics.Wasted != 1 {
+		t.Fatalf("run metrics = %+v, want 2 steps and 1 wasted", run.Metrics)
+	}
+	run, err = Explore(context.Background(), site(), Options{Goal: "go", Picker: &fakePicker{script: []string{"n2"}}, MaxSteps: 1, HasMap: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !run.Steps[0].Fallback {
+		t.Fatalf("an unnamed pick with a map present is a fallback: %+v", run.Steps[0])
+	}
+	run, _ = Explore(context.Background(), site(), Options{Goal: "go", Picker: &fakePicker{script: []string{"n2"}}, MaxSteps: 1})
+	if run.Steps[0].Fallback {
+		t.Fatalf("without a map nothing is a fallback: %+v", run.Steps[0])
+	}
+}
+
+func TestSuggestionsReobserveWhenOptionsLag(t *testing.T) {
+	field := mk("1", "combobox", "Where from?", "input", "aria-autocomplete=list", "OriginField", true)
+	// Non-interactive filler so each page has 3+ nodes: fewer trips the loop's
+	// own "almost nothing came back" retry, which would (as a side effect)
+	// already swap in the option before step 2 starts and defeat this test.
+	heading := mk("h", "heading", "Flights", "h1", "", "", false)
+	blurb := mk("b", "text", "Search for flights", "p", "", "", false)
+	option := mk("2", "option", "Zurich Airport (ZRH)", "li", "", "", true)
+	first := &fakePage{url: "/", view: "Home", nodes: []*Node{field, heading, blurb}}
+	// A different view than "first" so the test can confirm the step record
+	// reflects the page the second look actually landed on, not the first.
+	later := &fakePage{url: "/", view: "HomeOpen", nodes: []*Node{field, heading, blurb, option}}
+	d := newFakeDriver("/", first)
+	// The option only shows up once the "first" page has been observed
+	// twice (step 1's look, then step 2's own first look, still lagging);
+	// only the loop's second look within step 2 (this task's fix) should see it.
+	seenFirst := 0
+	d.observeHook = func(p *fakePage) {
+		if p == first {
+			seenFirst++
+			if seenFirst == 2 {
+				d.pages["/"] = later
+			}
+		}
+	}
+	p := &fakePicker{script: []string{"n1", "n2"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "fly from Zurich", Picker: p, MaxSteps: 2, Spec: &Spec{Values: map[string]string{"from": "Zurich"}}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || !strings.Contains(run.Steps[1].Action, "Zurich Airport") {
+		t.Fatalf("expected the option to be picked on step 2, got %+v", run.Steps)
+	}
+	if len(p.picks) != 2 || p.picks[1] != "n2" {
+		t.Fatalf("second pick should see only the option: %v", p.picks)
+	}
+	if run.Steps[1].View != "HomeOpen" {
+		t.Fatalf("step should record the page the second look landed on, got view %q", run.Steps[1].View)
 	}
 }

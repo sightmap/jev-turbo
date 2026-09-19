@@ -1,0 +1,26 @@
+{
+  "name": "journeys",
+  "sightmap_dir": "saucedemo/.sightmap",
+  "start_url": "https://www.saucedemo.com/",
+  "reset": "clear-storage",
+  "goals": [
+    {
+      "name": "three-orders",
+      "goal": "Log in, then buy the Sauce Labs Backpack, the Sauce Labs Bike Light, and the Sauce Labs Fleece Jacket as three separate orders. For each: add the one item, open the cart, check out with the customer details, continue, finish, then go back to the products for the next item.",
+      "max_steps": 45,
+      "spec": {
+        "done_when": {"history_count": {"substr": "Finish", "min": 3}},
+        "values": {"username": "standard_user", "password": "secret_sauce", "first name": "Ada", "last name": "Lovelace", "postal code": "30301"}
+      }
+    },
+    {
+      "name": "cheapest-two",
+      "goal": "Log in, sort the products by price low to high, add the two cheapest products to the cart, check out with the customer details, and finish the order.",
+      "max_steps": 30,
+      "spec": {
+        "done_when": {"all": [{"text_contains": "Thank you for your order"}, {"history_count": {"substr": "Add to cart", "min": 2}}]},
+        "values": {"username": "standard_user", "password": "secret_sauce", "first name": "Ada", "last name": "Lovelace", "postal code": "30301"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,5541 @@
+{
+ "suite": "journeys",
+ "picker": "jev:jev-latest",
+ "condition": "no-map",
+ "when": "2026-09-18T15:40:58.731291-04:00",
+ "summary": {
+  "goals": 6,
+  "ok": 3,
+  "steps": 177,
+  "ms": 53390,
+  "ms_per_step": 301.638418079096,
+  "model_calls": 183,
+  "model_ms": 31976,
+  "ms_per_call": 174.73224043715848,
+  "input_tokens": 210064,
+  "output_tokens": 29499,
+  "usd": 0,
+  "wasted": 53,
+  "fallback": 0,
+  "low_confidence": 49,
+  "candidates_median": 10
+ },
+ "runs": [
+  {
+   "name": "three-orders",
+   "rep": 1,
+   "goal": "Log in, then buy the Sauce Labs Backpack, the Sauce Labs Bike Light, and the Sauce Labs Fleece Jacket as three separate orders. For each: add the one item, open the cart, check out with the customer details, continue, finish, then go back to the products for the next item.",
+   "spec": {
+    "done_when": {
+     "history_count": {
+      "substr": "Finish",
+      "min": 3
+     }
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 45 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 n33:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 18,
+     "ms_pick": 302,
+     "ms_act": 132,
+     "ms_settle": 82,
+     "ms": 535,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 142,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 249,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n33",
+     "probs": "n33:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Login\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 14,
+     "ms_pick": 181,
+     "ms_act": 79,
+     "ms_settle": 82,
+     "ms": 356,
+     "navigated": true,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n90",
+     "probs": "n90:0.49 n77:0.41 n81:0.10",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 19,
+     "ms_pick": 187,
+     "ms_act": 6,
+     "ms_settle": 81,
+     "ms": 294,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.49
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.99 n109:0.01 back:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 29,
+     "ms_pick": 151,
+     "ms_act": 9,
+     "ms_settle": 118,
+     "ms": 307,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.99
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n86",
+     "probs": "n86:0.98 back:0.02 n28:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 13,
+     "ms_pick": 142,
+     "ms_act": 8,
+     "ms_settle": 98,
+     "ms": 262,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.98
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 9,
+     "ms_pick": 186,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 285,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 19,
+     "ms_pick": 218,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 327,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 21,
+     "ms_pick": 151,
+     "ms_act": 7,
+     "ms_settle": 83,
+     "ms": 263,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 21,
+     "ms_pick": 204,
+     "ms_act": 14,
+     "ms_settle": 101,
+     "ms": 341,
+     "navigated": true,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n104",
+     "probs": "n104:0.99 back:0.01 n101:0.00",
+     "done_prob": 0.05,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 11,
+     "ms_pick": 163,
+     "ms_act": 68,
+     "ms_settle": 82,
+     "ms": 325,
+     "navigated": true,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.99
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:0.77 back:0.19 n28:0.03",
+     "done_prob": 0.06,
+     "action": "clicked button \"Back Home\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 8,
+     "ms_pick": 125,
+     "ms_act": 8,
+     "ms_settle": 106,
+     "ms": 249,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.77
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n94",
+     "probs": "n94:0.37 n77:0.19 n90:0.19",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 31,
+     "ms_pick": 234,
+     "ms_act": 8,
+     "ms_settle": 101,
+     "ms": 376,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.37
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:0.94 n57:0.04 back:0.01",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 9,
+     "ms_pick": 164,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 262,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.94
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.99 n59:0.01 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 19,
+     "ms_pick": 135,
+     "ms_act": 14,
+     "ms_settle": 137,
+     "ms": 306,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.99
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n86",
+     "probs": "n86:0.99 n54:0.01 back:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 11,
+     "ms_pick": 146,
+     "ms_act": 7,
+     "ms_settle": 98,
+     "ms": 264,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.99,
+     "wasted": true
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 10,
+     "ms_pick": 161,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 260,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 21,
+     "ms_pick": 144,
+     "ms_act": 6,
+     "ms_settle": 84,
+     "ms": 256,
+     "candidates": 9,
+     "options": 12,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:0.99 n75:0.01 back:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 23,
+     "ms_pick": 181,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 291,
+     "candidates": 8,
+     "options": 11,
+     "confidence": 0.99,
+     "wasted": true
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 10,
+     "ms_pick": 145,
+     "ms_act": 5,
+     "ms_settle": 92,
+     "ms": 254,
+     "navigated": true,
+     "candidates": 7,
+     "options": 10,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n104",
+     "probs": "n104:0.99 back:0.01 n101:0.00",
+     "done_prob": 0.05,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 10,
+     "ms_pick": 186,
+     "ms_act": 6,
+     "ms_settle": 104,
+     "ms": 308,
+     "navigated": true,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.99,
+     "wasted": true
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:0.77 back:0.18 n28:0.05",
+     "done_prob": 0.07,
+     "action": "clicked button \"Back Home\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 8,
+     "ms_pick": 147,
+     "ms_act": 7,
+     "ms_settle": 95,
+     "ms": 258,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.77,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n94",
+     "probs": "n94:0.33 n90:0.22 n77:0.21",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 18,
+     "ms_pick": 147,
+     "ms_act": 8,
+     "ms_settle": 95,
+     "ms": 270,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.33,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:0.93 n57:0.05 back:0.01",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 9,
+     "ms_pick": 135,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 233,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.93,
+     "wasted": true
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.99 n59:0.01 back:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 19,
+     "ms_pick": 196,
+     "ms_act": 8,
+     "ms_settle": 101,
+     "ms": 325,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.99,
+     "wasted": true
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.65 n83:0.16 n28:0.07",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 9,
+     "ms_pick": 166,
+     "ms_act": 9,
+     "ms_settle": 100,
+     "ms": 285,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.65
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.47 n28:0.17 n83:0.17",
+     "done_prob": 0.04,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 10,
+     "ms_pick": 212,
+     "ms_act": 7,
+     "ms_settle": 107,
+     "ms": 337,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.47,
+     "wasted": true
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n83",
+     "probs": "n28:0.29 n83:0.29 back:0.16",
+     "done_prob": 0.04,
+     "action": "clicked button \"Continue Shopping\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 11,
+     "ms_pick": 265,
+     "ms_act": 8,
+     "ms_settle": 97,
+     "ms": 383,
+     "navigated": true,
+     "candidates": 8,
+     "options": 10,
+     "confidence": 0.29
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n79",
+     "probs": "n79:0.33 n54:0.29 n130:0.23",
+     "done_prob": 0.04,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 17,
+     "ms_pick": 188,
+     "ms_act": 10,
+     "ms_settle": 98,
+     "ms": 313,
+     "navigated": true,
+     "candidates": 28,
+     "options": 31,
+     "confidence": 0.33
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:0.96 n54:0.03 n59:0.01",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 9,
+     "ms_pick": 128,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 226,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.96
+    },
+    {
+     "step": 31,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.94 n59:0.04 n28:0.01",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 21,
+     "ms_pick": 127,
+     "ms_act": 9,
+     "ms_settle": 102,
+     "ms": 261,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.94
+    },
+    {
+     "step": 32,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.51 n71:0.19 n80:0.10",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 11,
+     "ms_pick": 234,
+     "ms_act": 14,
+     "ms_settle": 119,
+     "ms": 379,
+     "candidates": 12,
+     "options": 14,
+     "confidence": 0.51
+    },
+    {
+     "step": 33,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.38 n71:0.23 n80:0.10",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 13,
+     "ms_pick": 151,
+     "ms_act": 6,
+     "ms_settle": 89,
+     "ms": 260,
+     "candidates": 12,
+     "options": 14,
+     "confidence": 0.38,
+     "wasted": true
+    },
+    {
+     "step": 34,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n98",
+     "probs": "n98:0.29 n71:0.23 n80:0.18",
+     "done_prob": 0.02,
+     "action": "clicked button \"Continue Shopping\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 11,
+     "ms_pick": 143,
+     "ms_act": 5,
+     "ms_settle": 103,
+     "ms": 262,
+     "navigated": true,
+     "candidates": 11,
+     "options": 13,
+     "confidence": 0.29000000000000004,
+     "wasted": true
+    },
+    {
+     "step": 35,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n130",
+     "probs": "n130:0.51 n54:0.22 n134:0.09",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Fleece Jack…\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "ms_snap": 13,
+     "ms_pick": 135,
+     "ms_act": 4,
+     "ms_settle": 84,
+     "ms": 237,
+     "navigated": true,
+     "candidates": 28,
+     "options": 31,
+     "confidence": 0.51
+    },
+    {
+     "step": 36,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:0.93 n54:0.04 n59:0.03",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "ms_snap": 8,
+     "ms_pick": 189,
+     "ms_act": 4,
+     "ms_settle": 82,
+     "ms": 284,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.93
+    },
+    {
+     "step": 37,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.94 n59:0.05 n75:0.01",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 3 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 19,
+     "ms_pick": 213,
+     "ms_act": 6,
+     "ms_settle": 102,
+     "ms": 341,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.94
+    },
+    {
+     "step": 38,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.61 n80:0.11 n95:0.06",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 3 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 14,
+     "ms_pick": 165,
+     "ms_act": 6,
+     "ms_settle": 93,
+     "ms": 279,
+     "candidates": 14,
+     "options": 17,
+     "confidence": 0.61
+    },
+    {
+     "step": 39,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.55 n80:0.13 n95:0.06",
+     "done_prob": 0.04,
+     "action": "clicked button \"Cart, 3 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 13,
+     "ms_pick": 164,
+     "ms_act": 9,
+     "ms_settle": 101,
+     "ms": 287,
+     "candidates": 14,
+     "options": 17,
+     "confidence": 0.55,
+     "wasted": true
+    },
+    {
+     "step": 40,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n80",
+     "probs": "n80:0.25 n95:0.16 back:0.13",
+     "done_prob": 0.03,
+     "action": "clicked button \"Remove\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 13,
+     "ms_pick": 261,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 362,
+     "candidates": 13,
+     "options": 16,
+     "confidence": 0.25
+    },
+    {
+     "step": 41,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n72",
+     "probs": "n72:0.21 n81:0.20 n96:0.20",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 23,
+     "ms_pick": 171,
+     "ms_act": 12,
+     "ms_settle": 102,
+     "ms": 308,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.21
+    },
+    {
+     "step": 42,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n59",
+     "probs": "n59:0.47 n54:0.37 n75:0.09",
+     "done_prob": 0.04,
+     "action": "clicked button \"Back to products\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 9,
+     "ms_pick": 164,
+     "ms_act": 8,
+     "ms_settle": 106,
+     "ms": 289,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.47000000000000003
+    },
+    {
+     "step": 43,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n79",
+     "probs": "n79:0.45 n83:0.22 n54:0.17",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 16,
+     "ms_pick": 126,
+     "ms_act": 7,
+     "ms_settle": 96,
+     "ms": 247,
+     "navigated": true,
+     "candidates": 28,
+     "options": 31,
+     "confidence": 0.45,
+     "wasted": true
+    },
+    {
+     "step": 44,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n59",
+     "probs": "n59:0.81 n54:0.11 n28:0.04",
+     "done_prob": 0.03,
+     "action": "clicked button \"Back to products\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 9,
+     "ms_pick": 142,
+     "ms_act": 10,
+     "ms_settle": 100,
+     "ms": 262,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.81,
+     "wasted": true
+    },
+    {
+     "step": 45,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n130",
+     "probs": "n130:0.55 n54:0.14 n109:0.09",
+     "done_prob": 0.02,
+     "action": "clicked button \"View details for Sauce Labs Fleece Jack…\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "ms_snap": 17,
+     "ms_pick": 144,
+     "ms_act": 11,
+     "ms_settle": 97,
+     "ms": 270,
+     "navigated": true,
+     "candidates": 26,
+     "options": 29,
+     "confidence": 0.55,
+     "wasted": true
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "clicked button \"Login\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-complete.html",
+     "action": "clicked button \"Back Home\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-complete.html",
+     "action": "clicked button \"Back Home\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Continue Shopping\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Continue Shopping\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Fleece Jack…\"",
+     "to": "/inventory-item.html?id=5",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=5",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=5",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=5",
+     "action": "clicked button \"Cart, 3 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 3 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 3 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Remove\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Back to products\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Back to products\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Fleece Jack…\"",
+     "to": "/inventory-item.html?id=5",
+     "changed": true
+    }
+   ],
+   "ms": 13352,
+   "picker_stats": {
+    "calls": 46,
+    "ms": 7884,
+    "input_tokens": 53640,
+    "output_tokens": 7512,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 45,
+    "wasted": 17,
+    "fallback": 0,
+    "low_confidence": 16,
+    "candidates_median": 9,
+    "options_median": 12
+   }
+  },
+  {
+   "name": "cheapest-two",
+   "rep": 1,
+   "goal": "Log in, sort the products by price low to high, add the two cheapest products to the cart, check out with the customer details, and finish the order.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "text_contains": "Thank you for your order"
+      },
+      {
+       "history_count": {
+        "substr": "Add to cart",
+        "min": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 n33:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 145,
+     "ms_act": 150,
+     "ms_settle": 83,
+     "ms": 395,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 15,
+     "ms_pick": 174,
+     "ms_act": 11,
+     "ms_settle": 83,
+     "ms": 284,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n33",
+     "probs": "n33:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Login\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 15,
+     "ms_pick": 233,
+     "ms_act": 21,
+     "ms_settle": 113,
+     "ms": 383,
+     "navigated": true,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n62",
+     "probs": "n62:1.00 back:0.00 n107:0.00",
+     "done_prob": 0.01,
+     "action": "selected \"Price (low to high)\" in combobox \"Sort products\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 14,
+     "ms_pick": 206,
+     "ms_act": 140,
+     "ms_settle": 82,
+     "ms": 443,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 1
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n90",
+     "probs": "n90:0.90 n107:0.06 wait:0.02",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 31,
+     "ms_pick": 169,
+     "ms_act": 6,
+     "ms_settle": 82,
+     "ms": 288,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.9
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n109",
+     "probs": "n109:0.74 n126:0.19 n143:0.04",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 27,
+     "ms_pick": 243,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 358,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.74,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.96 n28:0.04 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 30,
+     "ms_pick": 137,
+     "ms_act": 12,
+     "ms_settle": 101,
+     "ms": 280,
+     "navigated": true,
+     "candidates": 26,
+     "options": 29,
+     "confidence": 0.96
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n101",
+     "probs": "n101:1.00 back:0.00 n106:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 11,
+     "ms_pick": 228,
+     "ms_act": 11,
+     "ms_settle": 104,
+     "ms": 354,
+     "navigated": true,
+     "candidates": 13,
+     "options": 15,
+     "confidence": 1
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 11,
+     "ms_pick": 122,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 221,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 19,
+     "ms_pick": 144,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 253,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 23,
+     "ms_pick": 134,
+     "ms_act": 6,
+     "ms_settle": 82,
+     "ms": 247,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 21,
+     "ms_pick": 253,
+     "ms_act": 16,
+     "ms_settle": 101,
+     "ms": 391,
+     "navigated": true,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n117",
+     "probs": "n117:0.99 wait:0.01 back:0.00",
+     "done_prob": 0.04,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 12,
+     "ms_pick": 221,
+     "ms_act": 45,
+     "ms_settle": 82,
+     "ms": 360,
+     "navigated": true,
+     "candidates": 11,
+     "options": 14,
+     "confidence": 0.99
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 8,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "clicked button \"Login\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "selected \"Price (low to high)\" in combobox \"Sort products\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    }
+   ],
+   "ms": 4274,
+   "picker_stats": {
+    "calls": 15,
+    "ms": 2682,
+    "input_tokens": 17409,
+    "output_tokens": 2591,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 13,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 0,
+    "candidates_median": 10,
+    "options_median": 13
+   }
+  },
+  {
+   "name": "three-orders",
+   "rep": 2,
+   "goal": "Log in, then buy the Sauce Labs Backpack, the Sauce Labs Bike Light, and the Sauce Labs Fleece Jacket as three separate orders. For each: add the one item, open the cart, check out with the customer details, continue, finish, then go back to the products for the next item.",
+   "spec": {
+    "done_when": {
+     "history_count": {
+      "substr": "Finish",
+      "min": 3
+     }
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 45 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 n33:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 328,
+     "ms_act": 184,
+     "ms_settle": 83,
+     "ms": 613,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:0.99 n33:0.01 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 164,
+     "ms_act": 9,
+     "ms_settle": 82,
+     "ms": 273,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 0.99
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n33",
+     "probs": "n33:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Login\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 16,
+     "ms_pick": 144,
+     "ms_act": 13,
+     "ms_settle": 109,
+     "ms": 283,
+     "navigated": true,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n77",
+     "probs": "n77:0.49 n90:0.39 n81:0.12",
+     "done_prob": 0.01,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 17,
+     "ms_pick": 318,
+     "ms_act": 9,
+     "ms_settle": 105,
+     "ms": 450,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.49
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 10,
+     "ms_pick": 151,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 249,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.99 n28:0.01 back:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 17,
+     "ms_pick": 153,
+     "ms_act": 10,
+     "ms_settle": 91,
+     "ms": 272,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.99
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n86",
+     "probs": "n86:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 8,
+     "ms_pick": 151,
+     "ms_act": 7,
+     "ms_settle": 105,
+     "ms": 272,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 10,
+     "ms_pick": 192,
+     "ms_act": 55,
+     "ms_settle": 82,
+     "ms": 339,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 19,
+     "ms_pick": 143,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 252,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:0.99 n75:0.01 back:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 15,
+     "ms_pick": 152,
+     "ms_act": 4,
+     "ms_settle": 84,
+     "ms": 256,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 0.99
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 20,
+     "ms_pick": 158,
+     "ms_act": 12,
+     "ms_settle": 101,
+     "ms": 292,
+     "navigated": true,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n104",
+     "probs": "n104:0.99 back:0.01 n101:0.00",
+     "done_prob": 0.04,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 12,
+     "ms_pick": 193,
+     "ms_act": 10,
+     "ms_settle": 101,
+     "ms": 317,
+     "navigated": true,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.99
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:0.76 back:0.21 n28:0.02",
+     "done_prob": 0.05,
+     "action": "clicked button \"Back Home\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 8,
+     "ms_pick": 163,
+     "ms_act": 9,
+     "ms_settle": 104,
+     "ms": 285,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.76
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n94",
+     "probs": "n94:0.37 n90:0.22 n77:0.21",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 18,
+     "ms_pick": 155,
+     "ms_act": 10,
+     "ms_settle": 103,
+     "ms": 287,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.37
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:0.91 n57:0.07 back:0.01",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 9,
+     "ms_pick": 162,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 260,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.91
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.99 n59:0.01 back:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 20,
+     "ms_pick": 149,
+     "ms_act": 9,
+     "ms_settle": 105,
+     "ms": 283,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.99
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n86",
+     "probs": "n86:0.99 n83:0.01 back:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 10,
+     "ms_pick": 218,
+     "ms_act": 10,
+     "ms_settle": 101,
+     "ms": 340,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.99,
+     "wasted": true
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 9,
+     "ms_pick": 215,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 314,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 20,
+     "ms_pick": 119,
+     "ms_act": 6,
+     "ms_settle": 82,
+     "ms": 228,
+     "candidates": 9,
+     "options": 12,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 21,
+     "ms_pick": 129,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 240,
+     "candidates": 8,
+     "options": 11,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 22,
+     "ms_pick": 152,
+     "ms_act": 13,
+     "ms_settle": 100,
+     "ms": 288,
+     "navigated": true,
+     "candidates": 7,
+     "options": 10,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n104",
+     "probs": "n104:0.99 back:0.01 n101:0.00",
+     "done_prob": 0.04,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 12,
+     "ms_pick": 213,
+     "ms_act": 70,
+     "ms_settle": 82,
+     "ms": 377,
+     "navigated": true,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.99,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:0.71 back:0.22 n28:0.06",
+     "done_prob": 0.07,
+     "action": "clicked button \"Back Home\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 8,
+     "ms_pick": 171,
+     "ms_act": 5,
+     "ms_settle": 89,
+     "ms": 274,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.71,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n94",
+     "probs": "n94:0.30 n90:0.27 n77:0.20",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 19,
+     "ms_pick": 157,
+     "ms_act": 9,
+     "ms_settle": 101,
+     "ms": 287,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.3,
+     "wasted": true
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:0.93 n57:0.05 back:0.01",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 9,
+     "ms_pick": 123,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 219,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.93,
+     "wasted": true
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.98 n59:0.02 back:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 19,
+     "ms_pick": 121,
+     "ms_act": 10,
+     "ms_settle": 101,
+     "ms": 251,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.98,
+     "wasted": true
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.58 n83:0.18 n28:0.10",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 9,
+     "ms_pick": 214,
+     "ms_act": 7,
+     "ms_settle": 103,
+     "ms": 334,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.58
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.41 n28:0.21 n83:0.20",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 9,
+     "ms_pick": 190,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 285,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.41000000000000003,
+     "wasted": true
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n28",
+     "probs": "n28:0.49 n83:0.19 back:0.12",
+     "done_prob": 0.04,
+     "action": "clicked button \"Open Menu\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 8,
+     "ms_pick": 138,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 232,
+     "candidates": 8,
+     "options": 10,
+     "confidence": 0.49
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n47",
+     "probs": "n47:0.58 n83:0.14 back:0.08",
+     "done_prob": 0.06,
+     "action": "clicked button \"Close Menu\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 10,
+     "ms_pick": 173,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 271,
+     "candidates": 14,
+     "options": 17,
+     "confidence": 0.58
+    },
+    {
+     "step": 31,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n83",
+     "probs": "n83:0.37 n28:0.35 n80:0.12",
+     "done_prob": 0.03,
+     "action": "clicked button \"Continue Shopping\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 21,
+     "ms_pick": 144,
+     "ms_act": 10,
+     "ms_settle": 102,
+     "ms": 278,
+     "navigated": true,
+     "candidates": 8,
+     "options": 10,
+     "confidence": 0.37
+    },
+    {
+     "step": 32,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n79",
+     "probs": "n79:0.55 n83:0.19 n54:0.14",
+     "done_prob": 0.02,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 17,
+     "ms_pick": 173,
+     "ms_act": 10,
+     "ms_settle": 101,
+     "ms": 303,
+     "navigated": true,
+     "candidates": 28,
+     "options": 31,
+     "confidence": 0.55,
+     "wasted": true
+    },
+    {
+     "step": 33,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:0.36 n59:0.35 n54:0.23",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 9,
+     "ms_pick": 148,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 246,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.36,
+     "wasted": true
+    },
+    {
+     "step": 34,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.66 n28:0.20 n59:0.11",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 18,
+     "ms_pick": 149,
+     "ms_act": 11,
+     "ms_settle": 101,
+     "ms": 280,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.66
+    },
+    {
+     "step": 35,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.41 n28:0.24 n80:0.12",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 9,
+     "ms_pick": 174,
+     "ms_act": 8,
+     "ms_settle": 105,
+     "ms": 297,
+     "candidates": 12,
+     "options": 14,
+     "confidence": 0.41
+    },
+    {
+     "step": 36,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n28",
+     "probs": "n28:0.32 n71:0.19 n54:0.16",
+     "done_prob": 0.02,
+     "action": "clicked button \"Open Menu\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 11,
+     "ms_pick": 163,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 261,
+     "candidates": 12,
+     "options": 14,
+     "confidence": 0.32,
+     "wasted": true
+    },
+    {
+     "step": 37,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n47",
+     "probs": "n47:0.57 n54:0.16 n71:0.10",
+     "done_prob": 0.02,
+     "action": "clicked button \"Close Menu\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 13,
+     "ms_pick": 207,
+     "ms_act": 3,
+     "ms_settle": 83,
+     "ms": 307,
+     "candidates": 17,
+     "options": 20,
+     "confidence": 0.5700000000000001,
+     "wasted": true
+    },
+    {
+     "step": 38,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n71",
+     "probs": "n71:0.32 n54:0.25 n80:0.18",
+     "done_prob": 0.03,
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 22,
+     "ms_pick": 155,
+     "ms_act": 9,
+     "ms_settle": 101,
+     "ms": 288,
+     "navigated": true,
+     "candidates": 11,
+     "options": 13,
+     "confidence": 0.32
+    },
+    {
+     "step": 39,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n59",
+     "probs": "n59:0.36 n54:0.24 n75:0.16",
+     "done_prob": 0.02,
+     "action": "clicked button \"Back to products\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 9,
+     "ms_pick": 153,
+     "ms_act": 9,
+     "ms_settle": 105,
+     "ms": 277,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.36
+    },
+    {
+     "step": 40,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n130",
+     "probs": "n130:0.64 back:0.09 n134:0.09",
+     "done_prob": 0.02,
+     "action": "clicked button \"View details for Sauce Labs Fleece Jack…\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "ms_snap": 16,
+     "ms_pick": 154,
+     "ms_act": 8,
+     "ms_settle": 99,
+     "ms": 278,
+     "navigated": true,
+     "candidates": 26,
+     "options": 29,
+     "confidence": 0.64
+    },
+    {
+     "step": 41,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:0.89 n59:0.05 n54:0.03",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "ms_snap": 9,
+     "ms_pick": 194,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 292,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.89
+    },
+    {
+     "step": 42,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=5",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.88 n28:0.09 n59:0.03",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 3 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 20,
+     "ms_pick": 178,
+     "ms_act": 9,
+     "ms_settle": 106,
+     "ms": 314,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.88
+    },
+    {
+     "step": 43,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.36 n80:0.20 n113:0.16",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 3 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 12,
+     "ms_pick": 192,
+     "ms_act": 7,
+     "ms_settle": 103,
+     "ms": 316,
+     "candidates": 14,
+     "options": 17,
+     "confidence": 0.36
+    },
+    {
+     "step": 44,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n80",
+     "probs": "n80:0.27 n113:0.24 n54:0.20",
+     "done_prob": 0.04,
+     "action": "clicked button \"Remove\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 13,
+     "ms_pick": 171,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 273,
+     "candidates": 14,
+     "options": 17,
+     "confidence": 0.27
+    },
+    {
+     "step": 45,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.52 n72:0.16 n81:0.12",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 24,
+     "ms_pick": 386,
+     "ms_act": 8,
+     "ms_settle": 102,
+     "ms": 520,
+     "candidates": 11,
+     "options": 13,
+     "confidence": 0.52,
+     "wasted": true
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "clicked button \"Login\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-complete.html",
+     "action": "clicked button \"Back Home\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-complete.html",
+     "action": "clicked button \"Back Home\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Open Menu\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Close Menu\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Continue Shopping\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Open Menu\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Close Menu\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Back to products\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Fleece Jack…\"",
+     "to": "/inventory-item.html?id=5",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=5",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=5",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=5",
+     "action": "clicked button \"Cart, 3 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 3 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Remove\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": false
+    }
+   ],
+   "ms": 13477,
+   "picker_stats": {
+    "calls": 46,
+    "ms": 8125,
+    "input_tokens": 51572,
+    "output_tokens": 6964,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 45,
+    "wasted": 16,
+    "fallback": 0,
+    "low_confidence": 18,
+    "candidates_median": 9,
+    "options_median": 11
+   }
+  },
+  {
+   "name": "cheapest-two",
+   "rep": 2,
+   "goal": "Log in, sort the products by price low to high, add the two cheapest products to the cart, check out with the customer details, and finish the order.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "text_contains": "Thank you for your order"
+      },
+      {
+       "history_count": {
+        "substr": "Add to cart",
+        "min": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 n33:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 143,
+     "ms_act": 153,
+     "ms_settle": 82,
+     "ms": 395,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 14,
+     "ms_pick": 147,
+     "ms_act": 9,
+     "ms_settle": 83,
+     "ms": 255,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n33",
+     "probs": "n33:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Login\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 16,
+     "ms_pick": 116,
+     "ms_act": 12,
+     "ms_settle": 106,
+     "ms": 250,
+     "navigated": true,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n62",
+     "probs": "n62:1.00 back:0.00 n107:0.00",
+     "done_prob": 0.01,
+     "action": "selected \"Price (low to high)\" in combobox \"Sort products\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 17,
+     "ms_pick": 359,
+     "ms_act": 224,
+     "ms_settle": 83,
+     "ms": 684,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 1
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n90",
+     "probs": "n90:0.91 n107:0.05 wait:0.02",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 28,
+     "ms_pick": 152,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 268,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.91
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n109",
+     "probs": "n109:0.61 n126:0.31 n143:0.05",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 29,
+     "ms_pick": 198,
+     "ms_act": 4,
+     "ms_settle": 82,
+     "ms": 314,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.61,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.98 n28:0.02 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 29,
+     "ms_pick": 160,
+     "ms_act": 11,
+     "ms_settle": 105,
+     "ms": 306,
+     "navigated": true,
+     "candidates": 26,
+     "options": 29,
+     "confidence": 0.98
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n101",
+     "probs": "n101:1.00 back:0.00 n106:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 11,
+     "ms_pick": 185,
+     "ms_act": 11,
+     "ms_settle": 101,
+     "ms": 309,
+     "navigated": true,
+     "candidates": 13,
+     "options": 15,
+     "confidence": 1
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 9,
+     "ms_pick": 203,
+     "ms_act": 4,
+     "ms_settle": 84,
+     "ms": 300,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 20,
+     "ms_pick": 142,
+     "ms_act": 8,
+     "ms_settle": 82,
+     "ms": 253,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 20,
+     "ms_pick": 137,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 247,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 22,
+     "ms_pick": 200,
+     "ms_act": 15,
+     "ms_settle": 99,
+     "ms": 337,
+     "navigated": true,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n117",
+     "probs": "n117:0.99 wait:0.01 back:0.00",
+     "done_prob": 0.04,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 15,
+     "ms_pick": 156,
+     "ms_act": 11,
+     "ms_settle": 103,
+     "ms": 286,
+     "navigated": true,
+     "candidates": 11,
+     "options": 14,
+     "confidence": 0.99
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 8,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "clicked button \"Login\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "selected \"Price (low to high)\" in combobox \"Sort products\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    }
+   ],
+   "ms": 4220,
+   "picker_stats": {
+    "calls": 15,
+    "ms": 2655,
+    "input_tokens": 17409,
+    "output_tokens": 2591,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 13,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 0,
+    "candidates_median": 10,
+    "options_median": 13
+   }
+  },
+  {
+   "name": "three-orders",
+   "rep": 3,
+   "goal": "Log in, then buy the Sauce Labs Backpack, the Sauce Labs Bike Light, and the Sauce Labs Fleece Jacket as three separate orders. For each: add the one item, open the cart, check out with the customer details, continue, finish, then go back to the products for the next item.",
+   "spec": {
+    "done_when": {
+     "history_count": {
+      "substr": "Finish",
+      "min": 3
+     }
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": false,
+   "reason": "no result within 45 steps",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 n33:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 180,
+     "ms_act": 166,
+     "ms_settle": 82,
+     "ms": 445,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 12,
+     "ms_pick": 178,
+     "ms_act": 8,
+     "ms_settle": 83,
+     "ms": 282,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n33",
+     "probs": "n33:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Login\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 14,
+     "ms_pick": 175,
+     "ms_act": 75,
+     "ms_settle": 82,
+     "ms": 346,
+     "navigated": true,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n77",
+     "probs": "n77:0.46 n90:0.41 n81:0.11",
+     "done_prob": 0.01,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 18,
+     "ms_pick": 142,
+     "ms_act": 11,
+     "ms_settle": 99,
+     "ms": 270,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.46
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 10,
+     "ms_pick": 179,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 277,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 1
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.99 n28:0.01 back:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 18,
+     "ms_pick": 190,
+     "ms_act": 11,
+     "ms_settle": 99,
+     "ms": 319,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.99
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n86",
+     "probs": "n86:0.99 back:0.01 n28:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 9,
+     "ms_pick": 172,
+     "ms_act": 7,
+     "ms_settle": 98,
+     "ms": 288,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.99
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 15,
+     "ms_pick": 170,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 274,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 20,
+     "ms_pick": 183,
+     "ms_act": 6,
+     "ms_settle": 82,
+     "ms": 292,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 19,
+     "ms_pick": 190,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 298,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 21,
+     "ms_pick": 184,
+     "ms_act": 15,
+     "ms_settle": 100,
+     "ms": 322,
+     "navigated": true,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n104",
+     "probs": "n104:0.99 back:0.01 n101:0.00",
+     "done_prob": 0.04,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 10,
+     "ms_pick": 146,
+     "ms_act": 68,
+     "ms_settle": 82,
+     "ms": 306,
+     "navigated": true,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.99
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:0.77 back:0.18 n28:0.04",
+     "done_prob": 0.06,
+     "action": "clicked button \"Back Home\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 9,
+     "ms_pick": 172,
+     "ms_act": 8,
+     "ms_settle": 105,
+     "ms": 295,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.77
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n94",
+     "probs": "n94:0.41 n77:0.17 n90:0.13",
+     "done_prob": 0.04,
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 16,
+     "ms_pick": 206,
+     "ms_act": 13,
+     "ms_settle": 98,
+     "ms": 334,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.41000000000000003
+    },
+    {
+     "step": 15,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n73",
+     "probs": "n73:0.89 n57:0.08 back:0.01",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 8,
+     "ms_pick": 222,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 318,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.89
+    },
+    {
+     "step": 16,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.99 n59:0.01 back:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 19,
+     "ms_pick": 176,
+     "ms_act": 9,
+     "ms_settle": 102,
+     "ms": 306,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.99
+    },
+    {
+     "step": 17,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n86",
+     "probs": "n86:0.98 n54:0.01 n83:0.01",
+     "done_prob": 0.03,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 10,
+     "ms_pick": 151,
+     "ms_act": 9,
+     "ms_settle": 109,
+     "ms": 279,
+     "navigated": true,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.98,
+     "wasted": true
+    },
+    {
+     "step": 18,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 9,
+     "ms_pick": 189,
+     "ms_act": 6,
+     "ms_settle": 82,
+     "ms": 288,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 19,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 19,
+     "ms_pick": 127,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 235,
+     "candidates": 9,
+     "options": 12,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 20,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.04,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 20,
+     "ms_pick": 158,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 266,
+     "candidates": 8,
+     "options": 11,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 21,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.03,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 22,
+     "ms_pick": 139,
+     "ms_act": 13,
+     "ms_settle": 100,
+     "ms": 275,
+     "navigated": true,
+     "candidates": 7,
+     "options": 10,
+     "confidence": 1,
+     "wasted": true
+    },
+    {
+     "step": 22,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n104",
+     "probs": "n104:0.99 back:0.01 n101:0.00",
+     "done_prob": 0.05,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 11,
+     "ms_pick": 154,
+     "ms_act": 71,
+     "ms_settle": 82,
+     "ms": 319,
+     "navigated": true,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.99,
+     "wasted": true
+    },
+    {
+     "step": 23,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:0.77 back:0.19 n28:0.04",
+     "done_prob": 0.07,
+     "action": "clicked button \"Back Home\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 9,
+     "ms_pick": 153,
+     "ms_act": 10,
+     "ms_settle": 105,
+     "ms": 279,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.77,
+     "wasted": true
+    },
+    {
+     "step": 24,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n90",
+     "probs": "n90:0.32 n77:0.25 n94:0.21",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 18,
+     "ms_pick": 129,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 232,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.32
+    },
+    {
+     "step": 25,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.92 n96:0.03 n109:0.02",
+     "done_prob": 0.03,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 29,
+     "ms_pick": 226,
+     "ms_act": 8,
+     "ms_settle": 103,
+     "ms": 367,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.92
+    },
+    {
+     "step": 26,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.61 n83:0.24 n72:0.05",
+     "done_prob": 0.04,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 9,
+     "ms_pick": 224,
+     "ms_act": 8,
+     "ms_settle": 106,
+     "ms": 348,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.61
+    },
+    {
+     "step": 27,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.39 n83:0.31 back:0.11",
+     "done_prob": 0.05,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 11,
+     "ms_pick": 125,
+     "ms_act": 7,
+     "ms_settle": 99,
+     "ms": 243,
+     "candidates": 9,
+     "options": 11,
+     "confidence": 0.39,
+     "wasted": true
+    },
+    {
+     "step": 28,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n83",
+     "probs": "n83:0.41 n80:0.34 back:0.11",
+     "done_prob": 0.07,
+     "action": "clicked button \"Continue Shopping\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 10,
+     "ms_pick": 141,
+     "ms_act": 10,
+     "ms_settle": 102,
+     "ms": 264,
+     "navigated": true,
+     "candidates": 8,
+     "options": 10,
+     "confidence": 0.41
+    },
+    {
+     "step": 29,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.29 n109:0.23 n96:0.18",
+     "done_prob": 0.06,
+     "action": "clicked button \"Cart, 1 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 18,
+     "ms_pick": 178,
+     "ms_act": 11,
+     "ms_settle": 101,
+     "ms": 308,
+     "navigated": true,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.29000000000000004,
+     "wasted": true
+    },
+    {
+     "step": 30,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n83",
+     "probs": "n83:0.62 n80:0.30 n28:0.03",
+     "done_prob": 0.07,
+     "action": "clicked button \"Continue Shopping\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 10,
+     "ms_pick": 137,
+     "ms_act": 8,
+     "ms_settle": 99,
+     "ms": 255,
+     "navigated": true,
+     "candidates": 8,
+     "options": 10,
+     "confidence": 0.62,
+     "wasted": true
+    },
+    {
+     "step": 31,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n109",
+     "probs": "n109:0.51 n96:0.19 n100:0.13",
+     "done_prob": 0.03,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 17,
+     "ms_pick": 187,
+     "ms_act": 4,
+     "ms_settle": 83,
+     "ms": 293,
+     "candidates": 29,
+     "options": 32,
+     "confidence": 0.51,
+     "wasted": true
+    },
+    {
+     "step": 32,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.65 n100:0.12 n96:0.09",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 29,
+     "ms_pick": 189,
+     "ms_act": 14,
+     "ms_settle": 101,
+     "ms": 334,
+     "navigated": true,
+     "candidates": 26,
+     "options": 29,
+     "confidence": 0.65
+    },
+    {
+     "step": 33,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.58 n80:0.19 n95:0.09",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 13,
+     "ms_pick": 151,
+     "ms_act": 7,
+     "ms_settle": 98,
+     "ms": 270,
+     "candidates": 11,
+     "options": 13,
+     "confidence": 0.58
+    },
+    {
+     "step": 34,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.42 n80:0.22 n95:0.11",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 11,
+     "ms_pick": 156,
+     "ms_act": 9,
+     "ms_settle": 98,
+     "ms": 275,
+     "candidates": 11,
+     "options": 13,
+     "confidence": 0.42,
+     "wasted": true
+    },
+    {
+     "step": 35,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n80",
+     "probs": "n80:0.42 n95:0.16 n28:0.14",
+     "done_prob": 0.02,
+     "action": "clicked button \"Remove\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 10,
+     "ms_pick": 160,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 260,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 0.42
+    },
+    {
+     "step": 36,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "back",
+     "probs": "back:0.33 n28:0.26 n72:0.19",
+     "done_prob": 0.03,
+     "action": "went back",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 22,
+     "ms_pick": 119,
+     "ms_act": 4,
+     "ms_settle": 105,
+     "ms": 250,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.33,
+     "wasted": true
+    },
+    {
+     "step": 37,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "back",
+     "probs": "back:0.60 n28:0.37 wait:0.03",
+     "done_prob": 0.02,
+     "action": "went back",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 9,
+     "ms_pick": 165,
+     "ms_act": 5,
+     "ms_settle": 353,
+     "ms": 533,
+     "navigated": true,
+     "candidates": 4,
+     "options": 6,
+     "confidence": 0.6,
+     "wasted": true
+    },
+    {
+     "step": 38,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "back",
+     "probs": "back:0.57 n28:0.24 n54:0.18",
+     "done_prob": 0.12,
+     "action": "went back",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 8,
+     "ms_pick": 172,
+     "ms_act": 5,
+     "ms_settle": 250,
+     "ms": 435,
+     "navigated": true,
+     "candidates": 5,
+     "options": 7,
+     "confidence": 0.57,
+     "wasted": true
+    },
+    {
+     "step": 39,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n28",
+     "probs": "n28:0.53 n71:0.34 n80:0.10",
+     "done_prob": 0.06,
+     "action": "clicked button \"Open Menu\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 8,
+     "ms_pick": 167,
+     "ms_act": 1,
+     "ms_settle": 82,
+     "ms": 260,
+     "candidates": 7,
+     "options": 8,
+     "confidence": 0.53
+    },
+    {
+     "step": 40,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n34",
+     "probs": "n34:0.62 n47:0.15 n71:0.12",
+     "done_prob": 0.06,
+     "action": "clicked button \"All Items\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 11,
+     "ms_pick": 282,
+     "ms_act": 9,
+     "ms_settle": 98,
+     "ms": 400,
+     "navigated": true,
+     "candidates": 13,
+     "options": 15,
+     "confidence": 0.62
+    },
+    {
+     "step": 41,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n79",
+     "probs": "n79:0.78 n83:0.10 back:0.03",
+     "done_prob": 0.06,
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 15,
+     "ms_pick": 180,
+     "ms_act": 7,
+     "ms_settle": 100,
+     "ms": 304,
+     "navigated": true,
+     "candidates": 24,
+     "options": 27,
+     "confidence": 0.78,
+     "wasted": true
+    },
+    {
+     "step": 42,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:0.91 n59:0.06 n54:0.02",
+     "done_prob": 0.05,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "ms_snap": 9,
+     "ms_pick": 183,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 282,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.91,
+     "wasted": true
+    },
+    {
+     "step": 43,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=4",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.82 n59:0.09 n75:0.05",
+     "done_prob": 0.04,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 20,
+     "ms_pick": 185,
+     "ms_act": 9,
+     "ms_settle": 103,
+     "ms": 318,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.82
+    },
+    {
+     "step": 44,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n71",
+     "probs": "n71:0.48 n95:0.14 n72:0.12",
+     "done_prob": 0.04,
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "url_after": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "ms_snap": 14,
+     "ms_pick": 345,
+     "ms_act": 11,
+     "ms_settle": 101,
+     "ms": 471,
+     "navigated": true,
+     "candidates": 10,
+     "options": 11,
+     "confidence": 0.48
+    },
+    {
+     "step": 45,
+     "url": "https://www.saucedemo.com/inventory-item.html?id=0",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n59",
+     "probs": "n59:0.58 n54:0.20 n75:0.11",
+     "done_prob": 0.04,
+     "action": "clicked button \"Back to products\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 10,
+     "ms_pick": 194,
+     "ms_act": 10,
+     "ms_settle": 102,
+     "ms": 317,
+     "navigated": true,
+     "candidates": 7,
+     "options": 9,
+     "confidence": 0.58
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "clicked button \"Login\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-complete.html",
+     "action": "clicked button \"Back Home\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-complete.html",
+     "action": "clicked button \"Back Home\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Continue Shopping\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Cart, 1 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Continue Shopping\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Remove\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "went back",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "went back",
+     "to": "/checkout-complete.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-complete.html",
+     "action": "went back",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Open Menu\"",
+     "to": "/cart.html",
+     "changed": false
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"All Items\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"View details for Sauce Labs Backpack\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory-item.html?id=4",
+     "changed": false
+    },
+    {
+     "from": "/inventory-item.html?id=4",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"View details for Sauce Labs Bike Light\"",
+     "to": "/inventory-item.html?id=0",
+     "changed": true
+    },
+    {
+     "from": "/inventory-item.html?id=0",
+     "action": "clicked button \"Back to products\"",
+     "to": "/inventory.html",
+     "changed": true
+    }
+   ],
+   "ms": 13959,
+   "picker_stats": {
+    "calls": 46,
+    "ms": 8083,
+    "input_tokens": 52625,
+    "output_tokens": 7250,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 45,
+    "wasted": 17,
+    "fallback": 0,
+    "low_confidence": 15,
+    "candidates_median": 9,
+    "options_median": 11
+   }
+  },
+  {
+   "name": "cheapest-two",
+   "rep": 3,
+   "goal": "Log in, sort the products by price low to high, add the two cheapest products to the cart, check out with the customer details, and finish the order.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "text_contains": "Thank you for your order"
+      },
+      {
+       "history_count": {
+        "substr": "Add to cart",
+        "min": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "first name": "Ada",
+     "last name": "Lovelace",
+     "password": "secret_sauce",
+     "postal code": "30301",
+     "username": "standard_user"
+    }
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n29",
+     "probs": "n29:1.00 n31:0.00 n33:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Username\" with username",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 17,
+     "ms_pick": 141,
+     "ms_act": 142,
+     "ms_settle": 83,
+     "ms": 384,
+     "candidates": 3,
+     "options": 4,
+     "confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n31",
+     "probs": "n31:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Password\" with password",
+     "url_after": "https://www.saucedemo.com/",
+     "ms_snap": 16,
+     "ms_pick": 212,
+     "ms_act": 10,
+     "ms_settle": 83,
+     "ms": 323,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 3,
+     "url": "https://www.saucedemo.com/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n33",
+     "probs": "n33:1.00 enter:0.00 n29:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Login\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 16,
+     "ms_pick": 274,
+     "ms_act": 73,
+     "ms_settle": 82,
+     "ms": 446,
+     "navigated": true,
+     "candidates": 3,
+     "options": 5,
+     "confidence": 1
+    },
+    {
+     "step": 4,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n62",
+     "probs": "n62:1.00 back:0.00 n107:0.00",
+     "done_prob": 0.01,
+     "action": "selected \"Price (low to high)\" in combobox \"Sort products\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 18,
+     "ms_pick": 133,
+     "ms_act": 164,
+     "ms_settle": 125,
+     "ms": 442,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 1
+    },
+    {
+     "step": 5,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n90",
+     "probs": "n90:0.91 n107:0.05 wait:0.02",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 27,
+     "ms_pick": 161,
+     "ms_act": 2,
+     "ms_settle": 83,
+     "ms": 274,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.91
+    },
+    {
+     "step": 6,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n109",
+     "probs": "n109:0.70 n126:0.23 n143:0.05",
+     "done_prob": 0.01,
+     "action": "clicked button \"Add to cart\"",
+     "url_after": "https://www.saucedemo.com/inventory.html",
+     "ms_snap": 30,
+     "ms_pick": 194,
+     "ms_act": 5,
+     "ms_settle": 82,
+     "ms": 312,
+     "candidates": 30,
+     "options": 33,
+     "confidence": 0.7,
+     "wasted": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.saucedemo.com/inventory.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n54",
+     "probs": "n54:0.96 n28:0.04 back:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Cart, 2 items\"",
+     "url_after": "https://www.saucedemo.com/cart.html",
+     "ms_snap": 29,
+     "ms_pick": 175,
+     "ms_act": 7,
+     "ms_settle": 99,
+     "ms": 311,
+     "navigated": true,
+     "candidates": 26,
+     "options": 29,
+     "confidence": 0.96
+    },
+    {
+     "step": 8,
+     "url": "https://www.saucedemo.com/cart.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n101",
+     "probs": "n101:1.00 back:0.00 n106:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Checkout\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 10,
+     "ms_pick": 141,
+     "ms_act": 9,
+     "ms_settle": 95,
+     "ms": 255,
+     "navigated": true,
+     "candidates": 13,
+     "options": 15,
+     "confidence": 1
+    },
+    {
+     "step": 9,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n65",
+     "probs": "n65:1.00 back:0.00 n28:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"First Name\" with first name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 9,
+     "ms_pick": 162,
+     "ms_act": 3,
+     "ms_settle": 82,
+     "ms": 257,
+     "candidates": 10,
+     "options": 12,
+     "confidence": 1
+    },
+    {
+     "step": 10,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n67",
+     "probs": "n67:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.01,
+     "action": "filled textbox \"Last Name\" with last name",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 9,
+     "ms_pick": 159,
+     "ms_act": 4,
+     "ms_settle": 82,
+     "ms": 255,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 11,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n69",
+     "probs": "n69:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "url_after": "https://www.saucedemo.com/checkout-step-one.html",
+     "ms_snap": 10,
+     "ms_pick": 189,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 288,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 12,
+     "url": "https://www.saucedemo.com/checkout-step-one.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n75",
+     "probs": "n75:1.00 back:0.00 enter:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Continue\"",
+     "url_after": "https://www.saucedemo.com/checkout-step-two.html",
+     "ms_snap": 9,
+     "ms_pick": 147,
+     "ms_act": 6,
+     "ms_settle": 87,
+     "ms": 250,
+     "navigated": true,
+     "candidates": 10,
+     "options": 13,
+     "confidence": 1
+    },
+    {
+     "step": 13,
+     "url": "https://www.saucedemo.com/checkout-step-two.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n117",
+     "probs": "n117:0.99 wait:0.01 back:0.00",
+     "done_prob": 0.04,
+     "action": "clicked button \"Finish\"",
+     "url_after": "https://www.saucedemo.com/checkout-complete.html",
+     "ms_snap": 10,
+     "ms_pick": 168,
+     "ms_act": 10,
+     "ms_settle": 102,
+     "ms": 292,
+     "navigated": true,
+     "candidates": 11,
+     "options": 14,
+     "confidence": 0.99
+    },
+    {
+     "step": 14,
+     "url": "https://www.saucedemo.com/checkout-complete.html",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 9,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/",
+     "action": "filled textbox \"Username\" with username",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "filled textbox \"Password\" with password",
+     "to": "/",
+     "changed": false
+    },
+    {
+     "from": "/",
+     "action": "clicked button \"Login\"",
+     "to": "/inventory.html",
+     "changed": true
+    },
+    {
+     "from": "/inventory.html",
+     "action": "selected \"Price (low to high)\" in combobox \"Sort products\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Add to cart\"",
+     "to": "/inventory.html",
+     "changed": false
+    },
+    {
+     "from": "/inventory.html",
+     "action": "clicked button \"Cart, 2 items\"",
+     "to": "/cart.html",
+     "changed": true
+    },
+    {
+     "from": "/cart.html",
+     "action": "clicked button \"Checkout\"",
+     "to": "/checkout-step-one.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"First Name\" with first name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Last Name\" with last name",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "filled textbox \"Zip/Postal Code\" with postal code",
+     "to": "/checkout-step-one.html",
+     "changed": false
+    },
+    {
+     "from": "/checkout-step-one.html",
+     "action": "clicked button \"Continue\"",
+     "to": "/checkout-step-two.html",
+     "changed": true
+    },
+    {
+     "from": "/checkout-step-two.html",
+     "action": "clicked button \"Finish\"",
+     "to": "/checkout-complete.html",
+     "changed": true
+    }
+   ],
+   "ms": 4108,
+   "picker_stats": {
+    "calls": 15,
+    "ms": 2547,
+    "input_tokens": 17409,
+    "output_tokens": 2591,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 13,
+    "wasted": 1,
+    "fallback": 0,
+    "low_confidence": 0,
+    "candidates_median": 10,
+    "options_median": 13
+   }
+  }
+ ]
+}

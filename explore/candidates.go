@@ -102,9 +102,13 @@ func Candidates(nodes []*Node, opts CandidateOptions) []*Candidate {
 	return out
 }
 
+// hasInteractiveAncestorNamed reports whether a control sits inside another
+// control of the same name, the way an icon sits inside its button. Containers
+// (forms, groups, regions, dialogs) do not count: a form named "Login" does not
+// make its Login button a duplicate.
 func hasInteractiveAncestorNamed(n *Node, name string) bool {
 	for _, a := range n.Ancestors {
-		if a.Interactive && a.Name == name {
+		if a.Interactive && a.Name == name && !containerRoles[a.Role] && a.Role != "" {
 			return true
 		}
 	}
