@@ -80,42 +80,58 @@ F = {k: font(*v) for k, v in {
 
 H1_SIZE = 40
 
-ACTION = re.compile(r'^(filled|clicked|selected|typed|chose|opened) \[(\w+)((?: [^\]]*)?)\](?: with (\w+))?')
+VERBS = "filled|clicked|selected|typed|chose|opened"
+ACTION = re.compile(r'^(%s) \[(\w+)((?: [^\]]*)?)\](?: with (\w+))?' % VERBS)
+RAW = re.compile(r'^(%s) ([a-z]+) "(.*)"(?: with (\w+))?$' % VERBS)
 PROP = re.compile(r'(\w+)="([^"]*)"')
 TOOL_TEXT = re.compile(r'^ran tool (\w+)\(|^tool (\w+) failed:')
 
+MAX_LABEL = 26
+
+
+def shorten(label):
+    return label if len(label) <= MAX_LABEL else label[:MAX_LABEL - 1] + "…"
+
 
 def human(text, values):
-    """One line for a person, and one line naming the sightmap component."""
+    """A line for a person, the sightmap component, and the raw role when there is none.
+
+    With a map an action reads `clicked [BagLink count="..."]`. Without one it
+    reads `clicked link "Shopping bag, 1 items"`: there is no component, so the
+    row carries the control's own name and, under it, the role the raw tree
+    gave it.
+    """
     m = ACTION.match(text)
-    if not m:
-        if text.startswith("waited"):
-            return "Results load", "wait"
-        if text.startswith("went back"):
-            return "Back", "back"
-        if text.startswith("scrolled"):
-            return "Scroll", "scroll"
-        if text.startswith("pressed"):
-            return "Enter", "enter"
-        return text[:28], ""
-    verb, comp, props, key = m.groups()
-    props = dict(PROP.findall(props or ""))
-    label = None
-    if verb == "filled" and key and key in values:
-        label = str(values[key])
-    elif "label" in props:
-        label = props["label"]
-    elif "value" in props:
-        first = props["value"].split(". ")[0]
-        label = re.sub(r"^(Change|Select|Choose|Open|Set) ", "", first).capitalize() if ". " in props["value"] else props["value"]
-    else:
-        words = re.sub(r"(?<!^)(?=[A-Z])", " ", comp).split()
-        if len(words) > 1 and words[-1] in ("Button", "Link", "Field", "Select", "Input", "Tab"):
-            words = words[:-1]
-        label = " ".join(words)
-    if len(label) > 26:
-        label = label[:25] + "…"
-    return label, comp
+    if m:
+        verb, comp, props, key = m.groups()
+        props = dict(PROP.findall(props or ""))
+        if verb == "filled" and key and key in values:
+            label = str(values[key])
+        elif "label" in props:
+            label = props["label"]
+        elif "value" in props:
+            first = props["value"].split(". ")[0]
+            label = re.sub(r"^(Change|Select|Choose|Open|Set) ", "", first).capitalize() if ". " in props["value"] else props["value"]
+        else:
+            words = re.sub(r"(?<!^)(?=[A-Z])", " ", comp).split()
+            if len(words) > 1 and words[-1] in ("Button", "Link", "Field", "Select", "Input", "Tab"):
+                words = words[:-1]
+            label = " ".join(words)
+        return shorten(label), comp, ""
+    m = RAW.match(text)
+    if m:
+        verb, role, name, key = m.groups()
+        label = str(values[key]) if verb == "filled" and key and key in values else name.replace('\\"', '"')
+        return shorten(label), "", role
+    if text.startswith("waited"):
+        return "Results load", "wait", ""
+    if text.startswith("went back"):
+        return "Back", "back", ""
+    if text.startswith("scrolled"):
+        return "Scroll", "scroll", ""
+    if text.startswith("pressed"):
+        return "Enter", "enter", ""
+    return shorten(text), "", ""
 
 
 def tool_name(text):
@@ -166,8 +182,11 @@ def load(src):
             label = tool_name(ev["text"]) or tool
             sub = f"tool › {tool}"
         else:
-            label, comp = human(ev["text"], values)
-            sub = f"{ev.get('view', '')} › {comp}" if ev.get("view") and comp else (comp or "")
+            label, comp, role = human(ev["text"], values)
+            if comp:
+                sub = f"{ev.get('view', '')} › {comp}" if ev.get("view") else comp
+            else:
+                sub = role
         rows.append({"t": ev["t"], "label": label, "sub": sub, "candidates": step.get("candidates")})
 
     done_at = next((ev["t"] for ev in events if ev["text"] == "done"), None)
@@ -180,16 +199,41 @@ def load(src):
     median_pick = sorted(picks)[len(picks) // 2] if picks else None
 
     return {
-        "src": src, "frames": frames, "run": run, "rows": rows,
+        "src": src, "frames": frames, "timeline": timeline(frames, done_at or total_ms), "run": run, "rows": rows,
+        "capture_end": frames[-1]["t"],
         "done_at": done_at, "total_ms": total_ms, "checks": checks, "median_pick": median_pick,
-        "ok": ok, "name": run.get("name", "run"), "n_steps": len(run.get("steps", [])),
+        "ok": ok, "name": run.get("name") or "", "n_steps": len(run.get("steps", [])),
         "url": (run.get("steps") or [{}])[0].get("url", "") or "",
         "llm_calls": (run.get("picker_stats") or {}).get("llm_calls", 0),
     }
 
 
+HELD_STEP_MS = 500  # cadence of the held tail below
+
+
+def timeline(frames, end_ms):
+    """(t, file, stale) per composed frame, one entry per captured frame.
+
+    Frame capture can stop before a run does: the page the run then leaves
+    stops yielding screenshots and no later frame is written. The act still
+    has to end where the run ended, so the last captured page is held, at 1x,
+    to the run's end, and every held entry is marked stale so the frame can
+    say the page stopped updating.
+    """
+    out = [(fr["t"], fr["file"], False) for fr in frames]
+    last_t, last_file = frames[-1]["t"], frames[-1]["file"]
+    t = last_t + HELD_STEP_MS
+    while t < end_ms:
+        out.append((t, last_file, True))
+        t += HELD_STEP_MS
+    if end_ms > last_t:
+        out.append((end_ms, last_file, True))
+    return out
+
+
 def single_title(rec):
-    return f"{title_case(rec['name'], ' → ')}. {rec['total_ms'] / 1000:.1f} seconds."
+    secs = f"{rec['total_ms'] / 1000:.1f} seconds."
+    return f"{title_case(rec['name'], ' → ')}. {secs}" if rec["name"] else secs
 
 
 def compare_title(name, acts):
@@ -200,7 +244,8 @@ def compare_title(name, acts):
         if not rec["ok"]:
             clause += " (not reached)"
         clauses.append(clause)
-    return f"{title_case(name)}. {', '.join(clauses)}."
+    body = f"{', '.join(clauses)}."
+    return f"{title_case(name)}. {body}" if name else body
 
 
 W = args.width
@@ -221,6 +266,15 @@ def text_w(draw, s, f):
     return r - l
 
 
+def clip(draw, s, f, max_w):
+    """s, trimmed with an ellipsis until it draws no wider than max_w."""
+    if not s or text_w(draw, s, f) <= max_w:
+        return s
+    while s and text_w(draw, s + "…", f) > max_w:
+        s = s[:-1]
+    return s + "…"
+
+
 def fit_font(text, kind, max_w, start_size, min_size=20):
     """The largest size of kind, down to min_size, that fits text in max_w.
 
@@ -236,11 +290,13 @@ def fit_font(text, kind, max_w, start_size, min_size=20):
     return font(kind, min_size)
 
 
-def compose(rec, page, t_ms, act):
+def compose(rec, page, t_ms, act, stale=False):
     """One frame: the page on the left, the run's progress on the right.
 
     act is None in single-dir mode, or {"label", "index", "count", "accent"}
-    when playing one act of a --compare video.
+    when playing one act of a --compare video. stale marks a frame drawn after
+    frame capture stopped, where the page image is the last one captured and
+    only the clock and the rows are still moving.
     """
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
@@ -272,6 +328,9 @@ def compose(rec, page, t_ms, act):
         d.ellipse((cx, fy + S(10), cx + S(10), fy + S(20)), fill=c)
     url = re.sub(r"^https?://(www\.)?", "", rec["url"]).split("?")[0]
     d.text((fx + S(80), fy + S(8)), url[:60], font=F["url"], fill="#9aa3b2")
+    if stale:
+        note = f"last captured page · {rec['capture_end'] / 1000:.1f} s"
+        d.text((fx + fw - S(14) - text_w(d, note, F["url"]), fy + S(8)), note, font=F["url"], fill="#6f7787")
     scaled = page.resize((fw, ph), Image.LANCZOS)
     mask = Image.new("L", (fw, ph), 255)
     md = ImageDraw.Draw(mask)
@@ -302,11 +361,14 @@ def compose(rec, page, t_ms, act):
             d.line((cx - S(5), cy, cx - S(1), cy + S(4), cx + S(5), cy - S(4)), fill="white", width=S(2))
         else:
             d.ellipse((cx - S(10), cy - S(10), cx + S(10), cy + S(10)), fill=SUBTLE, outline=BORDER)
-        d.text((rx + S(32), y - S(1)), r["label"], font=F["row"], fill=TEXT if state == "done" else DIM)
-        d.text((rx + S(32), y + S(20)), r["sub"], font=F["rowsub"], fill=ACCENT if state == "done" else DIM)
-        if r["candidates"] is not None:
-            ntxt = str(r["candidates"])
-            d.text((W - S(28) - text_w(d, ntxt, F["rowsub"]), y + S(4)), ntxt, font=F["rowsub"], fill=DIM)
+        ntxt = str(r["candidates"]) if r["candidates"] is not None else ""
+        nw = text_w(d, ntxt, F["rowsub"]) if ntxt else 0
+        lx = rx + S(32)
+        avail = W - S(28) - nw - S(12) - lx
+        d.text((lx, y - S(1)), clip(d, r["label"], F["row"], avail), font=F["row"], fill=TEXT if state == "done" else DIM)
+        d.text((lx, y + S(20)), clip(d, r["sub"], F["rowsub"], avail), font=F["rowsub"], fill=ACCENT if state == "done" else DIM)
+        if ntxt:
+            d.text((W - S(28) - nw, y + S(4)), ntxt, font=F["rowsub"], fill=DIM)
         y += rh
 
     # one line of numbers, then the finish check
@@ -344,11 +406,11 @@ def compose(rec, page, t_ms, act):
     return img
 
 
-def frame_at(frames, t_ms):
-    cur = frames[0]
-    for fr in frames:
-        if fr["t"] <= t_ms:
-            cur = fr
+def frame_at(rec, t_ms):
+    cur = rec["timeline"][0]
+    for entry in rec["timeline"]:
+        if entry[0] <= t_ms:
+            cur = entry
     return cur
 
 
@@ -357,14 +419,15 @@ def render_frames(rec, act, hold_ms, tmp, start_idx):
 
     Returns (paths, durations_ms, next_start_idx).
     """
-    paths = []
-    for fr in rec["frames"]:
-        page = Image.open(os.path.join(rec["src"], fr["file"])).convert("RGB")
+    paths, cache = [], {}
+    for t, file, stale in rec["timeline"]:
+        if file not in cache:
+            cache = {file: Image.open(os.path.join(rec["src"], file)).convert("RGB")}
         path = os.path.join(tmp, f"r{start_idx + len(paths):05d}.jpg")
-        compose(rec, page, fr["t"], act).save(path, quality=90)
+        compose(rec, cache[file], t, act, stale).save(path, quality=90)
         paths.append(path)
-    frames = rec["frames"]
-    durations = [max(frames[i + 1]["t"] - frames[i]["t"], 16) for i in range(len(frames) - 1)] + [hold_ms]
+    ts = [t for t, _, _ in rec["timeline"]]
+    durations = [max(ts[i + 1] - ts[i], 16) for i in range(len(ts) - 1)] + [hold_ms]
     return paths, durations, start_idx + len(paths)
 
 
@@ -397,9 +460,9 @@ if args.still is not None:
     else:
         idx, ms = 0, int(args.still)
     rec, act_dict, _ = acts[idx]
-    fr = frame_at(rec["frames"], ms)
-    page = Image.open(os.path.join(rec["src"], fr["file"])).convert("RGB")
-    compose(rec, page, ms, act_dict).save(out)
+    _, file, stale = frame_at(rec, ms)
+    page = Image.open(os.path.join(rec["src"], file)).convert("RGB")
+    compose(rec, page, ms, act_dict, stale).save(out)
     print(out)
     sys.exit(0)
 
@@ -419,11 +482,13 @@ os.makedirs(os.path.dirname(os.path.abspath(out)) or ".", exist_ok=True)
 mp4, gif = out + ".mp4", out + ".gif"
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", os.path.join(tmp, "list.txt"),
                        "-vf", "fps=20,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "23", "-movflags", "+faststart", mp4])
+# 6 fps and 48 colors, so a demo this long still fits in a README GIF under
+# 4 MB; the MP4 is 20 fps and full color.
 palette = os.path.join(tmp, "palette.png")
-subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-vf", "fps=12,scale=1152:-1:flags=lanczos,palettegen=max_colors=128", palette])
+subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-vf", "fps=6,scale=1152:-1:flags=lanczos,palettegen=max_colors=48", palette])
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-i", palette, "-lavfi",
-                       "fps=12,scale=1152:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5", "-loop", "0", gif])
+                       "fps=6,scale=1152:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5", "-loop", "0", gif])
 shutil.rmtree(tmp, ignore_errors=True)
-total_frames = sum(len(rec["frames"]) for rec, _, _ in acts)
+total_frames = sum(len(rec["timeline"]) for rec, _, _ in acts)
 total_rows = sum(len(rec["rows"]) for rec, _, _ in acts)
 print(f"{mp4}: {os.path.getsize(mp4) // 1024} KB, {gif}: {os.path.getsize(gif) // 1024} KB, {total_frames} frames, {total_rows} actions")
