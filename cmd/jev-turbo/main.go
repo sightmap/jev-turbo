@@ -219,7 +219,7 @@ func runExplore(args []string) error {
 	goalFlag := fs.String("goal", "", "What to achieve, in plain words")
 	specFlag := fs.String("spec", "", "JSON spec file: done_when, values, hint, avoid")
 	var doneWhen, values, avoid stringList
-	fs.Var(&doneWhen, "done-when", "Deterministic finish check, repeatable: view=NAME | url=SUBSTR | text=SUBSTR | component=NAME | history=SUBSTR | history_count=N:SUBSTR | prop=Comp.name~value[@Within.name~value]")
+	fs.Var(&doneWhen, "done-when", "Deterministic finish check, repeatable: view=NAME | url=SUBSTR | text=SUBSTR | text_absent=SUBSTR | text_count=N:SUBSTR (N+: at least, N-M: between) | component=NAME | history=SUBSTR | history_count=N:SUBSTR | prop=Comp.name~value[@Within.name~value]")
 	fs.Var(&values, "value", "A value the loop may type, as key=text (repeatable). The loop never invents text.")
 	fs.Var(&avoid, "avoid", "Drop controls whose name contains this (repeatable), e.g. Delete, Pay")
 	pickerFlag := fs.String("picker", "jev", "jev[:model] (TYPESAFE_API_KEY) or anthropic[:model] (ANTHROPIC_API_KEY)")
