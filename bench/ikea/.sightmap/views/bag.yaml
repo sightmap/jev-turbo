@@ -15,6 +15,7 @@ views:
       - $ref: SurveyDialog
       - $ref: CookieBanner
       - $ref: SearchField
+      - $ref: NavEntry
       - $ref: BagLink
       - name: BagItem
         selector: 'li:has([class*="cart-ingka-quantity-stepper"])'

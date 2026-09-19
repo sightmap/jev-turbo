@@ -1,0 +1,24 @@
+version: 1
+views:
+  - name: Category
+    route: "/us/en/cat/**"
+    url: https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/
+    description: >
+      A category listing (/us/en/cat/<slug>/), reached from the Products
+      mega-menu. The same ProductCard grid as the Search view, filtered to the
+      category, with sub-category chips and filters above it.
+    memory:
+      - >
+        A category page lists many series side by side; the card title
+        (series, kind, colour, size) is what tells them apart, and
+        AddToCartButton adds exactly the card's variant.
+    components:
+      - $ref: SurveyDialog
+      - $ref: CookieBanner
+      - $ref: SearchField
+      - $ref: SearchSuggestion
+      - $ref: NavEntry
+      - $ref: MenuTab
+      - $ref: MenuLink
+      - $ref: BagLink
+      - $ref: ProductCard

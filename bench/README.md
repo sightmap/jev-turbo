@@ -14,7 +14,7 @@ environment (`TYPESAFE_API_KEY`; `ANTHROPIC_API_KEY` only for
 | `books.json` | books.toscrape.com | `books/.sightmap` (empty) | an unmapped site with 114 raw links on the home page: categories, pagination, detail pages |
 | `flights.json` | Google Flights | `flights/.sightmap` (14 components, 6 memory lines) | the jev-ultrafast task: one-way Zürich to London on September 20, 2026; suggestion dialogs, a select, a typed date, a results page that renders late |
 | `journeys.json` | saucedemo.com | `saucedemo/.sightmap` | two long goals (30–45 steps): three separate orders; sort and buy the two cheapest |
-| `ikea.json` | ikea.com | `ikea/.sightmap` (20 components, 4 views, 14 memory lines) + `ikea/.sightkick` (6 tools) | a large public retail site, about 420 candidates a step: one goal, the KALLAX shelf unit in white into the shopping bag. A consent banner that floats over the lower viewport, a survey modal that can open on any page, a search box whose submit button is hidden until it has focus, an add-to-bag confirmation sheet that is modal, and a bag page built on hashed CSS-module class names. Run it with `--tools ikea` for the tool condition; the suite file carries no `tools` key |
+| `ikea.json` | ikea.com | `ikea/.sightmap` (24 components, 5 views, 16 memory lines) + `ikea/.sightkick` (6 tools) | a large public retail site, about 600 candidates a step: one goal, the KALLAX shelf unit in white into the shopping bag. A consent banner that floats over the lower viewport and holds keyboard focus, a survey modal that can open on any page, a search box whose submit button is hidden until it has focus, an add-to-bag confirmation sheet that is modal, and a bag page built on hashed CSS-module class names. Run it with `--tools ikea` for the tool condition; the suite file carries no `tools` key |
 
 ## Run
 
@@ -297,48 +297,94 @@ cd saucedemo && sightmap browser stop && cd ..
 jev-turbo score results/saucedemo-map.json results/saucedemo-tools.json
 ```
 
-## IKEA (2026-09-18)
+## IKEA (2026-09-19)
 
 One goal on ikea.com, the KALLAX shelf unit in white into the shopping bag,
-run five times in each of three conditions: `--no-map`, the map in
-`ikea/.sightmap`, and that map's sightkick tools. Jev `jev-latest`, headless,
-in one session on a fresh profile with a 1200×900 window. Three more single
-runs, one per condition, were recorded with `--record`; they are the three
-acts of the README video.
+run five times with `--no-map` and five times with the map in
+`ikea/.sightmap`. Jev `jev-latest`, headless, in one session on a fresh
+profile with a 1200×900 window. The tools column is the 2026-09-18 run over
+the earlier map; the tool layer was not rerun.
 
 ```
-condition=no-map jev:jev-latest: 5/5 ok · 44 steps · 71.6s total · 1.63s/step · model 62 calls, 210 ms/call, 489182+25536 tok · wasted 5 · fallback 0 · low-conf 18 · candidates ~423
-condition=map jev:jev-latest: 5/5 ok · 83 steps · 130.2s total · 1.57s/step · model 133 calls, 208 ms/call, 1072209+50221 tok · wasted 16 · fallback 44 · low-conf 50 · candidates ~423
-condition=tools jev:jev-latest: 5/5 ok · 20 steps · 34.7s total · 1.73s/step · model 15 calls, 267 ms/call, 229193+12353 tok · wasted 0 · fallback 5 · low-conf 2 · candidates ~563
+condition=no-map jev:jev-latest: 5/5 ok · 25 steps · 72.8s total · 2.91s/step · model 30 calls, 247 ms/call, 226833+11471 tok · wasted 0 · fallback 0 · low-conf 5 · candidates ~607
+condition=map jev:jev-latest: 5/5 ok · 25 steps · 69.2s total · 2.77s/step · model 30 calls, 286 ms/call, 387512+17447 tok · wasted 0 · fallback 0 · low-conf 7 · candidates ~608
 ```
 
 ```
                       ikea/no-map/jev:jev-latest  ikea/map/jev:jev-latest  ikea/tools/jev:jev-latest
 reached               5/5                         5/5                      5/5
-steps / goal          8                           15                       3
-wasted steps          5                           16                       0
-fallback picks        -                           44                       5
-low-confidence picks  18                          50                       2
-candidates offered    423                         423                      563
-low-coverage pages    -                           7                        1
-seconds               71.6                        130.2                    34.7
+steps / goal          4                           4                        3
+wasted steps          0                           0                        0
+fallback picks        -                           0                        5
+low-confidence picks  5                           7                        2
+candidates offered    607                         608                      563
+low-coverage pages    -                           1                        1
+seconds               72.8                        69.2                     34.7
 ```
 
-On ikea.com the map as authored did not help Jev. It took more steps than the
-raw tree: 15 a goal with the map, 8 without it. The run files show why. Enter
-after typing does not submit IKEA's search box, and the visual-search button
-and the Products menu carry no name in the map, which the score counts as 44
-fallback picks and 7 pages where named controls are under half the interactive
-ones. The map's tools cut the goal to 3 steps, because the `search` tool
-submits the search with its own keypress and wait. Improving the map is the
-next curation step, and the score is what points at it.
+Every run takes the same four steps: type into the search field, click the
+"kallax shelf unit white" suggestion, Add to cart on the results page, open
+the bag. With the map each of those is a named pick (SearchField,
+SearchSuggestion, ProductCard AddToCartButton, BagLink); the add is picked at
+0.97 to 0.99, against 0.76 to 0.86 from the raw tree. The seven low-confidence
+picks are the suggestion click at 0.52 to 0.62, where Enter is the other
+plausible option. The goal has no room left for the map to win on steps: four
+is the floor for a search, a pick, an add and the bag.
+
+### What the 2026-09-18 runs got wrong
+
+The first runs took 8 steps a goal without the map and 15 with it:
+
+```
+                      ikea/no-map/jev:jev-latest  ikea/map/jev:jev-latest
+reached               5/5                         5/5
+steps / goal          8                           15
+wasted steps          5                           16
+fallback picks        -                           44
+low-confidence picks  18                          50
+candidates offered    423                         423
+low-coverage pages    -                           7
+seconds               71.6                        130.2
+```
+
+Every run in both conditions opened the same way: fill the search field, fill
+it again, press Enter, and the URL never changed. A live session showed the
+fill never landed. IKEA's OneTrust banner holds keyboard focus, a synthetic
+click does not move it, and the driver's combobox path typed wherever focus
+was: into the banner. The field stayed empty, so Jev typed again, and Enter
+on an empty search box does nothing. The map's own memory blamed the
+suggestion dropdown for stealing focus, which was wrong.
+
+After the failed search the raw tree just took the Products menu into a
+category page and added KALLAX from its card. The map said not to: its Home
+view read "nothing on it is needed for the bag flow beyond the header
+globals", its memory said the flow is search → product page, and a BILLY-era
+note said cards on rails are not a way to reach a named variant. Jev obeyed,
+clicked the photo-search button and the IKEA Home link at 0.15 to 0.45
+confidence, and got to a category page five to eight steps later than the raw
+tree. On the pages it did reach, the map named 4 of 587 interactive controls
+on Home and none on the category pages; the Search view, with 37 named
+controls, was never reached. Where the map did cover a page (two runs landed
+on a Product view) Jev took VariantOption, AddToBagButton and BagLink at 1.00
+each.
+
+Two changes, both in this repo. The driver verifies that a fill landed in the
+field it was asked to fill and sets the value there when it did not, and Enter
+is pressed in the field the last fill typed into. The map gained a Category
+view (`/us/en/cat/**`), the header menu (NavEntry, MenuTab, MenuLink), and a
+shared ProductCard with an AddToCartButton, used by the Search and Category
+views alike; the memory that forbade the category route is gone, and the
+SearchField note says what to do when a search does not run.
 
 The suite's earlier goal was the BILLY bookcase. The home page carries a BILLY
 rail with an Add button, so a raw tree reached that goal in three actions, and
 the goal was replaced with the KALLAX shelf unit, which has to be searched for.
 
-The recorded map run reached the goal in 17 steps over 29.0 s, all of it
-captured; the video plays the full run at 1x with no held frames.
+The README video is two single runs recorded on 2026-09-19 with `--record`,
+one per condition, 4 steps and 13.4 s each, played at 1x. The sightkick tool
+layer was not re-recorded (its act needs the `sightkick` CLI), so the video
+has two acts; the 2026-09-18 tools recording is still in
+`results/ikea-demo-tools.json`.
 
 Commands:
 
@@ -357,6 +403,10 @@ jev-turbo bench ikea.json --tools ikea --record ../out/ikea-tools --out results/
 cd ikea && sightmap browser stop --port 7957 && cd ..
 
 jev-turbo score results/ikea-no-map.json results/ikea-map.json results/ikea-tools.json
+python3 ../scripts/render-demo.py --compare "without a map=../out/ikea-no-map" "with a map=../out/ikea-map" ../docs/demo \
+  --title "4 steps without a map, 4 with it. With the map, every pick is a named component." \
+  --subtitle "One goal on ikea.com, same model, same loop. Add to cart picked at 0.97 with the map, 0.81 without."
+# the three-act version, once a tools act is recorded:
 python3 ../scripts/render-demo.py --compare "without a map=../out/ikea-no-map" \
   "with a map=../out/ikea-map" "with sightkick tools=../out/ikea-tools" \
   ../out/demo --subtitle "One goal, one model, three ways in."   # the README video

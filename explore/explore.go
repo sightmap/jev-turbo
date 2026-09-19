@@ -121,6 +121,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	seen := map[string]int{}
 	var history []string
 	suggestionsOpen := false
+	var filledNode *Node // the field the last action typed into; Enter is pressed in it
 	navigations := 0
 	afterFill := false
 	run := &Run{Goal: opts.Goal, Spec: spec, Picker: opts.Picker.Name()}
@@ -302,7 +303,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 				}
 			}
 		} else {
-			act, err = perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page, doneFn)
+			act, err = perform(ctx, drv, opts.Picker, pick.Next, cands, values, usedValues, state, page, doneFn, filledNode)
 		}
 		if step.Tool == "" && err != nil && isStale(err) {
 			// The page re-rendered between snapshot and act: re-observe and retry the same element by description.
@@ -322,7 +323,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			}
 			if again != nil {
 				retry := []*Candidate{{Key: "n" + again.ID, Node: again, Desc: want.Desc, SeenKey: want.SeenKey}}
-				act, err = perform(ctx, drv, opts.Picker, retry[0].Key, retry, values, usedValues, state, fresh, doneFn)
+				act, err = perform(ctx, drv, opts.Picker, retry[0].Key, retry, values, usedValues, state, fresh, doneFn, filledNode)
 			}
 			if again == nil || (err != nil && isStale(err)) {
 				// Gone twice: record the miss as a step and let the next observation decide.
@@ -362,6 +363,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		seen[page.URL+"|"+act.seenKey]++
 		suggestionsOpen = act.combobox // decided on the next observation: options in the tree, whatever their DOM shape
 		afterFill = act.filled
+		if act.filled {
+			filledNode = act.node
+		} else if pick.Next != MetaEnter && pick.Next != MetaWait {
+			filledNode = nil // any other action moves on from the field
+		}
 		emit(opts, step)
 	}
 	run.Reason = fmt.Sprintf("no result within %d steps", opts.MaxSteps)
@@ -385,6 +391,7 @@ type action struct {
 	optionsShown bool   // the list was visible after the wait
 	filled       bool   // typed into a field; Enter is offered next
 	typed        string // the value typed, for matching the suggestions
+	node         *Node  // the element acted on, when the action had one
 }
 
 // onlyOptions keeps the suggestion entries (role option) of a candidate list.
@@ -398,7 +405,9 @@ func onlyOptions(cands []*Candidate) []*Candidate {
 	return out
 }
 
-func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands []*Candidate, values map[string]string, usedValues map[string]bool, state string, page *Page, done func(*Page) bool) (*action, error) {
+// perform runs one pick. enterIn is the field the last fill typed into, so
+// the Enter meta action is pressed there and not wherever focus drifted to.
+func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands []*Candidate, values map[string]string, usedValues map[string]bool, state string, page *Page, done func(*Page) bool, enterIn *Node) (*action, error) {
 	act := &action{seenKey: pick}
 	switch pick {
 	case MetaBack:
@@ -426,7 +435,7 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 		}
 		act.summary = "waited"
 	case MetaEnter:
-		if err := drv.PressEnter(ctx); err != nil {
+		if err := drv.PressEnter(ctx, enterIn); err != nil {
 			return nil, err
 		}
 		act.summary = "pressed Enter"
@@ -438,6 +447,7 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 		n := c.Node
 		act.comp = n.Comp
 		act.seenKey = c.SeenKey
+		act.node = n
 		label := CompLabel(n)
 		if label == "" {
 			label = fmt.Sprintf("%s %q", n.Role, trunc(n.Name, 40))

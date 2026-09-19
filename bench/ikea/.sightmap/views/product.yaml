@@ -19,6 +19,7 @@ views:
       - $ref: SurveyDialog
       - $ref: CookieBanner
       - $ref: SearchField
+      - $ref: NavEntry
       - $ref: BagLink
       - $ref: AddedToBagSheet
       - name: AddToBagButton

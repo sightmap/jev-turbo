@@ -4,19 +4,23 @@ views:
     route: "/us/en/"
     url: https://www.ikea.com/us/en/
     description: >
-      The US English home page. Nothing on it is needed for the bag flow beyond
-      the header globals — start by searching from SearchField.
+      The US English home page: the header globals, the NavEntry menu links,
+      and rails of featured products. Search from SearchField, or open
+      NavEntry "Products" and take a MenuTab and a MenuLink into a Category
+      view.
     memory:
       - >
-        The home page carries product rails of its own, and BILLY, IKEA's
-        best-known bookcase, often turns up in one. Those cards add whichever
-        size the rail happens to show, so they are not a way to reach a named
-        variant: search for the product, open its page from the results, and
-        add it from there.
+        The product rails on this page add whichever size and colour the rail
+        happens to show. To reach a named variant, search for it or open its
+        category, then add it from the ProductCard whose title is the variant
+        wanted.
     components:
       - $ref: SurveyDialog
       - $ref: CookieBanner
       - $ref: SearchField
       - $ref: SearchSuggestion
       - $ref: SearchButton
+      - $ref: NavEntry
+      - $ref: MenuTab
+      - $ref: MenuLink
       - $ref: BagLink

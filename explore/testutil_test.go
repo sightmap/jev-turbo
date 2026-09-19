@@ -121,7 +121,11 @@ func (d *fakeDriver) WaitForOptions(ctx context.Context, max time.Duration, type
 	return false
 }
 func (d *fakeDriver) Wait(ctx context.Context, dur time.Duration) {}
-func (d *fakeDriver) PressEnter(ctx context.Context) error {
+func (d *fakeDriver) PressEnter(ctx context.Context, n *Node) error {
+	if n != nil {
+		d.clicks = append(d.clicks, "enter in "+n.ID)
+		return nil
+	}
 	d.clicks = append(d.clicks, "enter")
 	return nil
 }
