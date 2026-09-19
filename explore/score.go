@@ -15,9 +15,11 @@ type Score struct {
 	Reached          int     `json:"reached"`
 	StepsMedian      float64 `json:"steps_median"` // acted steps per reached goal
 	Wasted           int     `json:"wasted"`
+	NoEffect         int     `json:"no_effect"` // steps whose next observation showed nothing had happened
 	Fallback         int     `json:"fallback"`
 	LowConfidence    int     `json:"low_confidence"`
 	CandidatesMedian float64 `json:"candidates_median"`
+	AmbiguousMedian  float64 `json:"ambiguous_median"`   // candidates per step that share their description with another
 	LowCoveragePages int     `json:"low_coverage_pages"` // distinct URLs where named controls are under half of the interactive ones
 	Ms               int     `json:"ms"`
 
@@ -40,7 +42,7 @@ func ScoreResult(res *SuiteResult) Score {
 		label += "/" + res.Picker
 	}
 	s := Score{Label: label, Condition: res.Condition}
-	var stepsPerGoal, cands []float64
+	var stepsPerGoal, cands, ambig []float64
 	lowCov := map[string]bool{}
 	for _, r := range res.Runs {
 		if r.Run == nil {
@@ -59,6 +61,7 @@ func ScoreResult(res *SuiteResult) Score {
 			stepsPerGoal = append(stepsPerGoal, float64(m.Steps))
 		}
 		s.Wasted += m.Wasted
+		s.NoEffect += m.NoEffect
 		s.Fallback += m.Fallback
 		s.LowConfidence += m.LowConfidence
 		for _, st := range r.Steps {
@@ -68,6 +71,7 @@ func ScoreResult(res *SuiteResult) Score {
 			if st.Candidates > 0 {
 				s.HasMetrics = true
 				cands = append(cands, float64(st.Candidates))
+				ambig = append(ambig, float64(st.Ambiguous))
 			}
 			if c := st.Coverage; c != nil && c.Interactive > 0 {
 				s.HasCoverage = true
@@ -79,6 +83,7 @@ func ScoreResult(res *SuiteResult) Score {
 	}
 	s.StepsMedian = median(stepsPerGoal)
 	s.CandidatesMedian = median(cands)
+	s.AmbiguousMedian = median(ambig)
 	s.LowCoveragePages = len(lowCov)
 	return s
 }
@@ -105,6 +110,7 @@ func FormatScores(scores []Score) string {
 	add("reached", func(s Score) string { return fmt.Sprintf("%d/%d", s.Reached, s.Goals) })
 	add("steps / goal", func(s Score) string { return num(s.StepsMedian) })
 	add("wasted steps", func(s Score) string { return count(s.Wasted, s.HasMetrics) })
+	add("no-effect steps", func(s Score) string { return count(s.NoEffect, s.HasMetrics) })
 	// A fallback pick is a pick that carries no component, so it needs a map to fire.
 	add("fallback picks", func(s Score) string { return count(s.Fallback, s.HasMetrics && s.Condition != "no-map") })
 	add("low-confidence picks", func(s Score) string { return count(s.LowConfidence, s.HasMetrics) })
@@ -113,6 +119,12 @@ func FormatScores(scores []Score) string {
 			return "-"
 		}
 		return num(s.CandidatesMedian)
+	})
+	add("same-name candidates", func(s Score) string {
+		if !s.HasMetrics {
+			return "-"
+		}
+		return num(s.AmbiguousMedian)
 	})
 	add("low-coverage pages", func(s Score) string { return count(s.LowCoveragePages, s.HasCoverage) })
 	add("seconds", func(s Score) string { return fmt.Sprintf("%.1f", float64(s.Ms)/1000) })

@@ -180,6 +180,14 @@ those is a page where a name, a property, or a memory line is missing.
 - `wasted steps`: total across the runs in the file of steps that repeat
   work: a stale pick, a back, or a control already acted on at this URL
   (`Step.Wasted`).
+- `no-effect steps`: total across the runs in the file of steps whose next
+  observation showed nothing had happened: the URL did not move, a filled
+  field holds no value, and the page offers the same controls as before
+  (`Step.Effect` is `none`; the other values are `navigated`, `value` and
+  `changed`). A fill whose keystrokes went elsewhere or an Enter on an empty
+  field lands here. A run of these is a driver or page fault, not a map
+  fault, and it is what let a fill that never landed on ikea.com read as a
+  map problem.
 - `fallback picks`: total across the runs in the file of picks where a map
   exists but Jev's pick carries no sightmap component (`Step.Fallback`). A
   page with many of these needs more named components. A fallback needs a map
@@ -191,6 +199,11 @@ those is a page where a name, a property, or a memory line is missing.
 - `candidates offered`: median candidates left after the guards, before Jev
   sees any names (`Step.Candidates`). A high count next to a low reach rate
   points at a page that needs to be split into more specific components.
+- `same-name candidates`: median per step of candidates whose description is
+  identical to another candidate's on the same page (`Step.Ambiguous`), so a
+  listing with sixteen "Add to cart" buttons counts sixteen. These are the
+  picks the raw tree cannot tell apart, and where a map that scopes each
+  control to its owner and properties pays.
 - `low-coverage pages`: distinct URLs where named controls are under half of
   the interactive ones (`Score.LowCoveragePages`). These are the pages to map
   next. Coverage is measured against the corpus, so this row prints `-` under
@@ -198,8 +211,8 @@ those is a page where a name, a property, or a memory line is missing.
 - `seconds`: total wall time across the runs in the file.
 
 A run file written before these metrics existed carries no counts. On such a
-file `wasted steps`, `fallback picks`, `low-confidence picks` and
-`candidates offered` all print `-`.
+file `wasted steps`, `no-effect steps`, `fallback picks`, `low-confidence
+picks`, `candidates offered` and `same-name candidates` all print `-`.
 
 Command:
 

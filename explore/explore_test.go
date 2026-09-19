@@ -484,3 +484,130 @@ func TestActionSummaryNamesTheOwningComponent(t *testing.T) {
 		t.Fatalf("summary should name the owning card:\n got %s\nwant %s", got, want)
 	}
 }
+
+func TestEffectValueWhenTheFillLands(t *testing.T) {
+	// The next observation shows the typed value in the field, so the fill
+	// counts as having done something. The run hits its step limit after the
+	// second step, so that one has no observation to judge it by.
+	field := mk("1", "textbox", "Search by product", "input", "type=search", "", true)
+	button := mk("2", "button", "Search", "button", "", "", true)
+	blurb := mk("b", "text", "Find furniture", "p", "", "", false)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{field, button, blurb}}
+	d := newFakeDriver("/", home)
+	d.observeHook = func(p *fakePage) {
+		if v, ok := d.fills["1"]; ok {
+			field.Value = v
+		}
+	}
+	p := &fakePicker{script: []string{"n1", "n2"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "search", Picker: p, MaxSteps: 2, Spec: &Spec{Values: map[string]string{"search": "KALLAX"}}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || !strings.HasPrefix(run.Steps[0].Action, "filled") {
+		t.Fatalf("expected a fill then a click, got %+v", run.Steps)
+	}
+	if run.Steps[0].Effect != "value" {
+		t.Fatalf("a fill that landed has effect value, got %q", run.Steps[0].Effect)
+	}
+	if run.Steps[1].Effect != "" {
+		t.Fatalf("the last step of a run that hit its limit has no effect yet, got %q", run.Steps[1].Effect)
+	}
+}
+
+func TestEffectNavigatedWhenTheURLMoves(t *testing.T) {
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{mk("1", "link", "Products", "a", "href=/products", "", true), mk("h", "heading", "Shop", "h1", "", "", false), mk("b", "text", "Welcome", "p", "", "", false)}, edges: map[string]string{"1": "/products"}}
+	products := &fakePage{url: "/products", view: "Products", nodes: []*Node{mk("2", "button", "Add to cart", "button", "", "", true), mk("h2", "heading", "Products", "h1", "", "", false), mk("b2", "text", "All", "p", "", "", false)}}
+	d := newFakeDriver("/", home, products)
+	p := &fakePicker{script: []string{"n1", "n2"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "add", Picker: p, MaxSteps: 2})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || run.Steps[0].Effect != "navigated" {
+		t.Fatalf("a click that moved the URL has effect navigated, got %+v", run.Steps)
+	}
+}
+
+func TestEffectNoneWhenNothingChanges(t *testing.T) {
+	// The click has no edge and the page reads the same afterwards: the step
+	// did nothing, whatever the driver reported.
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{mk("1", "button", "Ok", "button", "", "", true), mk("2", "button", "Cancel", "button", "", "", true), mk("b", "text", "Cookies", "p", "", "", false)}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n1", "n2"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "dismiss", Picker: p, MaxSteps: 2})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || run.Steps[0].Effect != "none" {
+		t.Fatalf("a click that changed nothing has effect none, got %+v", run.Steps)
+	}
+	if run.Metrics.NoEffect != 1 {
+		t.Fatalf("metrics should count the one no-effect step, got %+v", run.Metrics)
+	}
+}
+
+func TestEffectChangedWhenTheControlsDiffer(t *testing.T) {
+	// The click stays on the URL but the page offers a different control
+	// afterwards (a menu opened), which is an effect short of a navigation.
+	menu := mk("1", "button", "Menu", "button", "", "", true)
+	entry := mk("2", "link", "Products", "a", "href=/products", "", true)
+	blurb := mk("b", "text", "Welcome", "p", "", "", false)
+	heading := mk("h", "heading", "Shop", "h1", "", "", false)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{menu, heading, blurb}}
+	d := newFakeDriver("/", home)
+	d.observeHook = func(p *fakePage) {
+		if len(d.clicks) > 0 {
+			p.nodes = []*Node{menu, entry, heading, blurb}
+		}
+	}
+	p := &fakePicker{script: []string{"n1", "n2"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "open products", Picker: p, MaxSteps: 2})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || run.Steps[0].Effect != "changed" {
+		t.Fatalf("a click that opened a menu has effect changed, got %+v", run.Steps)
+	}
+}
+
+func TestToolStepEffectIsItsOwnOutcome(t *testing.T) {
+	ts, _ := ParseIR([]byte(irFixture))
+	login := &fakePage{url: "/", view: "Login", nodes: []*Node{mk("1", "textbox", "Username", "input", "", "UsernameField", true)}}
+	inv := &fakePage{url: "/inventory.html", view: "Inventory", nodes: []*Node{mk("2", "button", "Add to cart", "button", "", "AddToCartButton", true)}}
+	d := newFakeDriver("/", login, inv)
+	runner := &fakeToolRunner{drv: d, after: map[string]string{"log_in": "/inventory.html"},
+		results: map[string]ToolResult{"go_to_cart": {OK: false, Message: "wait_for timed out"}}}
+	p := &fakePicker{script: []string{"t:go_to_cart", "t:log_in"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "log in", Picker: p,
+		Spec:  &Spec{Values: map[string]string{"username": "u", "password": "p"}, DoneWhen: &DoneWhen{View: "Inventory"}},
+		Tools: ts, ToolRunner: runner, MaxSteps: 4})
+	if err != nil || !run.OK {
+		t.Fatalf("run: %v %+v", err, run)
+	}
+	if len(run.Steps) < 3 || run.Steps[0].Effect != "none" || run.Steps[1].Effect != "navigated" {
+		t.Fatalf("a failed call that stayed put is none and one that moved the URL is navigated, got %+v", run.Steps)
+	}
+}
+
+func TestAmbiguousCountsSameNamedCandidates(t *testing.T) {
+	// Two add buttons read the same to the picker; the checkout button does
+	// not, so two of the three candidates are ambiguous.
+	home := &fakePage{url: "/", view: "Listing", nodes: []*Node{
+		mk("1", "button", "Add to cart", "button", "", "", true),
+		mk("2", "button", "Add to cart", "button", "", "", true),
+		mk("3", "button", "Checkout", "button", "", "", true),
+	}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n3"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "check out", Picker: p, MaxSteps: 1})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 1 || run.Steps[0].Candidates != 3 || run.Steps[0].Ambiguous != 2 {
+		t.Fatalf("expected 2 of 3 candidates ambiguous, got %+v", run.Steps)
+	}
+	if run.Metrics.AmbiguousMedian != 2 {
+		t.Fatalf("metrics median should be 2, got %+v", run.Metrics)
+	}
+}
