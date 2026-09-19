@@ -40,6 +40,8 @@ sightmap browser start --detach --headless --url https://www.ikea.com/us/en/ --s
   --profile ~/.sightmap/profiles/explore-ikea --port 7957 --cdp-port 7958
 jev-turbo bench ikea.json --repeat 2
 jev-turbo bench ikea.json --tools ikea                 # same goal, over the sightkick tool layer
+jev-turbo bench ikea.json --no-map                    # same goal, the raw tree: no components, views, or memory
+jev-turbo bench ikea.json --no-memory                 # same map, its memory notes withheld from Jev
 ```
 
 Use a fresh profile for Google Flights. After many automated searches from one
@@ -98,6 +100,17 @@ probability of its two answers rather than the second one alone. Saucedemo and
 journeys ran headless in one session; Google Flights ran headless in a second
 session with a fresh Chrome profile, because a reused profile pre-fills places
 from earlier searches and the run drifts.
+
+A third ablation sits between the two. `--no-memory` keeps the map's
+components and views and withholds only its memory notes, the free-text lines
+the picker sees under `SITE NOTES`, and the run file records the condition as
+`map-no-memory` (`tools-no-memory` with a tool layer). Against a plain map
+run it isolates what the site's prose did, which is how a note written for
+one goal, like the ones that steered the IKEA runs below away from the
+category route, shows up as a cost rather than being folded into the map's
+score. `jev-turbo memory-lint DIR` reads the same notes and flags the ones
+that prescribe a route or forbid an action, so a map can be checked as it is
+written, before a run.
 
 | suite | condition | goals reached | steps per reached goal (median) | wasted steps | low-confidence picks | candidates a step (median) | seconds |
 |---|---|---|---|---|---|---|---|

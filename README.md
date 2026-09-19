@@ -68,7 +68,7 @@ Jev never writes text. Everything the loop types comes from `--value` or a spec 
 
 ## What the map changed
 
-Same loop, same site, same model, run once with a sightmap and once with `--no-map` so Jev sees the raw HTML and ARIA tree instead. The ikea.com rows add a third condition, the map's sightkick tools.
+Same loop, same site, same model, run once with a sightmap and once with `--no-map` so Jev sees the raw HTML and ARIA tree instead. The ikea.com rows add a third condition, the map's sightkick tools. A fourth, `--no-memory`, keeps the map's components and views and withholds only its memory notes, so a run with it against a plain map run says whether the site's prose helped or hurt; `jev-turbo memory-lint DIR` flags the notes that prescribe a route before a run has to.
 
 | suite | condition | goals reached | steps per reached goal | wasted steps | unsure picks | seconds |
 |---|---|---|---|---|---|---|
@@ -93,11 +93,12 @@ Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet compari
 ## Commands
 
 ```
-jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--tools DIR] [--record DIR] [--no-map]
-jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--tools DIR] [--record DIR] [--no-map]
+jev-turbo explore --goal "..." [--done-when view=Cart] [--value user=alice] [--avoid Delete] [--plan] [--grow] [--tools DIR] [--record DIR] [--no-map] [--no-memory]
+jev-turbo bench   SUITE.json [--repeat N] [--picker jev|anthropic] [--grow] [--tools DIR] [--record DIR] [--no-map] [--no-memory]
 jev-turbo score   RESULT.json [RESULT.json ...]   # one column per file
 jev-turbo plan    --goal "..." [--site host]
 jev-turbo graph   [RUN.json ...]
+jev-turbo memory-lint DIR                          # memory notes that prescribe a route instead of describing the page; exit 1 when any
 ```
 
 `--done-when` is a deterministic finish check: `view=NAME`, `url=SUBSTR`, `text=SUBSTR`, `text_absent=SUBSTR`, `text_count=N:SUBSTR` (SUBSTR shows exactly N times; `N+:` at least, `N-M:` between), `component=NAME`, `prop=Comp.name~value`, or `history_count=N:SUBSTR` (at least N earlier steps mention SUBSTR). Repeat it to AND checks. Without one, the loop stops when Jev's own "done" answer passes 0.85. A spec file carries the same in JSON:

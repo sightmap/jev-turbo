@@ -43,6 +43,8 @@ func main() {
 		err = runPlan(os.Args[2:])
 	case "graph":
 		err = runGraph(os.Args[2:])
+	case "memory-lint":
+		err = runMemoryLint(os.Args[2:])
 	case "version", "--version", "-v":
 		fmt.Println("jev-turbo", version)
 	case "help", "--help", "-h":
@@ -56,7 +58,7 @@ func main() {
 		if err == flag.ErrHelp {
 			return
 		}
-		if err != errNotDone {
+		if err != errNotDone && err != errMemoryFlagged {
 			fmt.Fprintf(os.Stderr, "jev-turbo: %v\n", err)
 		}
 		os.Exit(1)
@@ -67,12 +69,17 @@ func usage() {
 	fmt.Fprint(os.Stderr, `jev-turbo — browser use where Jev picks every step over a sightmap
 
 Commands:
-  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--tools DIR] [--no-map] [--record DIR]
-  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--tools DIR] [--no-map] [--record DIR]
+  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--tools DIR] [--no-map] [--no-memory] [--record DIR]
+  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--tools DIR] [--no-map] [--no-memory] [--record DIR]
   score   RESULT.json [RESULT.json ...]       one column per file
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
+  memory-lint DIR                              flag memory notes in the corpus that prescribe a route instead of describing the page
   version
+
+Map flags (explore, bench):
+  --no-map             observe with no map: no components, views, or memory
+  --no-memory          keep the map's components and views, drop every memory note the picker would see
 
 Session flags (explore, bench):
   --sightmap-dir DIR   corpus dir; its .session file locates the running Chrome (default .sightmap)
@@ -227,6 +234,7 @@ func runExplore(args []string) error {
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring: name unmapped controls on every page visited")
 	toolsFlag := fs.String("tools", "", "Sightkick tool layer dir: offer its tools alongside elements (needs the sightkick CLI)")
 	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
+	noMemoryFlag := fs.Bool("no-memory", false, "Keep the map's components and views but drop every memory note from what the picker sees")
 	maxStepsFlag := fs.Int("max-steps", 20, "Stop after this many steps")
 	jsonFlag := fs.Bool("json", false, "Print the run as JSON on stdout")
 	recordFlag := fs.String("record", "", "Capture the tab as JPEG frames into this directory while the goal runs (see scripts/render-demo.py)")
@@ -242,6 +250,9 @@ func runExplore(args []string) error {
 	}
 	if *noMapFlag && *growFlag {
 		return fmt.Errorf("--no-map and --grow do not combine")
+	}
+	if *noMapFlag && *noMemoryFlag {
+		return fmt.Errorf("--no-map and --no-memory do not combine")
 	}
 	if *noMapFlag && *toolsFlag != "" {
 		return fmt.Errorf("--tools and --no-map do not combine")
@@ -293,7 +304,7 @@ func runExplore(args []string) error {
 		}
 	}
 	run, err := explore.Explore(ctx, drv, explore.Options{
-		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, HasMap: hasMap, Hook: hook,
+		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, HasMap: hasMap, NoMemory: *noMemoryFlag, Hook: hook,
 		Tools: tools, ToolRunner: toolRunner,
 		OnStep: func(s explore.Step) {
 			line := explore.FormatStep(s)
@@ -457,6 +468,7 @@ func runBench(args []string) error {
 	growFlag := fs.Bool("grow", false, "Grow the corpus while exploring")
 	toolsFlag := fs.String("tools", "", "Sightkick tool layer dir: offer its tools alongside elements (default: the suite's \"tools\", resolved relative to the suite file; pass an empty value to run the suite without it; needs the sightkick CLI)")
 	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
+	noMemoryFlag := fs.Bool("no-memory", false, "Keep the map's components and views but drop every memory note from what the picker sees")
 	repeatFlag := fs.Int("repeat", 1, "Run the suite this many times")
 	onlyFlag := fs.String("only", "", "Only goals whose name contains this")
 	maxStepsFlag := fs.Int("max-steps", 0, "Override every goal's max_steps")
@@ -474,6 +486,9 @@ func runBench(args []string) error {
 	}
 	if *noMapFlag && *growFlag {
 		return fmt.Errorf("--no-map and --grow do not combine")
+	}
+	if *noMapFlag && *noMemoryFlag {
+		return fmt.Errorf("--no-map and --no-memory do not combine")
 	}
 	suite, err := explore.LoadSuite(*suiteFlag)
 	if err != nil {
@@ -536,7 +551,7 @@ func runBench(args []string) error {
 	var rec *recorder
 	sopts := explore.SuiteOptions{
 		NewPicker: func() (explore.Picker, error) { return makePicker(*pickerFlag) },
-		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, HasMap: hasMap, Hook: hook, Out: os.Stderr,
+		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, HasMap: hasMap, NoMemory: *noMemoryFlag, Hook: hook, Out: os.Stderr,
 		Tools: tools, ToolRunner: toolRunner,
 	}
 	if *recordFlag != "" {

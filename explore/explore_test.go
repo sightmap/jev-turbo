@@ -611,3 +611,30 @@ func TestAmbiguousCountsSameNamedCandidates(t *testing.T) {
 		t.Fatalf("metrics median should be 2, got %+v", run.Metrics)
 	}
 }
+
+
+func TestNoMemoryHidesSiteNotes(t *testing.T) {
+	// The page carries memory the way the real driver's Observe fills it in:
+	// corpus, view, and component lines all arrive as Notes. NoMemory keeps
+	// the page's names and drops only those.
+	go1 := mk("1", "button", "Go", "button", "", "GoButton", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{go1}, notes: []string{"The flow is search → product page.", "GoButton opens the bag."}}
+	for _, noMemory := range []bool{false, true} {
+		d := newFakeDriver("/", home)
+		p := &fakePicker{}
+		if _, err := Explore(context.Background(), d, Options{Goal: "go", Picker: p, MaxSteps: 1, HasMap: true, NoMemory: noMemory}); err != nil {
+			t.Fatal(err)
+		}
+		if len(p.states) != 1 {
+			t.Fatalf("NoMemory=%v: %d picks", noMemory, len(p.states))
+		}
+		state := p.states[0]
+		hasNotes := strings.Contains(state, "SITE NOTES:") && strings.Contains(state, "GoButton opens the bag.")
+		if hasNotes == noMemory {
+			t.Fatalf("NoMemory=%v: notes shown=%v:\n%s", noMemory, hasNotes, state)
+		}
+		if !strings.Contains(state, "COMPONENTS ON PAGE: GoButton") {
+			t.Fatalf("NoMemory=%v: the component names must stay:\n%s", noMemory, state)
+		}
+	}
+}

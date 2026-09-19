@@ -20,6 +20,10 @@ type Options struct {
 	MaxCandidates int     // default 60
 	DoneThreshold float64 // picker "done" confidence that ends a goal with no deterministic check (default 0.85)
 	HasMap        bool    // the corpus has at least one component; enables Step.Fallback
+	// NoMemory withholds the map's memory notes (corpus, view, and component
+	// level) from the picker while keeping its components and views, so a
+	// site's prose can be measured on its own against the map's names.
+	NoMemory bool
 	// Tools and ToolRunner, when both set, offer sightkick tools as picker
 	// options alongside elements; a tool call runs through ToolRunner instead
 	// of driving an element directly.
@@ -242,6 +246,11 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		step.Ambiguous = countAmbiguous(cands)
 		step.Options = len(crit.Options)
 		step.Named = countNamed(cands)
+		if opts.NoMemory {
+			// Every memory line, site-wide or matched here, reaches the
+			// picker through Notes and nowhere else.
+			page.Notes = nil
+		}
 		state := buildState(opts.Goal, spec, page, history, cands, toolOpts)
 
 		tP := time.Now()

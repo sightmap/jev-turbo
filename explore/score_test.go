@@ -130,3 +130,24 @@ func cellRow(out, name, want string) bool {
 	}
 	return false
 }
+
+func TestScoreMapNoMemoryKeepsFallback(t *testing.T) {
+	// A map run without its memory still has components to fall back from,
+	// so the row is a real count, not the dash the no-map column prints.
+	res := &SuiteResult{Suite: "s", Picker: "jev", Condition: "map-no-memory", Runs: []GoalResult{
+		{Name: "a", Run: &Run{OK: true, Steps: []Step{
+			{URL: "/x", Action: "clicked", Candidates: 4, Fallback: true, Coverage: &CovStat{Interactive: 4, T1: 3}},
+			{Action: "done"}}}},
+	}}
+	for i := range res.Runs {
+		res.Runs[i].Metrics = Metrics(res.Runs[i].Steps)
+	}
+	s := ScoreResult(res)
+	if s.Label != "s/map-no-memory/jev" {
+		t.Fatalf("label = %q", s.Label)
+	}
+	out := FormatScores([]Score{s})
+	if !cellRow(out, "fallback picks", "1") {
+		t.Fatalf("fallback picks should count under map-no-memory:\n%s", out)
+	}
+}

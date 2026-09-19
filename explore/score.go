@@ -10,7 +10,7 @@ import (
 // success, in the terms a curator can act on.
 type Score struct {
 	Label            string  `json:"label"`
-	Condition        string  `json:"condition,omitempty"` // "map", "no-map" or "tools", when the file records one
+	Condition        string  `json:"condition,omitempty"` // "map", "no-map" or "tools" (with "-no-memory" when the notes were withheld), when the file records one
 	Goals            int     `json:"goals"`
 	Reached          int     `json:"reached"`
 	StepsMedian      float64 `json:"steps_median"` // acted steps per reached goal
@@ -111,7 +111,8 @@ func FormatScores(scores []Score) string {
 	add("steps / goal", func(s Score) string { return num(s.StepsMedian) })
 	add("wasted steps", func(s Score) string { return count(s.Wasted, s.HasMetrics) })
 	add("no-effect steps", func(s Score) string { return count(s.NoEffect, s.HasMetrics) })
-	// A fallback pick is a pick that carries no component, so it needs a map to fire.
+	// A fallback pick is a pick that carries no component, so it needs a map to
+	// fire; a map run without its memory still has one.
 	add("fallback picks", func(s Score) string { return count(s.Fallback, s.HasMetrics && s.Condition != "no-map") })
 	add("low-confidence picks", func(s Score) string { return count(s.LowConfidence, s.HasMetrics) })
 	add("candidates offered", func(s Score) string {

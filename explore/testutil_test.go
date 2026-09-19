@@ -51,6 +51,7 @@ type fakePage struct {
 	url   string
 	view  string
 	nodes []*Node
+	notes []string // memory lines the page carries, as the real driver's Observe fills them
 	// edges maps a node id to the URL a click leads to.
 	edges map[string]string
 }
@@ -87,7 +88,7 @@ func (d *fakeDriver) Observe(ctx context.Context) (*Page, error) {
 	if d.observeHook != nil {
 		d.observeHook(p)
 	}
-	return &Page{URL: p.url, View: p.view, Nodes: p.nodes}, nil
+	return &Page{URL: p.url, View: p.view, Nodes: p.nodes, Notes: append([]string{}, p.notes...)}, nil
 }
 func (d *fakeDriver) URL(ctx context.Context) (string, error) { return d.cur, nil }
 func (d *fakeDriver) Click(ctx context.Context, n *Node) error {
@@ -142,6 +143,7 @@ type fakePicker struct {
 	calls   int
 	chooses []string
 	picks   []string
+	states  []string // the state text of every Pick call, in order
 	// probs gives the probability of each successive pick, in call order; a
 	// missing or zero entry is 1, so a test only states what it cares about.
 	probs []float64
@@ -164,6 +166,7 @@ func (p *fakePicker) prob() float64 {
 
 func (p *fakePicker) Pick(ctx context.Context, state string, crit Criteria) (Pick, error) {
 	p.calls++
+	p.states = append(p.states, state)
 	pr := p.prob()
 	if len(p.script) > 0 {
 		want := p.script[0]
