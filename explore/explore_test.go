@@ -465,3 +465,22 @@ func TestEnterAfterAnotherActionTargetsFocus(t *testing.T) {
 		t.Fatalf("Enter after a refill should again target n1, driver saw: %s", got)
 	}
 }
+
+func TestActionSummaryNamesTheOwningComponent(t *testing.T) {
+	// Sixteen "Add to cart" buttons on a listing share one label; the card
+	// each belongs to is what makes the history line useful afterwards.
+	card := mk("c", "group", "", "div", "", "ProductCard", false)
+	card.Props = map[string]string{"title": "KALLAX, Shelf unit, white, 30 1/8x30 1/8", "price": "49.99"}
+	add := mk("1", "button", "Add \"KALLAX Shelf unit\" to cart", "button", "", "AddToCartButton", true)
+	add.ParentComp = card
+	page := &fakePage{url: "/search", view: "Search", nodes: []*Node{card, add}}
+	d := newFakeDriver("/search", page)
+	run, err := Explore(context.Background(), d, Options{Goal: "add the 2x2", Picker: &fakePicker{script: []string{"n1"}}, MaxSteps: 1, HasMap: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := `clicked [AddToCartButton] in [ProductCard price="49.99" title="KALLAX, Shelf unit, white, 30 1/8x30 1/8"]`
+	if got := run.Steps[0].Action; got != want {
+		t.Fatalf("summary should name the owning card:\n got %s\nwant %s", got, want)
+	}
+}

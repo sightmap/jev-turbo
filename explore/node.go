@@ -163,7 +163,7 @@ func CompLabel(n *Node) string {
 	b.WriteString("[")
 	b.WriteString(n.Comp)
 	for _, k := range keys {
-		fmt.Fprintf(&b, " %s=%q", k, trunc(n.Props[k], 40))
+		fmt.Fprintf(&b, " %s=%q", k, trunc(n.Props[k], 60))
 	}
 	b.WriteString("]")
 	return b.String()
