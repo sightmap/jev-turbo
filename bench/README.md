@@ -125,8 +125,9 @@ reached their goal; the closing `done` record is not an action and is not
 counted (`IsAction`, `explore/metrics.go`). Wasted counts a step that repeats work: a stale pick, a back, or a control
 already acted on at this URL (`Step.Wasted`, `explore/explore.go`). Fallback
 counts a step where a map exists but Jev's pick carries no sightmap
-component (`Step.Fallback`); it can only fire in the map condition, which is
-why every no-map row reads 0. Low-confidence, called unsure picks in the
+component (`Step.Fallback`); it can only fire in the map condition, so the
+row prints `-` under `--no-map` because a fallback needs a map.
+Low-confidence, called unsure picks in the
 README's table, counts a step where Jev's own probability for the option it
 picked is above 0 and below 0.6, the `LowConfidence` constant in
 `explore/metrics.go`. On a grouped step, where a page too large for one
@@ -218,17 +219,34 @@ seconds               48.4                          45.6                        
 
 `jev-turbo bench books.json --grow --repeat 3`, starting from
 the empty `books/.sightmap` (reset it with `rm -rf books/.sightmap/views` and a
-fresh `components.yaml` of `version: 1`, `components: []`):
+fresh `components.yaml` of `version: 1`, `components: []`), jev-turbo at
+this commit, where grow decides button, link, input and select from role and
+tag and asks Jev only about repeated containers (`grow/kinds.go`):
 
-| repeat | goals | wall / step | coverage of visited pages | corpus after |
-|---|---|---|---|---|
-| 1 | 10/10 | 0.32 s | 0% → 89% | 4 views, 6 components, 4 promoted to global |
-| 2 | 10/10 | 0.29 s | 100% | unchanged |
-| 3 | 10/10 | 0.28 s | 100% | unchanged |
+| repeat | goals | corpus after |
+|---|---|---|
+| 1 | 10/10 | 4 views, 6 components, 4 promoted to global |
+| 2 | 10/10 | unchanged |
+| 3 | 10/10 | unchanged |
 
-Grow work cost 1.2 s in total across the four page types, with seven Jev
-classification calls. `sightmap validate` and `sightmap lint --warn-only` are
-clean on the result. The run file is `results/books-jev-grow.json`.
+Grow work cost 213 ms in total across the four page types, with one Jev
+classification call. The earlier version of grow, which asked Jev about
+every container, printed seven model calls in the stderr report at the end
+of its run; no run file was kept for it, so that seven comes from the report
+line and not from `results/`. `sightmap validate` and `sightmap lint
+--warn-only` are clean on the result. The run file for the numbers above is
+`results/books-jev-grow.json`.
+
+Grow is coverage scaffolding, nothing more. It scopes each new component to
+the nearest stable ancestor the page already has, verifies the selector,
+names the component from a template, reads off `label`, `href`, and
+`placeholder` as properties, and names views from their routes. It does not
+add meaning. Any property beyond those three, a memory line, or a name a
+person would actually choose still has to come from the authoring skill or a
+curator. The naming step is where a curator plugs in: it sits behind the
+`grow.Namer` interface. The shipped default, `TemplateNamer` in
+`grow/namer.go`, names from a template; a curator that proposes names
+implements the same interface.
 
 ## What the numbers do and do not show
 
