@@ -1,0 +1,51 @@
+version: 1
+views:
+  - name: Bag
+    route: "/us/en/shoppingcart/**"
+    url: https://www.ikea.com/us/en/shoppingcart/
+    description: >
+      The shopping bag (/us/en/shoppingcart/). The flow ends here; the
+      CheckoutButton is mapped so it can be named and avoided, not taken.
+    memory:
+      - >
+        The page also renders a grid of suggested add-ons that look like bag
+        rows. BagItem is scoped to the rows that carry a quantity stepper,
+        which the suggestions do not, so a BagItem is really in the bag.
+    components:
+      - $ref: SurveyDialog
+      - $ref: CookieBanner
+      - $ref: SearchField
+      - $ref: BagLink
+      - name: BagItem
+        selector: 'li:has([class*="cart-ingka-quantity-stepper"])'
+        description: >
+          One line item in the bag. The page's own markup uses hashed
+          CSS-module class names for the row and the list, so the row is scoped
+          by what it contains (a quantity stepper) instead.
+        properties:
+          - name: title
+            extract: ItemName.text
+        children:
+          - name: ItemName
+            selector: 'a[class*="productNameLink"]'
+            description: The row's product-name link, e.g. "BILLY".
+            properties:
+              - name: text
+                extract: text
+          - name: RemoveButton
+            selector: 'button[aria-label^="Remove"]'
+            description: Takes the row out of the bag; its aria-label names the item.
+            properties:
+              - name: label
+                extract: attr=aria-label
+      - name: CheckoutButton
+        selector: 'button.cart-ingka-btn--emphasised'
+        description: >
+          "Continue to checkout". Two identical copies of this button are on
+          the page — one under the order summary, one under the recommendations
+          — and nothing distinguishes them, so a query resolves to both. It is
+          mapped to give the button a name to avoid; the bag flow never clicks
+          it.
+        properties:
+          - name: label
+            extract: text

@@ -14,6 +14,7 @@ environment (`TYPESAFE_API_KEY`; `ANTHROPIC_API_KEY` only for
 | `books.json` | books.toscrape.com | `books/.sightmap` (empty) | an unmapped site with 114 raw links on the home page: categories, pagination, detail pages |
 | `flights.json` | Google Flights | `flights/.sightmap` (14 components, 6 memory lines) | the jev-ultrafast task: one-way Zürich to London on September 20, 2026; suggestion dialogs, a select, a typed date, a results page that renders late |
 | `journeys.json` | saucedemo.com | `saucedemo/.sightmap` | two long goals (30–45 steps): three separate orders; sort and buy the two cheapest |
+| `ikea.json` | ikea.com | `ikea/.sightmap` (20 components, 4 views, 14 memory lines) + `ikea/.sightkick` (6 tools) | a large public retail site, about 420 candidates a step: one goal, the KALLAX shelf unit in white into the shopping bag. A consent banner that floats over the lower viewport, a survey modal that can open on any page, a search box whose submit button is hidden until it has focus, an add-to-bag confirmation sheet that is modal, and a bag page built on hashed CSS-module class names. Run it with `--tools ikea` for the tool condition; the suite file carries no `tools` key |
 
 ## Run
 
@@ -34,6 +35,11 @@ sightmap browser start --detach --url 'https://www.google.com/travel/flights?hl=
   --profile ~/.sightmap/profiles/explore-flights --port 7931 --cdp-port 7932
 jev-turbo bench flights.json --repeat 5
 jev-turbo bench flights.json --record ../out/rec && python3 ../scripts/render-demo.py ../out/rec ../out/demo   # the README video
+
+sightmap browser start --detach --headless --url https://www.ikea.com/us/en/ --sightmap-dir ikea/.sightmap \
+  --profile ~/.sightmap/profiles/explore-ikea --port 7957 --cdp-port 7958
+jev-turbo bench ikea.json --repeat 2
+jev-turbo bench ikea.json --tools ikea                 # same goal, over the sightkick tool layer
 ```
 
 Use a fresh profile for Google Flights. After many automated searches from one
@@ -289,6 +295,71 @@ jev-turbo bench saucedemo-tools.json --repeat 3 --out results/saucedemo-tools.js
 cd saucedemo && sightmap browser stop && cd ..
 
 jev-turbo score results/saucedemo-map.json results/saucedemo-tools.json
+```
+
+## IKEA (2026-09-18)
+
+One goal on ikea.com, the KALLAX shelf unit in white into the shopping bag,
+run five times in each of three conditions: `--no-map`, the map in
+`ikea/.sightmap`, and that map's sightkick tools. Jev `jev-latest`, headless,
+in one session on a fresh profile with a 1200×900 window. Three more single
+runs, one per condition, were recorded with `--record`; they are the three
+acts of the README video.
+
+```
+condition=no-map jev:jev-latest: 5/5 ok · 44 steps · 71.6s total · 1.63s/step · model 62 calls, 210 ms/call, 489182+25536 tok · wasted 5 · fallback 0 · low-conf 18 · candidates ~423
+condition=map jev:jev-latest: 5/5 ok · 83 steps · 130.2s total · 1.57s/step · model 133 calls, 208 ms/call, 1072209+50221 tok · wasted 16 · fallback 44 · low-conf 50 · candidates ~423
+condition=tools jev:jev-latest: 5/5 ok · 20 steps · 34.7s total · 1.73s/step · model 15 calls, 267 ms/call, 229193+12353 tok · wasted 0 · fallback 5 · low-conf 2 · candidates ~563
+```
+
+```
+                      ikea/no-map/jev:jev-latest  ikea/map/jev:jev-latest  ikea/tools/jev:jev-latest
+reached               5/5                         5/5                      5/5
+steps / goal          8                           15                       3
+wasted steps          5                           16                       0
+fallback picks        -                           44                       5
+low-confidence picks  18                          50                       2
+candidates offered    423                         423                      563
+low-coverage pages    -                           7                        1
+seconds               71.6                        130.2                    34.7
+```
+
+On ikea.com the map as authored did not help Jev. It took more steps than the
+raw tree: 15 a goal with the map, 8 without it. The run files show why. Enter
+after typing does not submit IKEA's search box, and the visual-search button
+and the Products menu carry no name in the map, which the score counts as 44
+fallback picks and 7 pages where named controls are under half the interactive
+ones. The map's tools cut the goal to 3 steps, because the `search` tool
+submits the search with its own keypress and wait. Improving the map is the
+next curation step, and the score is what points at it.
+
+The suite's earlier goal was the BILLY bookcase. The home page carries a BILLY
+rail with an Add button, so a raw tree reached that goal in three actions, and
+the goal was replaced with the KALLAX shelf unit, which has to be searched for.
+
+The recorded map run reached the goal in 17 steps over 29.0 s, all of it
+captured; the video plays the full run at 1x with no held frames.
+
+Commands:
+
+```bash
+cd bench
+
+rm -rf ~/.sightmap/profiles/explore-ikea-2
+sightmap browser start --detach --headless --url https://www.ikea.com/us/en/ --sightmap-dir ikea/.sightmap \
+  --profile ~/.sightmap/profiles/explore-ikea-2 --port 7957 --cdp-port 7958 --chrome-flag=--window-size=1200,900
+jev-turbo bench ikea.json --repeat 5 --no-map --out results/ikea-no-map.json
+jev-turbo bench ikea.json --repeat 5 --out results/ikea-map.json
+jev-turbo bench ikea.json --repeat 5 --tools ikea --out results/ikea-tools.json
+jev-turbo bench ikea.json --no-map --record ../out/ikea-no-map --out results/ikea-demo-no-map.json
+jev-turbo bench ikea.json --record ../out/ikea-map --out results/ikea-demo-map.json
+jev-turbo bench ikea.json --tools ikea --record ../out/ikea-tools --out results/ikea-demo-tools.json
+cd ikea && sightmap browser stop --port 7957 && cd ..
+
+jev-turbo score results/ikea-no-map.json results/ikea-map.json results/ikea-tools.json
+python3 ../scripts/render-demo.py --compare "without a map=../out/ikea-no-map" \
+  "with a map=../out/ikea-map" "with sightkick tools=../out/ikea-tools" \
+  ../out/demo --subtitle "One goal, one model, three ways in."   # the README video
 ```
 
 ## Growing the corpus (`--grow`)

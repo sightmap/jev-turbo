@@ -1,0 +1,197 @@
+{
+ "suite": "ikea",
+ "picker": "jev:jev-latest",
+ "condition": "tools",
+ "when": "2026-09-18T19:50:56.791863-04:00",
+ "summary": {
+  "goals": 1,
+  "ok": 1,
+  "steps": 4,
+  "ms": 7053,
+  "ms_per_step": 1763.25,
+  "model_calls": 3,
+  "model_ms": 1050,
+  "ms_per_call": 350,
+  "input_tokens": 45819,
+  "output_tokens": 2475,
+  "usd": 0,
+  "wasted": 0,
+  "fallback": 1,
+  "low_confidence": 0,
+  "candidates_median": 563
+ },
+ "runs": [
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 1,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "t:search",
+     "probs": "t:search:0.78 t:close_survey:0.19 g:199:0.03",
+     "done_prob": 0.01,
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 366,
+     "ms_pick": 479,
+     "ms_act": 780,
+     "ms_settle": 631,
+     "ms": 2259,
+     "navigated": true,
+     "candidates": 424,
+     "options": 53,
+     "named": 4,
+     "confidence": 0.78,
+     "tool": "search",
+     "tool_ok": true
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "n1726",
+     "probs": "n1726:0.85 n1704:0.05 n1745:0.03",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 419,
+     "ms_pick": 315,
+     "ms_act": 12,
+     "ms_settle": 81,
+     "ms": 831,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.85,
+     "fallback": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.69 n1728:0.20 n1706:0.04",
+     "done_prob": 0.1,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 484,
+     "ms_pick": 256,
+     "ms_act": 2989,
+     "ms_settle": 83,
+     "ms": 3816,
+     "navigated": true,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.6900000000000001,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 149,
+      "t1": 6,
+      "t2": 15,
+      "t3": 128
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 145,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "comp": "tool:search",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 7053,
+   "picker_stats": {
+    "calls": 3,
+    "ms": 1050,
+    "input_tokens": 45819,
+    "output_tokens": 2475,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 3,
+    "wasted": 0,
+    "fallback": 1,
+    "low_confidence": 0,
+    "candidates_median": 563,
+    "options_median": 78
+   }
+  }
+ ]
+}

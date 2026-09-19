@@ -1,0 +1,131 @@
+version: 1
+
+memory:
+  - >
+    The header search field, the shopping-bag link and the survey dialog are on
+    every page; the bag flow is search → product page → Add to bag → bag link.
+  - >
+    ikea.com hides its sticky header when the page is scrolled down. A click on
+    BagLink right after a click lower on the page can fail with "could not be
+    scrolled into the viewport" — scroll back to the top first, then click it.
+
+components:
+  # ---------------------------------------------------------------- overlays
+  - name: SurveyDialog
+    selector: '[aria-labelledby="hnf-voc-feedback-modal-heading"]:not(.hnf-sheets--close)'
+    description: >
+      IKEA's own "How satisfied are you with your shopping experience?"
+      voice-of-customer survey (10 questions), rendered in the header's
+      hnf-sheets modal. The dialog element is in the DOM on every page even
+      while shut, carrying hnf-sheets--close then and hnf-sheets--enter once it
+      opens, so the selector excludes the shut state: a match means the survey
+      is actually showing. It is keyed on aria-labelledby rather than on
+      [role=dialog][aria-modal=true], which also matches the site's other
+      sheets.
+    memory:
+      - Close the survey dialog before anything else; it covers the page.
+      - >
+        It is a 10-question survey. Answering it is never part of a shopping
+        task — always close it with its CloseButton instead of picking a rating.
+    children:
+      - name: CloseButton
+        selector: 'button.hnf-modal-header__close'
+        properties:
+          - name: label
+            extract: attr=aria-label
+
+  - name: CookieBanner
+    selector: '#onetrust-banner-sdk'
+    description: >
+      OneTrust consent banner, shown on a storage-cleared session. It is an
+      informational banner with a single "Ok" button plus a link into the
+      preference centre; there is no reject-all button on the banner itself.
+    memory:
+      - >
+        The banner floats over the lower half of the viewport, so it can cover
+        a button that a click tries to centre there ("covered by another
+        element"). Dismiss it first, or act on a control near the top of the
+        page.
+    children:
+      - name: AcceptButton
+        selector: '#onetrust-accept-btn-handler'
+        description: Labelled "Ok"; closes the banner.
+        properties:
+          - name: label
+            extract: text
+
+  # ------------------------------------------------------------------ header
+  - name: SearchField
+    selector: '#ikea-search-input'
+    description: >
+      The header search combobox (name="q"). Submitting it lands on
+      /us/en/search/?q=<query>, the Search view.
+    memory:
+      - Type the product name and press Enter; the suggestions are optional.
+      - >
+        Enter only submits while the field still has focus, and the suggestion
+        dropdown that opens on typing can take it away. If the URL is unchanged
+        after typing and pressing Enter, the search did not run — click a
+        SearchSuggestion, which is a plain link to the same results page.
+
+  - name: SearchButton
+    selector: 'form.search-box-form button[type="submit"]'
+    description: >
+      The magnifier submit button of the header search form. Equivalent to
+      pressing Enter in SearchField. The two neighbouring buttons in the same
+      form are "clear the field" and "search by photo", not this one.
+    properties:
+      - name: label
+        extract: text
+
+  - name: SearchSuggestion
+    selector: 'a.search-box-dropdown-link'
+    description: >
+      One row of the suggestion dropdown that opens under SearchField while you
+      type. Each row is a plain link to /us/en/search/?q=<suggestion>, so
+      clicking one runs that search. It is the most dependable way to reach the
+      Search view: SearchButton is hidden until the box has focus, and Enter
+      only works while the field still holds it.
+    properties:
+      - name: label
+        extract: text
+
+  - name: BagLink
+    selector: '[data-tracking-label="shopping-cart"]'
+    description: >
+      Header link to the shopping bag (/us/en/shoppingcart/). There is no
+      separate numeric badge element — the count lives in the link's own label,
+      which reads "Shopping bag" when empty and "Shopping bag, N items"
+      otherwise, so count is the whole label.
+    properties:
+      - name: count
+        extract: text
+
+  # -------------------------------------------------------- add-to-bag sheet
+  - name: AddedToBagSheet
+    selector: '.cart-agent-sheets'
+    description: >
+      The confirmation sheet that opens over the product page after Add to bag
+      ("BILLY was added to your shopping bag"), with a carousel of
+      recommendations. It is removed from the DOM when closed, so a match means
+      it is open.
+    memory:
+      - >
+        This sheet is modal: while it is open, clicks on the page behind it
+        (including the header BagLink) fail as "covered by another element".
+        Either take its own "Go to shopping bag" button or close it first.
+      - >
+        Its footer buttons sit at the bottom of the viewport, where the cookie
+        banner also floats; if "Go to shopping bag" reports as covered, close
+        the sheet and use the header BagLink instead.
+    children:
+      - name: GoToBagButton
+        selector: 'button.cart-agent-btn--emphasised'
+        properties:
+          - name: label
+            extract: text
+      - name: CloseButton
+        selector: 'button.cart-agent-modal-header__close'
+        properties:
+          - name: label
+            extract: attr=aria-label

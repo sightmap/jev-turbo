@@ -1,0 +1,57 @@
+version: 1
+views:
+  - name: Product
+    route: "/us/en/p/**"
+    url: https://www.ikea.com/us/en/p/billy-bookcase-white-20522046/
+    description: >
+      A single product page (/us/en/p/<slug>-<number>/). Add to bag is here;
+      it opens AddedToBagSheet rather than navigating.
+    memory:
+      - >
+        Add to bag does not navigate. It opens the AddedToBagSheet modal over
+        this page and raises the header BagLink count; the bag page is one more
+        click away.
+      - >
+        The page has a second, identical "Add to bag" in a sticky bar that
+        appears once you scroll past the first one. AddToBagButton is the
+        in-page one; either works, so there is no need to scroll for the other.
+    components:
+      - $ref: SurveyDialog
+      - $ref: CookieBanner
+      - $ref: SearchField
+      - $ref: BagLink
+      - $ref: AddedToBagSheet
+      - name: AddToBagButton
+        selector: 'button.pipf-btn--fluid[aria-label="Add to bag"]'
+        description: >
+          The main Add to bag button. Scoped with [aria-label="Add to bag"] and
+          the --fluid modifier so it does not also match the sticky product
+          bar's copy.
+        properties:
+          - name: label
+            extract: text
+      - name: ProductTitle
+        selector: 'h1'
+        description: >
+          The one h1 on the page; reads as the series name and the variant
+          description on two lines, e.g. "BILLY / Bookcase, white, 31 1/2x11x79
+          1/2".
+        properties:
+          - name: text
+            extract: text
+      - name: Price
+        selector: '.pipcom-price-module__price'
+        description: The current price block for the variant on screen.
+        properties:
+          - name: text
+            extract: text
+      - name: VariantOption
+        selector: 'a.pipf-product-style-picker__link'
+        description: >
+          A colour chip in the style picker. Each chip is a link to that
+          variant's own product page, so choosing a colour is a navigation, not
+          an in-page toggle. The colour currently shown is not among them — on
+          the white BILLY page the chips are the four non-white finishes.
+        properties:
+          - name: label
+            extract: attr=aria-label
