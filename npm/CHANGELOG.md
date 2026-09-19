@@ -1,5 +1,17 @@
 # @sightmap/jev-turbo
 
+## 0.2.0
+
+### Minor Changes
+
+- a0ad56f: `--tools DIR` offers the tools of a sightkick layer to the picker ahead of the page's elements. A picked tool runs through `sightkick call --via cli`; its guidance orders the next options; elements remain the fallback when no tool fits or a call fails. Suites can name a `tools` directory. `bench/saucedemo-tools.json` runs the saucedemo goals over the example tool layer.
+
+### Patch Changes
+
+- b7ca543: New demo: the KALLAX shelf unit into the bag on ikea.com three times with the same model and loop: without a map, with a map, and with the map's sightkick tools. `scripts/render-demo.py --compare LABEL=DIR ...` renders recordings as acts and shows the choices offered per step. `bench/ikea.json`, its map, and its tool layer are new.
+- 9099d11: grow decides button, link, input and select from roles and tags, and asks Jev only about repeated containers (nav, card, or noise). `grow.Namer` is an interface with `TemplateNamer` as the default, the place where a curator that proposes names can plug in. `bench --grow` writes the grown components and model calls into the run file. grow is coverage scaffolding: it scopes each new component to the nearest stable ancestor the page already has, verifies the selector, names it from a template, reads off `label`, `href` and `placeholder` as properties, and names views from their routes. Any property beyond those three, a memory line, or a name a person would choose still comes from the authoring skill or a curator.
+- da984e4: `jev-turbo score RUN.json ...` prints one column per run file: goals reached, steps per goal, wasted steps, fallback picks, low-confidence picks, candidates offered, low-coverage pages, seconds. `bench` prints the same block after its table. It is a measure of the map: how a 200 ms driver does over it.
+
 ## 0.1.3
 
 ### Patch Changes
