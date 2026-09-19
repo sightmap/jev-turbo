@@ -4,9 +4,9 @@
 
 Give it one goal. A [sightmap](https://sightmap.org) turns the page into a short list of named actions. [Jev](https://docs.typesafe.ai/introduction), TypeSafe's typed-answer model, picks one and says whether the goal is met. No large model is called to act. jev-turbo runs that loop with the map and without it, over the same site and the same model, and reports what the map changed.
 
-<a href="docs/demo.mp4"><img src="docs/demo.gif" alt="KALLAX into the bag on ikea.com at 1x, three times with the same model. Without a map: 10 steps. With a 20-component map: 16 steps. With the map's sightkick tools: 4 steps." width="100%" /></a>
+<a href="docs/demo.mp4"><img src="docs/demo.gif" alt="KALLAX into the bag on ikea.com at 1x, three times with the same model. Without a map: 10 steps. With a 20-component map: 18 steps. With the map's sightkick tools: 4 steps." width="100%" /></a>
 
-KALLAX into the bag on ikea.com at 1x, three times with the same model. Without a map: 10 steps. With a 20-component map: 16 steps. With the map's sightkick tools: 4 steps. [MP4](docs/demo.mp4) · [The tools run](bench/results/ikea-demo-tools.json) · [All benchmarks](bench/README.md)
+KALLAX into the bag on ikea.com at 1x, three times with the same model. Without a map: 10 steps. With a 20-component map: 18 steps. With the map's sightkick tools: 4 steps. [MP4](docs/demo.mp4) · [The tools run](bench/results/ikea-demo-tools.json) · [All benchmarks](bench/README.md)
 
 ## Three ways in
 

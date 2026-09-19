@@ -14,7 +14,7 @@ environment (`TYPESAFE_API_KEY`; `ANTHROPIC_API_KEY` only for
 | `books.json` | books.toscrape.com | `books/.sightmap` (empty) | an unmapped site with 114 raw links on the home page: categories, pagination, detail pages |
 | `flights.json` | Google Flights | `flights/.sightmap` (14 components, 6 memory lines) | the jev-ultrafast task: one-way Zürich to London on September 20, 2026; suggestion dialogs, a select, a typed date, a results page that renders late |
 | `journeys.json` | saucedemo.com | `saucedemo/.sightmap` | two long goals (30–45 steps): three separate orders; sort and buy the two cheapest |
-| `ikea.json` | ikea.com | `ikea/.sightmap` (20 components, 4 views, 12 memory lines) + `ikea/.sightkick` (6 tools) | a large public retail site, about 420 candidates a step: one goal, the KALLAX shelf unit in white into the shopping bag. A consent banner that floats over the lower viewport, a survey modal that can open on any page, a search box whose submit button is hidden until it has focus, an add-to-bag confirmation sheet that is modal, and a bag page built on hashed CSS-module class names. Run it with `--tools ikea` for the tool condition; the suite file carries no `tools` key |
+| `ikea.json` | ikea.com | `ikea/.sightmap` (20 components, 4 views, 14 memory lines) + `ikea/.sightkick` (6 tools) | a large public retail site, about 420 candidates a step: one goal, the KALLAX shelf unit in white into the shopping bag. A consent banner that floats over the lower viewport, a survey modal that can open on any page, a search box whose submit button is hidden until it has focus, an add-to-bag confirmation sheet that is modal, and a bag page built on hashed CSS-module class names. Run it with `--tools ikea` for the tool condition; the suite file carries no `tools` key |
 
 ## Run
 
@@ -337,9 +337,8 @@ The suite's earlier goal was the BILLY bookcase. The home page carries a BILLY
 rail with an Add button, so a raw tree reached that goal in three actions, and
 the goal was replaced with the KALLAX shelf unit, which has to be searched for.
 
-Frame capture in the recorded map run stopped at 8.8 s of its 48.0 s, on the
-page the run then left. The video holds that last captured page to the end of
-the run, at 1x, and says so in the frame's address bar.
+The recorded map run reached the goal in 18 steps over 29.0 s, all of it
+captured; the video plays the full run at 1x with no held frames.
 
 Commands:
 

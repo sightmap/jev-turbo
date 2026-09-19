@@ -482,12 +482,15 @@ os.makedirs(os.path.dirname(os.path.abspath(out)) or ".", exist_ok=True)
 mp4, gif = out + ".mp4", out + ".gif"
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", os.path.join(tmp, "list.txt"),
                        "-vf", "fps=20,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "23", "-movflags", "+faststart", mp4])
-# 6 fps and 48 colors, so a demo this long still fits in a README GIF under
-# 4 MB; the MP4 is 20 fps and full color.
+# 5 fps and 24 colors, so a demo this long still fits in a README GIF under
+# 4 MB; the MP4 is 20 fps and full color. (With act 2 now fully captured
+# instead of mostly a held frame, the video has much more real motion for
+# its length, so it needs a lower fps/color budget than a mostly-static cut
+# of the same duration would.)
 palette = os.path.join(tmp, "palette.png")
-subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-vf", "fps=6,scale=1152:-1:flags=lanczos,palettegen=max_colors=48", palette])
+subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-vf", "fps=5,scale=1152:-1:flags=lanczos,palettegen=max_colors=24", palette])
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-i", palette, "-lavfi",
-                       "fps=6,scale=1152:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5", "-loop", "0", gif])
+                       "fps=5,scale=1152:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5", "-loop", "0", gif])
 shutil.rmtree(tmp, ignore_errors=True)
 total_frames = sum(len(rec["timeline"]) for rec, _, _ in acts)
 total_rows = sum(len(rec["rows"]) for rec, _, _ in acts)
