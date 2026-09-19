@@ -4,9 +4,9 @@
 
 Give it one goal. A [sightmap](https://sightmap.org) turns the page into a short list of named actions. [Jev](https://docs.typesafe.ai/introduction), TypeSafe's typed-answer model, picks one and says whether the goal is met. No large model is called to act. jev-turbo runs that loop with the map and without it, over the same site and the same model, and reports what the map changed.
 
-<a href="docs/demo.mp4"><img src="docs/demo.gif" alt="KALLAX into the bag on ikea.com at 1x, three times with the same model. Without a map: 9 steps. With a 20-component map: 17 steps. With the map's sightkick tools: 3 steps." width="100%" /></a>
+<a href="docs/demo.mp4"><img src="docs/demo.gif" alt="KALLAX into the bag on ikea.com at 1x, twice with the same model. Without a map: 4 steps. With a 24-component map: 4 steps, every pick a named component." width="100%" /></a>
 
-KALLAX into the bag on ikea.com at 1x, three times with the same model. Without a map: 9 steps. With a 20-component map: 17 steps. With the map's sightkick tools: 3 steps. [MP4](docs/demo.mp4) · [The tools run](bench/results/ikea-demo-tools.json) · [All benchmarks](bench/README.md)
+KALLAX into the bag on ikea.com at 1x, twice with the same model. Without a map: 4 steps. With a 24-component map: 4 steps, every pick a named component and Add to cart at 0.97 instead of 0.81. [MP4](docs/demo.mp4) · [The map run](bench/results/ikea-demo-map.json) · [All benchmarks](bench/README.md)
 
 ## Three ways in
 
@@ -22,7 +22,7 @@ low-coverage pages    -                           7                        1
 seconds               71.6                        130.2                    34.7
 ```
 
-On ikea.com the map as authored did not help Jev. It took more steps than the raw tree: 15 a goal with the map, 8 without it. The run files show why. Enter after typing does not submit IKEA's search box, and the visual-search button and the Products menu carry no name in the map, which the score counts as 44 fallback picks and 7 pages where named controls are under half the interactive ones. The map's tools cut the goal to 3 steps, because the `search` tool submits the search with its own keypress and wait. Improving the map is the next curation step, and the score is what points at it.
+On ikea.com the first runs went the wrong way: 15 steps a goal with the map, 8 without it. The run files, and then a live session, showed why. IKEA's consent banner holds keyboard focus, the driver typed the search into the banner and left the field empty, and the map's memory then steered Jev away from the category route that the raw tree took. With the fill fixed and the map given a Category view and its header menu, both conditions reach the goal in 4 steps, five runs out of five, with no wasted steps; with the map every pick is a named component and Add to cart is picked at 0.97 or better, against 0.76 to 0.86 from the raw tree. The score is what pointed at both problems: 44 fallback picks and 7 low-coverage pages before, 0 and 1 after.
 
 ## Install
 
@@ -115,7 +115,7 @@ jev-turbo graph   [RUN.json ...]
 - The short goals are 2 to 12 steps on cooperative sites; the two long ones cap at 30 and 45 steps, and one of them fails both with and without the map because the loop cannot repeat a flow.
 - Jev picks from what the sightmap library can see: HTML and ARIA controls. Canvas, frames, and file uploads are out.
 - Snapshotting a Google Flights page costs 250 to 350 ms a step, and that is most of the gap to a loop tuned for one page.
-- After a value is typed with the native setter, pressing Enter submits a form only some of the time in headless Chrome. Click the submit control instead.
+- Enter is pressed in the field the last fill typed into. It submits the field's form the way a keyboard does, which is not always what a site's own submit control does; when a search does not run, clicking that control is the fallback.
 
 ## Related work
 

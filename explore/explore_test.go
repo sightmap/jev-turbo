@@ -426,3 +426,42 @@ func TestRepeatedToolCallAtOneURLIsWasted(t *testing.T) {
 		t.Fatalf("the second call of one tool at one URL is wasted: %+v", run.Steps)
 	}
 }
+
+func TestEnterIsPressedInTheFilledField(t *testing.T) {
+	// A fill can leave focus elsewhere (a consent banner's focus trap, a
+	// modal); Enter must go to the field that was filled, not to focus.
+	field := mk("1", "combobox", "Search by product", "input", "type=search", "", true)
+	banner := mk("2", "button", "Ok", "button", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{field, banner}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n1", "enter"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "search", Picker: p, MaxSteps: 2, Spec: &Spec{Values: map[string]string{"search": "KALLAX"}}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(run.Steps) != 2 || run.Steps[1].Action != "pressed Enter" {
+		t.Fatalf("expected fill then Enter, got %+v", run.Steps)
+	}
+	if got := strings.Join(d.clicks, ","); !strings.Contains(got, "enter in 1") {
+		t.Fatalf("Enter should target the filled field n1, driver saw: %s", got)
+	}
+}
+
+func TestEnterAfterAnotherActionTargetsFocus(t *testing.T) {
+	// Once another element has been acted on, the filled field is no longer
+	// where Enter belongs; it goes to whatever holds focus, as before.
+	field := mk("1", "combobox", "Search by product", "input", "type=search", "", true)
+	other := mk("2", "button", "Ok", "button", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{field, other}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n1", "n2", "n1", "enter"}}
+	// Enter is only offered right after a fill, so the script refills before pressing it.
+	_, err := Explore(context.Background(), d, Options{Goal: "search", Picker: p, MaxSteps: 4, Spec: &Spec{Values: map[string]string{"search": "KALLAX", "again": "KALLAX 2"}}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := strings.Join(d.clicks, ",")
+	if !strings.Contains(got, "enter in 1") || strings.Contains(got, ",enter,") || strings.HasSuffix(got, ",enter") {
+		t.Fatalf("Enter after a refill should again target n1, driver saw: %s", got)
+	}
+}

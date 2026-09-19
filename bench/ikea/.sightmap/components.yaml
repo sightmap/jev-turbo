@@ -2,8 +2,11 @@ version: 1
 
 memory:
   - >
-    The header search field, the shopping-bag link and the survey dialog are on
-    every page; the bag flow is search → product page → Add to bag → bag link.
+    The header search field, the NavEntry links, the shopping-bag link and the
+    survey dialog are on every page. Two ways reach a product: search from
+    SearchField, or NavEntry "Products" → a MenuTab → a MenuLink into a
+    Category view. Search and Category views both list ProductCards, and a
+    card's AddToCartButton adds that card's variant to the bag in one step.
   - >
     ikea.com hides its sticky header when the page is scrolled down. A click on
     BagLink right after a click lower on the page can fail with "could not be
@@ -61,12 +64,13 @@ components:
       The header search combobox (name="q"). Submitting it lands on
       /us/en/search/?q=<query>, the Search view.
     memory:
-      - Type the product name and press Enter; the suggestions are optional.
       - >
-        Enter only submits while the field still has focus, and the suggestion
-        dropdown that opens on typing can take it away. If the URL is unchanged
-        after typing and pressing Enter, the search did not run — click a
-        SearchSuggestion, which is a plain link to the same results page.
+        Type the product name and press Enter; the search lands on the Search
+        view. The suggestions that open while typing are optional.
+      - >
+        If the URL is unchanged after Enter, the search did not run: click a
+        SearchSuggestion, a plain link to the same results page, or take
+        NavEntry "Products" into a Category view instead.
 
   - name: SearchButton
     selector: 'form.search-box-form button[type="submit"]'
@@ -90,6 +94,39 @@ components:
       - name: label
         extract: text
 
+  - name: NavEntry
+    selector: 'a.hnf-menu__entrypoint, button.hnf-menu__entrypoint'
+    description: >
+      One of the header's three menu entry points: Products, Rooms, Deals.
+      Rendered as a link on wide windows and a button on narrow ones. Clicking
+      "Products" opens the category mega-menu (MenuTab, MenuLink) over the
+      page without navigating; the link's own href is the all-products page.
+    properties:
+      - name: label
+        extract: text
+
+  - name: MenuTab
+    selector: 'nav.hnf-menu__dropdown .hnf-menu__top-categories__item'
+    description: >
+      A top-level category tab in the open Products mega-menu ("Storage &
+      organization", "Sofas & armchairs", ...). Selecting one swaps the
+      MenuLinks below it; the first tab, "New & trending", is selected when
+      the menu opens.
+    properties:
+      - name: label
+        extract: text
+
+  - name: MenuLink
+    selector: 'nav.hnf-menu__dropdown a.hnf-link'
+    description: >
+      A link in the open Products mega-menu under the selected MenuTab: the
+      sub-categories ("Shelving furniture", "Bookcases", ...) plus a few
+      hotspot links ("Explore storage & organization", "Best selling ..."). A
+      sub-category link lands on a Category view of that category's products.
+    properties:
+      - name: label
+        extract: text
+
   - name: BagLink
     selector: '[data-tracking-label="shopping-cart"]'
     description: >
@@ -101,12 +138,53 @@ components:
       - name: count
         extract: text
 
+  # ------------------------------------------------------- product listings
+  - name: ProductCard
+    selector: '[data-testid="plp-product-card"]'
+    description: >
+      One product tile in a listing, on the Search view and on Category views
+      alike. The card element carries the product's own data attributes
+      (data-product-name, data-price, data-ref-id), so price comes straight
+      off the card and needs no child component.
+    memory:
+      - >
+        AddToCartButton adds the card's own variant to the bag right here,
+        without opening the product page. When the card's title is the variant
+        wanted, that is one step instead of three (open, Add to bag, close the
+        sheet). The button's aria-label names the product it adds.
+    properties:
+      - name: title
+        extract: ProductLink.label
+      - name: price
+        extract: attr=data-price
+    children:
+      - name: ProductLink
+        selector: 'a.plp-price-module__product-link'
+        description: >
+          The card's title link to the product page. Its visible text is only
+          the series name ("KALLAX"); the aria-label is the full,
+          distinguishing title ("KALLAX, Shelf unit, white, 30 1/8x57 5/8 "),
+          so label reads that.
+        properties:
+          - name: label
+            extract: attr=aria-label
+      - name: AddToCartButton
+        selector: 'button.plp-btn--icon-emphasised[aria-label^="Add "]'
+        description: >
+          The card's "Add ... to cart" button. It adds this card's variant to
+          the bag and raises the header BagLink count; nothing navigates. The
+          neighbouring "Save ... to shopping list" button is a different
+          control and not this one.
+        properties:
+          - name: label
+            extract: attr=aria-label
+
   # -------------------------------------------------------- add-to-bag sheet
   - name: AddedToBagSheet
     selector: '.cart-agent-sheets'
     description: >
       The confirmation sheet that opens over the product page after Add to bag
-      ("BILLY was added to your shopping bag"), with a carousel of
+      ("KALLAX was added to your shopping bag"), with a carousel of
       recommendations. It is removed from the DOM when closed, so a match means
       it is open.
     memory:

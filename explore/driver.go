@@ -32,8 +32,11 @@ type Driver interface {
 	WaitForOptions(ctx context.Context, max time.Duration, typed string) bool
 	// Wait pauses without acting (the "wait" meta action).
 	Wait(ctx context.Context, d time.Duration)
-	// PressEnter sends Enter to the focused element.
-	PressEnter(ctx context.Context) error
+	// PressEnter sends Enter to n after giving it focus, or to whatever holds
+	// focus when n is nil. A fill does not always leave focus in the field it
+	// typed into (a consent banner's focus trap, a modal), and Enter goes to the
+	// focused element, so the field that was filled is the one to press it in.
+	PressEnter(ctx context.Context, n *Node) error
 	Navigate(ctx context.Context, url string) error
 	ClearStorage(ctx context.Context) error
 }
@@ -99,10 +102,13 @@ func (d *CDPDriver) Fill(ctx context.Context, n *Node, value string) error {
 	if IsCombobox(n) {
 		// Clicking a suggestion field can open a dialog whose own input takes
 		// focus; key events go to the focused element, so type and verify there.
+		// Only another text field counts: a synthetic click does not move
+		// focus, so whatever held it before (a consent banner, a modal) is
+		// still the active element, and typing there fills nothing.
 		target := n.Raw
 		if err := d.Click(ctx, n); err == nil {
 			sleepCtx(ctx, 80*time.Millisecond)
-			if res, err := browser.EvalJSON(ctx, d.Conn, `(function(){var a=document.activeElement;return a&&a.getAttribute?(a.getAttribute('data-sightmap-id')||''):'';})()`); err == nil {
+			if res, err := browser.EvalJSON(ctx, d.Conn, `(function(){var a=document.activeElement;if(!a||!a.getAttribute)return '';var t=a.tagName;var typed=t==='INPUT'||t==='TEXTAREA'||a.isContentEditable;return typed?(a.getAttribute('data-sightmap-id')||''):'';})()`); err == nil {
 				var id string
 				if json.Unmarshal(res, &id) == nil && id != "" && id != n.ID {
 					if node, err := browser.ResolveBySightmapID(ctx, d.Conn, id); err == nil {
@@ -111,7 +117,10 @@ func (d *CDPDriver) Fill(ctx context.Context, n *Node, value string) error {
 				}
 			}
 		}
-		if err := browser.ClearAndFill(ctx, d.Conn, target, value); err == nil {
+		// ClearAndFill verifies the field it typed into, which is the field
+		// that held focus. Check the field that was asked for: when the value
+		// landed somewhere else, or nowhere, set it here instead.
+		if err := browser.ClearAndFill(ctx, d.Conn, target, value); err == nil && d.holdsValue(ctx, n, value) {
 			return nil
 		}
 	}
@@ -166,7 +175,11 @@ func (d *CDPDriver) WaitForOptions(ctx context.Context, max time.Duration, typed
 		needle = needle[:6]
 	}
 	nj, _ := json.Marshal(needle)
-	script := `(function(){var os=Array.from(document.querySelectorAll('[role="option"],[role="listbox"] li,ul[role="listbox"] > *')).filter(function(o){var r=o.getBoundingClientRect();return r.width>0&&r.height>0;});var n=` + string(nj) + `;var hit=os.some(function(o){return n&&((o.textContent||'')+' '+(o.getAttribute('aria-label')||'')).toLowerCase().indexOf(n)>=0;});return [os.length,hit];})()`
+	// Entries are role=option nodes, listbox items, or, for a combobox that
+	// names its list through aria-controls or aria-owns, that list's visible
+	// links and items: a suggestion dropdown made of plain links is still a
+	// suggestion list.
+	script := `(function(){var vis=function(o){var r=o.getBoundingClientRect();return r.width>0&&r.height>0;};var os=Array.from(document.querySelectorAll('[role="option"],[role="listbox"] li,ul[role="listbox"] > *')).filter(vis);Array.prototype.forEach.call(document.querySelectorAll('[role="combobox"][aria-controls],[aria-autocomplete][aria-controls],[role="combobox"][aria-owns],[aria-autocomplete][aria-owns]'),function(cb){var ids=((cb.getAttribute('aria-controls')||'')+' '+(cb.getAttribute('aria-owns')||'')).split(/\s+/);ids.forEach(function(id){var list=id&&document.getElementById(id);if(!list||!vis(list))return;Array.prototype.forEach.call(list.querySelectorAll('a,li,button,[role="option"]'),function(o){if(vis(o)&&(o.textContent||'').trim()&&os.indexOf(o)<0)os.push(o);});});});var n=` + string(nj) + `;var hit=os.some(function(o){return n&&((o.textContent||'')+' '+(o.getAttribute('aria-label')||'')).toLowerCase().indexOf(n)>=0;});return [os.length,hit];})()`
 	anyShown := false
 	for {
 		res, err := browser.EvalJSON(ctx, d.Conn, script)
@@ -190,8 +203,34 @@ func (d *CDPDriver) WaitForOptions(ctx context.Context, max time.Duration, typed
 
 func (d *CDPDriver) Wait(ctx context.Context, dur time.Duration) { sleepCtx(ctx, dur) }
 
-func (d *CDPDriver) PressEnter(ctx context.Context) error {
+func (d *CDPDriver) PressEnter(ctx context.Context, n *Node) error {
+	if n != nil {
+		// Focus the field first: key events go to the active element, and the
+		// fill may have left focus elsewhere. A field that is gone is not an
+		// error here; Enter then goes wherever focus is, as before.
+		browser.EvalJSON(ctx, d.Conn, jsByID(n.ID, `try{el.focus();}catch(e){} return 'ok';`))
+	}
 	return browser.KeyPress(ctx, d.Conn, "Enter")
+}
+
+// holdsValue reports whether the field n holds what was typed. Only an empty
+// field is a miss: a value the page reformatted (a masked input) still landed,
+// and a field whose value cannot be read (gone, or not an input) counts as
+// holding it, so the check only ever adds a fallback for a fill that
+// verifiably did not land.
+func (d *CDPDriver) holdsValue(ctx context.Context, n *Node, value string) bool {
+	if strings.TrimSpace(value) == "" {
+		return true
+	}
+	res, err := browser.EvalJSON(ctx, d.Conn, jsByID(n.ID, `if(typeof el.value!=='string')return null;return el.value;`))
+	if err != nil || string(res) == `"noel"` || string(res) == "null" {
+		return true
+	}
+	var got string
+	if json.Unmarshal(res, &got) != nil {
+		return true
+	}
+	return strings.TrimSpace(got) != ""
 }
 
 func (d *CDPDriver) Back(ctx context.Context) error {
