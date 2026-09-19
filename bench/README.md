@@ -148,6 +148,72 @@ its entries had rendered into the tree; commit `abfadba` fixes this by
 looking twice for suggestion options before falling back to the whole page.
 Both fixes are on this branch, ahead of the six runs in the table above.
 
+## Map score
+
+`jev-turbo score` reads one or more files, each a bench result or a single
+run file, and prints one column per file, so any number of runs sit side by
+side. It is the table above, built by `explore.ScoreResult` instead of by
+hand, and it runs on any run file, not only a map-versus-no-map pair.
+
+The score reads on the map only when the picker is held fixed. Run the same
+picker over two maps, or over a map and `--no-map`, and the difference
+between the columns is what the map changed. A different picker moves every
+row too, as the Jev-versus-Claude rows above show. For a curator holding the
+picker fixed, the rows to watch are wasted steps, fallback picks,
+low-confidence picks, and candidates offered. A page that scores badly on
+those is a page where a name, a property, or a memory line is missing.
+
+- `reached`: goals reached out of goals attempted (`Score.Reached` /
+  `Score.Goals`).
+- `steps / goal`: median acted steps per reached goal. The closing `done`,
+  `done(judged)` and `no-candidates` records are not actions and are not
+  counted (`IsAction`, `explore/metrics.go`).
+- `wasted steps`: total across the runs in the file of steps that repeat
+  work: a stale pick, a back, or a control already acted on at this URL
+  (`Step.Wasted`).
+- `fallback picks`: total across the runs in the file of picks where a map
+  exists but Jev's pick carries no sightmap component (`Step.Fallback`). A
+  page with many of these needs more named components. A fallback needs a map
+  to fire, so this row prints `-` under `--no-map`.
+- `low-confidence picks`: total across the runs in the file of steps where
+  Jev's own probability for the picked option is above 0 and below 0.6, the
+  `LowConfidence` constant in `explore/metrics.go`. A component whose name is
+  close to a neighbor's tends to show up here.
+- `candidates offered`: median candidates left after the guards, before Jev
+  sees any names (`Step.Candidates`). A high count next to a low reach rate
+  points at a page that needs to be split into more specific components.
+- `low-coverage pages`: distinct URLs where named controls are under half of
+  the interactive ones (`Score.LowCoveragePages`). These are the pages to map
+  next. Coverage is measured against the corpus, so this row prints `-` under
+  `--no-map`.
+- `seconds`: total wall time across the runs in the file.
+
+A run file written before these metrics existed carries no counts. On such a
+file `wasted steps`, `fallback picks`, `low-confidence picks` and
+`candidates offered` all print `-`.
+
+Command:
+
+```bash
+jev-turbo score results/saucedemo-map.json results/saucedemo-no-map.json \
+  results/journeys-map.json results/journeys-no-map.json \
+  results/flights-map.json results/flights-no-map.json
+```
+
+Output:
+
+```
+                      saucedemo/map/jev:jev-latest  saucedemo/no-map/jev:jev-latest  journeys/map/jev:jev-latest  journeys/no-map/jev:jev-latest  flights/map/jev:jev-latest  flights/no-map/jev:jev-latest
+reached               30/30                         30/30                            3/6                          3/6                             10/10                       10/10
+steps / goal          4.5                           4.5                              13                           13                              10                          15
+wasted steps          3                             3                                63                           53                              7                           12
+fallback picks        3                             -                                12                           -                               0                           -
+low-confidence picks  0                             2                                34                           49                              4                           47
+candidates offered    3                             3                                9                            10                              78                          78
+low-coverage pages    0                             -                                0                            -                               5                           -
+seconds               48.4                          45.6                             53.8                         53.4                            116.3                       143.2
+```
+
 ## Growing the corpus (`--grow`)
 
 `jev-turbo bench books.json --grow --repeat 3`, starting from
