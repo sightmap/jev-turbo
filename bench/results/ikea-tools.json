@@ -1,0 +1,885 @@
+{
+ "suite": "ikea",
+ "picker": "jev:jev-latest",
+ "condition": "tools",
+ "when": "2026-09-18T19:48:17.039823-04:00",
+ "summary": {
+  "goals": 5,
+  "ok": 5,
+  "steps": 20,
+  "ms": 34660,
+  "ms_per_step": 1733,
+  "model_calls": 15,
+  "model_ms": 4003,
+  "ms_per_call": 266.8666666666667,
+  "input_tokens": 229193,
+  "output_tokens": 12353,
+  "usd": 0,
+  "wasted": 0,
+  "fallback": 5,
+  "low_confidence": 2,
+  "candidates_median": 563
+ },
+ "runs": [
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 1,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "t:search",
+     "probs": "t:search:0.84 t:close_survey:0.14 g:199:0.02",
+     "done_prob": 0.01,
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 346,
+     "ms_pick": 412,
+     "ms_act": 934,
+     "ms_settle": 479,
+     "ms": 2174,
+     "navigated": true,
+     "candidates": 424,
+     "options": 53,
+     "named": 4,
+     "confidence": 0.84,
+     "tool": "search",
+     "tool_ok": true
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "n1634",
+     "probs": "n1634:0.83 n1612:0.06 n1806:0.03",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 348,
+     "ms_pick": 293,
+     "ms_act": 21,
+     "ms_settle": 84,
+     "ms": 751,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.83,
+     "fallback": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.59 n1728:0.30 n1706:0.04",
+     "done_prob": 0.08,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 451,
+     "ms_pick": 224,
+     "ms_act": 3023,
+     "ms_settle": 84,
+     "ms": 3785,
+     "navigated": true,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.59,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 149,
+      "t1": 6,
+      "t2": 15,
+      "t3": 128
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 146,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "comp": "tool:search",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 6857,
+   "picker_stats": {
+    "calls": 3,
+    "ms": 929,
+    "input_tokens": 45807,
+    "output_tokens": 2475,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 3,
+    "wasted": 0,
+    "fallback": 1,
+    "low_confidence": 1,
+    "candidates_median": 563,
+    "options_median": 78
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 2,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "t:search",
+     "probs": "t:search:0.80 t:close_survey:0.17 g:199:0.03",
+     "done_prob": 0.01,
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 359,
+     "ms_pick": 205,
+     "ms_act": 832,
+     "ms_settle": 852,
+     "ms": 2252,
+     "navigated": true,
+     "candidates": 424,
+     "options": 53,
+     "named": 4,
+     "confidence": 0.8,
+     "tool": "search",
+     "tool_ok": true
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "n1726",
+     "probs": "n1726:0.80 n1704:0.08 n1689:0.03",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 410,
+     "ms_pick": 289,
+     "ms_act": 23,
+     "ms_settle": 82,
+     "ms": 809,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.8,
+     "fallback": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.69 n1728:0.21 n1706:0.03",
+     "done_prob": 0.09,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 582,
+     "ms_pick": 314,
+     "ms_act": 3054,
+     "ms_settle": 84,
+     "ms": 4038,
+     "navigated": true,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.6900000000000001,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 149,
+      "t1": 6,
+      "t2": 15,
+      "t3": 128
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 144,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "comp": "tool:search",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 7244,
+   "picker_stats": {
+    "calls": 3,
+    "ms": 807,
+    "input_tokens": 45813,
+    "output_tokens": 2475,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 3,
+    "wasted": 0,
+    "fallback": 1,
+    "low_confidence": 0,
+    "candidates_median": 563,
+    "options_median": 78
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 3,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "t:search",
+     "probs": "t:search:0.80 t:close_survey:0.17 g:199:0.02",
+     "done_prob": 0.01,
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 346,
+     "ms_pick": 261,
+     "ms_act": 709,
+     "ms_settle": 722,
+     "ms": 2040,
+     "navigated": true,
+     "candidates": 424,
+     "options": 53,
+     "named": 4,
+     "confidence": 0.8,
+     "tool": "search",
+     "tool_ok": true
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "n1726",
+     "probs": "n1726:0.77 n1704:0.10 n1689:0.04",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 414,
+     "ms_pick": 247,
+     "ms_act": 17,
+     "ms_settle": 83,
+     "ms": 765,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.77,
+     "fallback": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.74 n1728:0.17 n1706:0.03",
+     "done_prob": 0.09,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 474,
+     "ms_pick": 378,
+     "ms_act": 2996,
+     "ms_settle": 84,
+     "ms": 3936,
+     "navigated": true,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.74,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 149,
+      "t1": 6,
+      "t2": 15,
+      "t3": 128
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 140,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "comp": "tool:search",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 6884,
+   "picker_stats": {
+    "calls": 3,
+    "ms": 885,
+    "input_tokens": 45813,
+    "output_tokens": 2475,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 3,
+    "wasted": 0,
+    "fallback": 1,
+    "low_confidence": 0,
+    "candidates_median": 563,
+    "options_median": 78
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 4,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "t:search",
+     "probs": "t:search:0.79 t:close_survey:0.18 g:199:0.03",
+     "done_prob": 0.01,
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 342,
+     "ms_pick": 206,
+     "ms_act": 1007,
+     "ms_settle": 675,
+     "ms": 2232,
+     "navigated": true,
+     "candidates": 424,
+     "options": 53,
+     "named": 4,
+     "confidence": 0.79,
+     "tool": "search",
+     "tool_ok": true
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 37,
+      "t2": 485,
+      "t3": 198
+     },
+     "pick": "n1713",
+     "probs": "n1713:0.71 n1691:0.15 t:close_survey:0.05",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 405,
+     "ms_pick": 217,
+     "ms_act": 21,
+     "ms_settle": 84,
+     "ms": 731,
+     "candidates": 561,
+     "options": 77,
+     "named": 37,
+     "confidence": 0.71,
+     "fallback": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 37,
+      "t2": 485,
+      "t3": 198
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.86 n1715:0.07 n1693:0.02",
+     "done_prob": 0.1,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 465,
+     "ms_pick": 321,
+     "ms_act": 2996,
+     "ms_settle": 84,
+     "ms": 3870,
+     "navigated": true,
+     "candidates": 561,
+     "options": 77,
+     "named": 37,
+     "confidence": 0.86,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 149,
+      "t1": 6,
+      "t2": 15,
+      "t3": 128
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 145,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "comp": "tool:search",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 6980,
+   "picker_stats": {
+    "calls": 3,
+    "ms": 744,
+    "input_tokens": 45947,
+    "output_tokens": 2453,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 3,
+    "wasted": 0,
+    "fallback": 1,
+    "low_confidence": 0,
+    "candidates_median": 561,
+    "options_median": 77
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 5,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "t:search",
+     "probs": "t:search:0.81 t:close_survey:0.16 g:199:0.03",
+     "done_prob": 0.01,
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 341,
+     "ms_pick": 179,
+     "ms_act": 732,
+     "ms_settle": 746,
+     "ms": 2001,
+     "navigated": true,
+     "candidates": 424,
+     "options": 53,
+     "named": 4,
+     "confidence": 0.81,
+     "tool": "search",
+     "tool_ok": true
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "n1726",
+     "probs": "n1726:0.82 n1704:0.07 n1745:0.03",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX+shelf+unit",
+     "ms_snap": 395,
+     "ms_pick": 223,
+     "ms_act": 23,
+     "ms_settle": 84,
+     "ms": 730,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.8200000000000001,
+     "fallback": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 37,
+      "t2": 485,
+      "t3": 200
+     },
+     "pick": "t:open_bag",
+     "probs": "t:open_bag:0.59 n1728:0.28 n1706:0.04",
+     "done_prob": 0.1,
+     "action": "ran tool open_bag()",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 479,
+     "ms_pick": 236,
+     "ms_act": 3008,
+     "ms_settle": 85,
+     "ms": 3812,
+     "navigated": true,
+     "candidates": 563,
+     "options": 78,
+     "named": 37,
+     "confidence": 0.59,
+     "tool": "open_bag",
+     "tool_ok": true
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 149,
+      "t1": 6,
+      "t2": 15,
+      "t3": 128
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 151,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "ran tool search(query=KALLAX shelf unit)",
+     "comp": "tool:search",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "ran tool open_bag()",
+     "comp": "tool:open_bag",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 6695,
+   "picker_stats": {
+    "calls": 3,
+    "ms": 638,
+    "input_tokens": 45813,
+    "output_tokens": 2475,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 3,
+    "wasted": 0,
+    "fallback": 1,
+    "low_confidence": 1,
+    "candidates_median": 563,
+    "options_median": 78
+   }
+  }
+ ]
+}

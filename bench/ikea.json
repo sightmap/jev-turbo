@@ -1,0 +1,37 @@
+{
+  "name": "ikea",
+  "sightmap_dir": "ikea/.sightmap",
+  "start_url": "https://www.ikea.com/us/en/",
+  "reset": "clear-storage",
+  "avoid": [
+    "Checkout",
+    "Continue to checkout",
+    "Pay"
+  ],
+  "goals": [
+    {
+      "name": "kallax-into-the-bag",
+      "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+      "max_steps": 24,
+      "spec": {
+        "done_when": {
+          "all": [
+            {
+              "url_contains": "/shoppingcart"
+            },
+            {
+              "text_contains": "KALLAX"
+            },
+            {
+              "text_contains": "white"
+            }
+          ]
+        },
+        "values": {
+          "search": "KALLAX shelf unit",
+          "query": "KALLAX shelf unit"
+        }
+      }
+    }
+  ]
+}

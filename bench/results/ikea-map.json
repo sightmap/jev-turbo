@@ -1,0 +1,2992 @@
+{
+ "suite": "ikea",
+ "picker": "jev:jev-latest",
+ "condition": "map",
+ "when": "2026-09-18T19:45:34.531701-04:00",
+ "summary": {
+  "goals": 5,
+  "ok": 5,
+  "steps": 83,
+  "ms": 130181,
+  "ms_per_step": 1568.44578313253,
+  "model_calls": 133,
+  "model_ms": 27712,
+  "ms_per_call": 208.3609022556391,
+  "input_tokens": 1072209,
+  "output_tokens": 50221,
+  "usd": 0,
+  "wasted": 16,
+  "fallback": 44,
+  "low_confidence": 50,
+  "candidates_median": 423
+ },
+ "runs": [
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 1,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 350,
+     "ms_pick": 646,
+     "ms_act": 140,
+     "ms_settle": 1716,
+     "ms": 2855,
+     "candidates": 424,
+     "options": 50,
+     "named": 4,
+     "confidence": 1,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n204",
+     "group": "g:200",
+     "probs": "n204:1.00 n212:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1018,
+     "ms_pick": 343,
+     "ms_act": 142,
+     "ms_settle": 1720,
+     "ms": 3226,
+     "candidates": 424,
+     "options": 51,
+     "named": 4,
+     "confidence": 0.76,
+     "group_confidence": 0.76,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "enter",
+     "probs": "enter:0.60 g:4906:0.13 g:131:0.06",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 992,
+     "ms_pick": 205,
+     "ms_act": 6,
+     "ms_settle": 85,
+     "ms": 1291,
+     "candidates": 423,
+     "options": 51,
+     "named": 3,
+     "confidence": 0.6
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n178",
+     "group": "g:131",
+     "probs": "n178:0.77 n151:0.15 n166:0.04",
+     "done_prob": 0.01,
+     "action": "clicked link \"IKEA Home\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 335,
+     "ms_pick": 362,
+     "ms_act": 46,
+     "ms_settle": 1298,
+     "ms": 2043,
+     "candidates": 423,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.20020000000000002,
+     "group_confidence": 0.26,
+     "fallback": true
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n177",
+     "group": "g:130",
+     "probs": "n177:0.74 n150:0.21 n157:0.02",
+     "done_prob": 0.01,
+     "action": "clicked link \"IKEA Home\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 323,
+     "ms_pick": 392,
+     "ms_act": 82,
+     "ms_settle": 543,
+     "ms": 1342,
+     "candidates": 423,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.1406,
+     "group_confidence": 0.19,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n4840",
+     "group": "g:4818",
+     "probs": "n4840:1.00 n4830:0.00 n4832:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 394,
+     "ms_pick": 381,
+     "ms_act": 6,
+     "ms_settle": 84,
+     "ms": 868,
+     "candidates": 422,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.21000000000000002,
+     "group_confidence": 0.21000000000000002
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n211",
+     "group": "g:199",
+     "probs": "n211:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 335,
+     "ms_pick": 362,
+     "ms_act": 5,
+     "ms_settle": 88,
+     "ms": 794,
+     "candidates": 422,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.25,
+     "group_confidence": 0.25,
+     "fallback": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n232",
+     "group": "g:230",
+     "probs": "n232:0.92 n263:0.07 n245:0.01",
+     "done_prob": 0.01,
+     "action": "clicked button \"Close\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 277,
+     "ms_pick": 356,
+     "ms_act": 9,
+     "ms_settle": 84,
+     "ms": 728,
+     "candidates": 422,
+     "options": 49,
+     "named": 1,
+     "confidence": 0.47840000000000005,
+     "group_confidence": 0.52,
+     "fallback": true
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n182",
+     "group": "g:181",
+     "probs": "n182:1.00 n184:0.00 n186:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 363,
+     "ms_pick": 387,
+     "ms_act": 18,
+     "ms_settle": 1620,
+     "ms": 2392,
+     "candidates": 416,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.27,
+     "group_confidence": 0.27,
+     "fallback": true
+    },
+    {
+     "step": 10,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n346",
+     "group": "g:334",
+     "probs": "n346:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 983,
+     "ms_pick": 429,
+     "ms_act": 13,
+     "ms_settle": 83,
+     "ms": 1511,
+     "candidates": 457,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.33,
+     "group_confidence": 0.33,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 11,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n182",
+     "group": "g:181",
+     "probs": "n182:1.00 n184:0.00 n186:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 309,
+     "ms_pick": 433,
+     "ms_act": 12,
+     "ms_settle": 1595,
+     "ms": 2352,
+     "candidates": 421,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.36,
+     "group_confidence": 0.36,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 638,
+      "t1": 2,
+      "t2": 0,
+      "t3": 636
+     },
+     "pick": "n203",
+     "group": "g:200",
+     "probs": "n203:0.97 n225:0.03 n201:0.00",
+     "done_prob": 0.02,
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 949,
+     "ms_pick": 412,
+     "ms_act": 14,
+     "ms_settle": 84,
+     "ms": 1462,
+     "candidates": 461,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.2328,
+     "group_confidence": 0.24000000000000002,
+     "fallback": true
+    },
+    {
+     "step": 13,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 640,
+      "t1": 2,
+      "t2": 0,
+      "t3": 638
+     },
+     "pick": "n276",
+     "probs": "n276:0.92 scroll:0.03 g:130:0.01",
+     "done_prob": 0.01,
+     "action": "clicked link \"Shelving furniture\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 315,
+     "ms_pick": 291,
+     "ms_act": 8,
+     "ms_settle": 844,
+     "ms": 1461,
+     "navigated": true,
+     "candidates": 466,
+     "options": 53,
+     "named": 1,
+     "confidence": 0.92,
+     "fallback": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 705,
+      "t1": 2,
+      "t2": 0,
+      "t3": 703
+     },
+     "pick": "n2280",
+     "probs": "n2280:0.86 n2243:0.05 n2258:0.04",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 371,
+     "ms_pick": 208,
+     "ms_act": 20,
+     "ms_settle": 81,
+     "ms": 682,
+     "candidates": 550,
+     "options": 46,
+     "named": 2,
+     "confidence": 0.86,
+     "fallback": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 705,
+      "t1": 2,
+      "t2": 0,
+      "t3": 703
+     },
+     "pick": "n269",
+     "group": "g:241",
+     "probs": "n269:1.00 n251:0.00 n261:0.00",
+     "done_prob": 0.05,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 506,
+     "ms_pick": 380,
+     "ms_act": 59,
+     "ms_settle": 703,
+     "ms": 1651,
+     "navigated": true,
+     "candidates": 550,
+     "options": 46,
+     "named": 2,
+     "confidence": 0.74,
+     "group_confidence": 0.74
+    },
+    {
+     "step": 16,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 76,
+      "t1": 2,
+      "t2": 0,
+      "t3": 74
+     },
+     "pick": "wait",
+     "probs": "wait:0.55 n232:0.20 scroll:0.15",
+     "done_prob": 0.36,
+     "action": "waited",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 55,
+     "ms_pick": 166,
+     "ms_act": 236,
+     "ms_settle": 81,
+     "ms": 539,
+     "candidates": 61,
+     "options": 16,
+     "named": 2,
+     "confidence": 0.55
+    },
+    {
+     "step": 17,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 102,
+      "t1": 4,
+      "t2": 10,
+      "t3": 88
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 97,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"IKEA Home\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"IKEA Home\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "comp": "AcceptButton",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Close\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"Shelving furniture\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    },
+    {
+     "from": "Bag",
+     "action": "waited",
+     "to": "Bag",
+     "changed": false
+    }
+   ],
+   "ms": 25304,
+   "picker_stats": {
+    "calls": 28,
+    "ms": 5743,
+    "input_tokens": 223741,
+    "output_tokens": 10189,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 16,
+    "wasted": 4,
+    "fallback": 10,
+    "low_confidence": 10,
+    "candidates_median": 423,
+    "options_median": 50
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 2,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 337,
+     "ms_pick": 474,
+     "ms_act": 138,
+     "ms_settle": 1701,
+     "ms": 2652,
+     "candidates": 424,
+     "options": 50,
+     "named": 4,
+     "confidence": 0.99,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 996,
+     "ms_pick": 575,
+     "ms_act": 119,
+     "ms_settle": 1788,
+     "ms": 3480,
+     "candidates": 424,
+     "options": 51,
+     "named": 4,
+     "confidence": 0.77,
+     "group_confidence": 0.77,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "enter",
+     "probs": "enter:0.61 g:4905:0.13 g:130:0.07",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 966,
+     "ms_pick": 208,
+     "ms_act": 5,
+     "ms_settle": 84,
+     "ms": 1265,
+     "candidates": 423,
+     "options": 51,
+     "named": 3,
+     "confidence": 0.61
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n4927",
+     "group": "g:4905",
+     "probs": "n4927:1.00 n4917:0.00 n4919:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 336,
+     "ms_pick": 414,
+     "ms_act": 6,
+     "ms_settle": 84,
+     "ms": 843,
+     "candidates": 423,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.3,
+     "group_confidence": 0.3
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 588,
+      "t1": 4,
+      "t2": 5,
+      "t3": 579
+     },
+     "pick": "n177",
+     "group": "g:130",
+     "probs": "n177:0.79 n150:0.13 n165:0.04",
+     "done_prob": 0.01,
+     "action": "clicked link \"IKEA Home\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 372,
+     "ms_pick": 405,
+     "ms_act": 92,
+     "ms_settle": 1104,
+     "ms": 1976,
+     "candidates": 424,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.18960000000000002,
+     "group_confidence": 0.24000000000000002,
+     "fallback": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n187",
+     "group": "g:186",
+     "probs": "n187:1.00 n189:0.00 n191:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 335,
+     "ms_pick": 374,
+     "ms_act": 18,
+     "ms_settle": 1713,
+     "ms": 2442,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.22,
+     "group_confidence": 0.22,
+     "fallback": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n351",
+     "group": "g:339",
+     "probs": "n351:1.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1015,
+     "ms_pick": 382,
+     "ms_act": 13,
+     "ms_settle": 84,
+     "ms": 1497,
+     "candidates": 458,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.23,
+     "group_confidence": 0.23,
+     "fallback": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n372",
+     "group": "g:370",
+     "probs": "n372:0.93 n403:0.06 n385:0.01",
+     "done_prob": 0.01,
+     "action": "clicked button \"Close\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 317,
+     "ms_pick": 395,
+     "ms_act": 5,
+     "ms_settle": 84,
+     "ms": 804,
+     "candidates": 423,
+     "options": 49,
+     "named": 1,
+     "confidence": 0.4278,
+     "group_confidence": 0.46,
+     "fallback": true
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n187",
+     "group": "g:186",
+     "probs": "n187:1.00 n189:0.00 n191:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 385,
+     "ms_pick": 372,
+     "ms_act": 13,
+     "ms_settle": 1722,
+     "ms": 2494,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.4,
+     "group_confidence": 0.4,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 10,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n351",
+     "group": "g:339",
+     "probs": "n351:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 973,
+     "ms_pick": 458,
+     "ms_act": 9,
+     "ms_settle": 87,
+     "ms": 1531,
+     "candidates": 457,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.34,
+     "group_confidence": 0.34,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 11,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n605",
+     "group": "g:595",
+     "probs": "n605:0.96 n671:0.04 n597:0.00",
+     "done_prob": 0.01,
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "ms_snap": 312,
+     "ms_pick": 415,
+     "ms_act": 11,
+     "ms_settle": 835,
+     "ms": 1576,
+     "navigated": true,
+     "candidates": 421,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.432,
+     "group_confidence": 0.45,
+     "fallback": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "coverage": {
+      "interactive": 453,
+      "t1": 2,
+      "t2": 0,
+      "t3": 451
+     },
+     "pick": "n206",
+     "group": "g:202",
+     "probs": "n206:1.00 n214:0.00",
+     "done_prob": 0.02,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "ms_snap": 349,
+     "ms_pick": 380,
+     "ms_act": 128,
+     "ms_settle": 1657,
+     "ms": 2517,
+     "candidates": 294,
+     "options": 55,
+     "named": 2,
+     "confidence": 0.48,
+     "group_confidence": 0.48
+    },
+    {
+     "step": 13,
+     "url": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "coverage": {
+      "interactive": 479,
+      "t1": 2,
+      "t2": 0,
+      "t3": 477
+     },
+     "pick": "enter",
+     "probs": "enter:0.53 g:202:0.19 n1915:0.15",
+     "done_prob": 0.02,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "ms_snap": 1030,
+     "ms_pick": 232,
+     "ms_act": 6,
+     "ms_settle": 84,
+     "ms": 1355,
+     "candidates": 319,
+     "options": 63,
+     "named": 2,
+     "confidence": 0.53
+    },
+    {
+     "step": 14,
+     "url": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "coverage": {
+      "interactive": 479,
+      "t1": 2,
+      "t2": 0,
+      "t3": 477
+     },
+     "pick": "n2912",
+     "probs": "n2912:0.48 n1915:0.24 g:202:0.21",
+     "done_prob": 0.02,
+     "action": "clicked link \"KALLAX Shelf unit $179.99 Price $ 179.9…\"",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-50637300/",
+     "ms_snap": 317,
+     "ms_pick": 165,
+     "ms_act": 99,
+     "ms_settle": 1146,
+     "ms": 1729,
+     "navigated": true,
+     "candidates": 319,
+     "options": 62,
+     "named": 2,
+     "confidence": 0.48,
+     "fallback": true
+    },
+    {
+     "step": 15,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-50637300/",
+     "view": "Product",
+     "coverage": {
+      "interactive": 202,
+      "t1": 4,
+      "t2": 3,
+      "t3": 195
+     },
+     "pick": "n577",
+     "probs": "n577:1.00 back:0.00 g:1853:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [VariantOption label=\"White\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "ms_snap": 152,
+     "ms_pick": 187,
+     "ms_act": 6,
+     "ms_settle": 1367,
+     "ms": 1714,
+     "navigated": true,
+     "candidates": 136,
+     "options": 42,
+     "named": 4,
+     "confidence": 1
+    },
+    {
+     "step": 16,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "view": "Product",
+     "coverage": {
+      "interactive": 202,
+      "t1": 4,
+      "t2": 3,
+      "t3": 195
+     },
+     "pick": "n657",
+     "probs": "n657:1.00 back:0.00 g:1846:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "ms_snap": 139,
+     "ms_pick": 175,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 404,
+     "candidates": 136,
+     "options": 42,
+     "named": 4,
+     "confidence": 1
+    },
+    {
+     "step": 17,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "view": "Product",
+     "coverage": {
+      "interactive": 204,
+      "t1": 4,
+      "t2": 3,
+      "t3": 197
+     },
+     "pick": "n314",
+     "probs": "n314:0.98 n708:0.01 wait:0.01",
+     "done_prob": 0.03,
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 168,
+     "ms_pick": 207,
+     "ms_act": 3,
+     "ms_settle": 801,
+     "ms": 1180,
+     "navigated": true,
+     "candidates": 137,
+     "options": 43,
+     "named": 4,
+     "confidence": 0.98
+    },
+    {
+     "step": 18,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 102,
+      "t1": 4,
+      "t2": 10,
+      "t3": 88
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 64,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "comp": "AcceptButton",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"IKEA Home\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Close\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "to": "/us/en/cat/storage-organization-st001/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/storage-organization-st001/",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "/us/en/cat/storage-organization-st001/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/storage-organization-st001/",
+     "action": "pressed Enter",
+     "to": "/us/en/cat/storage-organization-st001/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/storage-organization-st001/",
+     "action": "clicked link \"KALLAX Shelf unit $179.99 Price $ 179.9…\"",
+     "to": "Product",
+     "changed": true
+    },
+    {
+     "from": "Product",
+     "action": "clicked [VariantOption label=\"White\"]",
+     "comp": "VariantOption",
+     "to": "Product",
+     "changed": true
+    },
+    {
+     "from": "Product",
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "comp": "AddToBagButton",
+     "to": "Product",
+     "changed": false
+    },
+    {
+     "from": "Product",
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 29534,
+   "picker_stats": {
+    "calls": 28,
+    "ms": 5810,
+    "input_tokens": 229327,
+    "output_tokens": 11131,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 17,
+    "wasted": 3,
+    "fallback": 8,
+    "low_confidence": 11,
+    "candidates_median": 421,
+    "options_median": 50
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 3,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 341,
+     "ms_pick": 429,
+     "ms_act": 140,
+     "ms_settle": 1669,
+     "ms": 2583,
+     "candidates": 424,
+     "options": 50,
+     "named": 4,
+     "confidence": 0.99,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 961,
+     "ms_pick": 381,
+     "ms_act": 122,
+     "ms_settle": 1749,
+     "ms": 3216,
+     "candidates": 424,
+     "options": 51,
+     "named": 4,
+     "confidence": 0.68,
+     "group_confidence": 0.68,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "enter",
+     "probs": "enter:0.64 g:130:0.09 g:4905:0.09",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 960,
+     "ms_pick": 207,
+     "ms_act": 3,
+     "ms_settle": 85,
+     "ms": 1257,
+     "candidates": 423,
+     "options": 51,
+     "named": 3,
+     "confidence": 0.64
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n4927",
+     "group": "g:4905",
+     "probs": "n4927:1.00 n4917:0.00 n4919:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 327,
+     "ms_pick": 401,
+     "ms_act": 7,
+     "ms_settle": 85,
+     "ms": 822,
+     "candidates": 423,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.34,
+     "group_confidence": 0.34
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 588,
+      "t1": 4,
+      "t2": 5,
+      "t3": 579
+     },
+     "pick": "n177",
+     "group": "g:130",
+     "probs": "n177:0.83 n150:0.10 n157:0.03",
+     "done_prob": 0.01,
+     "action": "clicked link \"IKEA Home\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 341,
+     "ms_pick": 325,
+     "ms_act": 85,
+     "ms_settle": 1399,
+     "ms": 2153,
+     "candidates": 424,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.166,
+     "group_confidence": 0.2,
+     "fallback": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n187",
+     "group": "g:186",
+     "probs": "n187:1.00 n189:0.00 n191:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 346,
+     "ms_pick": 347,
+     "ms_act": 14,
+     "ms_settle": 1590,
+     "ms": 2301,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.28,
+     "group_confidence": 0.28,
+     "fallback": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n351",
+     "group": "g:339",
+     "probs": "n351:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 974,
+     "ms_pick": 458,
+     "ms_act": 13,
+     "ms_settle": 84,
+     "ms": 1531,
+     "candidates": 458,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.3,
+     "group_confidence": 0.3,
+     "fallback": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n372",
+     "group": "g:370",
+     "probs": "n372:0.93 n403:0.06 n385:0.01",
+     "done_prob": 0.01,
+     "action": "clicked button \"Close\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 314,
+     "ms_pick": 470,
+     "ms_act": 5,
+     "ms_settle": 83,
+     "ms": 876,
+     "candidates": 423,
+     "options": 49,
+     "named": 1,
+     "confidence": 0.3441,
+     "group_confidence": 0.37,
+     "fallback": true
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n187",
+     "group": "g:186",
+     "probs": "n187:1.00 n189:0.00 n191:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 366,
+     "ms_pick": 350,
+     "ms_act": 19,
+     "ms_settle": 1669,
+     "ms": 2407,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.42,
+     "group_confidence": 0.42,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 10,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n351",
+     "group": "g:339",
+     "probs": "n351:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1003,
+     "ms_pick": 478,
+     "ms_act": 13,
+     "ms_settle": 83,
+     "ms": 1579,
+     "candidates": 457,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.3,
+     "group_confidence": 0.3,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 11,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n605",
+     "group": "g:595",
+     "probs": "n605:0.95 n671:0.05 n597:0.00",
+     "done_prob": 0.01,
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "ms_snap": 329,
+     "ms_pick": 418,
+     "ms_act": 11,
+     "ms_settle": 864,
+     "ms": 1625,
+     "navigated": true,
+     "candidates": 421,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.4275,
+     "group_confidence": 0.45,
+     "fallback": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "coverage": {
+      "interactive": 479,
+      "t1": 2,
+      "t2": 0,
+      "t3": 477
+     },
+     "pick": "n2995",
+     "probs": "n2995:0.39 g:202:0.30 n1911:0.25",
+     "done_prob": 0.02,
+     "action": "clicked link \"KALLAX Shelf unit $179.99 Price $ 179.9…\"",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-50637300/",
+     "ms_snap": 432,
+     "ms_pick": 206,
+     "ms_act": 19,
+     "ms_settle": 956,
+     "ms": 1615,
+     "navigated": true,
+     "candidates": 320,
+     "options": 62,
+     "named": 2,
+     "confidence": 0.39,
+     "fallback": true
+    },
+    {
+     "step": 13,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-50637300/",
+     "view": "Product",
+     "coverage": {
+      "interactive": 205,
+      "t1": 4,
+      "t2": 3,
+      "t3": 198
+     },
+     "pick": "n578",
+     "probs": "n578:1.00 back:0.00 g:187:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [VariantOption label=\"White\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "ms_snap": 145,
+     "ms_pick": 184,
+     "ms_act": 3,
+     "ms_settle": 909,
+     "ms": 1243,
+     "navigated": true,
+     "candidates": 139,
+     "options": 42,
+     "named": 4,
+     "confidence": 1
+    },
+    {
+     "step": 14,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "view": "Product",
+     "coverage": {
+      "interactive": 205,
+      "t1": 4,
+      "t2": 3,
+      "t3": 198
+     },
+     "pick": "n681",
+     "probs": "n681:1.00 back:0.00 g:187:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "ms_snap": 143,
+     "ms_pick": 172,
+     "ms_act": 6,
+     "ms_settle": 84,
+     "ms": 407,
+     "candidates": 139,
+     "options": 42,
+     "named": 4,
+     "confidence": 1
+    },
+    {
+     "step": 15,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-10637302/#content",
+     "view": "Product",
+     "coverage": {
+      "interactive": 207,
+      "t1": 4,
+      "t2": 3,
+      "t3": 200
+     },
+     "pick": "n314",
+     "probs": "n314:1.00 back:0.00 g:189:0.00",
+     "done_prob": 0.03,
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 177,
+     "ms_pick": 191,
+     "ms_act": 3,
+     "ms_settle": 775,
+     "ms": 1148,
+     "navigated": true,
+     "candidates": 140,
+     "options": 43,
+     "named": 4,
+     "confidence": 1
+    },
+    {
+     "step": 16,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 98,
+      "t1": 4,
+      "t2": 6,
+      "t3": 88
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 67,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "comp": "AcceptButton",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"IKEA Home\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Close\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "to": "/us/en/cat/storage-organization-st001/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/storage-organization-st001/",
+     "action": "clicked link \"KALLAX Shelf unit $179.99 Price $ 179.9…\"",
+     "to": "Product",
+     "changed": true
+    },
+    {
+     "from": "Product",
+     "action": "clicked [VariantOption label=\"White\"]",
+     "comp": "VariantOption",
+     "to": "Product",
+     "changed": true
+    },
+    {
+     "from": "Product",
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "comp": "AddToBagButton",
+     "to": "Product",
+     "changed": false
+    },
+    {
+     "from": "Product",
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 24838,
+   "picker_stats": {
+    "calls": 25,
+    "ms": 5012,
+    "input_tokens": 201339,
+    "output_tokens": 9694,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 15,
+    "wasted": 3,
+    "fallback": 8,
+    "low_confidence": 9,
+    "candidates_median": 423,
+    "options_median": 50
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 4,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 348,
+     "ms_pick": 330,
+     "ms_act": 156,
+     "ms_settle": 1714,
+     "ms": 2550,
+     "candidates": 424,
+     "options": 50,
+     "named": 4,
+     "confidence": 1,
+     "group_confidence": 1
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 998,
+     "ms_pick": 353,
+     "ms_act": 121,
+     "ms_settle": 1746,
+     "ms": 3221,
+     "candidates": 424,
+     "options": 51,
+     "named": 4,
+     "confidence": 0.7,
+     "group_confidence": 0.7,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "enter",
+     "probs": "enter:0.62 g:4905:0.11 g:130:0.07",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1001,
+     "ms_pick": 212,
+     "ms_act": 4,
+     "ms_settle": 84,
+     "ms": 1304,
+     "candidates": 423,
+     "options": 51,
+     "named": 3,
+     "confidence": 0.62
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n4927",
+     "group": "g:4905",
+     "probs": "n4927:1.00 n4917:0.00 n4919:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 344,
+     "ms_pick": 366,
+     "ms_act": 6,
+     "ms_settle": 85,
+     "ms": 804,
+     "candidates": 423,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.29000000000000004,
+     "group_confidence": 0.29000000000000004
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 588,
+      "t1": 4,
+      "t2": 5,
+      "t3": 579
+     },
+     "pick": "n177",
+     "group": "g:130",
+     "probs": "n177:0.80 n150:0.12 n165:0.04",
+     "done_prob": 0.02,
+     "action": "clicked link \"IKEA Home\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 337,
+     "ms_pick": 390,
+     "ms_act": 66,
+     "ms_settle": 1172,
+     "ms": 1967,
+     "candidates": 424,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.17600000000000002,
+     "group_confidence": 0.22,
+     "fallback": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n187",
+     "group": "g:186",
+     "probs": "n187:1.00 n189:0.00 n191:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 358,
+     "ms_pick": 341,
+     "ms_act": 15,
+     "ms_settle": 1589,
+     "ms": 2305,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.34,
+     "group_confidence": 0.34,
+     "fallback": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n351",
+     "group": "g:339",
+     "probs": "n351:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1031,
+     "ms_pick": 396,
+     "ms_act": 6,
+     "ms_settle": 134,
+     "ms": 1570,
+     "candidates": 458,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.25,
+     "group_confidence": 0.25,
+     "fallback": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n372",
+     "group": "g:370",
+     "probs": "n372:0.94 n403:0.05 n385:0.01",
+     "done_prob": 0.02,
+     "action": "clicked button \"Close\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 316,
+     "ms_pick": 353,
+     "ms_act": 6,
+     "ms_settle": 85,
+     "ms": 763,
+     "candidates": 423,
+     "options": 49,
+     "named": 1,
+     "confidence": 0.423,
+     "group_confidence": 0.45,
+     "fallback": true
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n187",
+     "group": "g:186",
+     "probs": "n187:1.00 n189:0.00 n191:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 398,
+     "ms_pick": 436,
+     "ms_act": 13,
+     "ms_settle": 1631,
+     "ms": 2481,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.41000000000000003,
+     "group_confidence": 0.41000000000000003,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 10,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n351",
+     "group": "g:339",
+     "probs": "n351:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 995,
+     "ms_pick": 418,
+     "ms_act": 14,
+     "ms_settle": 81,
+     "ms": 1511,
+     "candidates": 457,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.34,
+     "group_confidence": 0.34,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 11,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n605",
+     "group": "g:595",
+     "probs": "n605:0.95 n671:0.05 n597:0.00",
+     "done_prob": 0.01,
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "ms_snap": 315,
+     "ms_pick": 425,
+     "ms_act": 10,
+     "ms_settle": 866,
+     "ms": 1619,
+     "navigated": true,
+     "candidates": 421,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.46549999999999997,
+     "group_confidence": 0.49,
+     "fallback": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.ikea.com/us/en/cat/storage-organization-st001/",
+     "coverage": {
+      "interactive": 479,
+      "t1": 2,
+      "t2": 0,
+      "t3": 477
+     },
+     "pick": "n1845",
+     "probs": "n1845:0.41 n2929:0.29 g:202:0.25",
+     "done_prob": 0.02,
+     "action": "clicked link \"KALLAX shelving units and inserts A ver…\"",
+     "url_after": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "ms_snap": 403,
+     "ms_pick": 184,
+     "ms_act": 15,
+     "ms_settle": 1060,
+     "ms": 1664,
+     "navigated": true,
+     "candidates": 320,
+     "options": 62,
+     "named": 2,
+     "confidence": 0.41000000000000003,
+     "fallback": true
+    },
+    {
+     "step": 13,
+     "url": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "coverage": {
+      "interactive": 706,
+      "t1": 2,
+      "t2": 0,
+      "t3": 704
+     },
+     "pick": "n3945",
+     "probs": "n3945:0.49 n1072:0.20 n3923:0.11",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "ms_snap": 478,
+     "ms_pick": 196,
+     "ms_act": 16,
+     "ms_settle": 84,
+     "ms": 778,
+     "candidates": 535,
+     "options": 51,
+     "named": 2,
+     "confidence": 0.49,
+     "fallback": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.ikea.com/us/en/cat/kallax-series-27534/",
+     "coverage": {
+      "interactive": 706,
+      "t1": 2,
+      "t2": 0,
+      "t3": 704
+     },
+     "pick": "n262",
+     "group": "g:234",
+     "probs": "n262:1.00 n244:0.00 n254:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 524,
+     "ms_pick": 576,
+     "ms_act": 24,
+     "ms_settle": 781,
+     "ms": 1908,
+     "navigated": true,
+     "candidates": 535,
+     "options": 51,
+     "named": 2,
+     "confidence": 0.86,
+     "group_confidence": 0.86
+    },
+    {
+     "step": 15,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 76,
+      "t1": 2,
+      "t2": 0,
+      "t3": 74
+     },
+     "pick": "wait",
+     "probs": "wait:0.46 n235:0.22 scroll:0.15",
+     "done_prob": 0.34,
+     "action": "waited",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 48,
+     "ms_pick": 187,
+     "ms_act": 677,
+     "ms_settle": 84,
+     "ms": 997,
+     "candidates": 61,
+     "options": 16,
+     "named": 2,
+     "confidence": 0.46
+    },
+    {
+     "step": 16,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 102,
+      "t1": 4,
+      "t2": 10,
+      "t3": 88
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 103,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "comp": "AcceptButton",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"IKEA Home\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Close\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"Storage \u0026 organization\"",
+     "to": "/us/en/cat/storage-organization-st001/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/storage-organization-st001/",
+     "action": "clicked link \"KALLAX shelving units and inserts A ver…\"",
+     "to": "/us/en/cat/kallax-series-27534/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/kallax-series-27534/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/kallax-series-27534/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/kallax-series-27534/",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    },
+    {
+     "from": "Bag",
+     "action": "waited",
+     "to": "Bag",
+     "changed": false
+    }
+   ],
+   "ms": 25554,
+   "picker_stats": {
+    "calls": 26,
+    "ms": 5156,
+    "input_tokens": 211562,
+    "output_tokens": 9717,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 15,
+    "wasted": 3,
+    "fallback": 9,
+    "low_confidence": 11,
+    "candidates_median": 423,
+    "options_median": 50
+   }
+  },
+  {
+   "name": "kallax-into-the-bag",
+   "rep": 5,
+   "goal": "Find the KALLAX shelf unit in white, add it to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white"
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 381,
+     "ms_pick": 437,
+     "ms_act": 150,
+     "ms_settle": 1684,
+     "ms": 2655,
+     "candidates": 424,
+     "options": 50,
+     "named": 4,
+     "confidence": 0.99,
+     "group_confidence": 0.99
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1022,
+     "ms_pick": 358,
+     "ms_act": 132,
+     "ms_settle": 1719,
+     "ms": 3234,
+     "candidates": 424,
+     "options": 51,
+     "named": 4,
+     "confidence": 0.76,
+     "group_confidence": 0.76,
+     "wasted": true
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "enter",
+     "probs": "enter:0.68 g:4905:0.11 g:130:0.06",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 1038,
+     "ms_pick": 236,
+     "ms_act": 2,
+     "ms_settle": 85,
+     "ms": 1365,
+     "candidates": 423,
+     "options": 51,
+     "named": 3,
+     "confidence": 0.68
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 4,
+      "t2": 5,
+      "t3": 578
+     },
+     "pick": "n4927",
+     "group": "g:4905",
+     "probs": "n4927:1.00 n4917:0.00 n4919:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 348,
+     "ms_pick": 385,
+     "ms_act": 8,
+     "ms_settle": 82,
+     "ms": 827,
+     "candidates": 423,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.26,
+     "group_confidence": 0.26
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 588,
+      "t1": 4,
+      "t2": 5,
+      "t3": 579
+     },
+     "pick": "n177",
+     "group": "g:130",
+     "probs": "n177:0.78 n150:0.15 n157:0.03",
+     "done_prob": 0.01,
+     "action": "clicked link \"IKEA Home\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 351,
+     "ms_pick": 340,
+     "ms_act": 84,
+     "ms_settle": 1113,
+     "ms": 1891,
+     "candidates": 424,
+     "options": 50,
+     "named": 3,
+     "confidence": 0.15600000000000003,
+     "group_confidence": 0.2,
+     "fallback": true
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n217",
+     "group": "g:205",
+     "probs": "n217:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 332,
+     "ms_pick": 368,
+     "ms_act": 4,
+     "ms_settle": 85,
+     "ms": 792,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.24000000000000002,
+     "group_confidence": 0.24000000000000002,
+     "fallback": true
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n238",
+     "group": "g:236",
+     "probs": "n238:0.96 n269:0.03 n251:0.01",
+     "done_prob": 0.01,
+     "action": "clicked button \"Close\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 303,
+     "ms_pick": 322,
+     "ms_act": 7,
+     "ms_settle": 84,
+     "ms": 718,
+     "candidates": 423,
+     "options": 49,
+     "named": 1,
+     "confidence": 0.4512,
+     "group_confidence": 0.47000000000000003,
+     "fallback": true
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 580,
+      "t1": 2,
+      "t2": 0,
+      "t3": 578
+     },
+     "pick": "n188",
+     "group": "g:187",
+     "probs": "n188:1.00 n190:0.00 n192:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 373,
+     "ms_pick": 378,
+     "ms_act": 16,
+     "ms_settle": 1677,
+     "ms": 2447,
+     "candidates": 417,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.34,
+     "group_confidence": 0.34,
+     "fallback": true
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 625,
+      "t1": 2,
+      "t2": 0,
+      "t3": 623
+     },
+     "pick": "n352",
+     "group": "g:340",
+     "probs": "n352:1.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 988,
+     "ms_pick": 420,
+     "ms_act": 15,
+     "ms_settle": 84,
+     "ms": 1509,
+     "candidates": 458,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.33,
+     "group_confidence": 0.33,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 10,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 593,
+      "t1": 2,
+      "t2": 0,
+      "t3": 591
+     },
+     "pick": "n188",
+     "group": "g:187",
+     "probs": "n188:1.00 n190:0.00 n192:0.00",
+     "done_prob": 0.01,
+     "action": "clicked button \"Products\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 312,
+     "ms_pick": 353,
+     "ms_act": 9,
+     "ms_settle": 1596,
+     "ms": 2274,
+     "candidates": 422,
+     "options": 48,
+     "named": 1,
+     "confidence": 0.27,
+     "group_confidence": 0.27,
+     "fallback": true,
+     "wasted": true
+    },
+    {
+     "step": 11,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 638,
+      "t1": 2,
+      "t2": 0,
+      "t3": 636
+     },
+     "pick": "n209",
+     "group": "g:206",
+     "probs": "n209:0.96 n231:0.04 n207:0.00",
+     "done_prob": 0.01,
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 940,
+     "ms_pick": 1428,
+     "ms_act": 27,
+     "ms_settle": 86,
+     "ms": 2484,
+     "candidates": 462,
+     "options": 54,
+     "named": 1,
+     "confidence": 0.2976,
+     "group_confidence": 0.31,
+     "fallback": true
+    },
+    {
+     "step": 12,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 640,
+      "t1": 2,
+      "t2": 0,
+      "t3": 638
+     },
+     "pick": "n282",
+     "probs": "n282:0.91 scroll:0.03 g:136:0.02",
+     "done_prob": 0.01,
+     "action": "clicked link \"Shelving furniture\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 314,
+     "ms_pick": 214,
+     "ms_act": 15,
+     "ms_settle": 942,
+     "ms": 1487,
+     "navigated": true,
+     "candidates": 467,
+     "options": 53,
+     "named": 1,
+     "confidence": 0.91,
+     "fallback": true
+    },
+    {
+     "step": 13,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 705,
+      "t1": 2,
+      "t2": 0,
+      "t3": 703
+     },
+     "pick": "n2279",
+     "probs": "n2279:0.87 n2257:0.06 n2242:0.05",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "url_after": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "ms_snap": 389,
+     "ms_pick": 188,
+     "ms_act": 12,
+     "ms_settle": 84,
+     "ms": 675,
+     "candidates": 550,
+     "options": 46,
+     "named": 2,
+     "confidence": 0.87,
+     "fallback": true
+    },
+    {
+     "step": 14,
+     "url": "https://www.ikea.com/us/en/cat/bookcases-shelving-units-st002/",
+     "coverage": {
+      "interactive": 705,
+      "t1": 2,
+      "t2": 0,
+      "t3": 703
+     },
+     "pick": "n268",
+     "group": "g:240",
+     "probs": "n268:1.00 n250:0.00 n260:0.00",
+     "done_prob": 0.05,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 484,
+     "ms_pick": 393,
+     "ms_act": 25,
+     "ms_settle": 912,
+     "ms": 1817,
+     "navigated": true,
+     "candidates": 550,
+     "options": 46,
+     "named": 2,
+     "confidence": 0.8,
+     "group_confidence": 0.8
+    },
+    {
+     "step": 15,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 75,
+      "t1": 2,
+      "t2": 0,
+      "t3": 73
+     },
+     "pick": "wait",
+     "probs": "wait:0.48 n242:0.29 scroll:0.11",
+     "done_prob": 0.38,
+     "action": "waited",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 58,
+     "ms_pick": 178,
+     "ms_act": 300,
+     "ms_settle": 83,
+     "ms": 621,
+     "candidates": 61,
+     "options": 16,
+     "named": 2,
+     "confidence": 0.48
+    },
+    {
+     "step": 16,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 142,
+      "t1": 4,
+      "t2": 10,
+      "t3": 128
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 147,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [AcceptButton label=\"Ok\"]",
+     "comp": "AcceptButton",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"IKEA Home\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Close\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Search IKEA products using a photo\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked button \"Products\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked tab \"Storage \u0026 organization\"",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked link \"Shelving furniture\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked button \"Add \\\"KALLAX Shelf unit\\\" to cart\"",
+     "to": "/us/en/cat/bookcases-shelving-units-st002/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/cat/bookcases-shelving-units-st002/",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    },
+    {
+     "from": "Bag",
+     "action": "waited",
+     "to": "Bag",
+     "changed": false
+    }
+   ],
+   "ms": 24951,
+   "picker_stats": {
+    "calls": 26,
+    "ms": 5991,
+    "input_tokens": 206240,
+    "output_tokens": 9490,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 15,
+    "wasted": 3,
+    "fallback": 9,
+    "low_confidence": 9,
+    "candidates_median": 424,
+    "options_median": 50
+   }
+  }
+ ]
+}
