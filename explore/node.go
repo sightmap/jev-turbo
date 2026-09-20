@@ -192,7 +192,7 @@ func annotateItems(nodes []*Node) {
 		if same < 2 {
 			continue
 		}
-		if title := itemTitle(nodes, i); title != "" {
+		if title := itemTitle(nodes, i, children); title != "" {
 			n.ItemTitle = title
 			isItem[n] = true
 		}
@@ -207,12 +207,15 @@ func annotateItems(nodes []*Node) {
 	}
 }
 
-// itemTitle names the entry at nodes[i] from its subtree: a heading first,
-// then the longest link name, then the entry's own name. A subtree with none
-// of these is a repeated container but not an entry worth naming.
-func itemTitle(nodes []*Node, i int) string {
+// itemTitle names the entry at nodes[i] from its subtree: a heading first;
+// then a link that is not itself one of a repeated set (a card's colour
+// swatches are links too, and each names a different variant), preferring
+// one with an explicit aria-label and then the shortest; then the entry's
+// own name. A subtree with none of these is a repeated container but not an
+// entry worth naming.
+func itemTitle(nodes []*Node, i int, children map[*Node][]*Node) string {
 	item := nodes[i]
-	best := ""
+	best, bestLabelled := "", false
 	for j := i + 1; j < len(nodes) && nodes[j].Depth > item.Depth; j++ {
 		d := nodes[j]
 		if !d.Visible {
@@ -220,20 +223,64 @@ func itemTitle(nodes []*Node, i int) string {
 		}
 		if d.Role == "heading" {
 			if t := strings.TrimSpace(firstNonEmpty(d.Name, d.Text)); t != "" {
-				return trunc(t, 60)
+				return trunc(dedupeTitle(t), 60)
 			}
 		}
-		if d.Role == "link" && len(strings.TrimSpace(d.Name)) > len(best) {
-			best = strings.TrimSpace(d.Name)
+		if d.Role != "link" || repeatedAmongSiblings(d, children) {
+			continue
+		}
+		name := strings.TrimSpace(d.Name)
+		if len(name) < 8 {
+			continue
+		}
+		labelled := d.Attrs["aria-label"] != ""
+		switch {
+		case best == "":
+			best, bestLabelled = name, labelled
+		case labelled && !bestLabelled:
+			best, bestLabelled = name, true
+		case labelled == bestLabelled && len(name) < len(best):
+			best = name
 		}
 	}
-	if len(best) >= 8 {
-		return trunc(best, 60)
+	if best != "" {
+		return trunc(dedupeTitle(best), 60)
 	}
 	if t := strings.TrimSpace(item.Name); t != "" {
-		return trunc(t, 60)
+		return trunc(dedupeTitle(t), 60)
 	}
 	return ""
+}
+
+// repeatedAmongSiblings reports whether n's parent holds another child of
+// the same shape, the mark of one entry in a nested list rather than the
+// entry's own title.
+func repeatedAmongSiblings(n *Node, children map[*Node][]*Node) bool {
+	if n.Parent == nil {
+		return false
+	}
+	shape := func(x *Node) string { return x.Tag + "." + strings.Join(x.Classes, ".") }
+	same := 0
+	for _, sib := range children[n.Parent] {
+		if shape(sib) == shape(n) {
+			same++
+		}
+	}
+	return same > 1
+}
+
+// dedupeTitle cuts a title that repeats itself, the way a link's accessible
+// name does when an aria-label restates the visible text: "KALLAX, Shelf
+// unit, white, 30 1/8x30 1/8 " Shelf unit, white, 30 1/8x30 1/8 "" keeps its
+// first half.
+func dedupeTitle(s string) string {
+	for i := 1; len(s)-i >= 12; i++ {
+		tail := strings.TrimSpace(s[i:])
+		if len(tail) >= 12 && strings.Contains(s[:i], tail) {
+			return strings.TrimSpace(strings.TrimRight(s[:i], " \",-"))
+		}
+	}
+	return s
 }
 
 // ItemLabel renders the entry a raw node belongs to, the way CompLabel renders

@@ -244,3 +244,29 @@ func TestPromotedRawOptionNamesItsItem(t *testing.T) {
 		t.Fatalf("a promoted add button should say which card it is in: %+v", crit.Options)
 	}
 }
+
+func TestSameNamesReportsOwnersAndProposedNames(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	groups := SameNames(&Page{URL: "/search", Nodes: nodes}, nil)
+	if len(groups) != 1 || len(groups[0].Members) != 2 || !strings.HasPrefix(groups[0].Desc, `button "Add`) {
+		t.Fatalf("expected the two add buttons as one group, got %+v", groups)
+	}
+	m := groups[0].Members[1]
+	if !strings.Contains(m.Owner, "black-brown") || m.Proposed != `Add "KALLAX Shelf unit" to cart (KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8)` {
+		t.Fatalf("the member should carry its card and a name that says so, got %+v", m)
+	}
+	if !strings.Contains(DescribeSameNames(groups), "2 have an entry or component to name them by, 0 do not") {
+		t.Fatalf("report summary is off:\n%s", DescribeSameNames(groups))
+	}
+}
+
+func TestDedupeTitleKeepsTheFirstHalfOfARestatedName(t *testing.T) {
+	in := `KALLAX, Shelf unit, white, 30 1/8x30 1/8 " Shelf unit, white, 30 1/8x30 1/8 "`
+	if got := dedupeTitle(in); got != `KALLAX, Shelf unit, white, 30 1/8x30 1/8` {
+		t.Fatalf("got %q", got)
+	}
+	if got := dedupeTitle("Storage & organization"); got != "Storage & organization" {
+		t.Fatalf("a plain title must pass through, got %q", got)
+	}
+}

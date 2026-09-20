@@ -435,6 +435,15 @@ tree's 44 are mostly waits and scrolls on the bag page and adds whose
 confirmation sheet had not rendered by the next look; that last case is a
 timing false positive the row does not yet distinguish.
 
+`jev-turbo same-names --sightmap-dir ikea/.sightmap --url URL` lists the
+controls on a live page that share a role and a name, with the entry or
+component that tells each apart and the accessible name that would say so.
+It is the same-name row as a report, and an accessibility finding: sixteen
+buttons announced identically is a defect for a screen reader before it is
+one for a picker. On the KALLAX listing without a map it reports thirteen
+add buttons and thirteen save buttons by their cards; with the map loaded
+those groups are gone, because the map names them.
+
 `jev-turbo memory-lint ikea/.sightmap` flags three of the map's seventeen
 notes as prescriptive; all three are about overlays and the add flow and
 were kept on purpose after reading them. The lint is a prompt to read, not a

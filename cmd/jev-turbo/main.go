@@ -45,6 +45,8 @@ func main() {
 		err = runGraph(os.Args[2:])
 	case "memory-lint":
 		err = runMemoryLint(os.Args[2:])
+	case "same-names":
+		err = runSameNames(os.Args[2:])
 	case "version", "--version", "-v":
 		fmt.Println("jev-turbo", version)
 	case "help", "--help", "-h":
@@ -75,6 +77,7 @@ Commands:
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
   memory-lint DIR                              flag memory notes in the corpus that prescribe a route instead of describing the page
+  same-names  [--url URL] [--sightmap-dir DIR]  controls on the live page that share a role and a name, and what tells them apart
   version
 
 Map flags (explore, bench):
