@@ -164,6 +164,39 @@ type CriteriaOptions struct {
 type Criteria struct {
 	Options []Criterion
 	Groups  map[string][]*Candidate // "g:<anchor id>" -> members; nil when not grouped
+	Labels  map[string]string       // "g:<anchor id>" -> the group's label, for a second look
+}
+
+// Expand replaces the named groups with their members listed flat, each
+// saying which group it came from, and keeps everything else as it was. It
+// is the second look after an unsure group pick: the group headers show
+// five sample names, which is enough to choose a card and not enough to
+// choose between two cards that differ in one word.
+func Expand(crit Criteria, gids []string) Criteria {
+	expand := map[string]bool{}
+	for _, g := range gids {
+		expand[g] = true
+	}
+	out := Criteria{Groups: map[string][]*Candidate{}, Labels: crit.Labels}
+	for gid, members := range crit.Groups {
+		if !expand[gid] {
+			out.Groups[gid] = members
+		}
+	}
+	for _, o := range crit.Options {
+		if !expand[o.Key] {
+			out.Options = append(out.Options, o)
+			continue
+		}
+		for _, m := range crit.Groups[o.Key] {
+			desc := m.Desc
+			if l := crit.Labels[o.Key]; l != "" {
+				desc += " in " + l
+			}
+			out.Options = append(out.Options, Criterion{m.Key, desc})
+		}
+	}
+	return out
 }
 
 // Keys returns the option keys in order.
@@ -260,13 +293,23 @@ func BuildCriteria(cands []*Candidate, opts CriteriaOptions) Criteria {
 		}
 		crit.Groups = map[string][]*Candidate{}
 		labels := map[string]string{}
+		crit.Labels = labels
 		var order []string
 		for _, c := range cands {
 			if promoted[c.Key] {
-				crit.Options = append(crit.Options, Criterion{c.Key, c.Desc})
+				desc := c.Desc
+				if c.Node.ParentComp == nil && c.Node.Item != nil {
+					// A promoted control from an unmapped entry says which
+					// entry, the way a mapped one names its component.
+					desc += " in " + ItemLabel(c.Node.Item)
+				}
+				crit.Options = append(crit.Options, Criterion{c.Key, desc})
 				continue
 			}
 			anchor := c.Node.ParentComp
+			if anchor == nil {
+				anchor = c.Node.Item
+			}
 			if anchor == nil {
 				anchor = c.Node.Landmark
 			}
@@ -277,6 +320,8 @@ func BuildCriteria(cands []*Candidate, opts CriteriaOptions) Criteria {
 				switch {
 				case anchor.Comp != "":
 					label = CompLabel(anchor)
+				case anchor.ItemTitle != "":
+					label = ItemLabel(anchor)
 				case anchor.Name != "":
 					label = fmt.Sprintf("%s %q", anchor.Role, trunc(anchor.Name, 30))
 				default:

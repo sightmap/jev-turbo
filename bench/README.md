@@ -102,6 +102,41 @@ journeys ran headless in one session; Google Flights ran headless in a second
 session with a fresh Chrome profile, because a reused profile pre-fills places
 from earlier searches and the run drifts.
 
+Without a map, the loop groups the controls of a page for the first pick by
+landmark, and since 2026-09-20 by entry as well: a container whose parent
+holds siblings of the same shape and whose subtree carries a title (a
+heading, else the longest link) is one entry, and its controls are offered
+under that title, a promoted control says which entry it is in, and the
+history line does too. That is the raw tree's version of what a mapped
+ProductCard does. On the variants suite it took the raw tree from 10 of 15
+goals to 15 of 15 (wasted steps 34 to 15, unsure picks 79 to 38); the map
+still picks at 1.00 where the raw tree picks near 0.4, because a mapped
+title is the card's clean name and an entry's title is whatever its longest
+link says.
+
+`--second-look` follows an unsure group pick, one under 0.6, with a second:
+the three likeliest groups are opened and their members listed flat, each
+saying which group it came from, and Jev chooses again with that in front
+of it. On the variants suite without a map that took unsure picks from 38
+to 23 over five runs a goal, and the run made fewer model calls in total,
+146 against 152, because the surer picks saved steps. A pick made on the
+second look carries its own probability, not the joint one, and the step
+records `second_look`.
+
+`--distill-check` turns a reached goal into a finish check: Jev picks the
+part of the final URL and the text on the final page that prove the goal,
+the two become a `done_when`, and the proposal is scored against every page
+the run passed through, since a check that also holds on an earlier page
+would have stopped the run there. When it still holds on one, Jev is asked
+for a text that page does not show, up to twice. Over saucedemo and the
+IKEA variants, 9 of 13 proposals held at the end and failed on every earlier
+page (`{"url_contains": "/cart.html"}` with the item's name, the
+checkout-complete page with "Thank you for your order!", the bag with the
+exact KALLAX row); three held on one earlier page too; the logout goal got
+nothing, because its proof is an absence, which `text_absent` can say and
+the distiller does not yet propose. The proposal prints after the goal and
+sits in the run file under `distilled`.
+
 A third ablation sits between the two. `--no-memory` keeps the map's
 components and views and withholds only its memory notes, the free-text lines
 the picker sees under `SITE NOTES`, and the run file records the condition as
@@ -223,6 +258,21 @@ those is a page where a name, a property, or a memory line is missing.
   next. Coverage is measured against the corpus, so this row prints `-` under
   `--no-map`.
 - `seconds`: total wall time across the runs in the file.
+
+With `--judge-effects`, the verdict comes from Jev rather than the rule: it
+reads the URL before and after, the controls that appeared and disappeared
+(the ones sharing words with the action first), the typed field's value and
+any notice, and answers navigated, opened, value, changed, error or none.
+The rule's verdict stays in the run file as `effect_rule` beside the
+judge's `effect`, with `effect_confidence` and the `effect_evidence` it
+read, so a disagreement can be checked. Only the rule's "changed" and
+"none" are judged; a moved URL and a landed value need no second opinion.
+On 204 steps across saucedemo and the IKEA variants the two agreed on 187;
+every disagreement read went the judge's way: a menu click is "opened",
+a locked-out login is "error", a sort select is "value", a swatch toggle
+is "changed" on the strength of a "New variant selected" notice the rule
+cannot see, and a "Remove" whose row was still there at the next look is
+"none" even though forty recommendations rendered beside it.
 
 A run file written before these metrics existed carries no counts. On such a
 file `wasted steps`, `no-effect steps`, `fallback picks`, `low-confidence
@@ -384,6 +434,27 @@ no value in the filled field, no change in the controls offered. The raw
 tree's 44 are mostly waits and scrolls on the bag page and adds whose
 confirmation sheet had not rendered by the next look; that last case is a
 timing false positive the row does not yet distinguish.
+
+`jev-turbo mine results/saucedemo-map.json` reads run files and prints the
+step sequences that recur across their successful runs as a sightkick
+tools.yaml draft. A sequence stays on one view, a navigating step can only
+end it after fills (a form and its submit) and otherwise stands alone, a
+fill's value key becomes a parameter, and the view a step reaches becomes a
+wait. On thirty saucedemo runs it drafts login, add_to_cart, open_cart, menu,
+checkout, the checkout form, finish and logout; on the IKEA runs, search,
+add_to_cart and open_bag, every journey those runs took, and none of the
+hand-written tools the runs never exercised (open_product, close_survey,
+read_bag). A journey every run repeats by hand is a tool waiting to be
+written; the draft is the starting point, not the layer.
+
+`jev-turbo same-names --sightmap-dir ikea/.sightmap --url URL` lists the
+controls on a live page that share a role and a name, with the entry or
+component that tells each apart and the accessible name that would say so.
+It is the same-name row as a report, and an accessibility finding: sixteen
+buttons announced identically is a defect for a screen reader before it is
+one for a picker. On the KALLAX listing without a map it reports thirteen
+add buttons and thirteen save buttons by their cards; with the map loaded
+those groups are gone, because the map names them.
 
 `jev-turbo memory-lint ikea/.sightmap` flags three of the map's seventeen
 notes as prescriptive; all three are about overlays and the add flow and

@@ -176,6 +176,16 @@ func (j *JevPicker) Choose(ctx context.Context, state string, crit Criteria, ins
 	return fallbackKey(crit, res.Answers["pick"].Choice), nil
 }
 
+// Judge answers a one-off question with the probability of the answer.
+func (j *JevPicker) Judge(ctx context.Context, state string, crit Criteria, instructions string) (Pick, error) {
+	res, ms, err := j.ask(ctx, state, map[string]jevQuestion{"pick": choiceQuestion(crit, instructions)})
+	if err != nil {
+		return Pick{}, err
+	}
+	a := res.Answers["pick"]
+	return Pick{Next: fallbackKey(crit, a.Choice), Probs: a.Probabilities, Ms: ms}, nil
+}
+
 func sleepCtx(ctx context.Context, d time.Duration) {
 	select {
 	case <-ctx.Done():

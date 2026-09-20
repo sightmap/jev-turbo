@@ -24,6 +24,17 @@ type Options struct {
 	// level) from the picker while keeping its components and views, so a
 	// site's prose can be measured on its own against the map's names.
 	NoMemory bool
+	// SecondLook opens the likeliest groups and asks again when a pick between
+	// groups came back unsure, so a card and its neighbour that differ in one
+	// word are chosen between by their full descriptions.
+	SecondLook bool
+	// DistillCheck proposes a finish check from the final page of a run that
+	// reached its goal, scored against the pages the run passed through.
+	DistillCheck bool
+	// JudgeEffects asks the picker what each action did, from the difference
+	// between the page before and after, instead of trusting the rule that
+	// compares candidate lists. The rule's verdict is kept in Step.EffectRule.
+	JudgeEffects bool
 	// Tools and ToolRunner, when both set, offer sightkick tools as picker
 	// options alongside elements; a tool call runs through ToolRunner instead
 	// of driving an element directly.
@@ -65,6 +76,7 @@ type Step struct {
 	Named           int     `json:"named,omitempty"`            // candidates that carry a sightmap component
 	Confidence      float64 `json:"confidence,omitempty"`       // probability of the chosen option
 	GroupConfidence float64 `json:"group_confidence,omitempty"` // probability of the chosen group on a grouped pick
+	SecondLook      bool    `json:"second_look,omitempty"`      // the group pick was unsure and the likeliest groups were opened for a second pick
 	Fallback        bool    `json:"fallback,omitempty"`         // a map exists but the pick is an unnamed node
 	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, a control or tool repeated at this URL, or a tool call that failed and did not finish the goal
 	Ambiguous       int     `json:"ambiguous,omitempty"`        // candidates whose description is shared with at least one other candidate on this page
@@ -75,6 +87,12 @@ type Step struct {
 	// from its own outcome. The last step of a run that hit its step limit
 	// has no observation after it and stays empty.
 	Effect string `json:"effect,omitempty"`
+	// EffectRule is the rule's verdict when the picker judged the effect, so
+	// the two can be compared; EffectConfidence is the picker's probability.
+	EffectRule       string  `json:"effect_rule,omitempty"`
+	EffectConfidence float64 `json:"effect_confidence,omitempty"`
+	EffectEvidence   string  `json:"effect_evidence,omitempty"` // the diff the judge read, so a verdict can be checked afterwards
+	MsJudge          int     `json:"ms_judge,omitempty"`
 
 	Tool   string `json:"tool,omitempty"`    // the sightkick tool run, when the pick was a "t:" option
 	ToolOK bool   `json:"tool_ok,omitempty"` // the tool call reported ok
@@ -110,6 +128,9 @@ type Run struct {
 	Stats       Stats        `json:"picker_stats"`
 	Metrics     RunMetrics   `json:"metrics"`
 	HookErrors  int          `json:"hook_errors,omitempty"`
+	// Distilled is the finish check proposed from the final page when the
+	// run reached its goal and DistillCheck was on.
+	Distilled *DistilledCheck `json:"distilled,omitempty"`
 }
 
 // Explore drives the browser toward opts.Goal and returns the run. It returns
@@ -142,6 +163,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	skipTool := ""         // a tool that just failed: left out of the next pick only, while its guidance still counts
 	failedToolAt := -1     // index in run.Steps of the step just appended, when it was a failed tool call
 	var last *acted        // the page the last step acted on; its effect is judged against the next observation
+	var pages []*Page      // every page observed, kept only when a check is to be distilled at the end
 	t0 := time.Now()
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
@@ -167,7 +189,21 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		descs := pageDescs(page, spec.Avoid)
 		if last != nil && run.Steps[len(run.Steps)-1].Effect == "" {
-			run.Steps[len(run.Steps)-1].Effect = effectOf(last, page, descs)
+			prev := &run.Steps[len(run.Steps)-1]
+			prev.Effect = effectOf(last, page, descs)
+			// The rule is certain about a moved URL and a landed value; it is
+			// the "changed" and "none" verdicts that a rotating rail or a
+			// late render can fool, so those are the ones the picker judges.
+			if opts.JudgeEffects && (prev.Effect == "changed" || prev.Effect == "none") {
+				verdict, prob, ms, evidence, err := judgeEffect(ctx, opts.Picker, last, prev.Action, page, descs)
+				if err != nil {
+					return run, fmt.Errorf("explore: judge effect: %w", err)
+				}
+				if verdict != "" {
+					prev.EffectRule, prev.Effect, prev.EffectConfidence, prev.MsJudge = prev.Effect, verdict, prob, ms
+					prev.EffectEvidence = evidence
+				}
+			}
 		}
 		step := Step{N: n, URL: page.URL, View: page.View, Coverage: covStat(page), MsSnap: int(time.Since(tS).Milliseconds())}
 		if len(run.Transitions) > 0 {
@@ -179,6 +215,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			}
 		}
 
+		if opts.DistillCheck {
+			pages = append(pages, page)
+		}
 		if spec.DoneWhen.Deterministic() && spec.DoneWhen.Check(page, history) {
 			if failedToolAt >= 0 {
 				// The call reported a failure, but the page it left behind is
@@ -190,6 +229,12 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			run.OK = true
 			run.Reason = "done_when satisfied"
 			emit(opts, step)
+			if opts.DistillCheck {
+				run.Distilled, err = DistillCheck(ctx, opts.Picker, opts.Goal, pages[:len(pages)-1], page)
+				if err != nil {
+					return run, fmt.Errorf("explore: distill: %w", err)
+				}
+			}
 			return run, nil
 		}
 
@@ -258,6 +303,21 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		if err != nil {
 			return run, fmt.Errorf("explore: pick: %w", err)
 		}
+		if opts.SecondLook && strings.HasPrefix(pick.Next, "g:") && crit.Groups != nil && pick.Probs[pick.Next] < LowConfidence {
+			// An unsure choice between groups: open the likeliest few and ask
+			// again over their members, each saying which group it is from.
+			// A member picked this way carries its own probability, not a
+			// joint one; a group picked again goes on as before.
+			again, err := opts.Picker.Pick(ctx, state, Expand(crit, topGroups(pick.Probs, 3)))
+			if err != nil {
+				return run, fmt.Errorf("explore: second look: %w", err)
+			}
+			step.SecondLook = true
+			if again.Done < pick.Done {
+				again.Done = pick.Done
+			}
+			pick = again
+		}
 		if strings.HasPrefix(pick.Next, "g:") && crit.Groups != nil {
 			members := crit.Groups[pick.Next]
 			gp := pick.Probs[pick.Next]
@@ -294,6 +354,12 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			run.OK = true
 			run.Reason = fmt.Sprintf("picker judged done (%.2f)", pick.Done)
 			emit(opts, step)
+			if opts.DistillCheck {
+				run.Distilled, err = DistillCheck(ctx, opts.Picker, opts.Goal, pages[:len(pages)-1], page)
+				if err != nil {
+					return run, fmt.Errorf("explore: distill: %w", err)
+				}
+			}
 			return run, nil
 		}
 
@@ -474,6 +540,21 @@ func effectOf(before *acted, page *Page, descs map[string]int) string {
 	return "none"
 }
 
+// topGroups lists up to n group keys by probability, highest first.
+func topGroups(probs map[string]float64, n int) []string {
+	var keys []string
+	for k := range probs {
+		if strings.HasPrefix(k, "g:") {
+			keys = append(keys, k)
+		}
+	}
+	sort.SliceStable(keys, func(i, j int) bool { return probs[keys[i]] > probs[keys[j]] })
+	if len(keys) > n {
+		keys = keys[:n]
+	}
+	return keys
+}
+
 // countAmbiguous counts the candidates whose description is shared with at
 // least one other candidate on the page, so sixteen identical add buttons
 // count sixteen. These are the picks a map tells apart by owner and property.
@@ -548,6 +629,9 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 		label := CompLabel(n)
 		if label == "" {
 			label = fmt.Sprintf("%s %q", n.Role, trunc(n.Name, 40))
+			if n.Item != nil {
+				label += " in " + ItemLabel(n.Item)
+			}
 		} else if n.ParentComp != nil && n.ParentComp.Comp != n.Comp {
 			// The owner tells the history apart: an "Add to cart" button is
 			// one of many on a listing, and which card's it was is what the

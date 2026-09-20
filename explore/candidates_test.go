@@ -1,6 +1,7 @@
 package explore
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -175,4 +176,158 @@ func keys(cs []*Candidate) []string {
 		out = append(out, c.Key)
 	}
 	return out
+}
+
+// listing builds a raw two-card listing in document order: a list holding two
+// same-shaped entries, each with a title link and a same-named add button, so
+// nothing but the entry tells the buttons apart.
+func listing() []*Node {
+	list := mk("l", "list", "", "ul", "", "", false)
+	list.Depth = 1
+	var nodes []*Node
+	nodes = append(nodes, list)
+	for i, title := range []string{"KALLAX, Shelf unit, white, 30 1/8x30 1/8", "KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8"} {
+		card := mk(fmt.Sprintf("c%d", i), "listitem", "", "li", "", "", false)
+		card.Depth, card.Parent, card.Classes = 2, list, []string{"plp-card"}
+		card.Ancestors = []*Node{list}
+		link := mk(fmt.Sprintf("t%d", i), "link", title, "a", "", "", true)
+		add := mk(fmt.Sprintf("a%d", i), "button", `Add "KALLAX Shelf unit" to cart`, "button", "", "", true)
+		for _, n := range []*Node{link, add} {
+			n.Depth, n.Parent, n.Ancestors, n.Landmark = 3, card, []*Node{list, card}, list
+		}
+		card.InteractiveDesc = 2
+		nodes = append(nodes, card, link, add)
+	}
+	list.InteractiveDesc = 4
+	return nodes
+}
+
+func TestItemsGroupRawCandidatesByTitle(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	if nodes[1].ItemTitle != "KALLAX, Shelf unit, white, 30 1/8x30 1/8" || nodes[4].ItemTitle != "KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8" {
+		t.Fatalf("each card should be an item titled by its link: %q / %q", nodes[1].ItemTitle, nodes[4].ItemTitle)
+	}
+	if nodes[3].Item != nodes[1] || nodes[6].Item != nodes[4] {
+		t.Fatal("each add button should point at its own card")
+	}
+	cands := Candidates(nodes, CandidateOptions{})
+	crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: 1, Goal: "buy a lamp"})
+	if len(crit.Groups) != 2 {
+		t.Fatalf("expected one group per card, got %d: %+v", len(crit.Groups), crit.Options)
+	}
+	var seen []string
+	for _, o := range crit.Options {
+		if strings.HasPrefix(o.Key, "g:") {
+			seen = append(seen, o.Desc)
+		}
+	}
+	if len(seen) != 2 || !strings.Contains(seen[0], `listitem "KALLAX, Shelf unit, white`) || !strings.Contains(seen[1], `listitem "KALLAX, Shelf unit, black-brown`) {
+		t.Fatalf("groups should be labelled by the card titles, got %v", seen)
+	}
+}
+
+func TestPromotedRawOptionNamesItsItem(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	cands := Candidates(nodes, CandidateOptions{})
+	// The goal mentions KALLAX, so every control is promoted out of its group
+	// and listed flat; the entry must still travel with it.
+	crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: 1, Goal: "add the KALLAX shelf unit"})
+	found := false
+	for _, o := range crit.Options {
+		if strings.HasPrefix(o.Desc, `button "Add`) && strings.Contains(o.Desc, `in listitem "KALLAX, Shelf unit, black-brown`) {
+			found = true
+		}
+	}
+	if !found {
+		t.Fatalf("a promoted add button should say which card it is in: %+v", crit.Options)
+	}
+}
+
+func TestSameNamesReportsOwnersAndProposedNames(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	groups := SameNames(&Page{URL: "/search", Nodes: nodes}, nil)
+	if len(groups) != 1 || len(groups[0].Members) != 2 || !strings.HasPrefix(groups[0].Desc, `button "Add`) {
+		t.Fatalf("expected the two add buttons as one group, got %+v", groups)
+	}
+	m := groups[0].Members[1]
+	if !strings.Contains(m.Owner, "black-brown") || m.Proposed != `Add "KALLAX Shelf unit" to cart (KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8)` {
+		t.Fatalf("the member should carry its card and a name that says so, got %+v", m)
+	}
+	if !strings.Contains(DescribeSameNames(groups), "2 have an entry or component to name them by, 0 do not") {
+		t.Fatalf("report summary is off:\n%s", DescribeSameNames(groups))
+	}
+}
+
+func TestDedupeTitleKeepsTheFirstHalfOfARestatedName(t *testing.T) {
+	in := `KALLAX, Shelf unit, white, 30 1/8x30 1/8 " Shelf unit, white, 30 1/8x30 1/8 "`
+	if got := dedupeTitle(in); got != `KALLAX, Shelf unit, white, 30 1/8x30 1/8` {
+		t.Fatalf("got %q", got)
+	}
+	if got := dedupeTitle("Storage & organization"); got != "Storage & organization" {
+		t.Fatalf("a plain title must pass through, got %q", got)
+	}
+}
+
+func TestMineFindsTheJourneyRunsRepeat(t *testing.T) {
+	login := func() []Transition {
+		return []Transition{
+			{From: "Login", Action: "filled [UsernameField] with username", Comp: "UsernameField", To: "Login"},
+			{From: "Login", Action: "filled [PasswordField] with password", Comp: "PasswordField", To: "Login"},
+			{From: "Login", Action: "clicked [LoginButton]", Comp: "LoginButton", To: "Inventory", Changed: true},
+		}
+	}
+	runs := []*Run{
+		{OK: true, Transitions: append(login(), Transition{From: "Inventory", Action: `clicked [AddToCartButton label="Add to cart"]`, Comp: "AddToCartButton", To: "Inventory"})},
+		{OK: true, Transitions: append(login(), Transition{From: "Inventory", Action: "clicked [CartLink]", Comp: "CartLink", To: "Cart", Changed: true})},
+		{OK: false, Transitions: login()},
+	}
+	tools := Mine(runs, 2)
+	if len(tools) == 0 || tools[0].Name != "login" || len(tools[0].Steps) != 3 || tools[0].Support != 2 || tools[0].Runs != 2 {
+		t.Fatalf("expected the three-step login journey seen in both successful runs, got %+v", tools)
+	}
+	if tools[0].Steps[0].Key != "username" || tools[0].Steps[2].To != "Inventory" {
+		t.Fatalf("steps should keep the value key and the view reached: %+v", tools[0].Steps)
+	}
+	y := DescribeMined(tools[:1])
+	for _, want := range []string{"name: login", "- name: username", `value: "{{password}}"`, "query: LoginButton", "view: Inventory", "Seen in 2 of 2 runs"} {
+		if !strings.Contains(y, want) {
+			t.Fatalf("yaml draft should contain %q:\n%s", want, y)
+		}
+	}
+}
+
+func TestToolNameFromWhatASequenceEndsIn(t *testing.T) {
+	cases := []struct {
+		steps []MinedStep
+		want  string
+	}{
+		{[]MinedStep{{Verb: "fill", Comp: "SearchField", Key: "search"}, {Verb: "enter", To: "Search"}}, "search"},
+		{[]MinedStep{{Verb: "fill", Comp: "SearchField", Key: "search"}, {Verb: "enter"}}, "search"},
+		{[]MinedStep{{Verb: "click", Comp: "AddToCartButton"}}, "add_to_cart"},
+		{[]MinedStep{{Verb: "click", Comp: "AddToCartButton"}, {Verb: "click", Comp: "BagLink", To: "Bag"}}, "open_bag"},
+		{[]MinedStep{{Verb: "click", Comp: "ContinueButton", To: "CheckoutOverview"}}, "open_checkout_overview"},
+		{[]MinedStep{{Verb: "click", Comp: "LoginButton", To: "Inventory"}}, "login"},
+		{[]MinedStep{{Verb: "click", Comp: "LogoutLink", To: "Login"}}, "logout"},
+		{[]MinedStep{{Verb: "click", Comp: "CartLink", To: "Cart"}}, "open_cart"},
+	}
+	for _, c := range cases {
+		if got := ToolName(c.steps); got != c.want {
+			t.Fatalf("%+v: got %q want %q", c.steps, got, c.want)
+		}
+	}
+}
+
+func TestMineDropsALoneFill(t *testing.T) {
+	runs := []*Run{
+		{OK: true, Transitions: []Transition{{From: "Home", Action: "filled [SearchField] with search", Comp: "SearchField", To: "Home"}, {From: "Home", Action: "pressed Enter", To: "Search", Changed: true}}},
+		{OK: true, Transitions: []Transition{{From: "Home", Action: "filled [SearchField] with search", Comp: "SearchField", To: "Home"}, {From: "Home", Action: "pressed Enter", To: "Search", Changed: true}}},
+	}
+	for _, tool := range Mine(runs, 2) {
+		if len(tool.Steps) == 1 && tool.Steps[0].Verb == "fill" {
+			t.Fatalf("a lone fill should not be offered as a tool: %+v", tool)
+		}
+	}
 }

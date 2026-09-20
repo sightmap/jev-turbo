@@ -2,6 +2,7 @@ package explore
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -635,5 +636,175 @@ func TestNoMemoryHidesSiteNotes(t *testing.T) {
 		if !strings.Contains(state, "COMPONENTS ON PAGE: GoButton") {
 			t.Fatalf("NoMemory=%v: the component names must stay:\n%s", noMemory, state)
 		}
+	}
+}
+
+func TestJudgeEffectsAsksThePickerAndKeepsTheRule(t *testing.T) {
+	// A click that changes nothing reads "none" to the rule. With judging on,
+	// the picker's verdict wins and the rule's stays beside it for comparison.
+	button := mk("1", "button", "Add to bag", "button", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{button}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n1", "n1"}, prefer: []string{"changed"}, probs: []float64{1, 0.83, 1}}
+	run, err := Explore(context.Background(), d, Options{Goal: "add it", Picker: p, MaxSteps: 2, JudgeEffects: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := run.Steps[0]
+	if s.Effect != "changed" || s.EffectRule != "none" {
+		t.Fatalf("judged effect should be the picker's with the rule kept: %+v", s)
+	}
+	if s.EffectConfidence != 0.83 {
+		t.Fatalf("confidence should be the picker's probability, got %v", s.EffectConfidence)
+	}
+	if len(p.judged) != 1 || !strings.Contains(p.judged[0], "ACTION: clicked") || !strings.Contains(p.judged[0], "CONTROLS THAT APPEARED (0)") {
+		t.Fatalf("the judge should see the action and the diff, got %q", p.judged)
+	}
+}
+
+func TestJudgeEffectsOffLeavesTheRule(t *testing.T) {
+	button := mk("1", "button", "Add to bag", "button", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{button}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n1", "n1"}, prefer: []string{"changed"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "add it", Picker: p, MaxSteps: 2})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if run.Steps[0].Effect != "none" || run.Steps[0].EffectRule != "" || len(p.judged) != 0 {
+		t.Fatalf("without judging the rule decides and the picker is not asked: %+v judged=%d", run.Steps[0], len(p.judged))
+	}
+}
+
+func TestEffectStateListsTheDiff(t *testing.T) {
+	before := &acted{url: "/p/kallax", descs: map[string]int{`button "Add to bag"`: 1}}
+	sheet := mk("9", "button", "Go to shopping bag", "button", "", "GoToBagButton", true)
+	page := &Page{URL: "/p/kallax", Nodes: []*Node{sheet}}
+	descs := map[string]int{`button "Add to bag"`: 1, Describe(sheet): 1}
+	st := effectState(before, `clicked button "Add to bag"`, page, descs)
+	if !strings.Contains(st, "CONTROLS THAT APPEARED (1)") || !strings.Contains(st, "GoToBagButton") {
+		t.Fatalf("the sheet's button should be listed as appeared:\n%s", st)
+	}
+	if !strings.Contains(st, "CONTROLS THAT DISAPPEARED (0)") {
+		t.Fatalf("nothing disappeared:\n%s", st)
+	}
+}
+
+func TestJudgeEffectsSkipsWhatTheRuleIsSureOf(t *testing.T) {
+	// A click that navigates is "navigated" by the URL alone; the picker is
+	// not asked, so the judge costs nothing on the certain cases.
+	link := mk("1", "link", "Cart", "a", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{link}, edges: map[string]string{"1": "/cart"}}
+	cart := &fakePage{url: "/cart", view: "Cart", nodes: []*Node{mk("2", "button", "Checkout", "button", "", "", true)}}
+	d := newFakeDriver("/", home, cart)
+	p := &fakePicker{script: []string{"n1", "n2"}, prefer: []string{"none"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "open the cart", Picker: p, MaxSteps: 2, JudgeEffects: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if run.Steps[0].Effect != "navigated" || run.Steps[0].EffectRule != "" || len(p.judged) != 0 {
+		t.Fatalf("a navigation should not be judged: %+v judged=%d", run.Steps[0], len(p.judged))
+	}
+}
+
+func TestDiffDescsPutsTheActionsOwnControlsFirst(t *testing.T) {
+	// Forty recommendation buttons render as a bag row is removed; the row's
+	// controls must survive the cap so the judge can see them go.
+	before := map[string]int{}
+	after := map[string]int{}
+	for i := 0; i < 40; i++ {
+		after[fmt.Sprintf(`button "Add ITEM%02d to the shopping bag"`, i)] = 1
+	}
+	before[`button "Remove KALLAX, white, 30 1/8x30 1/8"`] = 1
+	before[`textbox "Enter quantity of KALLAX, white" value="1"`] = 1
+	after[`textbox "Enter quantity of KALLAX, white" value="2"`] = 1
+	appeared, gone := diffDescs(before, after, `clicked button "Increase quantity of KALLAX, white, 30 1/8x30 1/8"`)
+	if !strings.Contains(appeared[0], "quantity of KALLAX") {
+		t.Fatalf("the changed quantity field should lead the appeared list, got %q", appeared[0])
+	}
+	if len(appeared) != 13 || !strings.HasPrefix(appeared[12], "… and 29 more") {
+		t.Fatalf("the list should be capped with a count of the rest, got %d entries ending %q", len(appeared), appeared[len(appeared)-1])
+	}
+	if !strings.Contains(gone[0], "KALLAX") || !strings.Contains(gone[1], "KALLAX") {
+		t.Fatalf("the row's controls should lead the disappeared list, got %v", gone)
+	}
+}
+
+func TestSecondLookOpensTheLikeliestGroups(t *testing.T) {
+	// The first pick lands on a card group at 0.4. With the second look the
+	// two cards are opened and the exact button is picked at its own 0.9.
+	nodes := listing()
+	annotateItems(nodes)
+	page := &fakePage{url: "/search", view: "Search", nodes: nodes}
+	d := newFakeDriver("/search", page)
+	p := &fakePicker{script: []string{"g:c1", "na1"}, probs: []float64{0.4, 0.9}}
+	run, err := Explore(context.Background(), d, Options{Goal: "put the second one in the bag", Picker: p, MaxSteps: 1, MaxCandidates: 1, SecondLook: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := run.Steps[0]
+	if !s.SecondLook || s.Group != "" || s.Pick != "na1" || s.Confidence != 0.9 {
+		t.Fatalf("expected a second look ending on the member at its own probability, got %+v", s)
+	}
+	if len(p.states) != 2 {
+		t.Fatalf("expected exactly two picks, got %d", len(p.states))
+	}
+}
+
+func TestSecondLookStaysOutOfSurePicks(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	page := &fakePage{url: "/search", view: "Search", nodes: nodes}
+	d := newFakeDriver("/search", page)
+	p := &fakePicker{script: []string{"g:c1", "na1"}, probs: []float64{0.8, 0.9}}
+	run, err := Explore(context.Background(), d, Options{Goal: "put the second one in the bag", Picker: p, MaxSteps: 1, MaxCandidates: 1, SecondLook: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := run.Steps[0]
+	if s.SecondLook || s.Group != "g:c1" || s.Confidence < 0.71 || s.Confidence > 0.73 {
+		t.Fatalf("a sure group pick goes on as before with the joint confidence, got %+v", s)
+	}
+}
+
+func TestDistillCheckProposesAndScoresAgainstEarlierPages(t *testing.T) {
+	// The final page shows the bag with the item; the earlier pages do not.
+	// The picker points at the URL segment and the row text; the composed
+	// check holds at the end and fails on both pages before it.
+	home := &fakePage{url: "https://shop.test/", view: "Home", nodes: []*Node{mk("1", "link", "Shop", "a", "", "", true)}}
+	list := &fakePage{url: "https://shop.test/search?q=kallax", view: "Search", nodes: []*Node{mk("2", "button", "Add KALLAX to bag", "button", "", "", true)}}
+	bag := &fakePage{url: "https://shop.test/shoppingcart/", view: "Bag", nodes: []*Node{
+		mk("3", "heading", "KALLAX Shelf unit, white, 30 1/8x30 1/8", "h2", "", "", false),
+		mk("4", "button", "Checkout", "button", "", "", true),
+	}}
+	toPage := func(p *fakePage) *Page { return &Page{URL: p.url, View: p.view, Nodes: p.nodes} }
+	p := &fakePicker{prefer: []string{"/shoppingcart", "KALLAX Shelf unit, white, 30 1/8x30 1/8"}, probs: []float64{0.9, 0.95}}
+	d, err := DistillCheck(context.Background(), p, "Put the white 2x2 KALLAX in the bag and open the bag", []*Page{toPage(home), toPage(list)}, toPage(bag))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if d.URLFact != "/shoppingcart" || d.TextFact != "KALLAX Shelf unit, white, 30 1/8x30 1/8" {
+		t.Fatalf("expected the bag URL and the row text, got %+v", d)
+	}
+	if !d.HoldsOnFinal || d.FailsEarlier != 2 || d.EarlierPages != 2 {
+		t.Fatalf("the check should hold at the end and fail on both earlier pages: %+v", d)
+	}
+	if !strings.Contains(DescribeDistilled(d), `"url_contains": "/shoppingcart"`) {
+		t.Fatalf("description should carry the JSON: %s", DescribeDistilled(d))
+	}
+}
+
+func TestExploreDistillsOnDone(t *testing.T) {
+	home := &fakePage{url: "https://shop.test/", view: "Home", nodes: []*Node{mk("1", "link", "Bag", "a", "", "", true)}, edges: map[string]string{"1": "https://shop.test/shoppingcart/"}}
+	bag := &fakePage{url: "https://shop.test/shoppingcart/", view: "Bag", nodes: []*Node{mk("2", "heading", "Your bag", "h2", "", "", false), mk("3", "button", "Checkout", "button", "", "", true)}}
+	d := newFakeDriver("https://shop.test/", home, bag)
+	p := &fakePicker{script: []string{"n1"}, prefer: []string{"/shoppingcart", "Your bag"}}
+	spec := &Spec{DoneWhen: &DoneWhen{View: "Bag"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "open the bag", Picker: p, MaxSteps: 3, Spec: spec, DistillCheck: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !run.OK || run.Distilled == nil || run.Distilled.URLFact != "/shoppingcart" || run.Distilled.EarlierPages != 1 || run.Distilled.FailsEarlier != 1 {
+		t.Fatalf("expected a distilled check scored against the one earlier page, got ok=%v %+v", run.OK, run.Distilled)
 	}
 }
