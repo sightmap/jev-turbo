@@ -15,6 +15,7 @@ environment (`TYPESAFE_API_KEY`; `ANTHROPIC_API_KEY` only for
 | `flights.json` | Google Flights | `flights/.sightmap` (14 components, 6 memory lines) | the jev-ultrafast task: one-way Zürich to London on September 20, 2026; suggestion dialogs, a select, a typed date, a results page that renders late |
 | `journeys.json` | saucedemo.com | `saucedemo/.sightmap` | two long goals (30–45 steps): three separate orders; sort and buy the two cheapest |
 | `ikea.json` | ikea.com | `ikea/.sightmap` (24 components, 5 views, 16 memory lines) + `ikea/.sightkick` (6 tools) | a large public retail site, about 600 candidates a step: one goal, the KALLAX shelf unit in white into the shopping bag. A consent banner that floats over the lower viewport and holds keyboard focus, a survey modal that can open on any page, a search box whose submit button is hidden until it has focus, an add-to-bag confirmation sheet that is modal, and a bag page built on hashed CSS-module class names. Run it with `--tools ikea` for the tool condition; the suite file carries no `tools` key |
+| `ikea-variants.json` | ikea.com | `ikea/.sightmap` | three goals that each ask for one exact KALLAX variant from a listing where every add button reads `Add "KALLAX Shelf unit" to cart`: the white 2x2, the black-brown 2x2 (a swatch under the white card, not a card of its own), and both a white 1x4 and a black-brown 2x2 in one bag. Finish checks count bag rows with `text_count`, so an extra item fails the goal |
 
 ## Run
 
@@ -323,6 +324,92 @@ cd saucedemo && sightmap browser stop && cd ..
 jev-turbo score results/saucedemo-map.json results/saucedemo-tools.json
 ```
 
+## IKEA variants (2026-09-20)
+
+Three goals on ikea.com that each ask for one exact KALLAX variant, five runs
+a goal in three conditions: `--no-map`, the map in `ikea/.sightmap`, and the
+same map with `--no-memory`. Jev `jev-latest`, headless, one session on a
+fresh profile with a 1200×900 window.
+
+The listing for "KALLAX shelf unit" shows about thirty cards. Sixteen of
+their add buttons carry the identical accessible name `Add "KALLAX Shelf
+unit" to cart`; the size and colour live in the card's title link, a sibling.
+The raw tree offers those sixteen as one flat run of same-named buttons. The
+map scopes each button to its ProductCard, so the picker sees `AddToCartButton
+in [ProductCard price="49.99" title="KALLAX, Shelf unit, white, 30 1/8x30 1/8"]`,
+and the loop offers each card as a group headed by that title.
+
+```
+                      ikea-variants/no-map/jev:jev-latest  ikea-variants/map/jev:jev-latest  ikea-variants/map-no-memory/jev:jev-latest
+reached               10/15                                15/15                             15/15
+steps / goal          7                                    5                                 6
+wasted steps          34                                   5                                 7
+no-effect steps       44                                   1                                 7
+fallback picks        -                                    0                                 3
+low-confidence picks  79                                   2                                 34
+candidates offered    146                                  561                               560
+same-name candidates  28                                   189                               189
+low-coverage pages    -                                    2                                 5
+seconds               337.0                                198.8                             222.0
+```
+
+Per goal, actions a goal (median of five) and how many runs reached it:
+
+| goal | no-map | map | map, no memory |
+|---|---|---|---|
+| white 2x2 | 5, 5/5, 10 unsure | 4, 5/5, 1 unsure | 4, 5/5, 6 unsure |
+| black-brown 2x2 | 9, 5/5, 15 unsure | 5, 5/5, 1 unsure | 6, 5/5, 10 unsure |
+| white 1x4 + black-brown 2x2 | 20, 0/5, 54 unsure | 6, 5/5, 0 unsure | 6, 5/5, 18 unsure |
+
+What each condition does. Without the map Jev never presses a listing add
+button: it opens the product page for the variant it can read in a title
+link, adds there, and goes to the bag; five actions on the easy goal, nine on
+the black-brown one (a swatch under the white card, which the raw tree toggles
+twice before it trusts it), and the two-item goal never finishes in twenty
+steps, mostly spent removing and re-adding on the bag page. With the map every
+add is the card's own button at 1.00, the black-brown one after a VariantSwatch
+pick, and the two-item goal is search, Enter, add, swatch, add, bag. The map
+without its notes takes the same routes with the same step counts but is
+unsure seventeen times more often, and picks an unnamed node three times: on
+this map the memory buys confidence, not steps.
+
+The `same-name candidates` row is a property of the pages a run visited, not
+of the condition: the map runs took their picks on the listing, where 189
+candidates share a name with another, and were still sure; the raw tree left
+for the product page, where fewer do.
+
+The `no-effect steps` row is the row that was missing on 2026-09-18. It counts
+actions after which the next observation showed nothing new: no navigation,
+no value in the filled field, no change in the controls offered. The raw
+tree's 44 are mostly waits and scrolls on the bag page and adds whose
+confirmation sheet had not rendered by the next look; that last case is a
+timing false positive the row does not yet distinguish.
+
+`jev-turbo memory-lint ikea/.sightmap` flags three of the map's seventeen
+notes as prescriptive; all three are about overlays and the add flow and
+were kept on purpose after reading them. The lint is a prompt to read, not a
+rule.
+
+Commands:
+
+```bash
+cd bench
+sightmap browser start --detach --headless --url https://www.ikea.com/us/en/ --sightmap-dir ikea/.sightmap \
+  --profile ~/.sightmap/profiles/explore-ikea-3 --port 7957 --cdp-port 7958 --chrome-flag=--window-size=1200,900
+jev-turbo bench ikea-variants.json --repeat 5 --no-map --out results/ikea-variants-no-map.json
+jev-turbo bench ikea-variants.json --repeat 5 --out results/ikea-variants-map.json
+jev-turbo bench ikea-variants.json --repeat 5 --no-memory --out results/ikea-variants-map-no-memory.json
+jev-turbo bench ikea-variants.json --only kallax-2x2-white --no-map --record ../out/v-no-map --out results/ikea-variants-demo-no-map.json
+jev-turbo bench ikea-variants.json --only kallax-2x2-white --record ../out/v-map --out results/ikea-variants-demo-map.json
+cd ikea && sightmap browser stop --port 7957 && cd ..
+
+jev-turbo score results/ikea-variants-no-map.json results/ikea-variants-map.json results/ikea-variants-map-no-memory.json
+jev-turbo memory-lint ikea/.sightmap
+python3 ../scripts/render-demo.py --compare "without a map=../out/v-no-map" "with a map=../out/v-map" ../docs/demo \
+  --title "One exact variant from a listing of sixteen same-named add buttons." \
+  --subtitle "The white 2x2 KALLAX into the bag. Without a map: the product page, 5 steps. With the map: the card's own button, 4 steps, every pick sure."
+```
+
 ## IKEA (2026-09-19)
 
 One goal on ikea.com, the KALLAX shelf unit in white into the shopping bag,
@@ -406,10 +493,9 @@ The suite's earlier goal was the BILLY bookcase. The home page carries a BILLY
 rail with an Add button, so a raw tree reached that goal in three actions, and
 the goal was replaced with the KALLAX shelf unit, which has to be searched for.
 
-The README video is two single runs recorded on 2026-09-19 with `--record`,
-one per condition, 4 steps and 13.4 s each, played at 1x. The sightkick tool
-layer was not re-recorded (its act needs the `sightkick` CLI), so the video
-has two acts; the 2026-09-18 tools recording is still in
+The README video is now the variants goal (see above). Two single runs of
+this goal, one per condition, are in `results/ikea-demo-no-map.json` and
+`results/ikea-demo-map.json`; the 2026-09-18 tools recording is still in
 `results/ikea-demo-tools.json`.
 
 Commands:

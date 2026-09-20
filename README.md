@@ -4,9 +4,9 @@
 
 Give it one goal. A [sightmap](https://sightmap.org) turns the page into a short list of named actions. [Jev](https://docs.typesafe.ai/introduction), TypeSafe's typed-answer model, picks one and says whether the goal is met. No large model is called to act. jev-turbo runs that loop with the map and without it, over the same site and the same model, and reports what the map changed.
 
-<a href="docs/demo.mp4"><img src="docs/demo.gif" alt="KALLAX into the bag on ikea.com at 1x, twice with the same model. Without a map: 4 steps. With a 24-component map: 4 steps, every pick a named component." width="100%" /></a>
+<a href="docs/demo.mp4"><img src="docs/demo.gif" alt="One exact KALLAX variant into the bag on ikea.com at 1x, twice with the same model. Without a map: 5 steps through the product page, two unsure picks. With the map: 4 steps, the card's own add button, every pick at 1.00." width="100%" /></a>
 
-KALLAX into the bag on ikea.com at 1x, twice with the same model. Without a map: 4 steps. With a 24-component map: 4 steps, every pick a named component and Add to cart at 0.97 instead of 0.81. [MP4](docs/demo.mp4) · [The map run](bench/results/ikea-demo-map.json) · [All benchmarks](bench/README.md)
+The white 2x2 KALLAX into the bag on ikea.com at 1x, twice with the same model. The listing shows sixteen add buttons that all read `Add "KALLAX Shelf unit" to cart`. Without a map Jev cannot tell them apart, so it goes through the product page: 5 steps, two unsure picks. With the map each button belongs to a ProductCard with a title, so it takes the right one at 1.00: 4 steps. [MP4](docs/demo.mp4) · [The map run](bench/results/ikea-variants-demo-map.json) · [All benchmarks](bench/README.md)
 
 ## Three ways in
 
@@ -22,7 +22,7 @@ low-coverage pages    -                           7                        1
 seconds               71.6                        130.2                    34.7
 ```
 
-On ikea.com the first runs went the wrong way: 15 steps a goal with the map, 8 without it. The run files, and then a live session, showed why. IKEA's consent banner holds keyboard focus, the driver typed the search into the banner and left the field empty, and the map's memory then steered Jev away from the category route that the raw tree took. With the fill fixed and the map given a Category view and its header menu, both conditions reach the goal in 4 steps, five runs out of five, with no wasted steps; with the map every pick is a named component and Add to cart is picked at 0.97 or better, against 0.76 to 0.86 from the raw tree. The score is what pointed at both problems: 44 fallback picks and 7 low-coverage pages before, 0 and 1 after.
+On ikea.com the map pays where the tree is ambiguous. Three goals ask for one exact KALLAX variant from a listing where every add button carries the same name. Over five runs each: the raw tree reaches 10 of 15 with 7 steps a goal, 34 wasted steps and 79 unsure picks; the map reaches 15 of 15 with 5 steps a goal, 5 wasted and 2 unsure. The two-variant goal the raw tree never finishes in 20 steps; the map does it in 6. The same map with its memory notes removed still reaches 15 of 15 but with 34 unsure picks, so the notes buy confidence, not steps. The first IKEA runs went the other way, 15 steps a goal with the map against 8 without, and the reasons are in the bench README: a fill that never landed, and notes written for an earlier goal that steered Jev off the working route. The score is what pointed at both problems, and it now also counts steps that had no effect and candidates that share a name.
 
 ## Install
 

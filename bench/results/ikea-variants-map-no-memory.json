@@ -1,0 +1,4193 @@
+{
+ "suite": "ikea-variants",
+ "picker": "jev:jev-latest",
+ "condition": "map-no-memory",
+ "when": "2026-09-20T00:06:39.924825449Z",
+ "summary": {
+  "goals": 15,
+  "ok": 15,
+  "steps": 99,
+  "ms": 221999,
+  "ms_per_step": 2242.4141414141413,
+  "model_calls": 132,
+  "model_ms": 34641,
+  "ms_per_call": 262.4318181818182,
+  "input_tokens": 1687028,
+  "output_tokens": 69342,
+  "usd": 0,
+  "wasted": 7,
+  "fallback": 3,
+  "low_confidence": 34,
+  "candidates_median": 560
+ },
+ "runs": [
+  {
+   "name": "kallax-2x2-white",
+   "rep": 1,
+   "goal": "Add the KALLAX shelf unit in white in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 699,
+     "ms_pick": 609,
+     "ms_act": 221,
+     "ms_settle": 1629,
+     "ms": 3162,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.38 n250:0.24 g:200:0.19",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1508,
+     "ms_pick": 198,
+     "ms_act": 52,
+     "ms_settle": 1764,
+     "ms": 3527,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.38,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1793",
+     "group": "g:1743",
+     "probs": "n1793:1.00 n1749:0.00 n1756:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 868,
+     "ms_pick": 583,
+     "ms_act": 20,
+     "ms_settle": 82,
+     "ms": 1559,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.68,
+     "group_confidence": 0.68,
+     "ambiguous": 190,
+     "effect": "none"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n227",
+     "group": "g:199",
+     "probs": "n227:1.00 n209:0.00 n219:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1217,
+     "ms_pick": 591,
+     "ms_act": 37,
+     "ms_settle": 1721,
+     "ms": 3578,
+     "navigated": true,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.87,
+     "group_confidence": 0.87,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 11,
+      "t2": 11,
+      "t3": 82
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 188,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 12017,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1978,
+    "input_tokens": 86633,
+    "output_tokens": 3336,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 4,
+    "wasted": 0,
+    "no_effect": 1,
+    "fallback": 0,
+    "low_confidence": 1,
+    "candidates_median": 506,
+    "options_median": 67,
+    "ambiguous_median": 164.5
+   }
+  },
+  {
+   "name": "kallax-2x2-black-brown",
+   "rep": 1,
+   "goal": "Add the KALLAX shelf unit in black-brown in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 739,
+     "ms_pick": 440,
+     "ms_act": 210,
+     "ms_settle": 1654,
+     "ms": 3047,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "n223",
+     "probs": "n223:0.48 enter:0.31 g:200:0.15",
+     "done_prob": 0.01,
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 1374,
+     "ms_pick": 344,
+     "ms_act": 28,
+     "ms_settle": 1641,
+     "ms": 3392,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.48,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1922",
+     "probs": "n1922:0.79 n1923:0.18 g:1847:0.01",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 871,
+     "ms_pick": 295,
+     "ms_act": 7,
+     "ms_settle": 87,
+     "ms": 1269,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.79,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1923",
+     "probs": "n1923:0.50 g:1848:0.40 n1876:0.06",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 960,
+     "ms_pick": 276,
+     "ms_act": 3,
+     "ms_settle": 81,
+     "ms": 1327,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.5,
+     "wasted": true,
+     "ambiguous": 190,
+     "effect": "none"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1898",
+     "group": "g:1848",
+     "probs": "n1898:1.00 n1854:0.00 n1865:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 888,
+     "ms_pick": 558,
+     "ms_act": 18,
+     "ms_settle": 82,
+     "ms": 1552,
+     "candidates": 562,
+     "options": 75,
+     "named": 126,
+     "confidence": 0.71,
+     "group_confidence": 0.71,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n226",
+     "group": "g:198",
+     "probs": "n226:1.00 n208:0.00 n218:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1084,
+     "ms_pick": 518,
+     "ms_act": 30,
+     "ms_settle": 1674,
+     "ms": 3314,
+     "navigated": true,
+     "candidates": 562,
+     "options": 75,
+     "named": 126,
+     "confidence": 0.93,
+     "group_confidence": 0.93,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 109,
+      "t1": 11,
+      "t2": 15,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 206,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "comp": "SearchSuggestion",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 14109,
+   "picker_stats": {
+    "calls": 9,
+    "ms": 2430,
+    "input_tokens": 123765,
+    "output_tokens": 5132,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "no_effect": 1,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 562,
+    "options_median": 75,
+    "ambiguous_median": 190
+   }
+  },
+  {
+   "name": "kallax-two-variants",
+   "rep": 1,
+   "goal": "Put two different KALLAX shelf units in the bag: the white 1x4 (16 3/8x57 5/8 inches) and the black-brown 2x2 (30 1/8x30 1/8 inches). Then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "white, 16 3/8x57 5/8"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 2,
+        "max": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n202",
+     "group": "g:198",
+     "probs": "n202:1.00 n210:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 652,
+     "ms_pick": 424,
+     "ms_act": 512,
+     "ms_settle": 1625,
+     "ms": 3217,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.98,
+     "group_confidence": 0.98,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.44 g:199:0.22 g:222:0.19",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1349,
+     "ms_pick": 244,
+     "ms_act": 43,
+     "ms_settle": 1902,
+     "ms": 3543,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.44,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1698",
+     "probs": "n1698:0.38 g:1670:0.28 n1831:0.13",
+     "done_prob": 0.02,
+     "action": "clicked [ProductLink label=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-40631638/",
+     "ms_snap": 753,
+     "ms_pick": 349,
+     "ms_act": 37,
+     "ms_settle": 2373,
+     "ms": 3523,
+     "navigated": true,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.38,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-40631638/",
+     "view": "Product",
+     "coverage": {
+      "interactive": 218,
+      "t1": 12,
+      "t2": 10,
+      "t3": 196
+     },
+     "pick": "n736",
+     "probs": "n736:0.97 n626:0.02 back:0.01",
+     "done_prob": 0.02,
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-40631638/",
+     "ms_snap": 299,
+     "ms_pick": 243,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 632,
+     "candidates": 148,
+     "options": 45,
+     "named": 12,
+     "confidence": 0.97,
+     "ambiguous": 26,
+     "effect": "none"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-40631638/",
+     "view": "Product",
+     "coverage": {
+      "interactive": 218,
+      "t1": 12,
+      "t2": 10,
+      "t3": 196
+     },
+     "pick": "n628",
+     "probs": "n628:0.29 back:0.27 g:255:0.19",
+     "done_prob": 0.02,
+     "action": "clicked [VariantOption label=\"Black-brown\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-00631635/#content",
+     "ms_snap": 287,
+     "ms_pick": 219,
+     "ms_act": 17,
+     "ms_settle": 2166,
+     "ms": 2691,
+     "navigated": true,
+     "candidates": 148,
+     "options": 45,
+     "named": 12,
+     "confidence": 0.29000000000000004,
+     "ambiguous": 26,
+     "effect": "navigated"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-00631635/#content",
+     "view": "Product",
+     "coverage": {
+      "interactive": 209,
+      "t1": 11,
+      "t2": 10,
+      "t3": 188
+     },
+     "pick": "n309",
+     "probs": "n309:0.37 back:0.23 n515:0.09",
+     "done_prob": 0.03,
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 310,
+     "ms_pick": 178,
+     "ms_act": 22,
+     "ms_settle": 1598,
+     "ms": 2111,
+     "navigated": true,
+     "candidates": 141,
+     "options": 43,
+     "named": 11,
+     "confidence": 0.37,
+     "ambiguous": 25,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 11,
+      "t2": 11,
+      "t3": 82
+     },
+     "pick": "n185",
+     "group": "g:181",
+     "probs": "n185:1.00 n193:0.00",
+     "done_prob": 0.03,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 150,
+     "ms_pick": 433,
+     "ms_act": 193,
+     "ms_settle": 1620,
+     "ms": 2397,
+     "candidates": 82,
+     "options": 32,
+     "named": 11,
+     "confidence": 0.53,
+     "group_confidence": 0.53,
+     "ambiguous": 6,
+     "effect": "value"
+    },
+    {
+     "step": 8,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 178,
+      "t1": 20,
+      "t2": 25,
+      "t3": 133
+     },
+     "pick": "enter",
+     "probs": "enter:0.67 g:182:0.12 n205:0.09",
+     "done_prob": 0.03,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 717,
+     "ms_pick": 228,
+     "ms_act": 29,
+     "ms_settle": 1689,
+     "ms": 2665,
+     "navigated": true,
+     "candidates": 150,
+     "options": 53,
+     "named": 20,
+     "confidence": 0.67,
+     "ambiguous": 22,
+     "effect": "navigated"
+    },
+    {
+     "step": 9,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1835",
+     "probs": "n1835:0.33 n1834:0.27 back:0.20",
+     "done_prob": 0.03,
+     "action": "clicked link \"Option: KALLAX, Shelf unit, black-brown…\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 719,
+     "ms_pick": 372,
+     "ms_act": 7,
+     "ms_settle": 82,
+     "ms": 1186,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.33,
+     "fallback": true,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 10,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1880",
+     "probs": "n1880:0.52 g:1852:0.13 n1865:0.13",
+     "done_prob": 0.04,
+     "action": "clicked [ProductLink label=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-70637304/",
+     "ms_snap": 880,
+     "ms_pick": 268,
+     "ms_act": 36,
+     "ms_settle": 2434,
+     "ms": 3624,
+     "navigated": true,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.52,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 11,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-70637304/",
+     "view": "Product",
+     "coverage": {
+      "interactive": 214,
+      "t1": 12,
+      "t2": 10,
+      "t3": 192
+     },
+     "pick": "n709",
+     "probs": "n709:0.94 n309:0.05 back:0.00",
+     "done_prob": 0.03,
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-70637304/",
+     "ms_snap": 296,
+     "ms_pick": 223,
+     "ms_act": 6,
+     "ms_settle": 83,
+     "ms": 611,
+     "candidates": 146,
+     "options": 44,
+     "named": 12,
+     "confidence": 0.9400000000000001,
+     "ambiguous": 26,
+     "effect": "none"
+    },
+    {
+     "step": 12,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-black-brown-70637304/",
+     "view": "Product",
+     "coverage": {
+      "interactive": 214,
+      "t1": 12,
+      "t2": 10,
+      "t3": 192
+     },
+     "pick": "n311",
+     "probs": "n311:0.91 n711:0.07 back:0.01",
+     "done_prob": 0.03,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 309,
+     "ms_pick": 214,
+     "ms_act": 11,
+     "ms_settle": 1809,
+     "ms": 2346,
+     "navigated": true,
+     "candidates": 146,
+     "options": 44,
+     "named": 12,
+     "confidence": 0.91,
+     "ambiguous": 26,
+     "effect": "navigated"
+    },
+    {
+     "step": 13,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 112,
+      "t1": 13,
+      "t2": 17,
+      "t3": 82
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 239,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [ProductLink label=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "comp": "ProductLink",
+     "to": "Product",
+     "changed": true
+    },
+    {
+     "from": "Product",
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "comp": "AddToBagButton",
+     "to": "Product",
+     "changed": false
+    },
+    {
+     "from": "Product",
+     "action": "clicked [VariantOption label=\"Black-brown\"]",
+     "comp": "VariantOption",
+     "to": "Product",
+     "changed": true
+    },
+    {
+     "from": "Product",
+     "action": "clicked [BagLink count=\"Shopping bag\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    },
+    {
+     "from": "Bag",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Bag",
+     "changed": false
+    },
+    {
+     "from": "Bag",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked link \"Option: KALLAX, Shelf unit, black-brown…\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [ProductLink label=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "ProductLink",
+     "to": "Product",
+     "changed": true
+    },
+    {
+     "from": "Product",
+     "action": "clicked [AddToBagButton label=\"Add to bag\"]",
+     "comp": "AddToBagButton",
+     "to": "Product",
+     "changed": false
+    },
+    {
+     "from": "Product",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 28793,
+   "picker_stats": {
+    "calls": 14,
+    "ms": 3391,
+    "input_tokens": 125887,
+    "output_tokens": 7552,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 12,
+    "wasted": 0,
+    "no_effect": 2,
+    "fallback": 1,
+    "low_confidence": 7,
+    "candidates_median": 149,
+    "options_median": 47.5,
+    "ambiguous_median": 26
+   }
+  },
+  {
+   "name": "kallax-2x2-white",
+   "rep": 2,
+   "goal": "Add the KALLAX shelf unit in white in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 686,
+     "ms_pick": 476,
+     "ms_act": 280,
+     "ms_settle": 1596,
+     "ms": 3043,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 1,
+     "group_confidence": 1,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.42 n250:0.26 g:200:0.17",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1362,
+     "ms_pick": 207,
+     "ms_act": 46,
+     "ms_settle": 2011,
+     "ms": 3631,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.42,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1885",
+     "group": "g:1835",
+     "probs": "n1885:1.00 n1841:0.00 n1848:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 935,
+     "ms_pick": 479,
+     "ms_act": 17,
+     "ms_settle": 81,
+     "ms": 1520,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.61,
+     "group_confidence": 0.61,
+     "ambiguous": 189,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n227",
+     "group": "g:199",
+     "probs": "n227:1.00 n209:0.00 n219:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1134,
+     "ms_pick": 566,
+     "ms_act": 26,
+     "ms_settle": 2211,
+     "ms": 3943,
+     "navigated": true,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.9,
+     "group_confidence": 0.9,
+     "ambiguous": 189,
+     "effect": "navigated"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 105,
+      "t1": 11,
+      "t2": 11,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 143,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 12283,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1724,
+    "input_tokens": 86671,
+    "output_tokens": 3336,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 4,
+    "wasted": 0,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 1,
+    "candidates_median": 506,
+    "options_median": 67,
+    "ambiguous_median": 164
+   }
+  },
+  {
+   "name": "kallax-2x2-black-brown",
+   "rep": 2,
+   "goal": "Add the KALLAX shelf unit in black-brown in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 731,
+     "ms_pick": 375,
+     "ms_act": 277,
+     "ms_settle": 1588,
+     "ms": 2974,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "n223",
+     "probs": "n223:0.44 enter:0.34 g:200:0.14",
+     "done_prob": 0.01,
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 1463,
+     "ms_pick": 228,
+     "ms_act": 31,
+     "ms_settle": 1907,
+     "ms": 3633,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.44,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1922",
+     "probs": "n1922:0.74 n1923:0.21 n1875:0.03",
+     "done_prob": 0.01,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 875,
+     "ms_pick": 259,
+     "ms_act": 8,
+     "ms_settle": 83,
+     "ms": 1232,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.74,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1898",
+     "group": "g:1848",
+     "probs": "n1898:1.00 n1854:0.00 n1865:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 922,
+     "ms_pick": 576,
+     "ms_act": 15,
+     "ms_settle": 83,
+     "ms": 1603,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.47000000000000003,
+     "group_confidence": 0.47000000000000003,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n226",
+     "group": "g:198",
+     "probs": "n226:1.00 n208:0.00 n218:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1254,
+     "ms_pick": 551,
+     "ms_act": 53,
+     "ms_settle": 1550,
+     "ms": 3415,
+     "navigated": true,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.95,
+     "group_confidence": 0.95,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 109,
+      "t1": 11,
+      "t2": 15,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 163,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "comp": "SearchSuggestion",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 13023,
+   "picker_stats": {
+    "calls": 8,
+    "ms": 1986,
+    "input_tokens": 105050,
+    "output_tokens": 4240,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 5,
+    "wasted": 0,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 563,
+    "options_median": 75,
+    "ambiguous_median": 190
+   }
+  },
+  {
+   "name": "kallax-two-variants",
+   "rep": 2,
+   "goal": "Put two different KALLAX shelf units in the bag: the white 1x4 (16 3/8x57 5/8 inches) and the black-brown 2x2 (30 1/8x30 1/8 inches). Then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "white, 16 3/8x57 5/8"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 2,
+        "max": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n202",
+     "group": "g:198",
+     "probs": "n202:1.00 n210:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 695,
+     "ms_pick": 438,
+     "ms_act": 427,
+     "ms_settle": 1666,
+     "ms": 3232,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.47 g:199:0.22 g:222:0.15",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1393,
+     "ms_pick": 223,
+     "ms_act": 37,
+     "ms_settle": 1988,
+     "ms": 3646,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.47000000000000003,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1799",
+     "group": "g:1749",
+     "probs": "n1799:0.96 n1762:0.03 n1755:0.01",
+     "done_prob": 0.01,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 921,
+     "ms_pick": 632,
+     "ms_act": 20,
+     "ms_settle": 82,
+     "ms": 1662,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.3264,
+     "group_confidence": 0.34,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1915",
+     "probs": "n1915:0.60 n1916:0.21 g:199:0.11",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1093,
+     "ms_pick": 261,
+     "ms_act": 7,
+     "ms_settle": 83,
+     "ms": 1451,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.6,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 725,
+      "t1": 127,
+      "t2": 400,
+      "t3": 198
+     },
+     "pick": "n1914",
+     "group": "g:1864",
+     "probs": "n1914:1.00 n1870:0.00 n1881:0.00",
+     "done_prob": 0.03,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 908,
+     "ms_pick": 588,
+     "ms_act": 14,
+     "ms_settle": 81,
+     "ms": 1599,
+     "candidates": 564,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.75,
+     "group_confidence": 0.75,
+     "wasted": true,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n231",
+     "group": "g:203",
+     "probs": "n231:1.00 n213:0.00 n223:0.00",
+     "done_prob": 0.07,
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1050,
+     "ms_pick": 572,
+     "ms_act": 26,
+     "ms_settle": 1837,
+     "ms": 3492,
+     "navigated": true,
+     "candidates": 548,
+     "options": 74,
+     "named": 114,
+     "confidence": 0.98,
+     "group_confidence": 0.98,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 121,
+      "t1": 13,
+      "t2": 25,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 220,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 15304,
+   "picker_stats": {
+    "calls": 10,
+    "ms": 2711,
+    "input_tokens": 137111,
+    "output_tokens": 5292,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 554.5,
+    "options_median": 74,
+    "ambiguous_median": 190
+   }
+  },
+  {
+   "name": "kallax-2x2-white",
+   "rep": 3,
+   "goal": "Add the KALLAX shelf unit in white in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 719,
+     "ms_pick": 697,
+     "ms_act": 264,
+     "ms_settle": 1639,
+     "ms": 3324,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.38 n250:0.24 g:200:0.20",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1415,
+     "ms_pick": 270,
+     "ms_act": 51,
+     "ms_settle": 1961,
+     "ms": 3702,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.38,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1885",
+     "group": "g:1835",
+     "probs": "n1885:1.00 n1841:0.00 n1848:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 865,
+     "ms_pick": 494,
+     "ms_act": 16,
+     "ms_settle": 83,
+     "ms": 1466,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.63,
+     "group_confidence": 0.63,
+     "ambiguous": 189,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n227",
+     "group": "g:199",
+     "probs": "n227:1.00 n209:0.00 n219:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1049,
+     "ms_pick": 524,
+     "ms_act": 33,
+     "ms_settle": 1852,
+     "ms": 3470,
+     "navigated": true,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.91,
+     "group_confidence": 0.91,
+     "ambiguous": 189,
+     "effect": "navigated"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 109,
+      "t1": 11,
+      "t2": 15,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 149,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 12114,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1982,
+    "input_tokens": 86665,
+    "output_tokens": 3336,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 4,
+    "wasted": 0,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 1,
+    "candidates_median": 506,
+    "options_median": 67,
+    "ambiguous_median": 164
+   }
+  },
+  {
+   "name": "kallax-2x2-black-brown",
+   "rep": 3,
+   "goal": "Add the KALLAX shelf unit in black-brown in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 758,
+     "ms_pick": 427,
+     "ms_act": 215,
+     "ms_settle": 1600,
+     "ms": 3004,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "n223",
+     "probs": "n223:0.49 enter:0.30 g:200:0.15",
+     "done_prob": 0.02,
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 1423,
+     "ms_pick": 268,
+     "ms_act": 21,
+     "ms_settle": 1776,
+     "ms": 3492,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.49,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1921",
+     "probs": "n1921:0.82 n1922:0.14 n1874:0.02",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 1100,
+     "ms_pick": 298,
+     "ms_act": 8,
+     "ms_settle": 84,
+     "ms": 1500,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.8200000000000001,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1923",
+     "probs": "n1923:0.46 g:1848:0.42 n1876:0.09",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 860,
+     "ms_pick": 267,
+     "ms_act": 2,
+     "ms_settle": 81,
+     "ms": 1217,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.46,
+     "wasted": true,
+     "ambiguous": 190,
+     "effect": "none"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1898",
+     "group": "g:1848",
+     "probs": "n1898:1.00 n1854:0.00 n1865:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 855,
+     "ms_pick": 520,
+     "ms_act": 16,
+     "ms_settle": 82,
+     "ms": 1480,
+     "candidates": 562,
+     "options": 75,
+     "named": 126,
+     "confidence": 0.78,
+     "group_confidence": 0.78,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n226",
+     "group": "g:198",
+     "probs": "n226:1.00 n208:0.00 n218:0.00",
+     "done_prob": 0.05,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1035,
+     "ms_pick": 569,
+     "ms_act": 35,
+     "ms_settle": 1887,
+     "ms": 3533,
+     "navigated": true,
+     "candidates": 562,
+     "options": 75,
+     "named": 126,
+     "confidence": 0.95,
+     "group_confidence": 0.95,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 11,
+      "t2": 11,
+      "t3": 82
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 148,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "comp": "SearchSuggestion",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 14377,
+   "picker_stats": {
+    "calls": 9,
+    "ms": 2345,
+    "input_tokens": 123765,
+    "output_tokens": 5132,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "no_effect": 1,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 562,
+    "options_median": 75,
+    "ambiguous_median": 190
+   }
+  },
+  {
+   "name": "kallax-two-variants",
+   "rep": 3,
+   "goal": "Put two different KALLAX shelf units in the bag: the white 1x4 (16 3/8x57 5/8 inches) and the black-brown 2x2 (30 1/8x30 1/8 inches). Then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "white, 16 3/8x57 5/8"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 2,
+        "max": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n202",
+     "group": "g:198",
+     "probs": "n202:1.00 n210:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 707,
+     "ms_pick": 520,
+     "ms_act": 203,
+     "ms_settle": 1609,
+     "ms": 3044,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.42 g:199:0.31 g:222:0.14",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1397,
+     "ms_pick": 193,
+     "ms_act": 51,
+     "ms_settle": 1497,
+     "ms": 3143,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.42,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1812",
+     "group": "g:1762",
+     "probs": "n1812:0.97 n1775:0.02 n1768:0.01",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 889,
+     "ms_pick": 600,
+     "ms_act": 16,
+     "ms_settle": 81,
+     "ms": 1593,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.32980000000000004,
+     "group_confidence": 0.34,
+     "ambiguous": 191,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1929",
+     "probs": "n1929:0.44 n1928:0.41 g:199:0.08",
+     "done_prob": 0.02,
+     "action": "clicked link \"Option: KALLAX, Shelf unit, black-brown…\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1000,
+     "ms_pick": 269,
+     "ms_act": 6,
+     "ms_settle": 82,
+     "ms": 1371,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.44,
+     "fallback": true,
+     "ambiguous": 191,
+     "effect": "changed"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 727,
+      "t1": 127,
+      "t2": 400,
+      "t3": 200
+     },
+     "pick": "n1927",
+     "group": "g:1877",
+     "probs": "n1927:1.00 n1883:0.00 n1894:0.00",
+     "done_prob": 0.03,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 952,
+     "ms_pick": 538,
+     "ms_act": 16,
+     "ms_settle": 82,
+     "ms": 1594,
+     "candidates": 566,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.8,
+     "group_confidence": 0.8,
+     "wasted": true,
+     "ambiguous": 191,
+     "effect": "changed"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n231",
+     "group": "g:203",
+     "probs": "n231:1.00 n213:0.00 n223:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1036,
+     "ms_pick": 583,
+     "ms_act": 28,
+     "ms_settle": 1986,
+     "ms": 3640,
+     "navigated": true,
+     "candidates": 550,
+     "options": 75,
+     "named": 114,
+     "confidence": 0.98,
+     "group_confidence": 0.98,
+     "ambiguous": 191,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 121,
+      "t1": 13,
+      "t2": 25,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 175,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked link \"Option: KALLAX, Shelf unit, black-brown…\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 14563,
+   "picker_stats": {
+    "calls": 10,
+    "ms": 2699,
+    "input_tokens": 136291,
+    "output_tokens": 5336,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "no_effect": 0,
+    "fallback": 1,
+    "low_confidence": 3,
+    "candidates_median": 556.5,
+    "options_median": 75,
+    "ambiguous_median": 191
+   }
+  },
+  {
+   "name": "kallax-2x2-white",
+   "rep": 4,
+   "goal": "Add the KALLAX shelf unit in white in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n202",
+     "group": "g:198",
+     "probs": "n202:1.00 n210:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 758,
+     "ms_pick": 428,
+     "ms_act": 226,
+     "ms_settle": 1603,
+     "ms": 3020,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.38 n249:0.25 g:199:0.20",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1427,
+     "ms_pick": 232,
+     "ms_act": 27,
+     "ms_settle": 3035,
+     "ms": 4727,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.38,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1882",
+     "group": "g:1832",
+     "probs": "n1882:1.00 n1838:0.00 n1845:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 862,
+     "ms_pick": 502,
+     "ms_act": 16,
+     "ms_settle": 3028,
+     "ms": 4416,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.68,
+     "group_confidence": 0.68,
+     "ambiguous": 189,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 725,
+      "t1": 127,
+      "t2": 400,
+      "t3": 198
+     },
+     "pick": "n228",
+     "group": "g:200",
+     "probs": "n228:1.00 n210:0.00 n220:0.00",
+     "done_prob": 0.04,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 915,
+     "ms_pick": 633,
+     "ms_act": 45,
+     "ms_settle": 1683,
+     "ms": 3283,
+     "navigated": true,
+     "candidates": 564,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.95,
+     "group_confidence": 0.95,
+     "ambiguous": 189,
+     "effect": "navigated"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 103,
+      "t1": 11,
+      "t2": 11,
+      "t3": 81
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 206,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 15654,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1794,
+    "input_tokens": 86249,
+    "output_tokens": 3336,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 4,
+    "wasted": 0,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 1,
+    "candidates_median": 506,
+    "options_median": 67,
+    "ambiguous_median": 164
+   }
+  },
+  {
+   "name": "kallax-2x2-black-brown",
+   "rep": 4,
+   "goal": "Add the KALLAX shelf unit in black-brown in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n202",
+     "group": "g:198",
+     "probs": "n202:1.00 n210:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 761,
+     "ms_pick": 367,
+     "ms_act": 371,
+     "ms_settle": 1596,
+     "ms": 3099,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "n222",
+     "probs": "n222:0.47 enter:0.29 g:199:0.17",
+     "done_prob": 0.01,
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 1397,
+     "ms_pick": 278,
+     "ms_act": 32,
+     "ms_settle": 2211,
+     "ms": 3923,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.47000000000000003,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1909",
+     "probs": "n1909:0.68 n1910:0.27 n1862:0.02",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 869,
+     "ms_pick": 277,
+     "ms_act": 8,
+     "ms_settle": 84,
+     "ms": 1244,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.68,
+     "ambiguous": 189,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1910",
+     "probs": "n1910:0.46 g:1835:0.34 n1848:0.12",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 909,
+     "ms_pick": 296,
+     "ms_act": 2,
+     "ms_settle": 82,
+     "ms": 1296,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.46,
+     "wasted": true,
+     "ambiguous": 189,
+     "effect": "none"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1885",
+     "group": "g:1835",
+     "probs": "n1885:1.00 n1841:0.00 n1852:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 921,
+     "ms_pick": 535,
+     "ms_act": 20,
+     "ms_settle": 81,
+     "ms": 1563,
+     "candidates": 560,
+     "options": 74,
+     "named": 126,
+     "confidence": 0.67,
+     "group_confidence": 0.67,
+     "ambiguous": 189,
+     "effect": "changed"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n226",
+     "group": "g:198",
+     "probs": "n226:1.00 n208:0.00 n218:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1014,
+     "ms_pick": 521,
+     "ms_act": 44,
+     "ms_settle": 1602,
+     "ms": 3198,
+     "navigated": true,
+     "candidates": 560,
+     "options": 74,
+     "named": 126,
+     "confidence": 0.92,
+     "group_confidence": 0.92,
+     "ambiguous": 189,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 11,
+      "t2": 11,
+      "t3": 82
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 172,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "comp": "SearchSuggestion",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 14497,
+   "picker_stats": {
+    "calls": 9,
+    "ms": 2270,
+    "input_tokens": 124209,
+    "output_tokens": 5088,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "no_effect": 1,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 560,
+    "options_median": 74,
+    "ambiguous_median": 189
+   }
+  },
+  {
+   "name": "kallax-two-variants",
+   "rep": 4,
+   "goal": "Put two different KALLAX shelf units in the bag: the white 1x4 (16 3/8x57 5/8 inches) and the black-brown 2x2 (30 1/8x30 1/8 inches). Then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "white, 16 3/8x57 5/8"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 2,
+        "max": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 736,
+     "ms_pick": 494,
+     "ms_act": 262,
+     "ms_settle": 1588,
+     "ms": 3085,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.38 g:200:0.26 g:223:0.23",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1375,
+     "ms_pick": 194,
+     "ms_act": 27,
+     "ms_settle": 1747,
+     "ms": 3348,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.38,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1799",
+     "group": "g:1749",
+     "probs": "n1799:0.95 n1762:0.04 n1755:0.01",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 936,
+     "ms_pick": 506,
+     "ms_act": 17,
+     "ms_settle": 81,
+     "ms": 1549,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.3705,
+     "group_confidence": 0.39,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n1915",
+     "probs": "n1915:0.52 n1916:0.27 g:199:0.12",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1048,
+     "ms_pick": 309,
+     "ms_act": 7,
+     "ms_settle": 81,
+     "ms": 1451,
+     "candidates": 561,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.52,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 725,
+      "t1": 127,
+      "t2": 400,
+      "t3": 198
+     },
+     "pick": "n1914",
+     "group": "g:1864",
+     "probs": "n1914:1.00 n1870:0.00 n1881:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 986,
+     "ms_pick": 610,
+     "ms_act": 13,
+     "ms_settle": 81,
+     "ms": 1699,
+     "candidates": 564,
+     "options": 74,
+     "named": 127,
+     "confidence": 0.6900000000000001,
+     "group_confidence": 0.6900000000000001,
+     "wasted": true,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 720,
+      "t1": 127,
+      "t2": 400,
+      "t3": 193
+     },
+     "pick": "n231",
+     "group": "g:203",
+     "probs": "n231:1.00 n213:0.00 n223:0.00",
+     "done_prob": 0.07,
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1044,
+     "ms_pick": 543,
+     "ms_act": 30,
+     "ms_settle": 2044,
+     "ms": 3671,
+     "navigated": true,
+     "candidates": 548,
+     "options": 74,
+     "named": 114,
+     "confidence": 0.98,
+     "group_confidence": 0.98,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 113,
+      "t1": 13,
+      "t2": 17,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 183,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 14988,
+   "picker_stats": {
+    "calls": 10,
+    "ms": 2653,
+    "input_tokens": 137111,
+    "output_tokens": 5292,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 3,
+    "candidates_median": 554.5,
+    "options_median": 74,
+    "ambiguous_median": 190
+   }
+  },
+  {
+   "name": "kallax-2x2-white",
+   "rep": 5,
+   "goal": "Add the KALLAX shelf unit in white in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n202",
+     "group": "g:198",
+     "probs": "n202:1.00 n210:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 692,
+     "ms_pick": 525,
+     "ms_act": 203,
+     "ms_settle": 1615,
+     "ms": 3041,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 1,
+     "group_confidence": 1,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.42 n249:0.22 g:199:0.20",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1405,
+     "ms_pick": 206,
+     "ms_act": 38,
+     "ms_settle": 1624,
+     "ms": 3282,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.42,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1898",
+     "group": "g:1848",
+     "probs": "n1898:1.00 n1854:0.00 n1861:0.00",
+     "done_prob": 0.01,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 877,
+     "ms_pick": 615,
+     "ms_act": 20,
+     "ms_settle": 82,
+     "ms": 1601,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.58,
+     "group_confidence": 0.58,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n227",
+     "group": "g:199",
+     "probs": "n227:1.00 n209:0.00 n219:0.00",
+     "done_prob": 0.05,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1158,
+     "ms_pick": 537,
+     "ms_act": 34,
+     "ms_settle": 1755,
+     "ms": 3494,
+     "navigated": true,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.92,
+     "group_confidence": 0.92,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 105,
+      "t1": 11,
+      "t2": 11,
+      "t3": 83
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 156,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 11577,
+   "picker_stats": {
+    "calls": 7,
+    "ms": 1882,
+    "input_tokens": 86281,
+    "output_tokens": 3358,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 4,
+    "wasted": 0,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 507,
+    "options_median": 67.5,
+    "ambiguous_median": 164.5
+   }
+  },
+  {
+   "name": "kallax-2x2-black-brown",
+   "rep": 5,
+   "goal": "Add the KALLAX shelf unit in black-brown in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 668,
+     "ms_pick": 647,
+     "ms_act": 209,
+     "ms_settle": 1620,
+     "ms": 3148,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "n223",
+     "probs": "n223:0.48 enter:0.32 g:200:0.14",
+     "done_prob": 0.01,
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 1382,
+     "ms_pick": 192,
+     "ms_act": 41,
+     "ms_settle": 2337,
+     "ms": 3957,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.48,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1922",
+     "probs": "n1922:0.80 n1923:0.16 n1875:0.02",
+     "done_prob": 0.02,
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 861,
+     "ms_pick": 293,
+     "ms_act": 8,
+     "ms_settle": 87,
+     "ms": 1256,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.8,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1898",
+     "group": "g:1848",
+     "probs": "n1898:1.00 n1854:0.00 n1865:0.00",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "ms_snap": 897,
+     "ms_pick": 535,
+     "ms_act": 15,
+     "ms_settle": 81,
+     "ms": 1534,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.42,
+     "group_confidence": 0.42,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n226",
+     "group": "g:198",
+     "probs": "n226:1.00 n208:0.00 n218:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1016,
+     "ms_pick": 587,
+     "ms_act": 27,
+     "ms_settle": 1951,
+     "ms": 3589,
+     "navigated": true,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.95,
+     "group_confidence": 0.95,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 104,
+      "t1": 11,
+      "t2": 11,
+      "t3": 82
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 163,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "clicked [SearchSuggestion label=\"kallax shelf unit\"]",
+     "comp": "SearchSuggestion",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "toggled [VariantSwatch] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, white, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "VariantSwatch",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 1 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 13650,
+   "picker_stats": {
+    "calls": 8,
+    "ms": 2250,
+    "input_tokens": 105050,
+    "output_tokens": 4240,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 5,
+    "wasted": 0,
+    "no_effect": 0,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 563,
+    "options_median": 75,
+    "ambiguous_median": 190
+   }
+  },
+  {
+   "name": "kallax-two-variants",
+   "rep": 5,
+   "goal": "Put two different KALLAX shelf units in the bag: the white 1x4 (16 3/8x57 5/8 inches) and the black-brown 2x2 (30 1/8x30 1/8 inches). Then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "white, 16 3/8x57 5/8"
+      },
+      {
+       "text_contains": "black-brown, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 2,
+        "max": 2
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 587,
+      "t1": 9,
+      "t2": 5,
+      "t3": 573
+     },
+     "pick": "n199",
+     "group": "g:195",
+     "probs": "n199:1.00 n207:0.00",
+     "done_prob": 0.01,
+     "action": "filled [SearchField] with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 729,
+     "ms_pick": 496,
+     "ms_act": 221,
+     "ms_settle": 1656,
+     "ms": 3107,
+     "candidates": 424,
+     "options": 50,
+     "named": 9,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 125,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "view": "Home",
+     "coverage": {
+      "interactive": 616,
+      "t1": 18,
+      "t2": 15,
+      "t3": 583
+     },
+     "pick": "enter",
+     "probs": "enter:0.41 g:198:0.26 g:221:0.19",
+     "done_prob": 0.01,
+     "action": "pressed Enter",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1401,
+     "ms_pick": 250,
+     "ms_act": 68,
+     "ms_settle": 1655,
+     "ms": 3379,
+     "navigated": true,
+     "candidates": 451,
+     "options": 60,
+     "named": 18,
+     "confidence": 0.41000000000000003,
+     "ambiguous": 139,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1811",
+     "group": "g:1761",
+     "probs": "n1811:0.96 n1774:0.03 n1767:0.01",
+     "done_prob": 0.02,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 939,
+     "ms_pick": 521,
+     "ms_act": 17,
+     "ms_settle": 82,
+     "ms": 1567,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.3168,
+     "group_confidence": 0.33,
+     "ambiguous": 190,
+     "effect": "none"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n1929",
+     "probs": "n1929:0.45 n1928:0.44 g:199:0.04",
+     "done_prob": 0.03,
+     "action": "clicked link \"Option: KALLAX, Shelf unit, black-brown…\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 1206,
+     "ms_pick": 272,
+     "ms_act": 31,
+     "ms_settle": 81,
+     "ms": 1599,
+     "candidates": 563,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.45,
+     "fallback": true,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 727,
+      "t1": 127,
+      "t2": 400,
+      "t3": 200
+     },
+     "pick": "n1927",
+     "group": "g:1877",
+     "probs": "n1927:1.00 n1883:0.00 n1894:0.00",
+     "done_prob": 0.03,
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "url_after": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "ms_snap": 942,
+     "ms_pick": 511,
+     "ms_act": 14,
+     "ms_settle": 82,
+     "ms": 1557,
+     "candidates": 566,
+     "options": 75,
+     "named": 127,
+     "confidence": 0.77,
+     "group_confidence": 0.77,
+     "wasted": true,
+     "ambiguous": 190,
+     "effect": "changed"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/search/?q=KALLAX%20shelf%20unit",
+     "view": "Search",
+     "coverage": {
+      "interactive": 722,
+      "t1": 127,
+      "t2": 400,
+      "t3": 195
+     },
+     "pick": "n231",
+     "group": "g:203",
+     "probs": "n231:1.00 n213:0.00 n223:0.00",
+     "done_prob": 0.06,
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 1302,
+     "ms_pick": 501,
+     "ms_act": 46,
+     "ms_settle": 1735,
+     "ms": 3591,
+     "navigated": true,
+     "candidates": 550,
+     "options": 75,
+     "named": 114,
+     "confidence": 0.99,
+     "group_confidence": 0.99,
+     "ambiguous": 190,
+     "effect": "navigated"
+    },
+    {
+     "step": 7,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "view": "Bag",
+     "coverage": {
+      "interactive": 110,
+      "t1": 13,
+      "t2": 17,
+      "t3": 80
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 246,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "Home",
+     "action": "filled [SearchField] with search",
+     "comp": "SearchField",
+     "to": "Home",
+     "changed": false
+    },
+    {
+     "from": "Home",
+     "action": "pressed Enter",
+     "to": "Search",
+     "changed": true
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"59.99\" title=\"KALLAX, Shelf unit, white, 16 3/8x57 5/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked link \"Option: KALLAX, Shelf unit, black-brown…\"",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [AddToCartButton label=\"Add \\\"KALLAX Shelf unit\\\" to cart\"] in [ProductCard price=\"49.99\" title=\"KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8 \\\"\"]",
+     "comp": "AddToCartButton",
+     "to": "Search",
+     "changed": false
+    },
+    {
+     "from": "Search",
+     "action": "clicked [BagLink count=\"Shopping bag, 2 items\"]",
+     "comp": "BagLink",
+     "to": "Bag",
+     "changed": true
+    }
+   ],
+   "ms": 15050,
+   "picker_stats": {
+    "calls": 10,
+    "ms": 2546,
+    "input_tokens": 136290,
+    "output_tokens": 5336,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 6,
+    "wasted": 1,
+    "no_effect": 1,
+    "fallback": 1,
+    "low_confidence": 3,
+    "candidates_median": 556.5,
+    "options_median": 75,
+    "ambiguous_median": 190
+   }
+  }
+ ]
+}
