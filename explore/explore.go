@@ -28,6 +28,9 @@ type Options struct {
 	// groups came back unsure, so a card and its neighbour that differ in one
 	// word are chosen between by their full descriptions.
 	SecondLook bool
+	// DistillCheck proposes a finish check from the final page of a run that
+	// reached its goal, scored against the pages the run passed through.
+	DistillCheck bool
 	// JudgeEffects asks the picker what each action did, from the difference
 	// between the page before and after, instead of trusting the rule that
 	// compares candidate lists. The rule's verdict is kept in Step.EffectRule.
@@ -125,6 +128,9 @@ type Run struct {
 	Stats       Stats        `json:"picker_stats"`
 	Metrics     RunMetrics   `json:"metrics"`
 	HookErrors  int          `json:"hook_errors,omitempty"`
+	// Distilled is the finish check proposed from the final page when the
+	// run reached its goal and DistillCheck was on.
+	Distilled *DistilledCheck `json:"distilled,omitempty"`
 }
 
 // Explore drives the browser toward opts.Goal and returns the run. It returns
@@ -157,6 +163,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	skipTool := ""         // a tool that just failed: left out of the next pick only, while its guidance still counts
 	failedToolAt := -1     // index in run.Steps of the step just appended, when it was a failed tool call
 	var last *acted        // the page the last step acted on; its effect is judged against the next observation
+	var pages []*Page      // every page observed, kept only when a check is to be distilled at the end
 	t0 := time.Now()
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
@@ -208,6 +215,9 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			}
 		}
 
+		if opts.DistillCheck {
+			pages = append(pages, page)
+		}
 		if spec.DoneWhen.Deterministic() && spec.DoneWhen.Check(page, history) {
 			if failedToolAt >= 0 {
 				// The call reported a failure, but the page it left behind is
@@ -219,6 +229,12 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			run.OK = true
 			run.Reason = "done_when satisfied"
 			emit(opts, step)
+			if opts.DistillCheck {
+				run.Distilled, err = DistillCheck(ctx, opts.Picker, opts.Goal, pages[:len(pages)-1], page)
+				if err != nil {
+					return run, fmt.Errorf("explore: distill: %w", err)
+				}
+			}
 			return run, nil
 		}
 
@@ -338,6 +354,12 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			run.OK = true
 			run.Reason = fmt.Sprintf("picker judged done (%.2f)", pick.Done)
 			emit(opts, step)
+			if opts.DistillCheck {
+				run.Distilled, err = DistillCheck(ctx, opts.Picker, opts.Goal, pages[:len(pages)-1], page)
+				if err != nil {
+					return run, fmt.Errorf("explore: distill: %w", err)
+				}
+			}
 			return run, nil
 		}
 

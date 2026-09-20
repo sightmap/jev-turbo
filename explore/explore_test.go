@@ -766,3 +766,45 @@ func TestSecondLookStaysOutOfSurePicks(t *testing.T) {
 		t.Fatalf("a sure group pick goes on as before with the joint confidence, got %+v", s)
 	}
 }
+
+func TestDistillCheckProposesAndScoresAgainstEarlierPages(t *testing.T) {
+	// The final page shows the bag with the item; the earlier pages do not.
+	// The picker points at the URL segment and the row text; the composed
+	// check holds at the end and fails on both pages before it.
+	home := &fakePage{url: "https://shop.test/", view: "Home", nodes: []*Node{mk("1", "link", "Shop", "a", "", "", true)}}
+	list := &fakePage{url: "https://shop.test/search?q=kallax", view: "Search", nodes: []*Node{mk("2", "button", "Add KALLAX to bag", "button", "", "", true)}}
+	bag := &fakePage{url: "https://shop.test/shoppingcart/", view: "Bag", nodes: []*Node{
+		mk("3", "heading", "KALLAX Shelf unit, white, 30 1/8x30 1/8", "h2", "", "", false),
+		mk("4", "button", "Checkout", "button", "", "", true),
+	}}
+	toPage := func(p *fakePage) *Page { return &Page{URL: p.url, View: p.view, Nodes: p.nodes} }
+	p := &fakePicker{prefer: []string{"/shoppingcart", "KALLAX Shelf unit, white, 30 1/8x30 1/8"}, probs: []float64{0.9, 0.95}}
+	d, err := DistillCheck(context.Background(), p, "Put the white 2x2 KALLAX in the bag and open the bag", []*Page{toPage(home), toPage(list)}, toPage(bag))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if d.URLFact != "/shoppingcart" || d.TextFact != "KALLAX Shelf unit, white, 30 1/8x30 1/8" {
+		t.Fatalf("expected the bag URL and the row text, got %+v", d)
+	}
+	if !d.HoldsOnFinal || d.FailsEarlier != 2 || d.EarlierPages != 2 {
+		t.Fatalf("the check should hold at the end and fail on both earlier pages: %+v", d)
+	}
+	if !strings.Contains(DescribeDistilled(d), `"url_contains": "/shoppingcart"`) {
+		t.Fatalf("description should carry the JSON: %s", DescribeDistilled(d))
+	}
+}
+
+func TestExploreDistillsOnDone(t *testing.T) {
+	home := &fakePage{url: "https://shop.test/", view: "Home", nodes: []*Node{mk("1", "link", "Bag", "a", "", "", true)}, edges: map[string]string{"1": "https://shop.test/shoppingcart/"}}
+	bag := &fakePage{url: "https://shop.test/shoppingcart/", view: "Bag", nodes: []*Node{mk("2", "heading", "Your bag", "h2", "", "", false), mk("3", "button", "Checkout", "button", "", "", true)}}
+	d := newFakeDriver("https://shop.test/", home, bag)
+	p := &fakePicker{script: []string{"n1"}, prefer: []string{"/shoppingcart", "Your bag"}}
+	spec := &Spec{DoneWhen: &DoneWhen{View: "Bag"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "open the bag", Picker: p, MaxSteps: 3, Spec: spec, DistillCheck: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !run.OK || run.Distilled == nil || run.Distilled.URLFact != "/shoppingcart" || run.Distilled.EarlierPages != 1 || run.Distilled.FailsEarlier != 1 {
+		t.Fatalf("expected a distilled check scored against the one earlier page, got ok=%v %+v", run.OK, run.Distilled)
+	}
+}

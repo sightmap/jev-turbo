@@ -123,6 +123,20 @@ to 23 over five runs a goal, and the run made fewer model calls in total,
 second look carries its own probability, not the joint one, and the step
 records `second_look`.
 
+`--distill-check` turns a reached goal into a finish check: Jev picks the
+part of the final URL and the text on the final page that prove the goal,
+the two become a `done_when`, and the proposal is scored against every page
+the run passed through, since a check that also holds on an earlier page
+would have stopped the run there. When it still holds on one, Jev is asked
+for a text that page does not show, up to twice. Over saucedemo and the
+IKEA variants, 9 of 13 proposals held at the end and failed on every earlier
+page (`{"url_contains": "/cart.html"}` with the item's name, the
+checkout-complete page with "Thank you for your order!", the bag with the
+exact KALLAX row); three held on one earlier page too; the logout goal got
+nothing, because its proof is an absence, which `text_absent` can say and
+the distiller does not yet propose. The proposal prints after the goal and
+sits in the run file under `distilled`.
+
 A third ablation sits between the two. `--no-memory` keeps the map's
 components and views and withholds only its memory notes, the free-text lines
 the picker sees under `SITE NOTES`, and the run file records the condition as
