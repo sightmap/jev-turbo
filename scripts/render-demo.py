@@ -53,12 +53,18 @@ BG, TEXT, TEXT2, DIM, BORDER, SUBTLE, RAISED = "#faf8f6", "#1a1714", "#3d3929", 
 ACCENT, ACCENT_DIM, DARK = "#c9456d", "#f8e6ec", "#1a1a2e"
 
 
+# The fonts ship with the script (scripts/fonts, Inter and JetBrains Mono, both
+# under the SIL Open Font License) so a render looks the same on any machine.
+# The system paths are only a fallback for a checkout without them.
+FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts")
+
+
 def font(kind, size):
     paths = {
-        "sans": ["~/Library/Fonts/DMSans-Regular.ttf", "/System/Library/Fonts/Supplemental/Arial.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
-        "bold": ["~/Library/Fonts/DMSans-Bold.ttf", "/System/Library/Fonts/Supplemental/Arial Bold.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"],
-        "mono": ["~/Library/Fonts/JetBrainsMono-Regular.ttf", "/System/Library/Fonts/Menlo.ttc", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"],
-        "monobold": ["~/Library/Fonts/JetBrainsMono-Bold.ttf", "/System/Library/Fonts/Menlo.ttc", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf"],
+        "sans": [os.path.join(FONT_DIR, "Inter-Regular.ttf"), "/System/Library/Fonts/Supplemental/Arial.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
+        "bold": [os.path.join(FONT_DIR, "Inter-Bold.ttf"), "/System/Library/Fonts/Supplemental/Arial Bold.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"],
+        "mono": [os.path.join(FONT_DIR, "JetBrainsMono-Regular.ttf"), "/System/Library/Fonts/Menlo.ttc", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"],
+        "monobold": [os.path.join(FONT_DIR, "JetBrainsMono-Bold.ttf"), "/System/Library/Fonts/Menlo.ttc", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf"],
     }[kind]
     for p in paths:
         p = os.path.expanduser(p)
@@ -83,7 +89,8 @@ H1_SIZE = 40
 VERBS = "filled|clicked|selected|typed|chose|opened"
 ACTION = re.compile(r'^(%s) \[(\w+)((?: [^\]]*)?)\](?: with (\w+))?' % VERBS)
 RAW = re.compile(r'^(%s) ([a-z]+) "(.*)"(?: with (\w+))?$' % VERBS)
-PROP = re.compile(r'(\w+)="([^"]*)"')
+PROP = re.compile(r'(\w+)="((?:[^"\\]|\\.)*)"')  # a value may hold escaped quotes: label="Add \"KALLAX\" to cart"
+OWNER = re.compile(r' in \[(\w+)((?: [^\]]*)?)\]')  # the component the control sits in, when the summary names one
 TOOL_TEXT = re.compile(r'^ran tool (\w+)\(|^tool (\w+) failed:')
 
 MAX_LABEL = 26
@@ -108,9 +115,15 @@ def human(text, values):
     m = ACTION.match(text)
     if m:
         verb, comp, props, key = m.groups()
-        props = dict(PROP.findall(props or ""))
+        props = {k: v.replace('\\"', '"') for k, v in PROP.findall(props or "")}
+        owner = OWNER.search(text)
+        owner_props = {k: v.replace('\\"', '"') for k, v in PROP.findall(owner.group(2) or "")} if owner else {}
         if verb == "filled" and key and key in values:
             label = str(values[key])
+        elif "title" in owner_props:
+            # A control inside a titled component (a card's add button) reads
+            # as the card: that title is what told sixteen same-named buttons apart.
+            label = owner_props["title"]
         elif "label" in props:
             label = props["label"]
         elif "value" in props:
@@ -491,15 +504,15 @@ os.makedirs(os.path.dirname(os.path.abspath(out)) or ".", exist_ok=True)
 mp4, gif = out + ".mp4", out + ".gif"
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", os.path.join(tmp, "list.txt"),
                        "-vf", "fps=20,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "23", "-movflags", "+faststart", mp4])
-# 5 fps and 24 colors, so a demo this long still fits in a README GIF under
-# 4 MB; the MP4 is 20 fps and full color. (With act 2 now fully captured
-# instead of mostly a held frame, the video has much more real motion for
-# its length, so it needs a lower fps/color budget than a mostly-static cut
-# of the same duration would.)
+# 5 fps, 96 colors, no dither, and no rescale: the GIF is a UI recording, so
+# flat colors and crisp text matter more than smooth gradients, and ordered
+# dither on anti-aliased text is what made the old 24-color version look
+# rough. A two-act demo lands around 2.5 MB this way; the MP4 is 20 fps and
+# full color.
 palette = os.path.join(tmp, "palette.png")
-subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-vf", "fps=5,scale=1152:-1:flags=lanczos,palettegen=max_colors=24", palette])
+subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-vf", "fps=5,palettegen=max_colors=96:stats_mode=diff", palette])
 subprocess.check_call(["ffmpeg", "-y", "-loglevel", "error", "-i", mp4, "-i", palette, "-lavfi",
-                       "fps=5,scale=1152:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5", "-loop", "0", gif])
+                       "fps=5[x];[x][1:v]paletteuse=dither=none", "-loop", "0", gif])
 shutil.rmtree(tmp, ignore_errors=True)
 total_frames = sum(len(rec["timeline"]) for rec, _, _ in acts)
 total_rows = sum(len(rec["rows"]) for rec, _, _ in acts)
