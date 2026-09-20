@@ -1,6 +1,7 @@
 package explore
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -175,4 +176,71 @@ func keys(cs []*Candidate) []string {
 		out = append(out, c.Key)
 	}
 	return out
+}
+
+// listing builds a raw two-card listing in document order: a list holding two
+// same-shaped entries, each with a title link and a same-named add button, so
+// nothing but the entry tells the buttons apart.
+func listing() []*Node {
+	list := mk("l", "list", "", "ul", "", "", false)
+	list.Depth = 1
+	var nodes []*Node
+	nodes = append(nodes, list)
+	for i, title := range []string{"KALLAX, Shelf unit, white, 30 1/8x30 1/8", "KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8"} {
+		card := mk(fmt.Sprintf("c%d", i), "listitem", "", "li", "", "", false)
+		card.Depth, card.Parent, card.Classes = 2, list, []string{"plp-card"}
+		card.Ancestors = []*Node{list}
+		link := mk(fmt.Sprintf("t%d", i), "link", title, "a", "", "", true)
+		add := mk(fmt.Sprintf("a%d", i), "button", `Add "KALLAX Shelf unit" to cart`, "button", "", "", true)
+		for _, n := range []*Node{link, add} {
+			n.Depth, n.Parent, n.Ancestors, n.Landmark = 3, card, []*Node{list, card}, list
+		}
+		card.InteractiveDesc = 2
+		nodes = append(nodes, card, link, add)
+	}
+	list.InteractiveDesc = 4
+	return nodes
+}
+
+func TestItemsGroupRawCandidatesByTitle(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	if nodes[1].ItemTitle != "KALLAX, Shelf unit, white, 30 1/8x30 1/8" || nodes[4].ItemTitle != "KALLAX, Shelf unit, black-brown, 30 1/8x30 1/8" {
+		t.Fatalf("each card should be an item titled by its link: %q / %q", nodes[1].ItemTitle, nodes[4].ItemTitle)
+	}
+	if nodes[3].Item != nodes[1] || nodes[6].Item != nodes[4] {
+		t.Fatal("each add button should point at its own card")
+	}
+	cands := Candidates(nodes, CandidateOptions{})
+	crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: 1, Goal: "buy a lamp"})
+	if len(crit.Groups) != 2 {
+		t.Fatalf("expected one group per card, got %d: %+v", len(crit.Groups), crit.Options)
+	}
+	var seen []string
+	for _, o := range crit.Options {
+		if strings.HasPrefix(o.Key, "g:") {
+			seen = append(seen, o.Desc)
+		}
+	}
+	if len(seen) != 2 || !strings.Contains(seen[0], `listitem "KALLAX, Shelf unit, white`) || !strings.Contains(seen[1], `listitem "KALLAX, Shelf unit, black-brown`) {
+		t.Fatalf("groups should be labelled by the card titles, got %v", seen)
+	}
+}
+
+func TestPromotedRawOptionNamesItsItem(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	cands := Candidates(nodes, CandidateOptions{})
+	// The goal mentions KALLAX, so every control is promoted out of its group
+	// and listed flat; the entry must still travel with it.
+	crit := BuildCriteria(cands, CriteriaOptions{MaxCandidates: 1, Goal: "add the KALLAX shelf unit"})
+	found := false
+	for _, o := range crit.Options {
+		if strings.HasPrefix(o.Desc, `button "Add`) && strings.Contains(o.Desc, `in listitem "KALLAX, Shelf unit, black-brown`) {
+			found = true
+		}
+	}
+	if !found {
+		t.Fatalf("a promoted add button should say which card it is in: %+v", crit.Options)
+	}
 }

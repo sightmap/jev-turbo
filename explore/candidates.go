@@ -263,10 +263,19 @@ func BuildCriteria(cands []*Candidate, opts CriteriaOptions) Criteria {
 		var order []string
 		for _, c := range cands {
 			if promoted[c.Key] {
-				crit.Options = append(crit.Options, Criterion{c.Key, c.Desc})
+				desc := c.Desc
+				if c.Node.ParentComp == nil && c.Node.Item != nil {
+					// A promoted control from an unmapped entry says which
+					// entry, the way a mapped one names its component.
+					desc += " in " + ItemLabel(c.Node.Item)
+				}
+				crit.Options = append(crit.Options, Criterion{c.Key, desc})
 				continue
 			}
 			anchor := c.Node.ParentComp
+			if anchor == nil {
+				anchor = c.Node.Item
+			}
 			if anchor == nil {
 				anchor = c.Node.Landmark
 			}
@@ -277,6 +286,8 @@ func BuildCriteria(cands []*Candidate, opts CriteriaOptions) Criteria {
 				switch {
 				case anchor.Comp != "":
 					label = CompLabel(anchor)
+				case anchor.ItemTitle != "":
+					label = ItemLabel(anchor)
 				case anchor.Name != "":
 					label = fmt.Sprintf("%s %q", anchor.Role, trunc(anchor.Name, 30))
 				default:

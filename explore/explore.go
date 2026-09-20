@@ -572,6 +572,9 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 		label := CompLabel(n)
 		if label == "" {
 			label = fmt.Sprintf("%s %q", n.Role, trunc(n.Name, 40))
+			if n.Item != nil {
+				label += " in " + ItemLabel(n.Item)
+			}
 		} else if n.ParentComp != nil && n.ParentComp.Comp != n.Comp {
 			// The owner tells the history apart: an "Add to cart" button is
 			// one of many on a listing, and which card's it was is what the

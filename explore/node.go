@@ -33,10 +33,17 @@ type Node struct {
 	Attrs       map[string]string
 	Classes     []string
 	Depth       int
-	ParentComp  *Node   // nearest ancestor that matched a component (nil when none)
-	Landmark    *Node   // nearest ancestor with a landmark role (nil when none)
-	Parent      *Node   // direct parent
-	Ancestors   []*Node // root-first
+	ParentComp  *Node // nearest ancestor that matched a component (nil when none)
+	Landmark    *Node // nearest ancestor with a landmark role (nil when none)
+	// Item is the nearest ancestor that reads as one entry of a repeated list
+	// (a product card, a table row, a result): a container whose parent holds
+	// siblings of the same shape and whose subtree carries a title. Without a
+	// map it plays the part a titled component plays with one: the unit that
+	// tells sixteen same-named buttons apart. ItemTitle is set on the item.
+	Item      *Node
+	ItemTitle string
+	Parent    *Node   // direct parent
+	Ancestors []*Node // root-first
 	// InteractiveDesc counts interactive nodes below this one; a container with
 	// interactive children is not itself offered as an action.
 	InteractiveDesc int
@@ -125,6 +132,7 @@ func Flatten(res *observe.Result) []*Node {
 // NewPage builds a Page from an observation and the page URL.
 func NewPage(res *observe.Result, url string) *Page {
 	p := &Page{URL: url, Result: res, Nodes: Flatten(res)}
+	annotateItems(p.Nodes)
 	if res != nil && res.View != nil {
 		p.View = res.View.Name
 		p.Route = res.View.Route
@@ -145,6 +153,100 @@ func NewPage(res *observe.Result, url string) *Page {
 		}
 	}
 	return p
+}
+
+// annotateItems finds the repeated, titled containers in a page and points
+// every node at the nearest one above it. Nodes come in document order, so a
+// node's subtree is the run of nodes after it with a greater depth.
+func annotateItems(nodes []*Node) {
+	if len(nodes) == 0 {
+		return
+	}
+	children := map[*Node][]*Node{}
+	for _, n := range nodes {
+		if n.Parent != nil {
+			children[n.Parent] = append(children[n.Parent], n)
+		}
+	}
+	shape := func(n *Node) string {
+		s := n.Tag
+		if t := n.Attrs["data-testid"]; t != "" {
+			return s + "#" + t
+		}
+		if len(n.Classes) > 0 {
+			return s + "." + n.Classes[0]
+		}
+		return s
+	}
+	isItem := map[*Node]bool{}
+	for i, n := range nodes {
+		if n.Parent == nil || n.InteractiveDesc == 0 || landmarkRoles[n.Role] || n.Interactive {
+			continue
+		}
+		same := 0
+		for _, sib := range children[n.Parent] {
+			if shape(sib) == shape(n) {
+				same++
+			}
+		}
+		if same < 2 {
+			continue
+		}
+		if title := itemTitle(nodes, i); title != "" {
+			n.ItemTitle = title
+			isItem[n] = true
+		}
+	}
+	for _, n := range nodes {
+		for k := len(n.Ancestors) - 1; k >= 0; k-- {
+			if isItem[n.Ancestors[k]] {
+				n.Item = n.Ancestors[k]
+				break
+			}
+		}
+	}
+}
+
+// itemTitle names the entry at nodes[i] from its subtree: a heading first,
+// then the longest link name, then the entry's own name. A subtree with none
+// of these is a repeated container but not an entry worth naming.
+func itemTitle(nodes []*Node, i int) string {
+	item := nodes[i]
+	best := ""
+	for j := i + 1; j < len(nodes) && nodes[j].Depth > item.Depth; j++ {
+		d := nodes[j]
+		if !d.Visible {
+			continue
+		}
+		if d.Role == "heading" {
+			if t := strings.TrimSpace(firstNonEmpty(d.Name, d.Text)); t != "" {
+				return trunc(t, 60)
+			}
+		}
+		if d.Role == "link" && len(strings.TrimSpace(d.Name)) > len(best) {
+			best = strings.TrimSpace(d.Name)
+		}
+	}
+	if len(best) >= 8 {
+		return trunc(best, 60)
+	}
+	if t := strings.TrimSpace(item.Name); t != "" {
+		return trunc(t, 60)
+	}
+	return ""
+}
+
+// ItemLabel renders the entry a raw node belongs to, the way CompLabel renders
+// a component: `listitem "KALLAX, Shelf unit, white, 30 1/8x30 1/8"`.
+func ItemLabel(item *Node) string {
+	if item == nil || item.ItemTitle == "" {
+		return ""
+	}
+	role := item.Role
+	if role == "" || role == "generic" || role == "none" {
+		role = item.Tag
+	}
+	return fmt.Sprintf("%s %q", role, item.ItemTitle)
 }
 
 // CompLabel renders a matched node as [Name prop="value" ...], or "" when unmatched.

@@ -102,6 +102,18 @@ journeys ran headless in one session; Google Flights ran headless in a second
 session with a fresh Chrome profile, because a reused profile pre-fills places
 from earlier searches and the run drifts.
 
+Without a map, the loop groups the controls of a page for the first pick by
+landmark, and since 2026-09-20 by entry as well: a container whose parent
+holds siblings of the same shape and whose subtree carries a title (a
+heading, else the longest link) is one entry, and its controls are offered
+under that title, a promoted control says which entry it is in, and the
+history line does too. That is the raw tree's version of what a mapped
+ProductCard does. On the variants suite it took the raw tree from 10 of 15
+goals to 15 of 15 (wasted steps 34 to 15, unsure picks 79 to 38); the map
+still picks at 1.00 where the raw tree picks near 0.4, because a mapped
+title is the card's clean name and an entry's title is whatever its longest
+link says.
+
 A third ablation sits between the two. `--no-memory` keeps the map's
 components and views and withholds only its memory notes, the free-text lines
 the picker sees under `SITE NOTES`, and the run file records the condition as
