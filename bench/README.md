@@ -435,6 +435,18 @@ tree's 44 are mostly waits and scrolls on the bag page and adds whose
 confirmation sheet had not rendered by the next look; that last case is a
 timing false positive the row does not yet distinguish.
 
+`jev-turbo mine results/saucedemo-map.json` reads run files and prints the
+step sequences that recur across their successful runs as a sightkick
+tools.yaml draft. A sequence stays on one view, a navigating step can only
+end it after fills (a form and its submit) and otherwise stands alone, a
+fill's value key becomes a parameter, and the view a step reaches becomes a
+wait. On thirty saucedemo runs it drafts login, add_to_cart, open_cart, menu,
+checkout, the checkout form, finish and logout; on the IKEA runs, search,
+add_to_cart and open_bag, every journey those runs took, and none of the
+hand-written tools the runs never exercised (open_product, close_survey,
+read_bag). A journey every run repeats by hand is a tool waiting to be
+written; the draft is the starting point, not the layer.
+
 `jev-turbo same-names --sightmap-dir ikea/.sightmap --url URL` lists the
 controls on a live page that share a role and a name, with the entry or
 component that tells each apart and the accessible name that would say so.

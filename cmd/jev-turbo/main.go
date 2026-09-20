@@ -47,6 +47,8 @@ func main() {
 		err = runMemoryLint(os.Args[2:])
 	case "same-names":
 		err = runSameNames(os.Args[2:])
+	case "mine":
+		err = runMine(os.Args[2:])
 	case "version", "--version", "-v":
 		fmt.Println("jev-turbo", version)
 	case "help", "--help", "-h":
@@ -78,6 +80,7 @@ Commands:
   graph   [RUN.json ...]                       print the transitions observed in run files
   memory-lint DIR                              flag memory notes in the corpus that prescribe a route instead of describing the page
   same-names  [--url URL] [--sightmap-dir DIR]  controls on the live page that share a role and a name, and what tells them apart
+  mine        RESULT.json [...] [--min-support N] the step sequences that recur across successful runs, as a sightkick tools.yaml draft
   version
 
 Map flags (explore, bench):

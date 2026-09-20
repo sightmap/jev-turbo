@@ -270,3 +270,64 @@ func TestDedupeTitleKeepsTheFirstHalfOfARestatedName(t *testing.T) {
 		t.Fatalf("a plain title must pass through, got %q", got)
 	}
 }
+
+func TestMineFindsTheJourneyRunsRepeat(t *testing.T) {
+	login := func() []Transition {
+		return []Transition{
+			{From: "Login", Action: "filled [UsernameField] with username", Comp: "UsernameField", To: "Login"},
+			{From: "Login", Action: "filled [PasswordField] with password", Comp: "PasswordField", To: "Login"},
+			{From: "Login", Action: "clicked [LoginButton]", Comp: "LoginButton", To: "Inventory", Changed: true},
+		}
+	}
+	runs := []*Run{
+		{OK: true, Transitions: append(login(), Transition{From: "Inventory", Action: `clicked [AddToCartButton label="Add to cart"]`, Comp: "AddToCartButton", To: "Inventory"})},
+		{OK: true, Transitions: append(login(), Transition{From: "Inventory", Action: "clicked [CartLink]", Comp: "CartLink", To: "Cart", Changed: true})},
+		{OK: false, Transitions: login()},
+	}
+	tools := Mine(runs, 2)
+	if len(tools) == 0 || tools[0].Name != "login" || len(tools[0].Steps) != 3 || tools[0].Support != 2 || tools[0].Runs != 2 {
+		t.Fatalf("expected the three-step login journey seen in both successful runs, got %+v", tools)
+	}
+	if tools[0].Steps[0].Key != "username" || tools[0].Steps[2].To != "Inventory" {
+		t.Fatalf("steps should keep the value key and the view reached: %+v", tools[0].Steps)
+	}
+	y := DescribeMined(tools[:1])
+	for _, want := range []string{"name: login", "- name: username", `value: "{{password}}"`, "query: LoginButton", "view: Inventory", "Seen in 2 of 2 runs"} {
+		if !strings.Contains(y, want) {
+			t.Fatalf("yaml draft should contain %q:\n%s", want, y)
+		}
+	}
+}
+
+func TestToolNameFromWhatASequenceEndsIn(t *testing.T) {
+	cases := []struct {
+		steps []MinedStep
+		want  string
+	}{
+		{[]MinedStep{{Verb: "fill", Comp: "SearchField", Key: "search"}, {Verb: "enter", To: "Search"}}, "search"},
+		{[]MinedStep{{Verb: "fill", Comp: "SearchField", Key: "search"}, {Verb: "enter"}}, "search"},
+		{[]MinedStep{{Verb: "click", Comp: "AddToCartButton"}}, "add_to_cart"},
+		{[]MinedStep{{Verb: "click", Comp: "AddToCartButton"}, {Verb: "click", Comp: "BagLink", To: "Bag"}}, "open_bag"},
+		{[]MinedStep{{Verb: "click", Comp: "ContinueButton", To: "CheckoutOverview"}}, "open_checkout_overview"},
+		{[]MinedStep{{Verb: "click", Comp: "LoginButton", To: "Inventory"}}, "login"},
+		{[]MinedStep{{Verb: "click", Comp: "LogoutLink", To: "Login"}}, "logout"},
+		{[]MinedStep{{Verb: "click", Comp: "CartLink", To: "Cart"}}, "open_cart"},
+	}
+	for _, c := range cases {
+		if got := ToolName(c.steps); got != c.want {
+			t.Fatalf("%+v: got %q want %q", c.steps, got, c.want)
+		}
+	}
+}
+
+func TestMineDropsALoneFill(t *testing.T) {
+	runs := []*Run{
+		{OK: true, Transitions: []Transition{{From: "Home", Action: "filled [SearchField] with search", Comp: "SearchField", To: "Home"}, {From: "Home", Action: "pressed Enter", To: "Search", Changed: true}}},
+		{OK: true, Transitions: []Transition{{From: "Home", Action: "filled [SearchField] with search", Comp: "SearchField", To: "Home"}, {From: "Home", Action: "pressed Enter", To: "Search", Changed: true}}},
+	}
+	for _, tool := range Mine(runs, 2) {
+		if len(tool.Steps) == 1 && tool.Steps[0].Verb == "fill" {
+			t.Fatalf("a lone fill should not be offered as a tool: %+v", tool)
+		}
+	}
+}
