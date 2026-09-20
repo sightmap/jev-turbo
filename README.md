@@ -10,16 +10,20 @@ The white 2x2 KALLAX into the bag on ikea.com at 1x, twice with the same model. 
 
 ## Three ways in
 
+Three conditions over the same three goals: the raw tree, the map, and the map with its memory notes withheld.
+
 ```
-                      ikea/no-map/jev:jev-latest  ikea/map/jev:jev-latest  ikea/tools/jev:jev-latest
-reached               5/5                         5/5                      5/5
-steps / goal          8                           15                       3
-wasted steps          5                           16                       0
-fallback picks        -                           44                       5
-low-confidence picks  18                          50                       2
-candidates offered    423                         423                      563
-low-coverage pages    -                           7                        1
-seconds               71.6                        130.2                    34.7
+                      ikea-variants/no-map/jev:jev-latest  ikea-variants/map/jev:jev-latest  ikea-variants/map-no-memory/jev:jev-latest
+reached               10/15                                15/15                             15/15
+steps / goal          7                                    5                                 6
+wasted steps          34                                   5                                 7
+no-effect steps       44                                   1                                 7
+fallback picks        -                                    0                                 3
+low-confidence picks  79                                   2                                 34
+candidates offered    146                                  561                               560
+same-name candidates  28                                   189                               189
+low-coverage pages    -                                    2                                 5
+seconds               337.0                                198.8                             222.0
 ```
 
 On ikea.com the map pays where the tree is ambiguous. Three goals ask for one exact KALLAX variant from a listing where every add button carries the same name. Over five runs each: the raw tree reaches 10 of 15 with 7 steps a goal, 34 wasted steps and 79 unsure picks; the map reaches 15 of 15 with 5 steps a goal, 5 wasted and 2 unsure. The two-variant goal the raw tree never finishes in 20 steps; the map does it in 6. The same map with its memory notes removed still reaches 15 of 15 but with 34 unsure picks, so the notes buy confidence, not steps. The first IKEA runs went the other way, 15 steps a goal with the map against 8 without, and the reasons are in the bench README: a fill that never landed, and notes written for an earlier goal that steered Jev off the working route. The score is what pointed at both problems, and it now also counts steps that had no effect and candidates that share a name.
@@ -68,7 +72,7 @@ Jev never writes text. Everything the loop types comes from `--value` or a spec 
 
 ## What the map changed
 
-Same loop, same site, same model, run once with a sightmap and once with `--no-map` so Jev sees the raw HTML and ARIA tree instead. The ikea.com rows add a third condition, the map's sightkick tools. A fourth, `--no-memory`, keeps the map's components and views and withholds only its memory notes, so a run with it against a plain map run says whether the site's prose helped or hurt; `jev-turbo memory-lint DIR` flags the notes that prescribe a route before a run has to.
+Same loop, same site, same model, run once with a sightmap and once with `--no-map` so Jev sees the raw HTML and ARIA tree instead. The first ikea.com goal also has a third condition, the map's sightkick tools. A fourth, `--no-memory`, keeps the map's components and views and withholds only its memory notes, so a run with it against a plain map run says whether the site's prose helped or hurt; `jev-turbo memory-lint DIR` flags the notes that prescribe a route before a run has to.
 
 | suite | condition | goals reached | steps per reached goal | wasted steps | unsure picks | seconds |
 |---|---|---|---|---|---|---|
@@ -78,15 +82,18 @@ Same loop, same site, same model, run once with a sightmap and once with `--no-m
 | journeys, 2 long goals ×3 | no map | 3/6 | 13 | 53 | 49 | 53.4 |
 | Google Flights, Zürich to London ×10 | map | 10/10 | 10 | 7 | 4 | 116.3 |
 | Google Flights, Zürich to London ×10 | no map | 10/10 | 15 | 12 | 47 | 143.2 |
-| ikea.com, KALLAX into the bag ×5 | map | 5/5 | 15 | 16 | 50 | 130.2 |
-| ikea.com, KALLAX into the bag ×5 | no map | 5/5 | 8 | 5 | 18 | 71.6 |
+| ikea.com, KALLAX into the bag ×5 | map | 5/5 | 4 | 0 | 7 | 69.2 |
+| ikea.com, KALLAX into the bag ×5 | no map | 5/5 | 4 | 0 | 5 | 72.8 |
 | ikea.com, KALLAX into the bag ×5 | tools | 5/5 | 3 | 0 | 2 | 34.7 |
+| ikea.com, 3 exact-variant goals ×5 | map | 15/15 | 5 | 5 | 2 | 198.8 |
+| ikea.com, 3 exact-variant goals ×5 | no map | 10/15 | 7 | 34 | 79 | 337.0 |
+| ikea.com, 3 exact-variant goals ×5 | no memory | 15/15 | 6 | 7 | 34 | 222.0 |
 
 Unsure picks are picks Jev gave under 60% probability; on a page large enough to be answered as a group and then an option inside it, that is the two probabilities multiplied. Wasted steps are a stale click, a back, or a repeat of a control already used on that page.
 
-On all four suites, both conditions reached the same goals. The map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights. Steps per reached goal went from 15 to 10. Unsure picks went from 47 to 4. The ten runs took 116 seconds instead of 143. On saucedemo, whose raw tree already carries good names, the map changed little: 30 of 30 goals, 4.5 steps and 3 wasted steps either way, two unsure picks without the map against none with it, and three seconds between the two conditions. Two earlier no-map runs failed from bugs in this loop, not from the map. Saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree. Both bugs are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time. That is a limit of the loop, not something the map caused.
+On the first four suites, both conditions reached the same goals. There the map did not decide whether a goal was reached. It changed the steps, the unsure picks, and the time on Google Flights. Steps per reached goal went from 15 to 10. Unsure picks went from 47 to 4. The ten runs took 116 seconds instead of 143. On saucedemo, whose raw tree already carries good names, the map changed little: 30 of 30 goals, 4.5 steps and 3 wasted steps either way, two unsure picks without the map against none with it, and three seconds between the two conditions. Two earlier no-map runs failed from bugs in this loop, not from the map. Saucedemo reached 0 of 30 because a button inside a same-named form was dropped from the candidates, and Google Flights reached 1 of 10 because a suggestion list was observed before its entries reached the tree. Both bugs are fixed on this branch. In the long goals, `cheapest-two` passes both ways and `three-orders` fails both ways at the 45-step cap, because the loop has no way to run a flow a second time. That is a limit of the loop, not something the map caused.
 
-On ikea.com the map cost steps instead of saving them, 15 a goal against 8 without it, and the map's sightkick tools took the same goal in 3.
+On ikea.com the first goal, any KALLAX into the bag, is four steps either way once the search submits, and the map's sightkick tools take it in three. The three exact-variant goals are where the map pays: 15 of 15 reached against 10 of 15, five steps a goal against seven, and two unsure picks against 79, because sixteen add buttons on the listing share one name and only the map ties each to its card. The same map without its notes reaches every goal too but is unsure 34 times, so on this map the memory buys confidence rather than steps. The first IKEA runs, before the fill fix and the map rewrite, took 15 steps a goal with the map against 8 without; that history is kept in the bench README.
 
 Suites, maps, and every run file, including the Jev-versus-Claude-Sonnet comparison, are in [`bench/`](bench/README.md).
 
