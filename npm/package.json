@@ -1,6 +1,6 @@
 {
   "name": "@sightmap/jev-turbo",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Browser use where Jev picks every step over a sightmap: sub-second steps, no big-model call to act (native binary, no Go toolchain required)",
   "license": "MIT",
   "homepage": "https://github.com/sightmap/jev-turbo",
