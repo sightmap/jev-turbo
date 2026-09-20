@@ -729,3 +729,40 @@ func TestDiffDescsPutsTheActionsOwnControlsFirst(t *testing.T) {
 		t.Fatalf("the row's controls should lead the disappeared list, got %v", gone)
 	}
 }
+
+func TestSecondLookOpensTheLikeliestGroups(t *testing.T) {
+	// The first pick lands on a card group at 0.4. With the second look the
+	// two cards are opened and the exact button is picked at its own 0.9.
+	nodes := listing()
+	annotateItems(nodes)
+	page := &fakePage{url: "/search", view: "Search", nodes: nodes}
+	d := newFakeDriver("/search", page)
+	p := &fakePicker{script: []string{"g:c1", "na1"}, probs: []float64{0.4, 0.9}}
+	run, err := Explore(context.Background(), d, Options{Goal: "put the second one in the bag", Picker: p, MaxSteps: 1, MaxCandidates: 1, SecondLook: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := run.Steps[0]
+	if !s.SecondLook || s.Group != "" || s.Pick != "na1" || s.Confidence != 0.9 {
+		t.Fatalf("expected a second look ending on the member at its own probability, got %+v", s)
+	}
+	if len(p.states) != 2 {
+		t.Fatalf("expected exactly two picks, got %d", len(p.states))
+	}
+}
+
+func TestSecondLookStaysOutOfSurePicks(t *testing.T) {
+	nodes := listing()
+	annotateItems(nodes)
+	page := &fakePage{url: "/search", view: "Search", nodes: nodes}
+	d := newFakeDriver("/search", page)
+	p := &fakePicker{script: []string{"g:c1", "na1"}, probs: []float64{0.8, 0.9}}
+	run, err := Explore(context.Background(), d, Options{Goal: "put the second one in the bag", Picker: p, MaxSteps: 1, MaxCandidates: 1, SecondLook: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := run.Steps[0]
+	if s.SecondLook || s.Group != "g:c1" || s.Confidence < 0.71 || s.Confidence > 0.73 {
+		t.Fatalf("a sure group pick goes on as before with the joint confidence, got %+v", s)
+	}
+}

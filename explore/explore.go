@@ -24,6 +24,10 @@ type Options struct {
 	// level) from the picker while keeping its components and views, so a
 	// site's prose can be measured on its own against the map's names.
 	NoMemory bool
+	// SecondLook opens the likeliest groups and asks again when a pick between
+	// groups came back unsure, so a card and its neighbour that differ in one
+	// word are chosen between by their full descriptions.
+	SecondLook bool
 	// JudgeEffects asks the picker what each action did, from the difference
 	// between the page before and after, instead of trusting the rule that
 	// compares candidate lists. The rule's verdict is kept in Step.EffectRule.
@@ -69,6 +73,7 @@ type Step struct {
 	Named           int     `json:"named,omitempty"`            // candidates that carry a sightmap component
 	Confidence      float64 `json:"confidence,omitempty"`       // probability of the chosen option
 	GroupConfidence float64 `json:"group_confidence,omitempty"` // probability of the chosen group on a grouped pick
+	SecondLook      bool    `json:"second_look,omitempty"`      // the group pick was unsure and the likeliest groups were opened for a second pick
 	Fallback        bool    `json:"fallback,omitempty"`         // a map exists but the pick is an unnamed node
 	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, a control or tool repeated at this URL, or a tool call that failed and did not finish the goal
 	Ambiguous       int     `json:"ambiguous,omitempty"`        // candidates whose description is shared with at least one other candidate on this page
@@ -281,6 +286,21 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		pick, err := opts.Picker.Pick(ctx, state, crit)
 		if err != nil {
 			return run, fmt.Errorf("explore: pick: %w", err)
+		}
+		if opts.SecondLook && strings.HasPrefix(pick.Next, "g:") && crit.Groups != nil && pick.Probs[pick.Next] < LowConfidence {
+			// An unsure choice between groups: open the likeliest few and ask
+			// again over their members, each saying which group it is from.
+			// A member picked this way carries its own probability, not a
+			// joint one; a group picked again goes on as before.
+			again, err := opts.Picker.Pick(ctx, state, Expand(crit, topGroups(pick.Probs, 3)))
+			if err != nil {
+				return run, fmt.Errorf("explore: second look: %w", err)
+			}
+			step.SecondLook = true
+			if again.Done < pick.Done {
+				again.Done = pick.Done
+			}
+			pick = again
 		}
 		if strings.HasPrefix(pick.Next, "g:") && crit.Groups != nil {
 			members := crit.Groups[pick.Next]
@@ -496,6 +516,21 @@ func effectOf(before *acted, page *Page, descs map[string]int) string {
 		return "changed"
 	}
 	return "none"
+}
+
+// topGroups lists up to n group keys by probability, highest first.
+func topGroups(probs map[string]float64, n int) []string {
+	var keys []string
+	for k := range probs {
+		if strings.HasPrefix(k, "g:") {
+			keys = append(keys, k)
+		}
+	}
+	sort.SliceStable(keys, func(i, j int) bool { return probs[keys[i]] > probs[keys[j]] })
+	if len(keys) > n {
+		keys = keys[:n]
+	}
+	return keys
 }
 
 // countAmbiguous counts the candidates whose description is shared with at

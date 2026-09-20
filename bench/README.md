@@ -114,6 +114,15 @@ still picks at 1.00 where the raw tree picks near 0.4, because a mapped
 title is the card's clean name and an entry's title is whatever its longest
 link says.
 
+`--second-look` follows an unsure group pick, one under 0.6, with a second:
+the three likeliest groups are opened and their members listed flat, each
+saying which group it came from, and Jev chooses again with that in front
+of it. On the variants suite without a map that took unsure picks from 38
+to 23 over five runs a goal, and the run made fewer model calls in total,
+146 against 152, because the surer picks saved steps. A pick made on the
+second look carries its own probability, not the joint one, and the step
+records `second_look`.
+
 A third ablation sits between the two. `--no-memory` keeps the map's
 components and views and withholds only its memory notes, the free-text lines
 the picker sees under `SITE NOTES`, and the run file records the condition as

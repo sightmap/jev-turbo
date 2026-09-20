@@ -69,8 +69,8 @@ func usage() {
 	fmt.Fprint(os.Stderr, `jev-turbo — browser use where Jev picks every step over a sightmap
 
 Commands:
-  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--tools DIR] [--no-map] [--no-memory] [--judge-effects] [--record DIR]
-  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--tools DIR] [--no-map] [--no-memory] [--judge-effects] [--record DIR]
+  explore --goal "..." [--done-when view=Cart] [--value user=alice] [--picker jev|anthropic] [--plan] [--grow] [--tools DIR] [--no-map] [--no-memory] [--judge-effects] [--second-look] [--record DIR]
+  bench   SUITE.json [--repeat N] [--only NAME] [--out FILE] [--picker jev|anthropic] [--grow] [--tools DIR] [--no-map] [--no-memory] [--judge-effects] [--second-look] [--record DIR]
   score   RESULT.json [RESULT.json ...]       one column per file
   plan    --goal "..." [--site host]          print the spec the planner would write (ANTHROPIC_API_KEY)
   graph   [RUN.json ...]                       print the transitions observed in run files
@@ -236,6 +236,7 @@ func runExplore(args []string) error {
 	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
 	noMemoryFlag := fs.Bool("no-memory", false, "Keep the map's components and views but drop every memory note from what the picker sees")
 	judgeFlag := fs.Bool("judge-effects", false, "Ask the picker what each action did, from the page before and after; the rule's verdict is kept beside it in the run file")
+	secondLookFlag := fs.Bool("second-look", false, "When a pick between groups is unsure, open the likeliest groups and ask again over their members")
 	maxStepsFlag := fs.Int("max-steps", 20, "Stop after this many steps")
 	jsonFlag := fs.Bool("json", false, "Print the run as JSON on stdout")
 	recordFlag := fs.String("record", "", "Capture the tab as JPEG frames into this directory while the goal runs (see scripts/render-demo.py)")
@@ -305,7 +306,7 @@ func runExplore(args []string) error {
 		}
 	}
 	run, err := explore.Explore(ctx, drv, explore.Options{
-		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, HasMap: hasMap, NoMemory: *noMemoryFlag, JudgeEffects: *judgeFlag, Hook: hook,
+		Goal: *goalFlag, Spec: spec, Picker: picker, MaxSteps: *maxStepsFlag, HasMap: hasMap, NoMemory: *noMemoryFlag, JudgeEffects: *judgeFlag, SecondLook: *secondLookFlag, Hook: hook,
 		Tools: tools, ToolRunner: toolRunner,
 		OnStep: func(s explore.Step) {
 			line := explore.FormatStep(s)
@@ -471,6 +472,7 @@ func runBench(args []string) error {
 	noMapFlag := fs.Bool("no-map", false, "Observe with no map: no components, views, or memory. Same session, same loop.")
 	noMemoryFlag := fs.Bool("no-memory", false, "Keep the map's components and views but drop every memory note from what the picker sees")
 	judgeFlag := fs.Bool("judge-effects", false, "Ask the picker what each action did, from the page before and after; the rule's verdict is kept beside it in the run file")
+	secondLookFlag := fs.Bool("second-look", false, "When a pick between groups is unsure, open the likeliest groups and ask again over their members")
 	repeatFlag := fs.Int("repeat", 1, "Run the suite this many times")
 	onlyFlag := fs.String("only", "", "Only goals whose name contains this")
 	maxStepsFlag := fs.Int("max-steps", 0, "Override every goal's max_steps")
@@ -553,7 +555,7 @@ func runBench(args []string) error {
 	var rec *recorder
 	sopts := explore.SuiteOptions{
 		NewPicker: func() (explore.Picker, error) { return makePicker(*pickerFlag) },
-		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, HasMap: hasMap, NoMemory: *noMemoryFlag, JudgeEffects: *judgeFlag, Hook: hook, Out: os.Stderr,
+		Repeat:    *repeatFlag, Only: *onlyFlag, MaxSteps: *maxStepsFlag, HasMap: hasMap, NoMemory: *noMemoryFlag, JudgeEffects: *judgeFlag, SecondLook: *secondLookFlag, Hook: hook, Out: os.Stderr,
 		Tools: tools, ToolRunner: toolRunner,
 	}
 	if *recordFlag != "" {
