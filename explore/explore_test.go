@@ -612,7 +612,6 @@ func TestAmbiguousCountsSameNamedCandidates(t *testing.T) {
 	}
 }
 
-
 func TestNoMemoryHidesSiteNotes(t *testing.T) {
 	// The page carries memory the way the real driver's Observe fills it in:
 	// corpus, view, and component lines all arrive as Notes. NoMemory keeps
