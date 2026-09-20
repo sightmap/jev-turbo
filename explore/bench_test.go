@@ -141,3 +141,36 @@ func TestFormatStep(t *testing.T) {
 		t.Fatalf("got %q", s)
 	}
 }
+
+func TestRunSuiteNoMemoryCondition(t *testing.T) {
+	// NoMemory is a condition of its own only when there is a map (or a tool
+	// layer) whose notes it withholds; the label says which it went without.
+	page := &fakePage{url: "https://s/", view: "Home", nodes: []*Node{mk("1", "button", "Go", "button", "", "GoButton", true)}, notes: []string{"Start by clicking Go."}}
+	site := newFakeDriver("https://s/", page)
+	suite := &Suite{Name: "t", StartURL: "https://s/", Goals: []Goal{{Name: "g", Goal: "go", Spec: &Spec{DoneWhen: &DoneWhen{View: "Home"}}}}}
+	ts, err := ParseIR([]byte(irFixture))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, tc := range []struct {
+		opts SuiteOptions
+		want string
+	}{
+		{SuiteOptions{HasMap: true, NoMemory: true}, "map-no-memory"},
+		{SuiteOptions{HasMap: true, NoMemory: false}, "map"},
+		{SuiteOptions{HasMap: true, NoMemory: true, Tools: ts, ToolRunner: &fakeToolRunner{}}, "tools-no-memory"},
+		{SuiteOptions{HasMap: false, NoMemory: true}, "no-map"},
+	} {
+		tc.opts.NewPicker = func() (Picker, error) { return &fakePicker{}, nil }
+		res, err := RunSuite(context.Background(), site, suite, tc.opts)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if res.Condition != tc.want {
+			t.Errorf("HasMap=%v NoMemory=%v Tools=%v: condition = %q, want %q", tc.opts.HasMap, tc.opts.NoMemory, tc.opts.Tools != nil, res.Condition, tc.want)
+		}
+		if !strings.Contains(FormatTable(res), "condition="+tc.want+" ") {
+			t.Errorf("table does not name the condition %q:\n%s", tc.want, FormatTable(res))
+		}
+	}
+}

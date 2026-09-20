@@ -4,17 +4,17 @@ import "testing"
 
 func TestMetrics(t *testing.T) {
 	steps := []Step{
-		{N: 1, Action: "clicked [A]", Candidates: 10, Options: 12, Confidence: 0.9},
-		{N: 2, Action: "clicked [B]", Candidates: 20, Options: 22, Confidence: 0.4, Fallback: true},
-		{N: 3, Action: "stale element, skipped", Candidates: 30, Options: 32, Confidence: 0.7, Wasted: true},
-		{N: 4, Action: "done"},
+		{N: 1, Action: "clicked [A]", Candidates: 10, Options: 12, Confidence: 0.9, Effect: "navigated"},
+		{N: 2, Action: "clicked [B]", Candidates: 20, Options: 22, Confidence: 0.4, Fallback: true, Effect: "none", Ambiguous: 4},
+		{N: 3, Action: "stale element, skipped", Candidates: 30, Options: 32, Confidence: 0.7, Wasted: true, Effect: "none", Ambiguous: 6},
+		{N: 4, Action: "done", Effect: "none"},
 	}
 	m := Metrics(steps)
-	if m.Steps != 3 || m.Wasted != 1 || m.Fallback != 1 || m.LowConfidence != 1 {
+	if m.Steps != 3 || m.Wasted != 1 || m.Fallback != 1 || m.LowConfidence != 1 || m.NoEffect != 2 {
 		t.Fatalf("got %+v", m)
 	}
-	if m.CandidatesMedian != 20 || m.OptionsMedian != 22 {
-		t.Fatalf("medians %v %v", m.CandidatesMedian, m.OptionsMedian)
+	if m.CandidatesMedian != 20 || m.OptionsMedian != 22 || m.AmbiguousMedian != 4 {
+		t.Fatalf("medians %v %v %v", m.CandidatesMedian, m.OptionsMedian, m.AmbiguousMedian)
 	}
 	if median(nil) != 0 || median([]float64{1, 4}) != 2.5 {
 		t.Fatal("median")

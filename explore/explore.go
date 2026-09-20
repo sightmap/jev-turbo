@@ -3,6 +3,7 @@ package explore
 import (
 	"context"
 	"fmt"
+	"maps"
 	"net/url"
 	"regexp"
 	"sort"
@@ -19,6 +20,10 @@ type Options struct {
 	MaxCandidates int     // default 60
 	DoneThreshold float64 // picker "done" confidence that ends a goal with no deterministic check (default 0.85)
 	HasMap        bool    // the corpus has at least one component; enables Step.Fallback
+	// NoMemory withholds the map's memory notes (corpus, view, and component
+	// level) from the picker while keeping its components and views, so a
+	// site's prose can be measured on its own against the map's names.
+	NoMemory bool
 	// Tools and ToolRunner, when both set, offer sightkick tools as picker
 	// options alongside elements; a tool call runs through ToolRunner instead
 	// of driving an element directly.
@@ -62,6 +67,14 @@ type Step struct {
 	GroupConfidence float64 `json:"group_confidence,omitempty"` // probability of the chosen group on a grouped pick
 	Fallback        bool    `json:"fallback,omitempty"`         // a map exists but the pick is an unnamed node
 	Wasted          bool    `json:"wasted,omitempty"`           // stale, back, a control or tool repeated at this URL, or a tool call that failed and did not finish the goal
+	Ambiguous       int     `json:"ambiguous,omitempty"`        // candidates whose description is shared with at least one other candidate on this page
+
+	// Effect is what the action did, judged from the observation that followed
+	// it: "navigated", "value" (the filled field holds a value), "changed"
+	// (the page offers different controls) or "none". A tool step is judged
+	// from its own outcome. The last step of a run that hit its step limit
+	// has no observation after it and stays empty.
+	Effect string `json:"effect,omitempty"`
 
 	Tool   string `json:"tool,omitempty"`    // the sightkick tool run, when the pick was a "t:" option
 	ToolOK bool   `json:"tool_ok,omitempty"` // the tool call reported ok
@@ -128,6 +141,7 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 	var suggested []string // tool names to rank first, from the last tool call's Guidance; the next ToolOptions call consumes it and it is cleared there
 	skipTool := ""         // a tool that just failed: left out of the next pick only, while its guidance still counts
 	failedToolAt := -1     // index in run.Steps of the step just appended, when it was a failed tool call
+	var last *acted        // the page the last step acted on; its effect is judged against the next observation
 	t0 := time.Now()
 	defer func() {
 		run.Ms = int(time.Since(t0).Milliseconds())
@@ -150,6 +164,10 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 			if page, err = drv.Observe(ctx); err != nil {
 				return run, fmt.Errorf("explore: observe: %w", err)
 			}
+		}
+		descs := pageDescs(page, spec.Avoid)
+		if last != nil && run.Steps[len(run.Steps)-1].Effect == "" {
+			run.Steps[len(run.Steps)-1].Effect = effectOf(last, page, descs)
 		}
 		step := Step{N: n, URL: page.URL, View: page.View, Coverage: covStat(page), MsSnap: int(time.Since(tS).Milliseconds())}
 		if len(run.Transitions) > 0 {
@@ -225,8 +243,14 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		skipTool = ""
 		step.Candidates = len(cands)
+		step.Ambiguous = countAmbiguous(cands)
 		step.Options = len(crit.Options)
 		step.Named = countNamed(cands)
+		if opts.NoMemory {
+			// Every memory line, site-wide or matched here, reaches the
+			// picker through Notes and nowhere else.
+			page.Notes = nil
+		}
 		state := buildState(opts.Goal, spec, page, history, cands, toolOpts)
 
 		tP := time.Now()
@@ -352,6 +376,17 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		if step.Navigated {
 			navigations++
 		}
+		if step.Tool != "" {
+			// A tool reports its own outcome; the next observation has nothing to add.
+			switch {
+			case step.Navigated:
+				step.Effect = "navigated"
+			case step.ToolOK:
+				step.Effect = "changed"
+			default:
+				step.Effect = "none"
+			}
+		}
 		step.Ms = int(time.Since(tS).Milliseconds())
 		run.Steps = append(run.Steps, step)
 		failedToolAt = -1
@@ -363,8 +398,10 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		seen[page.URL+"|"+act.seenKey]++
 		suggestionsOpen = act.combobox // decided on the next observation: options in the tree, whatever their DOM shape
 		afterFill = act.filled
+		last = &acted{url: page.URL, descs: descs}
 		if act.filled {
 			filledNode = act.node
+			last.filled = act.node
 		} else if pick.Next != MetaEnter && pick.Next != MetaWait {
 			filledNode = nil // any other action moves on from the field
 		}
@@ -392,6 +429,66 @@ type action struct {
 	filled       bool   // typed into a field; Enter is offered next
 	typed        string // the value typed, for matching the suggestions
 	node         *Node  // the element acted on, when the action had one
+}
+
+// acted is what the loop keeps of the page a step acted on, so the next
+// observation can say what the action did.
+type acted struct {
+	url    string
+	descs  map[string]int // candidate descriptions on the page, before the repeat guard
+	filled *Node          // the field typed into, when the action was a fill
+}
+
+// pageDescs counts the candidate descriptions of a page without the repeat
+// guard, so the same page read twice gives the same multiset whatever was
+// acted on in between.
+func pageDescs(page *Page, avoid []string) map[string]int {
+	descs := map[string]int{}
+	for _, c := range Candidates(page.Nodes, CandidateOptions{Avoid: avoid}) {
+		descs[c.Desc]++
+	}
+	return descs
+}
+
+// effectOf names what the last action did, judged from the page observed
+// after it. First match wins: the URL moved; the filled field now holds a
+// value; the page offers a different set of controls; nothing. A fill whose
+// keystrokes went elsewhere, an Enter that submitted nothing and a click on a
+// covered element all land on "none", which is what separates a driver fault
+// from a map fault.
+func effectOf(before *acted, page *Page, descs map[string]int) string {
+	if page.URL != before.url {
+		return "navigated"
+	}
+	if f := before.filled; f != nil {
+		for _, n := range page.Nodes {
+			same := stableDesc(n) == stableDesc(f) || (f.Comp != "" && n.Comp == f.Comp)
+			if same && n.Value != "" {
+				return "value"
+			}
+		}
+	}
+	if !maps.Equal(descs, before.descs) {
+		return "changed"
+	}
+	return "none"
+}
+
+// countAmbiguous counts the candidates whose description is shared with at
+// least one other candidate on the page, so sixteen identical add buttons
+// count sixteen. These are the picks a map tells apart by owner and property.
+func countAmbiguous(cands []*Candidate) int {
+	seen := map[string]int{}
+	for _, c := range cands {
+		seen[c.Desc]++
+	}
+	n := 0
+	for _, c := range cands {
+		if seen[c.Desc] > 1 {
+			n++
+		}
+	}
+	return n
 }
 
 // onlyOptions keeps the suggestion entries (role option) of a candidate list.
@@ -451,6 +548,11 @@ func perform(ctx context.Context, drv Driver, picker Picker, pick string, cands 
 		label := CompLabel(n)
 		if label == "" {
 			label = fmt.Sprintf("%s %q", n.Role, trunc(n.Name, 40))
+		} else if n.ParentComp != nil && n.ParentComp.Comp != n.Comp {
+			// The owner tells the history apart: an "Add to cart" button is
+			// one of many on a listing, and which card's it was is what the
+			// next pick needs to know.
+			label += " in " + CompLabel(n.ParentComp)
 		}
 		switch {
 		case IsTextInput(n):

@@ -23,6 +23,8 @@ type DoneWhen struct {
 	View            string        `json:"view,omitempty"`
 	URLContains     string        `json:"url_contains,omitempty"`
 	TextContains    string        `json:"text_contains,omitempty"`
+	TextAbsent      string        `json:"text_absent,omitempty"`
+	TextCount       *TextCount    `json:"text_count,omitempty"`
 	Component       string        `json:"component,omitempty"`
 	Prop            *PropCheck    `json:"prop,omitempty"`
 	HistoryContains string        `json:"history_contains,omitempty"`
@@ -34,6 +36,15 @@ type DoneWhen struct {
 type HistoryCount struct {
 	Substr string `json:"substr"`
 	Min    int    `json:"min"`
+}
+
+// TextCount bounds how often Substr shows on the page: at least Min times and,
+// when Max is set, at most Max. A presence check cannot tell one bag row from
+// two; an exact count can.
+type TextCount struct {
+	Substr string `json:"substr"`
+	Min    int    `json:"min"`
+	Max    int    `json:"max,omitempty"`
 }
 
 // PropCheck asserts that a visible component's extracted property contains a
@@ -70,6 +81,9 @@ func (d *DoneWhen) validate() error {
 	if hc := d.HistoryCount; hc != nil && (hc.Min < 1 || hc.Substr == "") {
 		return fmt.Errorf("history_count wants min >= 1 and a substr, got min=%d substr=%q", hc.Min, hc.Substr)
 	}
+	if tc := d.TextCount; tc != nil && !tc.valid() {
+		return fmt.Errorf("text_count wants a substr, min >= 0, max >= min, and not both zero, got substr=%q min=%d max=%d", tc.Substr, tc.Min, tc.Max)
+	}
 	for i := range d.All {
 		if err := d.All[i].validate(); err != nil {
 			return err
@@ -79,7 +93,8 @@ func (d *DoneWhen) validate() error {
 }
 
 // ParseDoneWhen parses the flag mini-syntax: one "key=value" per expression,
-// keys view, url, text, component, history, history_count=N:SUBSTR, or
+// keys view, url, text, text_absent, text_count=N:SUBSTR (also N+:SUBSTR and
+// N-M:SUBSTR), component, history, history_count=N:SUBSTR, or
 // prop=Component.name~value (with an optional "@Within.name~value" suffix).
 // Several expressions are ANDed.
 func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
@@ -100,6 +115,17 @@ func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 			d.URLContains = v
 		case "text":
 			d.TextContains = v
+		case "text_absent":
+			if v == "" {
+				return nil, fmt.Errorf("--done-when text_absent: want a substring, got %q", v)
+			}
+			d.TextAbsent = v
+		case "text_count":
+			tc, err := parseTextCount(v)
+			if err != nil {
+				return nil, fmt.Errorf("--done-when text_count: %w", err)
+			}
+			d.TextCount = tc
 		case "component":
 			d.Component = v
 		case "history":
@@ -118,7 +144,7 @@ func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 			}
 			d.Prop = pc
 		default:
-			return nil, fmt.Errorf("done-when %q: unknown key %q (view, url, text, component, history, history_count, prop)", e, k)
+			return nil, fmt.Errorf("done-when %q: unknown key %q (view, url, text, text_absent, text_count, component, history, history_count, prop)", e, k)
 		}
 		parts = append(parts, d)
 	}
@@ -126,6 +152,53 @@ func ParseDoneWhen(exprs []string) (*DoneWhen, error) {
 		return &parts[0], nil
 	}
 	return &DoneWhen{All: parts}, nil
+}
+
+// parseTextCount parses "N:SUBSTR" (exactly N), "N+:SUBSTR" (at least N) or
+// "N-M:SUBSTR" (between N and M). Exactly zero is refused because it would be
+// stored as "at least zero", which every page satisfies; text_absent says it.
+func parseTextCount(s string) (*TextCount, error) {
+	bounds, sub, ok := strings.Cut(s, ":")
+	if !ok || sub == "" {
+		return nil, fmt.Errorf("want N:SUBSTR, N+:SUBSTR or N-M:SUBSTR, got %q", s)
+	}
+	tc := &TextCount{Substr: sub}
+	var err error
+	switch lo, hi, ranged := strings.Cut(bounds, "-"); {
+	case ranged:
+		if tc.Min, err = strconv.Atoi(lo); err == nil {
+			tc.Max, err = strconv.Atoi(hi)
+		}
+	case strings.HasSuffix(bounds, "+"):
+		tc.Min, err = strconv.Atoi(strings.TrimSuffix(bounds, "+"))
+	default:
+		if tc.Min, err = strconv.Atoi(bounds); err == nil && tc.Min == 0 {
+			return nil, fmt.Errorf("exactly zero is text_absent=%s", sub)
+		}
+		tc.Max = tc.Min
+	}
+	if err != nil || !tc.valid() {
+		return nil, fmt.Errorf("want N:SUBSTR, N+:SUBSTR or N-M:SUBSTR with 0 <= N <= M, got %q", s)
+	}
+	return tc, nil
+}
+
+// valid reports whether the bounds describe a check that can fail: a substring,
+// a minimum, and a maximum that is either unset or at least the minimum. Min
+// and Max both zero would pass every page, like an empty history_count.
+func (tc *TextCount) valid() bool {
+	return tc.Substr != "" && tc.Min >= 0 && (tc.Max == 0 || tc.Max >= tc.Min) && (tc.Min > 0 || tc.Max > 0)
+}
+
+// String renders the bounds as prose for the picker.
+func (tc *TextCount) String() string {
+	switch {
+	case tc.Min == tc.Max:
+		return fmt.Sprintf("the text %q appears exactly %d times", tc.Substr, tc.Min)
+	case tc.Max == 0:
+		return fmt.Sprintf("the text %q appears at least %d times", tc.Substr, tc.Min)
+	}
+	return fmt.Sprintf("the text %q appears between %d and %d times", tc.Substr, tc.Min, tc.Max)
 }
 
 // parsePropCheck parses "Component.name~value[@Within.name~value]".
@@ -159,7 +232,7 @@ func parseOnePropCheck(s string) (*PropCheck, error) {
 
 // Deterministic reports whether the check has any condition at all.
 func (d *DoneWhen) Deterministic() bool {
-	return d != nil && (d.View != "" || d.URLContains != "" || d.TextContains != "" || d.Component != "" || d.Prop != nil || d.HistoryContains != "" || d.HistoryCount != nil || len(d.All) > 0)
+	return d != nil && (d.View != "" || d.URLContains != "" || d.TextContains != "" || d.TextAbsent != "" || d.TextCount != nil || d.Component != "" || d.Prop != nil || d.HistoryContains != "" || d.HistoryCount != nil || len(d.All) > 0)
 }
 
 // String renders the check for the picker's context.
@@ -176,6 +249,12 @@ func (d *DoneWhen) String() string {
 	}
 	if d.TextContains != "" {
 		parts = append(parts, fmt.Sprintf("the page shows the text %q", d.TextContains))
+	}
+	if d.TextAbsent != "" {
+		parts = append(parts, fmt.Sprintf("the page does not show the text %q", d.TextAbsent))
+	}
+	if d.TextCount != nil {
+		parts = append(parts, d.TextCount.String())
 	}
 	if d.Component != "" {
 		parts = append(parts, fmt.Sprintf("a %s component is visible", d.Component))
@@ -218,6 +297,20 @@ func (d *DoneWhen) Check(page *Page, history []string) bool {
 	if d.TextContains != "" && !pageHasText(page, d.TextContains) {
 		return false
 	}
+	if d.TextAbsent != "" && pageHasText(page, d.TextAbsent) {
+		return false
+	}
+	if tc := d.TextCount; tc != nil {
+		if !tc.valid() {
+			// The same guard as history_count: bounds nothing can miss would
+			// pass the goal at step 1.
+			return false
+		}
+		n := pageTextCount(page, tc.Substr)
+		if n < tc.Min || (tc.Max > 0 && n > tc.Max) {
+			return false
+		}
+	}
 	if d.Component != "" && !componentVisible(page, d.Component) {
 		return false
 	}
@@ -255,22 +348,63 @@ func (d *DoneWhen) Check(page *Page, history []string) bool {
 	return true
 }
 
+// nodeTexts is what a text check reads on one node: its accessible name, its
+// rendered text, its value, and every extracted property.
+func nodeTexts(n *Node) []string {
+	out := []string{n.Name, n.Text, n.Value}
+	for _, v := range n.Props {
+		out = append(out, v)
+	}
+	return out
+}
+
+// nodeTextCount is how often want (already lower-cased) shows in a node's own
+// text. The fields restate each other (a heading's name is its text), so the
+// node counts the field with the most occurrences, not their sum.
+func nodeTextCount(n *Node, want string) int {
+	most := 0
+	for _, t := range nodeTexts(n) {
+		if c := strings.Count(strings.ToLower(t), want); c > most {
+			most = c
+		}
+	}
+	return most
+}
+
 func pageHasText(page *Page, want string) bool {
 	w := strings.ToLower(want)
 	for _, n := range page.Nodes {
-		if !n.Visible {
-			continue
-		}
-		if strings.Contains(strings.ToLower(n.Name), w) || strings.Contains(strings.ToLower(n.Text), w) || strings.Contains(strings.ToLower(n.Value), w) {
+		if n.Visible && nodeTextCount(n, w) > 0 {
 			return true
-		}
-		for _, v := range n.Props {
-			if strings.Contains(strings.ToLower(v), w) {
-				return true
-			}
 		}
 	}
 	return false
+}
+
+// pageTextCount is how often want shows on the page. A node's rendered text is
+// its whole subtree's, so a product name in one bag row also sits in the text
+// of the row, the list and the body; only the innermost nodes that show it are
+// counted, which gives one per row rather than one per level of nesting.
+func pageTextCount(page *Page, want string) int {
+	w := strings.ToLower(want)
+	counts := map[*Node]int{}
+	for _, n := range page.Nodes {
+		if n.Visible {
+			if c := nodeTextCount(n, w); c > 0 {
+				counts[n] = c
+			}
+		}
+	}
+	for n := range counts {
+		for _, a := range n.Ancestors {
+			delete(counts, a)
+		}
+	}
+	total := 0
+	for _, c := range counts {
+		total += c
+	}
+	return total
 }
 
 func componentVisible(page *Page, name string) bool {

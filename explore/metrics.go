@@ -9,10 +9,12 @@ const LowConfidence = 0.6
 type RunMetrics struct {
 	Steps            int     `json:"steps"`
 	Wasted           int     `json:"wasted"`
+	NoEffect         int     `json:"no_effect"` // action steps the next observation showed did nothing
 	Fallback         int     `json:"fallback"`
 	LowConfidence    int     `json:"low_confidence"`
 	CandidatesMedian float64 `json:"candidates_median"`
 	OptionsMedian    float64 `json:"options_median"`
+	AmbiguousMedian  float64 `json:"ambiguous_median"` // candidates per step that share a description with another
 }
 
 // IsAction reports whether a step acted on the page. The closing "done",
@@ -24,7 +26,7 @@ func IsAction(s Step) bool {
 // Metrics folds the acted steps of a run. The final "done" step is not an action.
 func Metrics(steps []Step) RunMetrics {
 	var m RunMetrics
-	var cands, opts []float64
+	var cands, opts, ambig []float64
 	for _, s := range steps {
 		if !IsAction(s) {
 			continue
@@ -32,6 +34,9 @@ func Metrics(steps []Step) RunMetrics {
 		m.Steps++
 		if s.Wasted {
 			m.Wasted++
+		}
+		if s.Effect == "none" {
+			m.NoEffect++
 		}
 		if s.Fallback {
 			m.Fallback++
@@ -41,9 +46,11 @@ func Metrics(steps []Step) RunMetrics {
 		}
 		cands = append(cands, float64(s.Candidates))
 		opts = append(opts, float64(s.Options))
+		ambig = append(ambig, float64(s.Ambiguous))
 	}
 	m.CandidatesMedian = median(cands)
 	m.OptionsMedian = median(opts)
+	m.AmbiguousMedian = median(ambig)
 	return m
 }
 

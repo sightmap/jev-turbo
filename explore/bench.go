@@ -61,6 +61,7 @@ type SuiteOptions struct {
 	Only      string // substring filter on goal names
 	MaxSteps  int    // overrides per-goal max_steps when > 0
 	HasMap    bool   // the corpus has at least one component; forwarded to every goal's Options
+	NoMemory  bool   // withhold the map's memory notes from the picker; forwarded to every goal's Options
 	// Tools and ToolRunner, when both set, offer a sightkick tool layer's
 	// tools alongside elements in every goal (forwarded to each goal's
 	// Options); RunSuite reports the condition as "tools" when Tools is set.
@@ -84,7 +85,7 @@ type GoalResult struct {
 type SuiteResult struct {
 	Suite     string       `json:"suite"`
 	Picker    string       `json:"picker"`
-	Condition string       `json:"condition,omitempty"` // "map", "no-map", or "tools"
+	Condition string       `json:"condition,omitempty"` // "map", "no-map", or "tools"; "-no-memory" is appended when the map's notes were withheld
 	When      time.Time    `json:"when"`
 	Summary   Summary      `json:"summary"`
 	Runs      []GoalResult `json:"runs"`
@@ -129,6 +130,9 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 	if opts.Tools != nil {
 		condition = "tools"
 	}
+	if opts.NoMemory && condition != "no-map" {
+		condition += "-no-memory"
+	}
 	result := &SuiteResult{Suite: suite.Name, Condition: condition, When: time.Now()}
 	for rep := 1; rep <= opts.Repeat; rep++ {
 		for _, g := range suite.Goals {
@@ -164,7 +168,7 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 			var partial []Step
 			t0 := time.Now()
 			run, err := Explore(ctx, drv, Options{
-				Goal: g.Goal, Spec: spec, Picker: picker, MaxSteps: maxSteps, HasMap: opts.HasMap, Hook: opts.Hook,
+				Goal: g.Goal, Spec: spec, Picker: picker, MaxSteps: maxSteps, HasMap: opts.HasMap, NoMemory: opts.NoMemory, Hook: opts.Hook,
 				Tools: opts.Tools, ToolRunner: opts.ToolRunner,
 				OnStep: func(s Step) {
 					partial = append(partial, s)

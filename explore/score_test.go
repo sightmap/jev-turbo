@@ -10,11 +10,11 @@ import (
 func TestScoreResult(t *testing.T) {
 	res := &SuiteResult{Suite: "s", Picker: "jev", Condition: "map", Runs: []GoalResult{
 		{Name: "a", Run: &Run{OK: true, Steps: []Step{
-			{URL: "/x", Action: "clicked", Candidates: 10, Coverage: &CovStat{Interactive: 10, T1: 2}},
-			{URL: "/y", Action: "clicked", Candidates: 30, Wasted: true, Coverage: &CovStat{Interactive: 10, T1: 8}},
+			{URL: "/x", Action: "clicked", Candidates: 10, Ambiguous: 2, Effect: "navigated", Coverage: &CovStat{Interactive: 10, T1: 2}},
+			{URL: "/y", Action: "clicked", Candidates: 30, Ambiguous: 8, Wasted: true, Effect: "none", Coverage: &CovStat{Interactive: 10, T1: 8}},
 			{Action: "done"}}}},
 		{Name: "b", Run: &Run{OK: false, Steps: []Step{
-			{URL: "/x", Action: "clicked", Candidates: 20, Fallback: true, Confidence: 0.3, Coverage: &CovStat{Interactive: 10, T1: 2}}}}},
+			{URL: "/x", Action: "clicked", Candidates: 20, Ambiguous: 4, Fallback: true, Confidence: 0.3, Effect: "none", Coverage: &CovStat{Interactive: 10, T1: 2}}}}},
 	}}
 	for i := range res.Runs {
 		res.Runs[i].Metrics = Metrics(res.Runs[i].Steps)
@@ -26,9 +26,25 @@ func TestScoreResult(t *testing.T) {
 	if s.Wasted != 1 || s.Fallback != 1 || s.LowConfidence != 1 || s.CandidatesMedian != 20 || s.LowCoveragePages != 1 {
 		t.Fatalf("got %+v", s)
 	}
+	if s.NoEffect != 2 || s.AmbiguousMedian != 4 {
+		t.Fatalf("got %+v", s)
+	}
 	out := FormatScores([]Score{s, {Label: "s/no-map/jev", Goals: 2}})
 	if !strings.Contains(out, "s/map/jev") || !strings.Contains(out, "s/no-map/jev") || !strings.Contains(out, "reached") {
 		t.Fatalf("format:\n%s", out)
+	}
+	if !cellRow(out, "no-effect steps", "2") || !cellRow(out, "same-name candidates", "4") {
+		t.Fatalf("the no-effect and same-name rows should carry the counts:\n%s", out)
+	}
+	// The second column carries no metrics, so both rows read - there.
+	if !cellRow(out, "no-effect steps", "-") || !cellRow(out, "same-name candidates", "-") {
+		t.Fatalf("rows without metrics should read -:\n%s", out)
+	}
+	lines := strings.Split(out, "\n")
+	for i, l := range lines {
+		if strings.HasPrefix(l, "wasted steps") && !strings.HasPrefix(lines[i+1], "no-effect steps") {
+			t.Fatalf("no-effect steps should follow wasted steps:\n%s", out)
+		}
 	}
 }
 
@@ -51,7 +67,7 @@ func TestScoreOldRunFile(t *testing.T) {
 		t.Fatalf("a file with no metrics block should not claim metrics: %+v", s)
 	}
 	out := FormatScores([]Score{s})
-	for _, row := range []string{"wasted steps", "fallback picks", "low-confidence picks", "candidates offered"} {
+	for _, row := range []string{"wasted steps", "no-effect steps", "fallback picks", "low-confidence picks", "candidates offered", "same-name candidates"} {
 		if !cellRow(out, row, "-") {
 			t.Fatalf("%s should read - on a file with no metrics:\n%s", row, out)
 		}
@@ -113,4 +129,25 @@ func cellRow(out, name, want string) bool {
 		}
 	}
 	return false
+}
+
+func TestScoreMapNoMemoryKeepsFallback(t *testing.T) {
+	// A map run without its memory still has components to fall back from,
+	// so the row is a real count, not the dash the no-map column prints.
+	res := &SuiteResult{Suite: "s", Picker: "jev", Condition: "map-no-memory", Runs: []GoalResult{
+		{Name: "a", Run: &Run{OK: true, Steps: []Step{
+			{URL: "/x", Action: "clicked", Candidates: 4, Fallback: true, Coverage: &CovStat{Interactive: 4, T1: 3}},
+			{Action: "done"}}}},
+	}}
+	for i := range res.Runs {
+		res.Runs[i].Metrics = Metrics(res.Runs[i].Steps)
+	}
+	s := ScoreResult(res)
+	if s.Label != "s/map-no-memory/jev" {
+		t.Fatalf("label = %q", s.Label)
+	}
+	out := FormatScores([]Score{s})
+	if !cellRow(out, "fallback picks", "1") {
+		t.Fatalf("fallback picks should count under map-no-memory:\n%s", out)
+	}
 }

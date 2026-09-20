@@ -1,0 +1,106 @@
+{
+  "name": "ikea-variants",
+  "sightmap_dir": "ikea/.sightmap",
+  "start_url": "https://www.ikea.com/us/en/",
+  "reset": "clear-storage",
+  "avoid": [
+    "Checkout",
+    "Continue to checkout",
+    "Pay"
+  ],
+  "goals": [
+    {
+      "name": "kallax-2x2-white",
+      "goal": "Add the KALLAX shelf unit in white in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+      "max_steps": 16,
+      "spec": {
+        "done_when": {
+          "all": [
+            {
+              "url_contains": "/shoppingcart"
+            },
+            {
+              "text_contains": "KALLAX"
+            },
+            {
+              "text_contains": "white, 30 1/8x30 1/8"
+            },
+            {
+              "text_count": {
+                "substr": "Shelf unit,",
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        "values": {
+          "search": "KALLAX shelf unit",
+          "query": "KALLAX shelf unit"
+        }
+      }
+    },
+    {
+      "name": "kallax-2x2-black-brown",
+      "goal": "Add the KALLAX shelf unit in black-brown in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+      "max_steps": 16,
+      "spec": {
+        "done_when": {
+          "all": [
+            {
+              "url_contains": "/shoppingcart"
+            },
+            {
+              "text_contains": "KALLAX"
+            },
+            {
+              "text_contains": "black-brown, 30 1/8x30 1/8"
+            },
+            {
+              "text_count": {
+                "substr": "Shelf unit,",
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        },
+        "values": {
+          "search": "KALLAX shelf unit",
+          "query": "KALLAX shelf unit"
+        }
+      }
+    },
+    {
+      "name": "kallax-two-variants",
+      "goal": "Put two different KALLAX shelf units in the bag: the white 1x4 (16 3/8x57 5/8 inches) and the black-brown 2x2 (30 1/8x30 1/8 inches). Then open the bag.",
+      "max_steps": 20,
+      "spec": {
+        "done_when": {
+          "all": [
+            {
+              "url_contains": "/shoppingcart"
+            },
+            {
+              "text_contains": "white, 16 3/8x57 5/8"
+            },
+            {
+              "text_contains": "black-brown, 30 1/8x30 1/8"
+            },
+            {
+              "text_count": {
+                "substr": "Shelf unit,",
+                "min": 2,
+                "max": 2
+              }
+            }
+          ]
+        },
+        "values": {
+          "search": "KALLAX shelf unit",
+          "query": "KALLAX shelf unit"
+        }
+      }
+    }
+  ]
+}

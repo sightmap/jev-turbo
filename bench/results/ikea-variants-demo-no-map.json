@@ -1,0 +1,263 @@
+{
+ "suite": "ikea-variants",
+ "picker": "jev:jev-latest",
+ "condition": "no-map",
+ "when": "2026-09-20T00:12:19.519857698Z",
+ "summary": {
+  "goals": 1,
+  "ok": 1,
+  "steps": 6,
+  "ms": 14945,
+  "ms_per_step": 2490.8333333333335,
+  "model_calls": 6,
+  "model_ms": 1785,
+  "ms_per_call": 297.5,
+  "input_tokens": 43730,
+  "output_tokens": 2747,
+  "usd": 0,
+  "wasted": 0,
+  "fallback": 0,
+  "low_confidence": 2,
+  "candidates_median": 423
+ },
+ "runs": [
+  {
+   "name": "kallax-2x2-white",
+   "rep": 1,
+   "goal": "Add the KALLAX shelf unit in white in the 2x2 size (30 1/8x30 1/8 inches) to the bag, then open the bag.",
+   "spec": {
+    "done_when": {
+     "all": [
+      {
+       "url_contains": "/shoppingcart"
+      },
+      {
+       "text_contains": "KALLAX"
+      },
+      {
+       "text_contains": "white, 30 1/8x30 1/8"
+      },
+      {
+       "text_count": {
+        "substr": "Shelf unit,",
+        "min": 1,
+        "max": 1
+       }
+      }
+     ]
+    },
+    "values": {
+     "query": "KALLAX shelf unit",
+     "search": "KALLAX shelf unit"
+    },
+    "avoid": [
+     "Checkout",
+     "Continue to checkout",
+     "Pay"
+    ]
+   },
+   "picker": "jev:jev-latest",
+   "ok": true,
+   "reason": "done_when satisfied",
+   "steps": [
+    {
+     "step": 1,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n203",
+     "group": "g:199",
+     "probs": "n203:1.00 n211:0.00",
+     "done_prob": 0.01,
+     "action": "filled combobox \"Search by product\" with search",
+     "url_after": "https://www.ikea.com/us/en/",
+     "ms_snap": 617,
+     "ms_pick": 770,
+     "ms_act": 200,
+     "ms_settle": 1620,
+     "ms": 3210,
+     "candidates": 423,
+     "options": 49,
+     "confidence": 0.98,
+     "group_confidence": 0.98,
+     "ambiguous": 127,
+     "effect": "value"
+    },
+    {
+     "step": 2,
+     "url": "https://www.ikea.com/us/en/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n250",
+     "probs": "n250:0.38 g:200:0.28 enter:0.27",
+     "done_prob": 0.02,
+     "action": "clicked link \"kallax shelf unit white\"",
+     "url_after": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit%20white",
+     "ms_snap": 1336,
+     "ms_pick": 237,
+     "ms_act": 16,
+     "ms_settle": 3022,
+     "ms": 4617,
+     "navigated": true,
+     "candidates": 450,
+     "options": 51,
+     "confidence": 0.38,
+     "ambiguous": 147,
+     "effect": "navigated"
+    },
+    {
+     "step": 3,
+     "url": "https://www.ikea.com/us/en/search/?q=kallax%20shelf%20unit%20white",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n1531",
+     "probs": "n1531:0.58 n1572:0.41 n1573:0.01",
+     "done_prob": 0.02,
+     "action": "clicked link \"KALLAX, Shelf unit, white, 30 1/8x30 1/…\"",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-20631639/",
+     "ms_snap": 995,
+     "ms_pick": 239,
+     "ms_act": 46,
+     "ms_settle": 2525,
+     "ms": 3811,
+     "navigated": true,
+     "candidates": 678,
+     "options": 42,
+     "confidence": 0.58,
+     "ambiguous": 328,
+     "effect": "navigated"
+    },
+    {
+     "step": 4,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-20631639/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n694",
+     "probs": "n694:1.00 back:0.00 g:184:0.00",
+     "done_prob": 0.02,
+     "action": "clicked button \"Add to bag\"",
+     "url_after": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-20631639/",
+     "ms_snap": 314,
+     "ms_pick": 315,
+     "ms_act": 12,
+     "ms_settle": 81,
+     "ms": 725,
+     "candidates": 143,
+     "options": 44,
+     "confidence": 1,
+     "ambiguous": 26,
+     "effect": "none"
+    },
+    {
+     "step": 5,
+     "url": "https://www.ikea.com/us/en/p/kallax-shelf-unit-white-20631639/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "pick": "n311",
+     "probs": "n311:0.92 n696:0.07 wait:0.01",
+     "done_prob": 0.06,
+     "action": "clicked link \"Shopping bag\"",
+     "url_after": "https://www.ikea.com/us/en/shoppingcart/",
+     "ms_snap": 284,
+     "ms_pick": 225,
+     "ms_act": 45,
+     "ms_settle": 1872,
+     "ms": 2427,
+     "navigated": true,
+     "candidates": 143,
+     "options": 44,
+     "confidence": 0.92,
+     "ambiguous": 26,
+     "effect": "navigated"
+    },
+    {
+     "step": 6,
+     "url": "https://www.ikea.com/us/en/shoppingcart/",
+     "coverage": {
+      "interactive": 0,
+      "t1": 0,
+      "t2": 0,
+      "t3": 0
+     },
+     "done_prob": 0,
+     "action": "done",
+     "ms_snap": 151,
+     "ms_pick": 0,
+     "ms_act": 0,
+     "ms_settle": 0,
+     "ms": 0
+    }
+   ],
+   "transitions": [
+    {
+     "from": "/us/en/",
+     "action": "filled combobox \"Search by product\" with search",
+     "to": "/us/en/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/",
+     "action": "clicked link \"kallax shelf unit white\"",
+     "to": "/us/en/search/?q=kallax%20shelf%20unit%20white",
+     "changed": true
+    },
+    {
+     "from": "/us/en/search/?q=kallax%20shelf%20unit%20white",
+     "action": "clicked link \"KALLAX, Shelf unit, white, 30 1/8x30 1/…\"",
+     "to": "/us/en/p/kallax-shelf-unit-white-20631639/",
+     "changed": true
+    },
+    {
+     "from": "/us/en/p/kallax-shelf-unit-white-20631639/",
+     "action": "clicked button \"Add to bag\"",
+     "to": "/us/en/p/kallax-shelf-unit-white-20631639/",
+     "changed": false
+    },
+    {
+     "from": "/us/en/p/kallax-shelf-unit-white-20631639/",
+     "action": "clicked link \"Shopping bag\"",
+     "to": "/us/en/shoppingcart/",
+     "changed": true
+    }
+   ],
+   "ms": 14945,
+   "picker_stats": {
+    "calls": 6,
+    "ms": 1785,
+    "input_tokens": 43730,
+    "output_tokens": 2747,
+    "usd": 0
+   },
+   "metrics": {
+    "steps": 5,
+    "wasted": 0,
+    "no_effect": 1,
+    "fallback": 0,
+    "low_confidence": 2,
+    "candidates_median": 423,
+    "options_median": 44,
+    "ambiguous_median": 127
+   }
+  }
+ ]
+}
