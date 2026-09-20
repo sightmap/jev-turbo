@@ -2,6 +2,7 @@ package explore
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -635,5 +636,96 @@ func TestNoMemoryHidesSiteNotes(t *testing.T) {
 		if !strings.Contains(state, "COMPONENTS ON PAGE: GoButton") {
 			t.Fatalf("NoMemory=%v: the component names must stay:\n%s", noMemory, state)
 		}
+	}
+}
+
+func TestJudgeEffectsAsksThePickerAndKeepsTheRule(t *testing.T) {
+	// A click that changes nothing reads "none" to the rule. With judging on,
+	// the picker's verdict wins and the rule's stays beside it for comparison.
+	button := mk("1", "button", "Add to bag", "button", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{button}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n1", "n1"}, prefer: []string{"changed"}, probs: []float64{1, 0.83, 1}}
+	run, err := Explore(context.Background(), d, Options{Goal: "add it", Picker: p, MaxSteps: 2, JudgeEffects: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	s := run.Steps[0]
+	if s.Effect != "changed" || s.EffectRule != "none" {
+		t.Fatalf("judged effect should be the picker's with the rule kept: %+v", s)
+	}
+	if s.EffectConfidence != 0.83 {
+		t.Fatalf("confidence should be the picker's probability, got %v", s.EffectConfidence)
+	}
+	if len(p.judged) != 1 || !strings.Contains(p.judged[0], "ACTION: clicked") || !strings.Contains(p.judged[0], "CONTROLS THAT APPEARED (0)") {
+		t.Fatalf("the judge should see the action and the diff, got %q", p.judged)
+	}
+}
+
+func TestJudgeEffectsOffLeavesTheRule(t *testing.T) {
+	button := mk("1", "button", "Add to bag", "button", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{button}}
+	d := newFakeDriver("/", home)
+	p := &fakePicker{script: []string{"n1", "n1"}, prefer: []string{"changed"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "add it", Picker: p, MaxSteps: 2})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if run.Steps[0].Effect != "none" || run.Steps[0].EffectRule != "" || len(p.judged) != 0 {
+		t.Fatalf("without judging the rule decides and the picker is not asked: %+v judged=%d", run.Steps[0], len(p.judged))
+	}
+}
+
+func TestEffectStateListsTheDiff(t *testing.T) {
+	before := &acted{url: "/p/kallax", descs: map[string]int{`button "Add to bag"`: 1}}
+	sheet := mk("9", "button", "Go to shopping bag", "button", "", "GoToBagButton", true)
+	page := &Page{URL: "/p/kallax", Nodes: []*Node{sheet}}
+	descs := map[string]int{`button "Add to bag"`: 1, Describe(sheet): 1}
+	st := effectState(before, `clicked button "Add to bag"`, page, descs)
+	if !strings.Contains(st, "CONTROLS THAT APPEARED (1)") || !strings.Contains(st, "GoToBagButton") {
+		t.Fatalf("the sheet's button should be listed as appeared:\n%s", st)
+	}
+	if !strings.Contains(st, "CONTROLS THAT DISAPPEARED (0)") {
+		t.Fatalf("nothing disappeared:\n%s", st)
+	}
+}
+
+func TestJudgeEffectsSkipsWhatTheRuleIsSureOf(t *testing.T) {
+	// A click that navigates is "navigated" by the URL alone; the picker is
+	// not asked, so the judge costs nothing on the certain cases.
+	link := mk("1", "link", "Cart", "a", "", "", true)
+	home := &fakePage{url: "/", view: "Home", nodes: []*Node{link}, edges: map[string]string{"1": "/cart"}}
+	cart := &fakePage{url: "/cart", view: "Cart", nodes: []*Node{mk("2", "button", "Checkout", "button", "", "", true)}}
+	d := newFakeDriver("/", home, cart)
+	p := &fakePicker{script: []string{"n1", "n2"}, prefer: []string{"none"}}
+	run, err := Explore(context.Background(), d, Options{Goal: "open the cart", Picker: p, MaxSteps: 2, JudgeEffects: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if run.Steps[0].Effect != "navigated" || run.Steps[0].EffectRule != "" || len(p.judged) != 0 {
+		t.Fatalf("a navigation should not be judged: %+v judged=%d", run.Steps[0], len(p.judged))
+	}
+}
+
+func TestDiffDescsPutsTheActionsOwnControlsFirst(t *testing.T) {
+	// Forty recommendation buttons render as a bag row is removed; the row's
+	// controls must survive the cap so the judge can see them go.
+	before := map[string]int{}
+	after := map[string]int{}
+	for i := 0; i < 40; i++ {
+		after[fmt.Sprintf(`button "Add ITEM%02d to the shopping bag"`, i)] = 1
+	}
+	before[`button "Remove KALLAX, white, 30 1/8x30 1/8"`] = 1
+	before[`textbox "Enter quantity of KALLAX, white" value="1"`] = 1
+	after[`textbox "Enter quantity of KALLAX, white" value="2"`] = 1
+	appeared, gone := diffDescs(before, after, `clicked button "Increase quantity of KALLAX, white, 30 1/8x30 1/8"`)
+	if !strings.Contains(appeared[0], "quantity of KALLAX") {
+		t.Fatalf("the changed quantity field should lead the appeared list, got %q", appeared[0])
+	}
+	if len(appeared) != 13 || !strings.HasPrefix(appeared[12], "… and 29 more") {
+		t.Fatalf("the list should be capped with a count of the rest, got %d entries ending %q", len(appeared), appeared[len(appeared)-1])
+	}
+	if !strings.Contains(gone[0], "KALLAX") || !strings.Contains(gone[1], "KALLAX") {
+		t.Fatalf("the row's controls should lead the disappeared list, got %v", gone)
 	}
 }

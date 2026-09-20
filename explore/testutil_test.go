@@ -142,6 +142,7 @@ type fakePicker struct {
 	done    float64
 	calls   int
 	chooses []string
+	judged  []string // states the effect judge was asked about
 	picks   []string
 	states  []string // the state text of every Pick call, in order
 	// probs gives the probability of each successive pick, in call order; a
@@ -201,6 +202,22 @@ func (p *fakePicker) Choose(ctx context.Context, state string, crit Criteria, in
 	}
 	return crit.Options[0].Key, nil
 }
+
+// Judge answers the one-off question from the sticky preferences with the
+// probability the test queued, and records the state it was asked about.
+func (p *fakePicker) Judge(ctx context.Context, state string, crit Criteria, instructions string) (Pick, error) {
+	p.judged = append(p.judged, state)
+	pr := p.prob()
+	for _, want := range p.prefer {
+		for _, o := range crit.Options {
+			if o.Key == want {
+				return Pick{Next: o.Key, Probs: map[string]float64{o.Key: pr}}, nil
+			}
+		}
+	}
+	return Pick{Next: crit.Options[0].Key, Probs: map[string]float64{crit.Options[0].Key: pr}}, nil
+}
+
 func (p *fakePicker) Stats() Stats { return Stats{Calls: p.calls} }
 
 // fakeToolRunner plays a script of sightkick tool calls: it records each call

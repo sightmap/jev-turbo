@@ -56,12 +56,13 @@ func LoadSuite(path string) (*Suite, error) {
 
 // SuiteOptions configures a suite run.
 type SuiteOptions struct {
-	NewPicker func() (Picker, error) // a fresh picker per goal so stats are per goal
-	Repeat    int
-	Only      string // substring filter on goal names
-	MaxSteps  int    // overrides per-goal max_steps when > 0
-	HasMap    bool   // the corpus has at least one component; forwarded to every goal's Options
-	NoMemory  bool   // withhold the map's memory notes from the picker; forwarded to every goal's Options
+	NewPicker    func() (Picker, error) // a fresh picker per goal so stats are per goal
+	Repeat       int
+	Only         string // substring filter on goal names
+	MaxSteps     int    // overrides per-goal max_steps when > 0
+	HasMap       bool   // the corpus has at least one component; forwarded to every goal's Options
+	NoMemory     bool   // withhold the map's memory notes from the picker; forwarded to every goal's Options
+	JudgeEffects bool   // ask the picker what each action did; forwarded to every goal's Options
 	// Tools and ToolRunner, when both set, offer a sightkick tool layer's
 	// tools alongside elements in every goal (forwarded to each goal's
 	// Options); RunSuite reports the condition as "tools" when Tools is set.
@@ -168,7 +169,7 @@ func RunSuite(ctx context.Context, drv Driver, suite *Suite, opts SuiteOptions) 
 			var partial []Step
 			t0 := time.Now()
 			run, err := Explore(ctx, drv, Options{
-				Goal: g.Goal, Spec: spec, Picker: picker, MaxSteps: maxSteps, HasMap: opts.HasMap, NoMemory: opts.NoMemory, Hook: opts.Hook,
+				Goal: g.Goal, Spec: spec, Picker: picker, MaxSteps: maxSteps, HasMap: opts.HasMap, NoMemory: opts.NoMemory, JudgeEffects: opts.JudgeEffects, Hook: opts.Hook,
 				Tools: opts.Tools, ToolRunner: opts.ToolRunner,
 				OnStep: func(s Step) {
 					partial = append(partial, s)

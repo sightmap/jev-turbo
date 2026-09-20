@@ -24,6 +24,10 @@ type Options struct {
 	// level) from the picker while keeping its components and views, so a
 	// site's prose can be measured on its own against the map's names.
 	NoMemory bool
+	// JudgeEffects asks the picker what each action did, from the difference
+	// between the page before and after, instead of trusting the rule that
+	// compares candidate lists. The rule's verdict is kept in Step.EffectRule.
+	JudgeEffects bool
 	// Tools and ToolRunner, when both set, offer sightkick tools as picker
 	// options alongside elements; a tool call runs through ToolRunner instead
 	// of driving an element directly.
@@ -75,6 +79,12 @@ type Step struct {
 	// from its own outcome. The last step of a run that hit its step limit
 	// has no observation after it and stays empty.
 	Effect string `json:"effect,omitempty"`
+	// EffectRule is the rule's verdict when the picker judged the effect, so
+	// the two can be compared; EffectConfidence is the picker's probability.
+	EffectRule       string  `json:"effect_rule,omitempty"`
+	EffectConfidence float64 `json:"effect_confidence,omitempty"`
+	EffectEvidence   string  `json:"effect_evidence,omitempty"` // the diff the judge read, so a verdict can be checked afterwards
+	MsJudge          int     `json:"ms_judge,omitempty"`
 
 	Tool   string `json:"tool,omitempty"`    // the sightkick tool run, when the pick was a "t:" option
 	ToolOK bool   `json:"tool_ok,omitempty"` // the tool call reported ok
@@ -167,7 +177,21 @@ func Explore(ctx context.Context, drv Driver, opts Options) (*Run, error) {
 		}
 		descs := pageDescs(page, spec.Avoid)
 		if last != nil && run.Steps[len(run.Steps)-1].Effect == "" {
-			run.Steps[len(run.Steps)-1].Effect = effectOf(last, page, descs)
+			prev := &run.Steps[len(run.Steps)-1]
+			prev.Effect = effectOf(last, page, descs)
+			// The rule is certain about a moved URL and a landed value; it is
+			// the "changed" and "none" verdicts that a rotating rail or a
+			// late render can fool, so those are the ones the picker judges.
+			if opts.JudgeEffects && (prev.Effect == "changed" || prev.Effect == "none") {
+				verdict, prob, ms, evidence, err := judgeEffect(ctx, opts.Picker, last, prev.Action, page, descs)
+				if err != nil {
+					return run, fmt.Errorf("explore: judge effect: %w", err)
+				}
+				if verdict != "" {
+					prev.EffectRule, prev.Effect, prev.EffectConfidence, prev.MsJudge = prev.Effect, verdict, prob, ms
+					prev.EffectEvidence = evidence
+				}
+			}
 		}
 		step := Step{N: n, URL: page.URL, View: page.View, Coverage: covStat(page), MsSnap: int(time.Since(tS).Milliseconds())}
 		if len(run.Transitions) > 0 {

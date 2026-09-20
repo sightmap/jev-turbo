@@ -224,6 +224,21 @@ those is a page where a name, a property, or a memory line is missing.
   `--no-map`.
 - `seconds`: total wall time across the runs in the file.
 
+With `--judge-effects`, the verdict comes from Jev rather than the rule: it
+reads the URL before and after, the controls that appeared and disappeared
+(the ones sharing words with the action first), the typed field's value and
+any notice, and answers navigated, opened, value, changed, error or none.
+The rule's verdict stays in the run file as `effect_rule` beside the
+judge's `effect`, with `effect_confidence` and the `effect_evidence` it
+read, so a disagreement can be checked. Only the rule's "changed" and
+"none" are judged; a moved URL and a landed value need no second opinion.
+On 204 steps across saucedemo and the IKEA variants the two agreed on 187;
+every disagreement read went the judge's way: a menu click is "opened",
+a locked-out login is "error", a sort select is "value", a swatch toggle
+is "changed" on the strength of a "New variant selected" notice the rule
+cannot see, and a "Remove" whose row was still there at the next look is
+"none" even though forty recommendations rendered beside it.
+
 A run file written before these metrics existed carries no counts. On such a
 file `wasted steps`, `no-effect steps`, `fallback picks`, `low-confidence
 picks`, `candidates offered` and `same-name candidates` all print `-`.
